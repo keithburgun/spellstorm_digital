@@ -1,41 +1,38 @@
-# Spellstorm — Android APK build
+# Spellstorm — Android & Windows builds
 
-This folder turns the Spellstorm web game into an installable Android app (APK).
-GitHub builds it for you on its free servers, so you don't need Android Studio or Java.
+This repo turns the Spellstorm web game (`www/index.html`) into an installable **Android APK**
+and a **Windows `.exe`**. GitHub builds both automatically; nothing needs to be installed on your computer.
 
-## One-time setup (about 10 minutes)
+## Getting the latest build
 
-1. **Make a GitHub account** at https://github.com if you don't have one.
-2. **Create a repository:** click **+** (top right) → **New repository**. Name it `spellstorm-android`.
-   Choose **Private** if you like. Click **Create repository**.
-3. **Upload the files:** on the new repo page click **uploading an existing file**.
-   Drag in everything from this folder **except the `.github` folder** (Mac hides it anyway):
-   `www`, `branding`, `package.json`, `package-lock.json`, `capacitor.config.json`, `README.md`, `build-apk.yml`.
-   Click **Commit changes**.
-4. **Add the build script:** click **Add file → Create new file**. For the name, type exactly:
-   `.github/workflows/build-apk.yml`
-   Open `build-apk.yml` from this folder in any text editor, copy everything, paste it into the big box,
-   and click **Commit changes**. This starts the first build automatically.
+Open the **Releases** page of this repo (right-hand sidebar → Releases). The newest release has:
 
-## Getting the APK (every build)
+- **Spellstorm.apk** — Android. Download it on your phone (or copy it over), tap it, allow installs from that source, then **Install**.
+  New versions install over the old one and keep your stats and achievements.
+- **Spellstorm.exe** — Windows. Double-click to play; no installer. The first time, Windows may say
+  "Windows protected your PC": click **More info → Run anyway**. F11 toggles fullscreen.
 
-1. In your repo, click the **Actions** tab. You'll see **Build Spellstorm APK** running (yellow dot).
-   It takes about 4–6 minutes. When it shows a green check, click it.
-2. Scroll to **Artifacts** and click **Spellstorm-APK** to download a zip. Unzip it to get `Spellstorm.apk`.
-3. Put `Spellstorm.apk` on your phone (email it to yourself, Google Drive, USB cable — anything).
-4. Tap it on the phone. Android will ask you to allow installing apps from that source
-   (Files, Chrome or Drive): allow it, then tap **Install**.
+Each release is numbered (Spellstorm 1.0.N) so you can tell versions apart.
 
-## Updating the game later
+## How updates work
 
-Replace `www/index.html` in the repo with a newer version (open the file on GitHub → pencil/upload),
-commit, and a new APK builds automatically. Because every build uses the same signing key
-(`branding/debug.keystore`), new versions install **over** the old one and your stats and achievements are kept.
-You can also start a build by hand: **Actions → Build Spellstorm APK → Run workflow**.
+Any change pushed to `main` (except README edits) runs **Actions → Build Spellstorm**, which:
 
-## Notes
+1. builds the Android APK (Linux runner) and the Windows exe (Windows runner) in parallel, then
+2. publishes both files as a new release.
 
-- The app works offline. Stats and achievements are stored on the phone.
-- Android's Back button closes menus, goes back to the title screen, and exits from the title screen. **Exit** quits the app.
-- Works on Android 7.0 and newer.
-- If a build fails (red X), click into it, open the failed step, and copy the error text back to Claude.
+Usually the only file that changes is `www/index.html` (the game itself). You can also start a build by hand:
+**Actions → Build Spellstorm → Run workflow**. A build takes about 5–7 minutes.
+
+## What's in here
+
+| Path | Purpose |
+|---|---|
+| `www/index.html` | The whole game (engine, UI, card art, fonts) in one file |
+| `package.json`, `capacitor.config.json` | Android app setup (Capacitor) |
+| `branding/res/` | Android icons, splash screens and theme colors |
+| `branding/debug.keystore` | Signing key, so new APKs install over old ones. Keep it in the repo. |
+| `desktop/` | Windows app setup (Electron): window, icon, F11 fullscreen |
+| `.github/workflows/build.yml` | The build script |
+
+If a build fails (red X in Actions), open the failed step and send the error text to Claude.
