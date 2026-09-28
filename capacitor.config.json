@@ -1,0 +1,6 @@
+{
+  "appId": "com.spellstorm.game",
+  "appName": "Spellstorm",
+  "webDir": "www",
+  "android": { "backgroundColor": "#120b20" }
+}
