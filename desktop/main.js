@@ -13,7 +13,7 @@ function createWindow() {
     webPreferences: { contextIsolation: true, sandbox: true }
   });
   Menu.setApplicationMenu(null);
-  win.loadFile(path.join(__dirname, 'app', 'index.html'));
+  win.loadFile(path.join(__dirname, 'app', 'index.html'), { query: { v: app.getVersion() } });
   win.once('ready-to-show', () => win.show());
   // F11 toggles fullscreen
   win.webContents.on('before-input-event', (e, input) => {
