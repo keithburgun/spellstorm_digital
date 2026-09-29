@@ -36,3 +36,7 @@ Usually the only file that changes is `www/index.html` (the game itself). You ca
 | `.github/workflows/build.yml` | The build script |
 
 If a build fails (red X in Actions), open the failed step and send the error text to Claude.
+
+## Source code
+
+The full source (rules engine, AI, interface, card art, fonts, automated tests and a build script) is in [`source/`](source/). See `source/README.md` to build or test it on your own machine. Only changes to `www/index.html` trigger new app builds.

@@ -419,7 +419,7 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 /* tutorial coach */
 #coach{position:fixed;left:50%;transform:translateX(-50%);width:min(92vw,380px);z-index:39;display:none;pointer-events:none}
 #coach.show{display:block}
-#coach .cbox{pointer-events:auto;background:var(--panel);border:2px solid var(--bolt);border-radius:16px;padding:10px 14px;box-shadow:0 8px 30px rgba(0,0,0,.35);animation:rise .3s ease-out}
+#coach .cbox{pointer-events:auto;background:var(--panel);border:2px solid var(--bolt);border-radius:16px;padding:10px 14px;box-shadow:0 8px 30px rgba(0,0,0,.35)}#coach .cbox.in{animation:rise .3s ease-out}
 #coach b{display:block;font-size:1.05rem;margin-bottom:2px}#coach p{margin:0 0 6px;font-size:.92rem;line-height:1.35}#coach .acts{margin-top:6px;justify-content:flex-end}
 .tutring{outline:3px solid var(--bolt)!important;outline-offset:3px;border-radius:12px;animation:tutpulse 1.2s ease-in-out infinite}
 @keyframes tutpulse{50%{outline-color:transparent}}
@@ -1939,14 +1939,31 @@ const TSTEPS={
 function tutStage(st){if(!S||!S.tutorial||S.battle!==1||S.round!==1)return Promise.resolve();return new Promise(res=>{TUT.steps=TSTEPS[st];TUT.idx=0;TUT.step=TUT.steps[0];TUT.res=res;render();});}
 function tutNext(){TUT.idx++;if(TUT.steps&&TUT.idx<TUT.steps.length){TUT.step=TUT.steps[TUT.idx];render();return;}const r=TUT.res;TUT.step=null;TUT.res=null;render();if(r)r();}
 function tutLock(){return S&&S.tutorial&&S.battle===1&&S.round===1&&!TUT.step&&S.pl[0].hand.some(c=>c.id==='pgem')?'pgem':null;}
+let COACHKEY='',COACHHIDE=null;
+// one-time tips for the rest of the tutorial match (non-blocking, "Got it" to dismiss)
+function tutOnce(){if(!S||!S.tutorial||TUT.off||TUT.step)return null;const seen=TUT.seen||(TUT.seen={});const R=pending&&pending.req;
+  if(S.blast&&S.blast.stage!=='result'&&!seen.blast)return {id:'blast',t:'The Blast',x:'At the end of every battle: cards with discard effects trigger first, then each card left in your hand scores 1. The highest Blast Score gains 2 Storm Shards; a tie gives each player 1.',pos:'bottom'};
+  if(R&&R.k==='gain'&&S.phase==='gain'&&!seen.gain)return {id:'gain',t:'Gain Spell',x:'Between battles you add one Storm Cloud card at or below your Tier to your deck. It goes into your hand for the next battle. If nothing suits you, you can take a special card instead.',tg:'#cloud .crow'};
+  if(R&&R.k==='yn'&&R.ult&&!seen.ult)return {id:'ult',t:'Ultimate ready',x:'You have enough mana for Flaming Yardstick. Use it now, or say No to save your mana for a better moment.',tg:'#prompt'};
+  if(S.pl[0].tier>=2&&!seen.tier)return {id:'tier',t:'Tier up!',x:'Your Power overflowed and you reached Tier II. You can now gain Tier II cards from the Storm Cloud, which are stronger.',tg:'#me [data-k="power"]'};
+  return null;}
 function renderCoach(){const co=$('#coach');if(!co)return;document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));
-  let tip=TUT.step;if(!tip&&S&&S.tutorial&&S.battle===1&&S.round===1&&pending){
+  let tip=TUT.step;if(!tip&&S&&S.tutorial&&S.battle===1&&S.round===1&&pending&&!TUT.off){
     if(pending.req.k==='play')tip={t:'Your move',x:'Eve’s deck is full of Water, so play Power Gem (Earth). Tap it, then “Play face-down.”',tg:'#hand [data-cid="pgem"]',act:1};
     else if(pending.req.k==='gain')tip={t:'Gain a card',x:'Power Gem lets you gain a card at or below your Tier. Tap a highlighted Storm Cloud card and choose Gain, or Skip. Power Gem then discards it, triggering its discard effect if it has one.',tg:'#cloud .crow',act:1};}
-  if(!tip||$('#ov').classList.contains('show')&&!TUT.step){co.classList.remove('show');return;}
-  co.innerHTML=`<div class="cbox"><b>${esc(tip.t)}</b><p>${esc(tip.x)}</p>${tip.act?'':`<div class="acts"><button class="btn" data-a="tutnext">Next</button><button class="btn alt" data-a="tutskip">Skip tutorial</button></div>`}</div>`;
+  if(!tip)tip=tutOnce();
+  const blocked=$('#ov').classList.contains('show')&&!TUT.step;
+  if(!tip||blocked){   // hide after a short grace period, so back-to-back tips never blink
+    if(co.classList.contains('show')&&!COACHHIDE){co.querySelectorAll('button').forEach(x=>x.disabled=true);COACHKEY='';}
+    if(co.classList.contains('show')&&!COACHHIDE)COACHHIDE=setTimeout(()=>{COACHHIDE=null;COACHKEY='';co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));},blocked?0:500);
+    return;}
+  if(COACHHIDE){clearTimeout(COACHHIDE);COACHHIDE=null;}
+  const key=[tip.t,tip.x,tip.act,tip.id].join('|');
+  if(key!==COACHKEY){const fresh=!co.classList.contains('show');
+    co.innerHTML=`<div class="cbox${fresh?' in':''}"><b>${esc(tip.t)}</b><p>${esc(tip.x)}</p>${tip.act?'':tip.id?`<div class="acts"><button class="btn" data-a="tutgot" data-id="${tip.id}">Got it</button></div>`:`<div class="acts"><button class="btn" data-a="tutnext">Next</button><button class="btn alt" data-a="tutskip">Skip tutorial</button></div>`}</div>`;COACHKEY=key;}
   co.classList.add('show');const tg=tip.tg&&$(tip.tg);co.style.top=co.style.bottom='';
-  if(tg){tg.classList.add('tutring');const r=tg.getBoundingClientRect(),h=co.offsetHeight;
+  if(tip.pos==='bottom')co.style.top=Math.max(8,innerHeight-co.offsetHeight-14)+'px';
+  else if(tg){tg.classList.add('tutring');const r=tg.getBoundingClientRect(),h=co.offsetHeight;
     if(r.top>innerHeight*0.5)co.style.top=Math.max(8,r.top-h-12)+'px';else co.style.top=Math.min(innerHeight-h-8,r.bottom+12)+'px';}
   else co.style.top=Math.max(8,(innerHeight-co.offsetHeight)/2)+'px';}
 /* ---------- sounds: tiny, synthesized, license-free ---------- */
@@ -2206,7 +2223,8 @@ document.addEventListener('click',e=>{
   if(a==='t_cont'){const sv=loadSave();if(sv)begin(null,null,{resume:sv});return;}
   if(a==='tutstart'){closeOv();begin('derby','eve',{tutorial:true,diff:'easy'});return;}
   if(a==='tutnext'){tutNext();return;}
-  if(a==='tutskip'){if(S)S.tutorial=false;const r=TUT.res;TUT.step=null;TUT.res=null;render();if(r)r();return;}
+  if(a==='tutgot'){(TUT.seen=TUT.seen||{})[b.dataset.id]=1;render();return;}
+  if(a==='tutskip'){TUT.off=true;if(S)S.tutorial=false;const r=TUT.res;TUT.step=null;TUT.res=null;render();if(r)r();return;}
   if(a==='t_lib'){LIB.tab=LIB.tab||'cloud';libSheet();return;}
   if(a==='libtab'){LIB.tab=b.dataset.v;LIB.el='all';libSheet();return;}
   if(a==='libel'){LIB.el=b.dataset.v;libSheet();return;}
@@ -2452,7 +2470,7 @@ function showStart(){gameId++;teardown();S=null;setTimeout(()=>{if(!OPT.tutAsked
 let TOURRES=null;
 async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
-  LCLOUD=null;LHAND=null;LASTV=[{},{}];INC={};TOURRES=null;TUT.step=null;TUT.res=null;
+  LCLOUD=null;LHAND=null;LASTV=[{},{}];INC={};TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];}
   else{S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,S.diff);TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
   G=new Game(S,makeIO(id));renderLog();render();

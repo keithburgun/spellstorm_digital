@@ -6,7 +6,7 @@ name: Build Spellstorm
 on:
   push:
     branches: [main]
-    paths-ignore: ['**.md']
+    paths-ignore: ['**.md', 'source/**']
   workflow_dispatch:
 
 concurrency:

@@ -1,0 +1,12 @@
+<script>
+/* Android app hooks: real Exit, and the hardware Back button */
+(function(){const C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return;const App=C.Plugins&&C.Plugins.App;if(!App)return;
+ window.exitGame=function(){App.exitApp();};
+ if(App.getInfo)App.getInfo().then(function(i){setVer('v'+i.version);}).catch(function(){});
+ App.addListener('backButton',function(){
+  if(document.getElementById('ov').classList.contains('show')){closeOv();return;}
+  if(getComputedStyle(document.getElementById('title')).display!=='none'){App.exitApp();return;}
+  if(getComputedStyle(document.getElementById('start')).display!=='none'){showTitle();return;}
+  menu();
+ });})();
+</script>

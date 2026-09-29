@@ -1,0 +1,1234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Spellstorm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>/*CORPORATA*/</style>
+<style>
+:root{
+  --startbg:#ffffff; --sceneop:.13;
+  --shop:#f3e5c4; --shop2:#f8d9a0;
+  --bg:#e7e1f1; --bg2:#d5eceb; --panel:#f6f2fc; --panel2:#ebe4f7; --ink:#1d1735; --muted:#5d5580; --line:#c3b7dd;
+  --bolt:#d9a300; --fire:#d4452a; --water:#2585bd; --earth:#a97a1c; --mana:#9b39b3; --hp:#c3243f; --shard:#d02f6c; --accent:#6b4fa3;
+  --shadow:0 2px 8px rgba(40,20,80,.22);
+  box-sizing:border-box;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --startbg:#15112a; --sceneop:.22;
+  --shop:#2a1c0c; --shop2:#5a3a12;
+  --bg:#15112a; --bg2:#12303a; --panel:#221b3e; --panel2:#2c2450; --ink:#f1ecff; --muted:#a99fcb; --line:#3f3569;
+  --bolt:#f4cf3a; --fire:#f0643f; --water:#45b1e8; --earth:#dfa93e; --mana:#cf6ae6; --hp:#ff5a77; --shard:#ff5e9a; --accent:#a58be0;
+  --shadow:0 2px 10px rgba(0,0,0,.5);}}
+:root[data-theme="dark"]{
+  --startbg:#15112a; --sceneop:.22;
+  --shop:#2a1c0c; --shop2:#5a3a12;
+  --bg:#15112a; --bg2:#12303a; --panel:#221b3e; --panel2:#2c2450; --ink:#f1ecff; --muted:#a99fcb; --line:#3f3569;
+  --bolt:#f4cf3a; --fire:#f0643f; --water:#45b1e8; --earth:#dfa93e; --mana:#cf6ae6; --hp:#ff5a77; --shard:#ff5e9a; --accent:#a58be0;
+  --shadow:0 2px 10px rgba(0,0,0,.5);}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{background:radial-gradient(120% 70% at 70% 0%,var(--bg2),transparent 60%),var(--bg);color:var(--ink);
+  font:15px/1.4 'Corporata','Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent;position:fixed;inset:0;touch-action:manipulation}
+button{font:inherit;color:inherit}
+b,strong,th{font-weight:700}  /* bold always means Corporata Bold */
+h1,h2,.disp{font-family:'Corporata','Arial Rounded MT Bold','Trebuchet MS',sans-serif;font-weight:700;letter-spacing:.01em}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:999px;padding:.55em 1.1em;cursor:pointer;font-weight:700;box-shadow:var(--shadow)}
+.btn.alt{background:var(--panel2);color:var(--ink);box-shadow:none;border:1px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,.card:focus-visible,.chip:focus-visible{outline:3px solid var(--bolt);outline-offset:2px}
+
+/* ---------- layout ---------- */
+#app{height:100%;overflow:hidden;display:grid;gap:6px;padding:calc(6px + env(safe-area-inset-top,0px)) max(6px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px));
+  grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto auto auto;
+  grid-template-areas:"opp" "cloud" "arena" "prompt" "me" "hand";
+  --cw:min(17vw,11vh);--cw:min(17vw,11svh);}
+@media (orientation:landscape) and (min-width:720px){
+  #app{grid-template-columns:auto minmax(0,1fr) minmax(210px,23vw);grid-template-rows:auto minmax(calc(var(--cw)*1.4 + 34px),1fr) auto auto auto;
+    grid-template-areas:"opp opp log" "cloud arena log" "prompt prompt log" "me me log" "hand hand log";--cw:min(7.6vw,15.5vh);--cw:min(7.6vw,15.5svh);gap:8px;padding:calc(8px + env(safe-area-inset-top,0px)) max(8px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  #tick{display:none!important}
+  #logwrap{display:flex!important}
+}
+#opp{grid-area:opp}#me{grid-area:me}#cloud{grid-area:cloud}#arena{grid-area:arena}#hand{grid-area:hand}#prompt{grid-area:prompt}#logwrap{grid-area:log}
+
+/* ---------- cards ---------- */
+.card{width:var(--cw);aspect-ratio:750/1050;border-radius:calc(var(--cw)*.025);background:#2b2248 center/cover no-repeat;border:0;padding:0;
+  box-shadow:var(--shadow);cursor:pointer;flex:none;position:relative;transition:transform .15s}
+.card.back{border:1px solid rgba(255,255,255,.25)}
+.card.can{outline:3px solid var(--bolt);outline-offset:2px}
+.card.dead{filter:grayscale(.7) brightness(.75)}
+.card.mini{--cw:calc(var(--w,1)*1px)}
+.wcard{height:calc(var(--cw)*1.4);aspect-ratio:1050/750;border-radius:calc(var(--cw)*.055);background:#1f4a4c center/cover;border:0;box-shadow:var(--shadow);cursor:pointer;padding:0;flex:none}
+.slot{width:var(--cw);aspect-ratio:750/1050;border:2px dashed var(--line);border-radius:calc(var(--cw)*.055);display:grid;place-items:center;color:var(--muted);font-size:.75rem;text-align:center;padding:4px;flex:none}
+
+/* ---------- panels ---------- */
+.pp{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 10px;box-shadow:var(--shadow);min-width:0}
+.por{width:48px;height:48px;border-radius:50%;background-size:260%;background-position:52% 24%;flex:none;border:2px solid var(--line);cursor:pointer;padding:0}
+.pinfo{min-width:0;flex:1}
+.pname{font-family:'Corporata',sans-serif;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.pname .tag{font-family:'Corporata','Atkinson Hyperlegible',sans-serif;font-size:.7rem;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 5px}
+.initb{display:inline-flex;align-items:center;gap:3px;background:var(--bolt);color:#2a1d00;border-radius:999px;padding:0 7px 0 4px;font-size:.72rem;font-family:'Corporata','Atkinson Hyperlegible',sans-serif;font-weight:700}
+.stats{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;font-weight:700;font-size:.92rem}
+.stat{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.stat small{font-weight:400;color:var(--muted)}
+.stat svg{width:17px;height:17px;flex:none}
+.pips{display:inline-flex;gap:2px}
+.pip{width:7px;height:7px;border-radius:2px;background:var(--line)}
+.pip.on{background:var(--earth)}
+.shpips .pip{transform:rotate(45deg);width:6px;height:6px}
+.shpips .pip.on{background:var(--shard)}
+.piles{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px;align-items:center}
+.chip{background:var(--panel2);border:1px solid var(--line);border-radius:8px;font-size:.75rem;padding:1px 7px;cursor:pointer}
+.backs{display:flex;gap:0}
+.backs .card{--cw:20px;margin-left:-8px;box-shadow:none;cursor:default}
+.backs .card:first-child{margin-left:0}
+.hit{animation:hit .45s}
+@keyframes hit{0%{background:color-mix(in srgb,var(--hp) 35%,var(--panel))}25%{transform:translateX(-5px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
+.ultglow{box-shadow:0 0 0 2px var(--mana),0 0 22px var(--mana)}
+.tools{display:flex;gap:6px;margin-left:auto;flex:none}
+.tools .chip{font-size:.8rem;padding:3px 9px}
+
+/* ---------- cloud ---------- */
+#cloud{display:flex;flex-direction:column;gap:5px;min-width:0}
+.crow{display:flex;gap:5px;justify-content:center}
+.crow .card{--cw:min(17.5vw,11vh);--cw:min(17.5vw,11svh)}
+@media (orientation:landscape) and (min-width:720px){.crow .card{--cw:min(7.6vw,15.5vh);--cw:min(7.6vw,15.5svh)}}
+.card.elig{outline:3px solid var(--bolt);outline-offset:2px;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{outline-color:transparent}}
+.card.inel{filter:brightness(.55) saturate(.6)}
+.cfoot{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;font-size:.75rem}
+.lbl{font-size:.72rem;color:var(--muted);text-align:center}
+.drag{display:inline-flex;align-items:center;gap:4px}
+.drag .card{--cw:18px;box-shadow:none}
+
+/* ---------- arena ---------- */
+#arena{display:flex;gap:12px;align-items:center;justify-content:center;min-height:0;min-width:0}
+.wx{display:flex;flex-direction:column;gap:4px;align-items:center;max-width:calc(var(--cw)*2.1)}
+.wx .cap{font-size:.78rem;color:var(--muted);text-align:center;line-height:1.25}
+.rnd{font-family:'Corporata',sans-serif;font-weight:700;font-size:1rem}
+.duel{display:flex;gap:10px;align-items:center}
+.side{display:flex;flex-direction:column;align-items:center;gap:3px}
+.flip{animation:flip .55s ease-out}
+@keyframes flip{0%{transform:perspective(600px) rotateY(90deg)}100%{transform:none}}
+.won{box-shadow:0 0 0 3px var(--elc),0 0 26px var(--elc)}
+.resolving{outline:3px solid var(--accent);outline-offset:3px}
+.vs{font-family:'Corporata',sans-serif;font-weight:700;color:var(--muted);font-size:.9rem}
+.wheel{font-size:.68rem;color:var(--muted);text-align:center;line-height:1.3}
+
+/* ---------- hand + prompt ---------- */
+#hand{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:6px 4px 4px;justify-content:safe center;min-height:calc(var(--cw)*1.2*1.4 + 12px)}
+#hand .card{--cw:calc(min(17vw,11vh)*1.2);--cw:calc(min(17vw,11svh)*1.2)}
+@media (orientation:landscape) and (min-width:720px){#hand .card{--cw:calc(min(7.4vw,14.5vh)*1.12);--cw:calc(min(7.4vw,14.5svh)*1.12)}}
+@media (hover:hover){#hand .card:hover{transform:translateY(-6px)}}
+#prompt{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:7px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;min-height:44px}
+#prompt .q{flex:1 1 240px;font-weight:700}
+#prompt .q small{display:block;font-weight:400;color:var(--muted)}
+#prompt.waiting .q{font-weight:400;color:var(--muted)}
+#prompt.ask{border-color:var(--bolt);box-shadow:0 0 0 1px var(--bolt)}
+#tick{grid-area:auto;display:none}
+
+/* ---------- log ---------- */
+#logwrap{display:none;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:14px;min-height:0;box-shadow:var(--shadow)}
+#logwrap h2{margin:0;padding:8px 12px 4px;font-size:1rem}
+.log{list-style:none;margin:0;padding:4px 12px 10px;overflow-y:auto;font-size:.82rem;flex:1;min-height:0}
+.log li{padding:2px 0;border-bottom:1px solid color-mix(in srgb,var(--line) 50%,transparent)}
+.log .head{font-weight:700;color:var(--accent);padding-top:8px}
+.log .dmg{color:var(--hp)}.log .heal{color:var(--water)}.log .shard{color:var(--shard);font-weight:700}.log .big{font-weight:700}
+.log .counter{color:var(--earth);font-weight:700}.log .ini{color:var(--muted)}.log .junk{color:var(--muted)}.log .warn{color:var(--hp)}
+
+/* ---------- overlays ---------- */
+.ov{position:fixed;inset:0;background:rgba(10,6,25,.62);display:none;align-items:center;justify-content:center;z-index:40;padding:max(12px,env(safe-area-inset-top,0px)) 12px max(12px,env(safe-area-inset-bottom,0px))}
+.ov.show{display:flex}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;max-width:min(94vw,760px);max-height:100%;overflow:auto;box-shadow:var(--shadow)}
+.sheet h2{margin:0 0 8px;font-size:1.3rem}
+.bigcard{width:min(84vw,56vh*0.714,420px);aspect-ratio:750/1050;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
+.bigw{width:min(88vw,70vh*1.4,620px);aspect-ratio:1050/750;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
+.bigwiz{width:min(84vw,62vh*0.652,440px);aspect-ratio:560/859;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
+.acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.grid .card{--cw:min(26vw,120px)}
+.tc{display:flex;flex-direction:column;align-items:center;gap:3px}
+.tc .card.picked{outline:3px solid var(--bolt);outline-offset:2px;box-shadow:0 0 16px 4px color-mix(in srgb,var(--bolt) 70%,transparent)}
+.tc .own{font-size:.7rem;color:var(--muted)}
+.tc .zoom{font-size:.72rem;background:none;border:1px solid var(--line);border-radius:6px;padding:0 6px;cursor:pointer;color:var(--muted)}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 30%);transform:translate(-50%,-50%) scale(.9);background:var(--panel);border:2px solid var(--bolt);
+  border-radius:16px;padding:12px 20px;font-family:'Corporata',sans-serif;font-weight:700;font-size:1.35rem;z-index:45;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;text-align:center;max-width:86vw;box-shadow:var(--shadow)}
+#toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* ---------- start ---------- */
+#start{background:radial-gradient(90% 60% at 50% 0%,var(--bg2),transparent 70%),var(--bg);position:fixed;inset:0;z-index:25;overflow:auto;display:flex;flex-direction:column;align-items:center;
+  padding:max(24px,env(safe-area-inset-top,0px)) 16px max(24px,env(safe-area-inset-bottom,0px))}
+#start h1.oldtitle{font-size:clamp(3rem,13vw,6.5rem);line-height:.9;margin:.2em 0 .1em;text-align:center;
+  background:linear-gradient(180deg,var(--bolt) 0%,var(--mana) 55%,var(--water) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 0 rgba(0,0,0,.25))}
+#start .sub{color:var(--muted);text-align:center;max-width:36em;margin:0 0 20px}
+.picks{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.pick{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px;width:min(88vw,300px);display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow)}
+.pick .art{width:100%;aspect-ratio:1;border-radius:12px;background-size:118%;background-position:50% 21%;border:0;cursor:zoom-in}
+.pick h2{margin:0;font-size:1.5rem}
+.pick p{margin:0;font-size:.88rem;color:var(--muted)}
+.pick .btn{align-self:stretch}
+.fine{font-size:.8rem;color:var(--muted);margin-top:18px;text-align:center;max-width:40em}
+.rules p{margin:.4em 0;max-width:60ch}
+.rules h3{font-family:'Corporata',sans-serif;font-weight:700;font-weight:400;margin:.8em 0 .2em}
+.pn{display:none}
+@media (max-width:560px){.pips{display:none}.pn{display:inline}.stats{gap:2px 10px;font-size:.88rem}.pp{padding:5px 8px;gap:8px}.por{width:40px;height:40px}.piles{margin-top:2px}}
+.goals{display:flex;gap:14px;align-items:center;flex:none;font-family:'Corporata',sans-serif;font-weight:700;line-height:1}
+.goal{display:inline-flex;align-items:center;gap:4px;font-size:1.7rem}
+.goal svg{width:26px;height:26px}.goal small{font-family:'Corporata','Atkinson Hyperlegible',sans-serif;font-size:.8rem;color:var(--muted);align-self:flex-end;margin-bottom:3px}
+.rnd.last{color:var(--fire);animation:bob 1.8s ease-in-out infinite;text-align:center}
+.rnd small{display:block;font-family:'Corporata','Atkinson Hyperlegible',sans-serif;font-weight:700;font-size:.75rem}
+@keyframes bob{50%{transform:translateY(-3px)}}
+body{transition:background-color .6s}
+body.shop{background:radial-gradient(120% 70% at 30% 0%,var(--shop2),transparent 60%),var(--shop)}
+@media (orientation:landscape) and (min-width:720px){.logbtn{display:none}}
+body.phoneview{background:#0c0918}
+body.shop #app.phone{background:radial-gradient(120% 70% at 30% 0%,var(--shop2),transparent 60%),var(--shop)}
+#arena{min-height:calc(var(--cw)*1.45)}
+#app.phone{width:390px;height:min(844px,100%);margin:0 auto;border-radius:18px;background:var(--bg);transition:background-color .6s;outline:2px solid #6b56a8;
+  grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto minmax(0,1fr) auto auto auto!important;grid-template-areas:"opp" "cloud" "arena" "prompt" "me" "hand"!important;--cw:66px!important;gap:6px!important;padding:6px!important}
+#app.phone #logwrap{display:none!important}#app.phone .logbtn{display:inline-block!important}
+#app.phone .crow .card{--cw:66px}#app.phone #hand .card{--cw:80px}#app.phone .pips{display:none}#app.phone .pn{display:inline}
+#app.phone .stats{font-size:.85rem;gap:2px 10px}#app.phone .por{width:40px;height:40px}#app.phone .goal{font-size:1.4rem}#app.phone .goal svg{width:21px;height:21px}
+@media (max-width:560px){.goal{font-size:1.4rem}.goal svg{width:21px;height:21px}.goals{gap:10px}}
+/* start screen */
+.sel{display:flex;flex-direction:column;gap:14px;width:min(94vw,760px)}
+.row h2{margin:0 0 6px;font-size:1.2rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.row h2 label{font-family:'Corporata','Atkinson Hyperlegible',sans-serif;font-size:.9rem;display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.row h2 input{width:18px;height:18px;accent-color:var(--accent)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tile{display:flex;align-items:center;gap:8px;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:6px 10px 6px 6px;cursor:pointer;text-align:left}
+.tile .por{width:42px;height:42px;pointer-events:none}
+.tile b{display:block;font-family:'Corporata',sans-serif;font-weight:700;font-weight:400;font-size:1rem}
+.tile span{font-size:.72rem;color:var(--muted)}
+.tile[aria-pressed="true"]{border-color:var(--bolt);box-shadow:0 0 0 2px var(--bolt)}
+.tile:disabled{opacity:.4;cursor:not-allowed}
+.rows.rand .tiles{opacity:.45;pointer-events:none}
+.info{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:.88rem;min-height:4em}
+.info p{margin:.2em 0}
+.tk{display:inline-block;width:19px;height:19px;background:center/contain no-repeat;flex:none;vertical-align:middle}
+.goal .tk{width:30px;height:30px}.initb .tk{width:15px;height:15px}
+@media (max-width:560px){.goal .tk{width:24px;height:24px}}
+#app.phone .goal .tk{width:24px;height:24px}
+.xtra{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-weight:700;font-size:.88rem;margin-top:2px}
+.tokrow{display:inline-flex;gap:1px;align-items:center}.tokrow .tk{width:17px;height:17px}.tokrow .tk.off{opacity:.22;filter:grayscale(1)}
+.potion{height:calc(var(--cw)*1.4);aspect-ratio:420/608;border-radius:10px;background:center/cover;box-shadow:0 0 0 3px var(--mana),var(--shadow);animation:flip .5s ease-out}
+.jl{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.jl li{border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:.85rem;display:flex;gap:6px;align-items:center}
+.jl li.on{border-color:var(--bolt);background:color-mix(in srgb,var(--bolt) 18%,transparent);font-weight:700}
+#title{position:fixed;inset:0;z-index:27;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;background:#120b20;overflow:hidden;
+  padding:0 16px max(6vh,calc(env(safe-area-inset-bottom,0px) + 20px))}
+#title .hero{position:absolute;inset:0;background-size:cover;background-position:center 16%}
+@media (orientation:landscape){#title .hero{left:50%;right:auto;width:min(100vw,118vh);transform:translateX(-50%);background-size:cover;background-position:center 30%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}.tbtn{font-size:1.15rem;padding:.26em .8em}.tmenu{gap:6px;width:min(36vw,250px)}#title{padding-bottom:max(3vh,calc(env(safe-area-inset-bottom,0px) + 10px))}#title .fine{margin-top:6px}}
+@media (orientation:portrait){#title .hero{background-size:122vw auto;background-position:center top;background-repeat:no-repeat}
+  #title .hero::after{background:linear-gradient(180deg,transparent 30%,rgba(14,8,28,.7) 48%,#120b20 60%)}}
+#title .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(14,8,28,.55) 62%,rgba(14,8,28,.92) 100%)}
+.tmenu{position:relative;display:flex;flex-direction:column;gap:10px;width:min(78vw,320px);animation:rise .7s ease-out both .15s}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.tbtn{font-family:'Corporata',sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:.02em;color:#fff;background:rgba(24,14,46,.78);border:2px solid #8f73d1;border-radius:14px;padding:.38em .8em;cursor:pointer;
+  text-shadow:0 2px 0 rgba(0,0,0,.35);backdrop-filter:blur(3px)}
+.tbtn:hover,.tbtn:focus-visible{border-color:#f4cf3a;outline:none;background:rgba(40,24,74,.85)}
+.tbtn.primary{background:linear-gradient(180deg,#f4cf3a,#e29a1d);color:#2a1600;border-color:#fff3b0;text-shadow:none}
+#title .fine{position:relative;color:#cfc3ee;margin:12px 0 0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:var(--panel);padding:.4em 1.1em;cursor:pointer;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.tabs{display:flex;gap:6px;margin:0 0 10px}
+.mx{border-collapse:collapse;font-size:.8rem;min-width:100%}
+.mx th,.mx td{border:1px solid var(--line);padding:4px 5px;text-align:center;white-space:nowrap}
+.mx th{background:var(--panel2);font-weight:700}.mx td.win{background:color-mix(in srgb,var(--bolt) 22%,transparent);font-weight:700}.mx td.self{background:repeating-linear-gradient(45deg,transparent 0 4px,var(--line) 4px 5px)}
+.mxw{overflow-x:auto;max-width:100%}
+.kpis{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 12px}.kpi b{display:block;font-family:'Corporata',sans-serif;font-weight:700;font-weight:400;font-size:1.4rem}.kpi span{font-size:.75rem;color:var(--muted)}
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.ach{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:6px 8px;background:var(--panel)}
+.ach .tk{width:26px;height:26px;margin-top:2px}.ach.lock .tk{filter:grayscale(1);opacity:.35}.ach.lock{opacity:.8}
+.ach.got{border-color:var(--bolt);background:color-mix(in srgb,var(--bolt) 12%,var(--panel))}
+.ach b{display:block;font-size:.85rem}.ach small{display:block;font-size:.74rem;color:var(--muted)}
+.bar{height:4px;background:var(--line);border-radius:3px;margin-top:3px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent)}
+.newach{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.newach span{background:color-mix(in srgb,var(--bolt) 25%,transparent);border:1px solid var(--bolt);border-radius:8px;padding:2px 8px;font-size:.82rem;font-weight:700}
+.sheet.wide{max-width:min(96vw,980px);width:100%}
+.hpbar{gap:10px}.hpbar .hearts{flex:none}.hearts{--hs:17px;display:grid;grid-template-columns:repeat(var(--cols),var(--hs));gap:1px}
+.goal .hrt{width:var(--hs);height:var(--hs);transition:filter .35s}
+.hrt.empty{filter:brightness(0) drop-shadow(0 0 1px rgba(255,255,255,.35));opacity:.8}
+.hrt.over{filter:drop-shadow(0 0 3px var(--bolt)) saturate(1.3)}
+.hpbar b{font-size:1.15rem;min-width:1.4em}
+@media (max-width:560px){.hearts{--hs:12px}.hpbar b{font-size:1rem}}
+#app.phone .hearts{--hs:12px}#app.phone .hpbar b{font-size:1rem}
+/* hand badge + resource bumps */
+.porw{position:relative;flex:none;display:inline-block;margin-right:12px}
+.hc{position:absolute;top:-6px;right:-12px;width:22px;height:30px;border-radius:4px;background-size:cover;background-position:center;border:1.5px solid #fff;display:grid;place-items:center;
+  color:#fff;font-family:'Corporata',sans-serif;font-weight:700;font-size:.95rem;text-shadow:0 1px 2px #000,0 0 4px #000;box-shadow:0 1px 4px rgba(0,0,0,.4);pointer-events:none}
+.pop{animation:pop .5s ease-out}@keyframes pop{40%{transform:scale(1.28)}}
+.shk{animation:shk .45s}@keyframes shk{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.hpbar.shk .hrt:not(.empty){filter:drop-shadow(0 0 3px #ff2a4a)}
+@media (max-width:560px){.pp{flex-wrap:wrap}.goals{order:5;flex-basis:100%;justify-content:space-between;padding-left:56px}}
+#app.phone .pp{flex-wrap:wrap}#app.phone .goals{order:5;flex-basis:100%;justify-content:space-between;padding-left:56px}
+/* hand overlap */
+#hand{gap:0!important;overflow:visible!important}
+#hand .card{transition:transform .15s,margin-left .2s}
+#hand{position:relative;z-index:1}
+@media (hover:hover){#hand .card:hover{z-index:60!important}}
+/* storm cloud flights */
+.card.pend{visibility:hidden}.card.arrive{animation:arrive .5s cubic-bezier(.2,.8,.25,1)}
+@keyframes arrive{from{transform:translateY(55%) scale(.7);opacity:0}}
+/* NEW BATTLE! */
+#nb{position:fixed;inset:0;z-index:38;pointer-events:none;display:none;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#nb.go{display:flex;animation:nbbg var(--d,1.6s) ease both}
+@keyframes nbbg{0%{background:rgba(6,3,16,0)}14%,82%{background:rgba(6,3,16,.64)}100%{background:rgba(6,3,16,0)}}
+.nbt{font-family:'Corporata',sans-serif;font-weight:700;font-size:clamp(3rem,13vw,8rem);line-height:1;color:#fff;-webkit-text-stroke:3px #2a1650;paint-order:stroke fill;
+  text-shadow:0 7px 0 #2a1650,0 0 34px #f4cf3a;white-space:nowrap}
+.nbs{font-family:'Corporata',sans-serif;font-weight:700;font-size:clamp(1.1rem,3.5vw,1.8rem);color:#f4cf3a;text-shadow:0 2px 0 #2a1650;margin-top:6px}
+#nb.go .nbt{animation:swoop var(--d,1.6s) cubic-bezier(.2,.8,.2,1) both}
+#nb.go .nbs{animation:swoop var(--d,1.6s) cubic-bezier(.2,.8,.2,1) both .06s}
+@keyframes swoop{0%{transform:translateX(-115vw) skewX(-22deg)}22%{transform:translateX(0) skewX(-7deg)}78%{transform:translateX(3vw) skewX(-7deg);opacity:1}100%{transform:translateX(115vw) skewX(-22deg);opacity:0}}
+/* BLAST SCORE */
+#blast{position:fixed;inset:0;z-index:34;background:rgba(8,4,20,.74);display:none;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) 12px max(12px,env(safe-area-inset-bottom,0px))}
+#blast.show{display:flex}
+body.ceremony #prompt.ask{position:relative;z-index:36}
+.bpanel{--bw:min(13vw,74px);background:var(--panel);border:2px solid #f4cf3a;border-radius:20px;padding:12px 16px;width:min(96vw,760px);max-height:100%;overflow:auto;text-align:center;box-shadow:0 0 44px rgba(244,207,58,.35)}
+.btitle{font-size:clamp(1.9rem,7vw,3.1rem)!important;margin:0 0 8px!important;color:#e7a91d;letter-spacing:.05em;-webkit-text-stroke:1px #6a3f00}
+.bside{padding:8px;border-radius:14px;border:1px solid var(--line);transition:box-shadow .2s}
+.bside.turn{box-shadow:0 0 0 2px var(--accent),0 0 18px color-mix(in srgb,var(--accent) 50%,transparent)}
+.bside.won{box-shadow:0 0 0 3px #f4cf3a,0 0 26px #f4cf3a}
+.bname{font-family:'Corporata',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:4px}
+.bcards{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;min-height:calc(var(--bw)*1.4)}
+.bcards .card{--cw:var(--bw);cursor:default}
+.bcards .card.fl{animation:flip .45s ease-out}
+.bcards .card.discfx{outline:3px solid #fff;outline-offset:1px;box-shadow:0 0 18px #fff}
+.bcards .card.gone{opacity:.18;transform:scale(.82);transition:opacity .4s,transform .4s}
+.bscore{font-family:'Corporata',sans-serif;font-weight:700;font-size:1.35rem;margin-top:4px}.bscore b{display:inline-block;min-width:1.2em;color:var(--accent)}
+.bvs{font-family:'Corporata',sans-serif;font-weight:700;color:var(--muted);margin:4px 0}
+.bres{font-family:'Corporata',sans-serif;font-weight:700;font-size:1rem;color:var(--muted);min-height:1.7em;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:4px}
+.bres.big{font-size:clamp(1.3rem,4.5vw,1.9rem);color:var(--shard);animation:pop .6s ease-out}.bres .tk{width:30px;height:30px}
+/* setup screen art */
+#start{background:var(--startbg)!important}
+#start::before{content:"";position:fixed;inset:0;background-image:var(--scene);background-size:cover;background-position:center;opacity:var(--sceneop);z-index:-1;pointer-events:none}
+.slogo{margin:4px 0 2px;width:min(86vw,560px,34vh*2.28);aspect-ratio:3473/1524}
+.slogo span{display:block;width:100%;height:100%;background-position:center;background-size:contain;background-repeat:no-repeat}
+.nbt,.btitle{font-family:'Corporata','Arial Rounded MT Bold',sans-serif!important;font-weight:700!important;letter-spacing:.02em}
+/* ---------- phones held sideways: short landscape layout ---------- */
+@media (orientation:landscape) and (max-height:600px){
+  #app:not(.phone){grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)!important;grid-template-rows:auto auto minmax(0,1fr) auto!important;
+    grid-template-areas:"opp cloud" "me arena" "prompt arena" "hand hand"!important;--cw:min(6.2vw,13vh);--cw:min(6.2vw,13svh);gap:5px!important}
+  #app:not(.phone) #logwrap{display:none!important}
+  #app:not(.phone) .logbtn{display:inline-block!important}
+  #app:not(.phone) .crow .card{--cw:min(6.2vw,13vh);--cw:min(6.2vw,13svh)}
+  #app:not(.phone) #hand .card{--cw:min(7.2vw,17vh);--cw:min(7.2vw,17svh)}
+  #app:not(.phone) #hand{min-height:0;padding:4px 4px 2px}
+  #app:not(.phone) #arena{gap:8px;min-height:0}
+  .pp{flex-wrap:wrap;padding:3px 8px;gap:6px 8px;border-radius:10px}
+  .goals{order:5;flex-basis:100%;justify-content:space-between;padding-left:44px;gap:8px}
+  .por{width:34px;height:34px}.porw{margin-right:8px}
+  .hc{width:17px;height:23px;font-size:.72rem;top:-4px;right:-9px}
+  .pname{font-size:.85rem}.stats{font-size:.75rem;gap:0 8px}.stat .tk{width:14px;height:14px}
+  .pips{display:none}.pn{display:inline}
+  .piles{margin-top:1px}.chip{font-size:.66rem;padding:0 5px}.tools .chip{font-size:.7rem;padding:2px 7px}
+  .goal{font-size:1.05rem}.goal .tk{width:18px;height:18px}.hearts{--hs:11px}.hpbar b{font-size:.9rem}.xtra{font-size:.72rem}
+  #prompt{min-height:34px;padding:4px 10px;gap:4px 8px}#prompt .q{font-size:.85rem;flex-basis:150px}
+  .btn{padding:.35em .9em;font-size:.85rem}
+  .rnd{font-size:.85rem}.lbl{font-size:.62rem}.cfoot{font-size:.62rem;gap:3px}
+  .bpanel{--bw:min(6.5vw,12vh);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;width:min(96vw,900px);padding:8px 12px}
+  .btitle{grid-column:1/-1;font-size:1.6rem!important;margin:0!important}.bres{grid-column:1/-1;margin-top:2px}
+  .bside{padding:4px}.bscore{font-size:1rem}.bname{font-size:.9rem}
+  #title{flex-direction:row;justify-content:flex-end;align-items:center;padding:0 max(6vw,env(safe-area-inset-right,0px)) 0 0}
+  #title .hero{left:0!important;transform:none!important;width:min(64vw,130vh)!important;background-position:center 30%!important;
+    -webkit-mask-image:linear-gradient(90deg,#000 70%,transparent)!important;mask-image:linear-gradient(90deg,#000 70%,transparent)!important}
+  #title .hero::after{background:none}
+  .tmenu{width:min(34vw,240px)!important}#title .fine{display:none}
+  .slogo{width:min(46vw,26vh*2.28)}
+  .sheet{padding:10px 12px}
+}
+
+/* floating numbers */
+.flt{position:fixed;z-index:33;transform:translate(-50%,0);pointer-events:none;font-family:'Corporata',sans-serif;font-weight:700;font-size:1rem;white-space:nowrap;
+  padding:1px 8px;border-radius:999px;background:var(--panel);box-shadow:var(--shadow);animation:fltup 1.5s ease-out forwards}
+@keyframes fltup{0%{opacity:0;transform:translate(-50%,6px) scale(.8)}12%{opacity:1;transform:translate(-50%,0) scale(1.08)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-30px) scale(1)}}
+.f-dmg{color:var(--hp)}.f-heal{color:#1f9a57}.f-mana{color:var(--mana)}.f-power{color:#b07a00}.f-shard{color:var(--shard)}.f-junk{color:var(--muted)}.f-init{color:#9a7400}.f-doom{color:#7a4fc0}.f-energy{color:#1f8f8a}.f-blast{color:var(--accent)}.f-none{color:var(--muted)}
+/* blast floats */
+.bcw{position:relative;display:block;flex:none}.bcw .card{display:block}
+.bfx{position:absolute;left:50%;bottom:92%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;z-index:2;pointer-events:none;animation:fltup 1.7s ease-out forwards}
+.bfx b{font-family:'Corporata',sans-serif;font-weight:700;font-size:.85rem;white-space:nowrap;background:var(--panel);border-radius:999px;padding:1px 8px;box-shadow:var(--shadow)}
+/* potion popup */
+#potov{position:fixed;inset:0;z-index:34;background:rgba(8,4,20,.74);display:none;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) 12px max(12px,env(safe-area-inset-bottom,0px))}
+#potov.show{display:flex}
+.ppanel{--pw:min(17vw,104px)}
+.psub{margin:0 0 8px;color:var(--muted);font-size:.9rem}
+.pstat{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:8px;font-weight:700}
+.pels{display:inline-flex;gap:12px}.pel{display:inline-flex;align-items:center;gap:4px;font-size:1.15rem}.pel .tk{width:24px;height:24px}
+.ptox{display:inline-flex;align-items:center;gap:4px}.ptx{font-style:normal;opacity:.25;font-size:1.2rem}.ptx.on{opacity:1;color:#4bb33b;text-shadow:0 0 8px #4bb33b}
+.prow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;min-height:calc(var(--pw)*1.45 + 24px)}
+.pcard{display:flex;flex-direction:column;align-items:center;gap:3px}
+.pimg{width:var(--pw);aspect-ratio:420/608;border-radius:8px;background-size:cover;box-shadow:var(--shadow)}.pimg.fl{animation:flip .45s ease-out}
+.pcard.unpaid .pimg{filter:grayscale(.8) brightness(.7)}
+.ptag{font-size:.72rem;font-weight:700;padding:1px 6px;border-radius:999px;background:var(--panel2)}.ptag.ok{color:#1f9a57}.ptag.no{color:var(--hp)}
+.pres{margin-top:8px;font-size:.95rem}.pres p{margin:.2em 0}.pres .bad{color:var(--hp);font-weight:700}
+@media (orientation:landscape) and (max-height:600px){.ppanel{--pw:min(9vw,15vh);display:block}.psub{display:none}}
+/* version stamp */
+#ver{position:fixed;left:max(6px,env(safe-area-inset-left,0px));bottom:max(2px,env(safe-area-inset-bottom,0px));z-index:30;font-size:10px;color:#a99fcb;opacity:.75;pointer-events:none;letter-spacing:.02em}
+/* tournament */
+.tile{position:relative}.tnum{position:absolute;top:-7px;left:-7px;background:var(--accent);color:#fff;border-radius:999px;font-size:.72rem;font-weight:700;padding:1px 7px;z-index:1}
+.tile.tour:disabled{opacity:1;cursor:default}.tile.tour.beaten{opacity:.6}.tile.tour.beaten .tnum{background:#1f9a57}.tile.tour.you{opacity:.3}
+.row h2 label.off{opacity:.45}.tl{text-align:left;margin:-2px 0 6px}
+.tourhead{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;margin-bottom:8px}
+.tourbig{font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);color:#e2a91c;letter-spacing:.03em;line-height:1.1}.tourhead.lose .tourbig{color:var(--hp)}
+.trophy{width:64px;height:64px;color:#e2a91c}.tourhead .trophy{width:84px;height:84px;filter:drop-shadow(0 0 12px rgba(226,169,28,.6))}
+.trophies{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}.troph{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:6px 12px;background:var(--panel2)}
+.troph .trophy{width:44px;height:44px}.troph.off .trophy{color:var(--line)}.troph b{display:block}.troph small{color:var(--muted)}
+/* trap sheet */
+.traps{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.trapc{width:min(42vw,200px);display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center;border:2px solid transparent;border-radius:14px;padding:6px}
+.trapc .card{--cw:min(34vw,160px)}.trapc.cur{border-color:var(--bolt);background:color-mix(in srgb,var(--bolt) 12%,transparent)}.trapc.dis{opacity:.45}
+.trapc small{font-size:.8rem;line-height:1.25}.trapc em{font-style:normal;font-weight:700}.curtag{font-weight:700;font-size:.8rem;color:#b07a00;letter-spacing:.04em}.curtag.no{color:var(--hp)}
+.tpick:hover{outline:3px solid var(--bolt);outline-offset:2px}
+/* crowding fixes */
+#prompt{position:relative;z-index:2}
+#arena{overflow:visible}
+.optlist{display:flex;flex-direction:column;gap:8px;align-items:stretch;max-width:420px;margin:0 auto}
+@media (orientation:portrait),(max-width:719px){
+  #app:not(.phone){grid-template-rows:auto auto minmax(calc(var(--cw)*1.4 + 30px),1fr) auto auto auto!important;gap:7px}
+  .cfoot{flex-wrap:nowrap;overflow-x:auto;justify-content:safe center;scrollbar-width:none;padding:1px 2px 2px}.cfoot::-webkit-scrollbar{display:none}
+  .cfoot .chip{flex:none;font-size:.7rem}
+  .rnd{font-size:.9rem;line-height:1.2}.wx{gap:3px}
+  #arena{padding-top:2px;gap:10px}
+  #prompt{padding:6px 10px;gap:6px 8px}#prompt .q{font-size:.92rem;flex-basis:200px}#prompt .btn{padding:.4em .95em;font-size:.88rem}
+}
+#app.phone{grid-template-rows:auto auto minmax(calc(var(--cw)*1.4 + 30px),1fr) auto auto auto!important}
+#app.phone .cfoot{flex-wrap:nowrap;overflow-x:auto;justify-content:safe center;scrollbar-width:none}#app.phone .cfoot .chip{flex:none;font-size:.7rem}
+.spbtns{display:inline-flex;align-items:center;gap:6px;flex-wrap:nowrap}.spbtns .lbl{font-size:.8rem}.btn.sm{padding:.3em .8em;font-size:.82rem}
+/* prompt fit */
+#prompt .q small.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#prompt{max-height:34svh;overflow:hidden}
+@media (orientation:portrait) and (max-height:800px){#prompt .q small.clamp{-webkit-line-clamp:1}#app:not(.phone){gap:5px!important}.hearts{--hs:10px}.pp{padding:4px 8px}#prompt{padding:5px 10px}.crow{gap:4px}}
+@media (orientation:landscape) and (max-height:600px){
+  #app:not(.phone){grid-template-areas:"opp cloud" "me arena" "prompt prompt" "hand hand"!important;grid-template-rows:auto auto auto auto!important}
+  #app:not(.phone) #hand .card{--cw:min(6.4vw,14.5vh)}
+  .pinfo .stats,.pinfo .piles{display:inline-flex;vertical-align:middle;margin:0 6px 0 0}
+  .pinfo .xtra{display:inline-flex;margin:0}
+  #prompt .q small.clamp{-webkit-line-clamp:1}#prompt{max-height:26svh;overflow:hidden}
+}
+.initb.initout{animation:initout .5s ease forwards}@keyframes initout{to{opacity:0;transform:scale(.7)}}
+.initb.initin{animation:initin .9s ease-out}
+@keyframes initin{0%{opacity:0;transform:scale(.5)}35%{opacity:1;transform:scale(1.18);box-shadow:0 0 0 3px rgba(255,255,255,.55),0 0 20px 4px var(--bolt)}100%{transform:none;box-shadow:0 0 0 0 transparent}}
+.bpanel{max-height:none!important;overflow:visible!important}
+/* colorblind tags */
+body.cb .card[data-elt]:not([data-elt=""])::after{content:attr(data-elt);position:absolute;left:3px;bottom:3px;font-family:'Corporata',sans-serif;font-weight:700;font-size:9px;line-height:1;padding:2px 4px;border-radius:4px;background:rgba(0,0,0,.82);color:#fff;letter-spacing:.03em;pointer-events:none;white-space:nowrap}
+body.cb .won{outline:3px dashed #fff;outline-offset:3px}
+/* tutorial coach */
+#coach{position:fixed;left:50%;transform:translateX(-50%);width:min(92vw,380px);z-index:39;display:none;pointer-events:none}
+#coach.show{display:block}
+#coach .cbox{pointer-events:auto;background:var(--panel);border:2px solid var(--bolt);border-radius:16px;padding:10px 14px;box-shadow:0 8px 30px rgba(0,0,0,.35)}#coach .cbox.in{animation:rise .3s ease-out}
+#coach b{display:block;font-size:1.05rem;margin-bottom:2px}#coach p{margin:0 0 6px;font-size:.92rem;line-height:1.35}#coach .acts{margin-top:6px;justify-content:flex-end}
+.tutring{outline:3px solid var(--bolt)!important;outline-offset:3px;border-radius:12px;animation:tutpulse 1.2s ease-in-out infinite}
+@keyframes tutpulse{50%{outline-color:transparent}}
+/* card library */
+.libtabs{flex-wrap:wrap}.libf{margin:0 0 6px}
+.libgrid{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-start}
+.libi{display:flex;flex-direction:column;align-items:center;gap:3px;width:min(22vw,104px)}
+.libi .card{--cw:min(22vw,104px)}.libi .card.pot{aspect-ratio:420/608}.libi small{font-size:.72rem;text-align:center;line-height:1.15}
+.libgrid.wide .libi{width:min(40vw,190px)}.libgrid.wide .wcard{height:auto;width:100%;aspect-ratio:1050/750}
+.libwiz{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.libwiz .tile{width:190px}
+.sheet h3{margin:.8em 0 .3em;font-size:1rem}
+
+.bpanel{position:relative}.bskip{position:absolute;top:10px;right:12px}
+/* ---- title: logo placed in the layout so it can never overlap the menu ---- */
+#title{justify-content:space-between!important;flex-direction:column!important;align-items:center!important;
+  padding:max(3vh,calc(env(safe-area-inset-top,0px) + 10px)) 16px max(4vh,calc(env(safe-area-inset-bottom,0px) + 14px))!important}
+#title .hero{inset:0!important;left:0!important;width:auto!important;transform:none!important;background-size:cover!important;background-position:center 40%!important;
+  -webkit-mask-image:none!important;mask-image:none!important}
+#title .hero::after{background:linear-gradient(180deg,rgba(14,8,28,.25) 0%,transparent 30%,rgba(14,8,28,.5) 68%,rgba(14,8,28,.9) 100%)!important}
+.tlogo{position:relative;flex:1 1 auto;min-height:60px;width:min(92vw,820px);max-height:42vh;margin-bottom:14px;background-position:center;background-size:contain;background-repeat:no-repeat;
+  filter:drop-shadow(0 8px 22px rgba(0,0,0,.5));animation:rise .7s ease-out both}
+#title .tmenu{flex:none}
+.tbtn small{display:block;font-size:.58em;font-weight:700;opacity:.8;margin-top:1px;letter-spacing:0}
+@media (orientation:landscape) and (max-height:600px){
+  #title{flex-direction:row!important;justify-content:space-around!important;padding:12px max(5vw,env(safe-area-inset-right,0px)) 12px max(5vw,env(safe-area-inset-left,0px))!important}
+  #title .hero::after{background:linear-gradient(90deg,rgba(14,8,28,.2),rgba(14,8,28,.35) 55%,rgba(14,8,28,.85))!important}
+  .tlogo{flex:1 1 0;height:72vh;max-height:none;width:auto;max-width:58vw;margin:0 3vw 0 0}
+  #title .tmenu{gap:5px!important;width:min(34vw,250px)!important}#title .tbtn{font-size:1rem!important;padding:.2em .7em!important}#title .tbtn small{display:none}}
+/* ---- counter circle + bump ---- */
+.cwheel{width:calc(var(--cw)*.31);aspect-ratio:1;flex:none;background-position:center;background-size:contain;background-repeat:no-repeat;filter:drop-shadow(0 2px 5px rgba(0,0,0,.35))}
+.duel .card.bump{position:relative;z-index:3;animation:bump .95s cubic-bezier(.3,.7,.3,1)}
+.duel .card.recoil{animation:recoil .95s ease-out}
+@keyframes bump{0%{transform:none}28%{transform:translateX(calc(var(--bd)*24px)) rotate(calc(var(--bd)*13deg)) scale(1.07)}50%{transform:translateX(calc(var(--bd)*12px)) rotate(calc(var(--bd)*6deg)) scale(1.03)}100%{transform:none}}
+@keyframes recoil{0%,20%{transform:none}38%{transform:translateX(calc(var(--bd)*12px)) rotate(calc(var(--bd)*-7deg))}100%{transform:none}}
+.rbult{display:inline-flex;gap:3px;align-items:center;vertical-align:middle}.rbult .card{--cw:22px;box-shadow:none}
+.rbstack{display:inline-flex;align-items:flex-end}.rbstack .card.rbjunk{--cw:calc(var(--cw) * .55);margin-right:-10px;opacity:.85;transform:rotate(-8deg);z-index:0}
+.bcards .tk{width:34px;height:34px}
+/* cards are always exactly card-shaped and always show the whole card */
+.card{height:calc(var(--cw)*1.4);flex:none;align-self:center;background-size:100% 100%!important}
+.libi .card.pot{height:calc(var(--cw)*608/420)}
+#arena .wcard.flip{position:relative;z-index:6;animation:wgrow 1.5s ease-out}
+@keyframes wgrow{0%{transform:perspective(600px) rotateY(90deg) scale(1.28)}18%{transform:scale(1.28);box-shadow:0 10px 30px rgba(0,0,0,.4)}72%{transform:scale(1.28);box-shadow:0 10px 30px rgba(0,0,0,.4)}100%{transform:none}}
+/* ---------- 3–4 player seats ---------- */
+#app.multi #opp{display:flex;gap:6px;align-items:stretch;padding:0;min-width:0}
+.seats{display:flex;gap:6px;flex:1;min-width:0}
+.seat{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:5px 8px;cursor:pointer;text-align:left;box-shadow:var(--shadow)}
+.seat .porw{margin-right:6px;display:block}.seat .por{display:block;width:36px;height:36px;border-radius:50%}.seat .hc{width:17px;height:23px;font-size:.72rem;top:-4px;right:-9px}
+.sinfo{min-width:0;display:flex;flex-direction:column;gap:1px}
+.sname{font-weight:700;font-size:.9rem;display:flex;gap:4px;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sinit .tk{width:15px;height:15px}.sstats{display:flex;flex-wrap:wrap;gap:0 8px;font-size:.8rem;font-weight:700}.sstats>span{display:inline-flex;align-items:center;gap:2px}.sstats .tk{width:14px;height:14px}
+.seat.out{opacity:.45;filter:grayscale(1)}.souttag{font-weight:700;color:var(--hp);font-size:.78rem;letter-spacing:.06em}
+.seat.resolving{outline:3px solid var(--accent);outline-offset:1px}
+#app.multi #opp .tools{display:flex;align-items:center}
+.seatfull{max-width:560px;margin:0 auto}
+.duel.multi{gap:10px;flex-wrap:nowrap}.duel.multi .side.out{opacity:.4}
+.card.cpop{animation:cpop .7s ease-out;position:relative;z-index:3}@keyframes cpop{35%{transform:scale(1.14);box-shadow:0 0 20px 4px var(--elc,#f4cf3a)}}
+.card.cshake{animation:shk .5s .15s}
+.bsides{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:6px;grid-column:1/-1}.bsides .bpanel,.bsides .bcards .card{--bw:min(8vw,50px)}
+@media (max-width:560px){.seat{gap:4px;padding:4px 5px}.seat .por{width:28px;height:28px}.seat .porw{margin-right:4px}.sstats{gap:0 5px;font-size:.72rem}.sstats .tk{width:12px;height:12px}.sname{font-size:.78rem}}
+.ffa{display:flex;flex-direction:column;align-items:stretch;gap:4px;flex:none}
+.duel.multi{flex-wrap:nowrap;justify-content:center;column-gap:4px}
+.carr{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;align-self:center;width:34px;color:var(--muted);opacity:.7;transition:color .2s,opacity .2s}
+.carr svg{width:30px;height:16px}.carr b,.cwrap b{font-size:.62rem;letter-spacing:.04em;color:var(--ac)}.carr b{white-space:nowrap;background:var(--panel);border-radius:6px;padding:0 3px;box-shadow:var(--shadow)}
+.carr.lit{color:var(--ac);opacity:1;animation:arrpulse .9s ease-out 2}.carr.lit svg{filter:drop-shadow(0 0 5px var(--ac))}
+@keyframes arrpulse{40%{transform:scale(1.35)}}
+.cwrap{display:flex;align-items:center;gap:6px;justify-content:center;margin:0 4%;border-top:2px dashed var(--line);padding-top:3px;color:var(--muted);font-size:.72rem;font-weight:700}
+.cwrap .cwl svg{width:14px;height:14px;display:block}
+.cwrap.lit{border-top:2px solid var(--ac);color:var(--ac)}.cwrap.lit .cwl{animation:arrpulse .9s ease-out 2}
+.seat.ally{border-color:#1f9a57;box-shadow:0 0 0 1px #1f9a57 inset,var(--shadow)}.allytag{font-style:normal;font-size:.62rem;font-weight:700;color:#fff;background:#1f9a57;border-radius:6px;padding:0 4px}
+.ccap{display:block;margin-top:3px;font-size:.68rem;font-weight:700;color:var(--muted);white-space:nowrap;text-align:center}.ccap.lit{color:var(--ac)}.ccap b{color:var(--ac)}
+.side.allyside .lbl{color:#1f9a57}
+.modeseg{flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app" aria-live="off">
+  <section id="opp" class="pp" aria-label="Opponent"></section>
+  <section id="cloud" aria-label="Storm Cloud"></section>
+  <section id="arena" aria-label="Battle"></section>
+  <section id="prompt" aria-live="polite"></section>
+  <section id="me" class="pp" aria-label="You"></section>
+  <section id="hand" aria-label="Your hand"></section>
+  <aside id="logwrap"><h2>Battle log</h2><ol class="log" id="log"></ol></aside>
+</div>
+<div id="ov" class="ov" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div id="toast"></div>
+<div id="ver" aria-hidden="true"></div>
+<div id="coach" role="dialog" aria-live="polite"></div>
+<div id="blast" aria-live="polite"></div>
+<div id="potov" aria-live="polite"></div>
+<div id="nb" aria-hidden="true"><div class="nbt">NEW BATTLE!</div><div class="nbs"></div></div>
+<div id="title"><div class="hero ci-hero2" aria-hidden="true"></div><div class="tlogo ci-logo" role="img" aria-label="Spellstorm"></div>
+  <nav class="tmenu" aria-label="Main menu"><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
+  <p class="fine">Duel CPU wizards in the storm.</p></div>
+<div id="start">
+  <h1 class="slogo"><span class="ci-logo" role="img" aria-label="Spellstorm"></span></h1>
+  <p class="sub">Duel a CPU wizard in the storm. Win by collecting 8 Storm Shards or by bringing your opponent to 0 health.</p>
+  <div class="sel" id="picks"></div>
+  <p class="fine">The CPU never looks at your hand or your face-down card.</p>
+</div>
+<script>
+/*ENGINE*/
+</script>
+<script>
+const IMG = /*IMGS*/;
+(function(){let c='';for(const k in IMG)c+=`.ci-${k}{background-image:url(${IMG[k]})}`;const s=document.createElement('style');s.textContent=c;document.head.appendChild(s);})();
+const $=s=>document.querySelector(s);
+const ROM=['','I','II','III','IV'];
+const ELC={F:'var(--fire)',W:'var(--water)',E:'var(--earth)'};
+const tk=k=>`<i class="tk ci-tk_${k}"></i>`;
+const IC={hp:tk('hp'),mana:tk('mana'),power:tk('power'),bolt:tk('bolt'),shard:tk('shard')};
+let S=null,G=null,pending=null,logs=[],sel=[],thinking=false,FX={},speed=1,ended=null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function setH(el,h){if(el._h!==h){el.innerHTML=h;el._h=h;}}
+const on=k=>!!(FX[k]&&performance.now()<FX[k]);   // always true/false: classList.toggle(x, undefined) would flip the class on every render
+const ELT={F:'▲ FIRE',W:'● WATER',E:'■ EARTH'};
+function card(c,cls='',attrs=''){const d=CARDS[c.id];return `<button class="card ci-${c.id} ${cls}" data-cid="${c.id}" data-elt="${ELT[d.el]||''}" ${attrs} aria-label="${esc(d.n)}"></button>`;}
+
+function panel(p){
+  const P=S.pl[p],W=WIZ[P.wiz];
+  const pw=Array.from({length:6},(_,i)=>`<i class="pip ${i<P.power?'on':''}"></i>`).join('');
+  const sh=Array.from({length:8},(_,i)=>`<i class="pip ${i<P.shards?'on':''}"></i>`).join('');
+  const name=p?`${W.n}<span class="tag">CPU - ${DNAME[S.diff]||"Normal"}</span>`:`${W.n}<span class="tag">You</span>`;
+  const backs='';const an=k=>bump(p,k);
+  const tools=p?`<div class="tools"><button class="chip" data-a="menu">Menu</button></div>`:`<div class="tools"><button class="chip logbtn" data-a="log">Log</button></div>`;
+  return `<span class="porw"><button class="por ci-wz_${P.wiz}" data-a="wiz" data-p="${p}" aria-label="View ${esc(W.n)}’s wizard card"></button>${P.rb?'':`<span class="hc ci-back${an('hand')}" title="${P.hand.length} cards in hand" aria-label="${P.hand.length} cards in hand">${P.hand.length}</span>`}</span>
+  <div class="pinfo"><div class="pname" data-k="init">${name}${S.init===p?`<span class="initb${on('initIn')&&FX.initInP===p?' initin':''}" style="animation-delay:-${Math.max(0,performance.now()-(FX.initIn||0)+900)}ms">${IC.bolt}Initiative</span>`:(on('initOut')&&FX.initOutP===p?`<span class="initb initout" style="animation-delay:-${Math.max(0,performance.now()-(FX.initOut||0)+500)}ms">${IC.bolt}Initiative</span>`:'')}</div>
+  <div class="stats">
+   <span data-k="mana" class="stat${an('mana')}" title="Mana — ${W.un} costs ${W.cost}">${IC.mana}${P.mana}<small>/${W.cost}</small></span>
+   <span data-k="power" class="stat${an('power')}" title="Tier and Power track">${IC.power}Tier ${ROM[P.tier]} <span class="pips">${pw}</span><small class="pn">${P.power}/6</small></span>
+  </div>
+  ${xtra(p)}<div class="piles">${backs}<button class="chip" data-a="pile" data-z="deck" data-p="${p}">Deck ${P.deck.length}</button><button class="chip" data-a="pile" data-z="discard" data-p="${p}">Discard ${P.discard.length}</button></div></div><div class="goals">${hearts(P,an('hp'))}<span data-k="shards" class="goal${an('shards')}" title="Storm Shards — first to 8 wins">${IC.shard}<b>${P.shards}</b><small>/8</small></span></div>${tools}`;
+}
+function hearts(P,cls=''){
+  const cap=P.wiz==='bunny'?Math.max(P.max,P.hp):P.max, cols=Math.min(10,cap);
+  const h=Array.from({length:cap},(_,i)=>`<i class="tk ci-tk_hp hrt ${i>=P.hp?'empty':(i>=P.max?'over':'')}"></i>`).join('');
+  return `<span data-k="hp" class="goal hpbar${cls}" title="Health ${P.hp} of ${P.max}${P.wiz==='bunny'?' (can heal to 10)':''}" role="img" aria-label="Health ${P.hp} of ${P.max}"><span class="hearts" style="--cols:${cols}">${h}</span><b>${P.hp}</b></span>`;
+}
+/* ---------- animation helpers ---------- */
+const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+let LASTV=[{},{}];
+let FLQ=[],LASTSNAP=[null,null],LASTW=null,LASTBT=null,BRES=0;
+function trackBumps(){const n=performance.now();for(const p of S.pl.keys()){LASTV[p]=LASTV[p]||{};const P=S.pl[p];const v={hp:P.hp,mana:P.mana,power:P.tier*10+P.power,shards:P.shards,doom:P.doom,energy:P.energy,hand:P.hand.length};
+  for(const k in v){const o=LASTV[p][k];if(o!==undefined&&o!==v[k]){FX['b_'+k+p]=n+600;FX['d_'+k+p]=v[k]>o?1:-1;setTimeout(render,650);}}LASTV[p]=v;
+  const sn=snapP(S,p);if(LASTSNAP[p]&&!S.blast&&!S.potion){for(const d of deltaList(LASTSNAP[p],sn,{float:1})){FLQ.push({p,k:d.k,t:d.t});if(d.k==='heal')SFX.play('heal');if(d.k==='shard')SFX.play('shard');}}LASTSNAP[p]=sn;}
+  if(S.blast){const k=S.blast.ts[0]+S.blast.ts[1];if(k!==LASTBT){if(LASTBT!==null)SFX.play('tick');LASTBT=k;}if(S.blast.stage==='result'&&!BRES){BRES=1;SFX.play('shard');}}else{LASTBT=null;BRES=0;}
+  if(S.wcur&&S.wcur!==LASTW){FX.wflip=n+1500;setTimeout(render,1550);}LASTW=S.wcur;
+  if(LASTINIT!==null&&S.init!==LASTINIT){FX.initOut=n+500;FX.initOutP=LASTINIT;FX.initIn=n+900;FX.initInP=S.init;setTimeout(render,520);setTimeout(render,920);}LASTINIT=S.init;}
+let LASTINIT=null;
+const FLANCHOR={dmg:'hp',heal:'hp',mana:'mana',power:'power',shard:'shards',doom:'doom',energy:'energy',init:'init'};
+function spawnFloats(){if(!FLQ.length)return;const q=FLQ;FLQ=[];const used={};
+  for(const f of q){if(f.k==='init')continue;let a;if(f.k==='junk')a=$(`[data-a=pile][data-z=discard][data-p="${f.p}"]`);else if(f.k==='blast'||f.k==='card')continue;else{const an=f.p===0?'#me':(S.pl.length>2?'#seat'+f.p:'#opp');a=$(`${an} [data-k="${FLANCHOR[f.k]||'hp'}"]`)||$(`${an} [data-k="hp"]`)||$(an);}
+    if(!a)continue;const r=a.getBoundingClientRect();const key=f.p+':'+(a.dataset.k||'junk');const i=used[key]=(used[key]||0)+1;
+    const el=document.createElement('div');el.className='flt f-'+f.k;el.textContent=f.t;el.style.left=(r.left+r.width/2)+'px';el.style.top=(r.top-4-(i-1)*20)+'px';
+    el.style.animationDuration=(1.5*Math.max(speed,.5))+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),1600*Math.max(speed,.5));}}
+function bump(p,k){return on('b_'+k+p)?(FX['d_'+k+p]<0?' shk':' pop'):'';}
+function fitPrompt(){const el=$('#prompt');if(!el)return;const kids=[...el.querySelectorAll('.q,.q small,.btn,.lbl')];
+  kids.forEach(k=>k.style.fontSize='');if(el.scrollHeight<=el.clientHeight+1&&el.scrollWidth<=el.clientWidth+1)return;
+  const base=kids.map(k=>parseFloat(getComputedStyle(k).fontSize));let s=1;
+  while((el.scrollHeight>el.clientHeight+1||el.scrollWidth>el.clientWidth+1)&&s>0.55){s-=0.05;kids.forEach((k,i)=>k.style.fontSize=(base[i]*s).toFixed(1)+'px');}}
+function fitPanel(el){if(!el)return;el.style.zoom='';const H=el.parentElement.clientHeight-16;if(el.scrollHeight>H&&H>0)el.style.zoom=Math.max(.55,H/el.scrollHeight).toFixed(3);}
+function fitBox(A,stack){if(!A)return;const k=[...A.children];k.forEach(c=>c.style.zoom='');const avail=A.clientHeight;if(avail<30)return;
+  const hs=k.map(c=>c.getBoundingClientRect().height),gap=parseFloat(getComputedStyle(A).rowGap)||0;
+  const need=stack?hs.reduce((a,b)=>a+b,0)+gap*(k.length-1):Math.max(0,...hs);let z=1;if(need>avail+1)z=(avail-(stack?gap*(k.length-1):0))/(need-(stack?gap*(k.length-1):0));
+  if(!stack){const cg=parseFloat(getComputedStyle(A).columnGap)||0,ws=k.map(c=>Math.max(c.getBoundingClientRect().width,c.scrollWidth)),wneed=ws.reduce((a,b)=>a+b,0)+cg*(k.length-1),wav=A.clientWidth;
+    if(wneed>wav+1)z=Math.min(z,(wav-cg*(k.length-1))/(wneed-cg*(k.length-1)));}
+  if(z<1)k.forEach(c=>c.style.zoom=Math.max(.4,z).toFixed(3));}
+function fitArena(){fitBox($('#arena'),false);fitBox($('#cloud'),true);}
+function layoutHand(){const H=$('#hand');const cs=[...H.querySelectorAll('.card')];if(!cs.length)return;cs.forEach(c=>c.style.removeProperty('--cw'));
+  {const app=$('#app'),ar=app.getBoundingClientRect(),pb=parseFloat(getComputedStyle(app).paddingBottom)||0,top=H.getBoundingClientRect().top+4;const avail=ar.bottom-pb-top-4,ch=cs[0].getBoundingClientRect().height;
+   if(ch>avail&&avail>30){const nw=Math.floor(avail/1.4);cs.forEach(c=>c.style.setProperty('--cw',nw+'px'));}}
+  const w=cs[0].getBoundingClientRect().width;const avail=H.clientWidth-12,n=cs.length;
+  const need=n*w+(n-1)*6;const m=(need>avail&&n>1)?Math.max(-w*0.78,(avail-w)/(n-1)-w):6;cs.forEach((c,i)=>{c.style.marginLeft=i?m+'px':'0';c.style.zIndex=i+1;});}
+addEventListener('resize',()=>{fitArena();layoutHand();requestAnimationFrame(layoutHand);});
+function settle(){if(S)render();layoutHand();setTimeout(()=>{if(S)render();layoutHand();},300);setTimeout(layoutHand,700);}
+addEventListener('orientationchange',settle);
+if(window.ResizeObserver){let ro=null;const watch=()=>{const H=document.getElementById('hand');if(!H||ro)return;ro=new ResizeObserver(()=>requestAnimationFrame(layoutHand));ro.observe(H);ro.observe(document.getElementById('app'));};watch();}if(window.visualViewport)visualViewport.addEventListener('resize',()=>requestAnimationFrame(layoutHand));
+let LCLOUD=null,LIDS=[],LRECT=[],INC={},LHAND=null,LHID=new Map();
+function animHand(){const H=$('#hand');if(!H||!S)return;const els=[...H.querySelectorAll('.card[data-u]')],cur=new Map(els.map(e=>[+e.dataset.u,e]));
+  if(LHAND&&!RM()){
+    for(const [u,r] of LHAND)if(!cur.has(u)){const d=whereIs(u);fly(LHID.get(u),r,d,true);}                       // cards leaving your hand fly to where they went
+    const dk=$('#me [data-a=pile][data-z=deck]'),dr=dk&&dk.getBoundingClientRect();
+    for(const [u,e] of cur)if(!LHAND.has(u)&&dr){const r=e.getBoundingClientRect();                               // new cards fly in from your deck
+      e.animate([{transform:`translate(${dr.left+dr.width/2-(r.left+r.width/2)}px,${dr.top+dr.height/2-(r.top+r.height/2)}px) scale(.3)`,opacity:.2},{transform:'none',opacity:1}],{duration:430*speed,easing:'cubic-bezier(.2,.8,.25,1)'});}}
+  LHAND=new Map(els.map(e=>[+e.dataset.u,e.getBoundingClientRect()]));LHID=new Map(els.map(e=>[+e.dataset.u,e.dataset.cid]));}
+function whereIs(u){if(S.pl[0].hand.some(c=>c.u===u))return $(`#hand [data-u="${u}"]`)||$('#hand');for(let q=1;q<S.pl.length;q++)if(S.pl[q].hand.some(c=>c.u===u))return $(S.pl.length>2?'#seat'+q+' .porw':'#opp .porw');
+  for(const q of S.pl.keys())if(S.pl[q].discard.some(c=>c.u===u))return $(`[data-a=pile][data-z=discard][data-p="${q}"]`)||$('#seat'+q);if(S.void.some(c=>c.u===u))return $('[data-a=void]');
+  for(const q of S.pl.keys())if(S.slot[q]&&S.slot[q].u===u)return $(`#arena [data-p="${q}"]`)||$('#arena');return null;}
+function animCloud(){
+  const row=$('.crow');if(!row||!S)return;const cur=S.cloud.map(c=>c?c.u:null);const now=performance.now(),sp=Math.max(speed,.35);
+  const arrive=(u,ms)=>{INC[u]=now+ms;setTimeout(render,ms+5);setTimeout(render,ms+540);};
+  if(LCLOUD===null&&S.battle===0&&!RM()){cur.forEach((u,i)=>{if(u)arrive(u,(250+i*190)*sp);});}           // deal the Storm Cloud in at game start
+  else if(LCLOUD&&!RM()){
+    const ch=cur.map((u,i)=>LCLOUD[i]&&LCLOUD[i]!==u?i:-1).filter(i=>i>=0),bulk=ch.length>=3;
+    ch.forEach((i,k)=>{const pu=LCLOUD[i],u=cur[i],r=LRECT[i],id=LIDS[i],dest=whereIs(pu);
+      if(r){if(bulk)setTimeout(()=>fly(id,r,dest),k*170*sp);else fly(id,r,dest);}
+      if(u&&!INC[u])arrive(u,(bulk?ch.length*170+500+k*190:480)*sp);});}
+  LCLOUD=cur;LIDS=S.cloud.map(c=>c&&c.id);LRECT=[...row.children].map(e=>e.getBoundingClientRect());
+}
+function fly(id,r,dest,quiet){if(!r)return;if(!quiet)SFX.play('gain');else SFX.play('card');const g=document.createElement('div');g.className=`card ci-${id} ghost`;Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',zIndex:33,pointerEvents:'none',margin:0});
+  document.body.appendChild(g);let dx=0,dy=-40,s=.6,op=0;if(dest){const d=dest.getBoundingClientRect();dx=d.left+d.width/2-(r.left+r.width/2);dy=d.top+d.height/2-(r.top+r.height/2);s=Math.max(.25,Math.min(1.3,d.width/r.width));op=dest.classList.contains('card')?1:.15;if(dest.classList.contains('card'))dest.style.visibility='hidden';}
+  const a=g.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dx}px,${dy}px) scale(${s})`,opacity:op}],{duration:560*speed,easing:'cubic-bezier(.3,.75,.25,1)'});
+  a.onfinish=()=>{g.remove();if(dest)dest.style.visibility='';};}
+function newBattle(n){const el=$('#nb');el.querySelector('.nbs').textContent=`Battle ${n}`;el.style.setProperty('--d',(1.6*speed)+'s');el.classList.remove('go');void el.offsetWidth;el.classList.add('go');clearTimeout(newBattle.t);newBattle.t=setTimeout(()=>el.classList.remove('go'),1600*speed+60);}
+function blastHTML(){const B=S.blast,now=Date.now();
+  const side=p=>{const cs=[...B.cards[p]].sort((a,b)=>(a.disc?blastRank(a.id):9)-(b.disc?blastRank(b.id):9)).map(e=>`<span class="bcw"><i class="card ${e.up?'ci-'+e.id:'back ci-back'}${e.up&&now-e.t<450?' fl':''}${e.gone?' gone':''}${e.up&&e.disc&&!e.gone?' discfx':''}" style="animation-delay:-${Math.max(0,now-e.t)}ms"></i>${e.fx&&now-e.ft<1700?`<span class="bfx" style="animation-delay:-${Math.max(0,now-e.ft)}ms">${e.fx.map(f=>`<b class="f-${f.k}">${esc(f.t)}</b>`).join('')}</span>`:''}</span>`).join('');
+    return `<div class="bside${B.turn===p?' turn':''}${B.stage==='result'&&(B.winner===p||(B.winners&&B.winners.length===1&&B.winners[0]===p))?' won':''}"><div class="bname">${p?esc(WIZ[S.pl[p].wiz].n):'You'}</div><div class="bcards">${S.pl[p].rb?(B.score[p]>0?Array.from({length:B.score[p]},()=>tk('blast')).join(''):'<span class="lbl">No Blast Tokens</span>'):(cs||'<span class="lbl">No cards in hand</span>')}</div><div class="bscore">BLAST SCORE: <b class="${now-B.ts[p]<400?'pop':''}" style="animation-delay:-${Math.max(0,now-B.ts[p])}ms">${B.score[p]}</b></div></div>`;};
+  const okb=B.stage==='result'&&ACK&&ACK.k==='blast'?'<div class="acts"><button class="btn" data-a="ack" style="min-width:8em">OK</button></div>':'';
+  const res=B.stage==='result'?(B.winner<0?(S.pl.length>2&&B.winners?`Tied! ${B.winners.map(q=>q?esc(WIZ[S.pl[q].wiz].short):'You').join(', ')} each gain 1 ${tk('shard')}`:`Tied! Both gain 1 ${tk('shard')}`):`${B.winner===0?'You win':esc(WIZ[S.pl[B.winner].wiz].short)+' wins'} the Blast! +2 ${tk('shard')}${tk('shard')}`):(B.turn===null?'':`${B.turn?esc(WIZ[S.pl[B.turn].wiz].short)+'’s':'Your'} hand ${B.stage==='disc'?'— discard effects':'— counting'}`);
+  return `<div class="bpanel">${B.stage!=='result'&&!S.blastSkip?'<button class="btn alt sm bskip" data-a="bskip">Skip</button>':''}<h2 class="btitle">BLAST SCORE</h2>${S.pl.length>2?`<div class="bsides">${[...[...S.pl.keys()].filter(q=>q&&!S.pl[q].out),0].map(side).join('')}</div>`:`${side(1)}<div class="bvs">vs</div>${side(0)}`}<div class="bres${B.stage==='result'?' big':''}">${res}</div>${okb}</div>`;}
+function potionHTML(){const X=S.potion,P=S.pl[X.p],who=X.p?esc(WIZ[P.wiz].short):'You',now=Date.now();
+  const els=['F','E','W'].map(k=>`<span class="pel">${tk('chem'+k)}<b>${X.chem[k]}</b></span>`).join('');
+  const tox=Array.from({length:3},(_,i)=>`<i class="ptx${i<X.tox?' on':''}">☠</i>`).join('');
+  const cards=X.drawn.map(d=>{const D=POTIONS[d.id];return `<div class="pcard${d.paid===false?' unpaid':''}"><div class="pimg ci-pot_${d.id}${now-d.t<500?' fl':''}" style="animation-delay:-${Math.max(0,now-d.t)}ms"></div><span class="ptag ${d.paid===null?'':d.paid?'ok':'no'}">${d.paid===null?'…':d.paid?`Paid ${D.cost} ${ELN[D.el]}${d.twice?' — twice!':''}`:`Needs ${D.cost} ${ELN[D.el]}`}</span></div>`;}).join('')||'<span class="lbl">Shuffling the Potion Deck…</span>';
+  const res=X.stage==='done'?`<div class="pres">${X.bust?'<p class="bad">Third TOXIC — the Ultimate ends with an ASH, CURSE and ICE.</p>':''}<p><b>${X.p?esc(WIZ[P.wiz].short):'You'}:</b> ${esc(fmtDelta(X.result[X.p]))}</p>${X.result.map((L,q)=>q!==X.p&&L&&L.length?`<p><b>${q?esc(WIZ[S.pl[q].wiz].short):'You'}:</b> ${esc(fmtDelta(L))}</p>`:'').join('')}</div>`:'';
+  const ask=X.stage==='done'&&ACK&&ACK.k==='potion'?'<div class="acts"><button class="btn" data-a="ack" style="min-width:8em">OK</button></div>':pending&&pending.req.potion?`<div class="acts"><button class="btn" data-a="ans" data-v="1">Drink another</button><button class="btn alt" data-a="ans" data-v="0">Stop here</button></div>`:(X.stage==='done'?'':`<p class="lbl">${X.p?who+' is deciding…':''}</p>`);
+  return `<div class="bpanel ppanel"><h2 class="btitle">BOTTOMS UP, I GUESS!</h2><p class="psub">${who} ${X.p?'drinks':'drink'} from the Potion Deck. Each potion costs its Element; a third TOXIC ends it badly.</p>
+   <div class="pstat"><span class="pels">${els}</span><span class="ptox">TOXIC ${tox}</span></div><div class="prow">${cards}</div>${res}${ask}</div>`;}
+function optSheet(r){openOv(`<h2>${esc(r.q.split(':')[0])}</h2><p>${esc(r.q.includes(':')?r.q.slice(r.q.indexOf(':')+1).trim():'')}</p><div class="optlist">${r.opts.map((o,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${i}" ${r.dis&&r.dis[i]?'disabled':''}>${esc(o)}</button>`).join('')}</div><div class="acts"><button class="btn alt" data-a="close">Decide later</button></div>`);}
+function trapSheet(p,req){const P=S.pl[p],T=P.trap,own=p===0,ids=Object.keys(TRAPS);
+  const cards=ids.map((id,i)=>{const X=TRAPS[id],cur=T&&T.id===id&&(own||T.used),dis=req&&req.dis&&req.dis[i];
+    const art=req&&!dis?`<button class="card ci-${X.img} tpick" data-a="trappick" data-i="${i}" aria-label="Set ${esc(X.n)}"></button>`:`<div class="card ci-${X.img}" role="img" aria-label="${esc(X.n)}"></div>`;
+    return `<div class="trapc${cur?' cur':''}${dis?' dis':''}">${art}<b>${esc(X.n)}</b><small><em>Trigger:</em> ${esc(X.trig)}</small><small><em>Effect:</em> ${esc(X.eff)}</small>${cur?`<span class="curtag">CURRENT TRAP${T.used?' (used)':''}</span>`:''}${dis?'<span class="curtag no">Can’t set the same Trap twice in a row</span>':''}${req&&!dis?`<button class="btn" data-a="trappick" data-i="${i}">Set ${esc(X.n)}</button>`:''}</div>`;}).join('');
+  const note=req?'Choose a Trap to set face-down. It replaces your current Trap.':own?(T?'':'You haven’t set a Trap yet. Omar’s Ultimate, Hidden Movement, sets one.'):(T&&!T.used?'Omar has one of these set face-down. You won’t know which until it’s revealed.':T?'':'Omar hasn’t set a Trap yet.');
+  openOv(`<h2>${req?'Set a Trap':own?'Your Traps':'Omar’s Traps'}</h2>${note?`<p>${note}</p>`:''}<div class="traps">${cards}</div><div class="acts"><button class="btn alt" data-a="close">${req?'Decide later':'Close'}</button></div>`);}
+/* ---------- save & resume ---------- */
+const SKEY='spellstorm.save.v1';
+function saveGame(){if(!S||S.over)return;try{localStorage.setItem(SKEY,JSON.stringify({v:1,S,TR,logs:logs.slice(-80),t:Date.now()}));}catch(e){}}
+function loadSave(){try{const s=JSON.parse(localStorage.getItem(SKEY)||'null');return s&&s.v===1&&s.S&&!s.S.over?s:null;}catch(e){return null;}}
+function clearSave(){try{localStorage.removeItem(SKEY);}catch(e){}}
+/* ---------- tutorial ---------- */
+let TUT={step:null,res:null,idx:0,steps:null};
+function setupTutorial(S){const P=S.pl[0],E=S.pl[1],pull=(a,id)=>a.splice(a.findIndex(c=>c.id===id),1)[0];
+  P.deck.push(...['block','coffee','dart','pgem'].map(id=>pull(P.deck,id)));   // you draw Power Gem, Magic Dart, Coffee Run, then Block
+  E.deck.push(...['dart','punch','block'].map(id=>pull(E.deck,id)));           // Eve draws Block first
+  const wi=S.wdeck.lastIndexOf('breeze');S.wdeck.splice(wi,1);S.wdeck.push('breeze');  // round 1 weather: Nice Breeze
+  S.tutorial=true;S.diff='easy';}
+const TSTEPS={
+ play:[
+  {t:'Welcome to Spellstorm!',x:'This short tutorial walks you through your first round. You are Derby Pocket; the CPU is Eve Williams, on Easy.'},
+  {t:'How to win',x:'Collect 8 Storm Shards, or bring Eve to 0 health. Your health and shards are shown here.',tg:'#me .goals'},
+  {t:'Mana and Power',x:'Mana pays for your Ultimate. Power fills a 6-step track; overflowing it raises your Tier, which lets you gain stronger cards.',tg:'#me .stats'},
+  {t:'The Storm Cloud',x:'These are the cards you can gain. Each shows its Tier in the corner. You can gain cards at or below your Tier.',tg:'#cloud .crow'},
+  {t:'Weather',x:'Each round begins with a Weather card that affects both players. Nice Breeze just gave you each a card, 1 mana and 1 power.',tg:'#arena .wcard'},
+  {t:'Playing cards',x:'You and Eve each play one card face-down, then both are revealed. Elements counter each other: Fire beats Earth, Earth beats Water, Water beats Fire. If your card counters hers, you draw a card.',tg:'#hand'}],
+ reveal:[
+  {t:'Countered!',x:'Earth beats Water: your Power Gem countered Eve’s Block, so you drew a card.',tg:'#arena .duel'},
+  {t:'Initiative',x:'You have the Initiative (the ⚡ badge), so your card resolves first.',tg:'#me .initb'}],
+ done:[
+  {t:'Initiative can change hands',x:'Eve’s Block gave her the Initiative, so next round her card resolves first.',tg:'#opp .initb'},
+  {t:'Battles and the Blast',x:'A battle lasts 4 rounds. At the end, cards with discard effects trigger, then the cards left in your hand are your Blast Score. The higher score wins 2 Storm Shards, so holding cards matters too.',tg:'#hand'},
+  {t:'Your Ultimate',x:'Derby’s Ultimate, Flaming Yardstick, costs 6 mana. When you resolve a card with the Ultimate icon and have enough mana, you can use it.',tg:'#me .stats'},
+  {t:'You’re on your own!',x:'Play out the rest of this match against Easy Eve. Tap any card to read it, and find the Rules and Card Library in the Menu anytime. Good luck!'}]};
+function tutStage(st){if(!S||!S.tutorial||S.battle!==1||S.round!==1)return Promise.resolve();return new Promise(res=>{TUT.steps=TSTEPS[st];TUT.idx=0;TUT.step=TUT.steps[0];TUT.res=res;render();});}
+function tutNext(){TUT.idx++;if(TUT.steps&&TUT.idx<TUT.steps.length){TUT.step=TUT.steps[TUT.idx];render();return;}const r=TUT.res;TUT.step=null;TUT.res=null;render();if(r)r();}
+function tutLock(){return S&&S.tutorial&&S.battle===1&&S.round===1&&!TUT.step&&S.pl[0].hand.some(c=>c.id==='pgem')?'pgem':null;}
+let COACHKEY='',COACHHIDE=null;
+// one-time tips for the rest of the tutorial match (non-blocking, "Got it" to dismiss)
+function tutOnce(){if(!S||!S.tutorial||TUT.off||TUT.step)return null;const seen=TUT.seen||(TUT.seen={});const R=pending&&pending.req;
+  if(S.blast&&S.blast.stage!=='result'&&!seen.blast)return {id:'blast',t:'The Blast',x:'At the end of every battle: cards with discard effects trigger first, then each card left in your hand scores 1. The highest Blast Score gains 2 Storm Shards; a tie gives each player 1.',pos:'bottom'};
+  if(R&&R.k==='gain'&&S.phase==='gain'&&!seen.gain)return {id:'gain',t:'Gain Spell',x:'Between battles you add one Storm Cloud card at or below your Tier to your deck. It goes into your hand for the next battle. If nothing suits you, you can take a special card instead.',tg:'#cloud .crow'};
+  if(R&&R.k==='yn'&&R.ult&&!seen.ult)return {id:'ult',t:'Ultimate ready',x:'You have enough mana for Flaming Yardstick. Use it now, or say No to save your mana for a better moment.',tg:'#prompt'};
+  if(S.pl[0].tier>=2&&!seen.tier)return {id:'tier',t:'Tier up!',x:'Your Power overflowed and you reached Tier II. You can now gain Tier II cards from the Storm Cloud, which are stronger.',tg:'#me [data-k="power"]'};
+  return null;}
+function renderCoach(){const co=$('#coach');if(!co)return;document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));
+  let tip=TUT.step;if(!tip&&S&&S.tutorial&&S.battle===1&&S.round===1&&pending&&!TUT.off){
+    if(pending.req.k==='play')tip={t:'Your move',x:'Eve’s deck is full of Water, so play Power Gem (Earth). Tap it, then “Play face-down.”',tg:'#hand [data-cid="pgem"]',act:1};
+    else if(pending.req.k==='gain')tip={t:'Gain a card',x:'Power Gem lets you gain a card at or below your Tier. Tap a highlighted Storm Cloud card and choose Gain, or Skip. Power Gem then discards it, triggering its discard effect if it has one.',tg:'#cloud .crow',act:1};}
+  if(!tip)tip=tutOnce();
+  const blocked=$('#ov').classList.contains('show')&&!TUT.step;
+  if(!tip||blocked){   // hide after a short grace period, so back-to-back tips never blink
+    if(co.classList.contains('show')&&!COACHHIDE){co.querySelectorAll('button').forEach(x=>x.disabled=true);COACHKEY='';}
+    if(co.classList.contains('show')&&!COACHHIDE)COACHHIDE=setTimeout(()=>{COACHHIDE=null;COACHKEY='';co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));},blocked?0:500);
+    return;}
+  if(COACHHIDE){clearTimeout(COACHHIDE);COACHHIDE=null;}
+  const key=[tip.t,tip.x,tip.act,tip.id].join('|');
+  if(key!==COACHKEY){const fresh=!co.classList.contains('show');
+    co.innerHTML=`<div class="cbox${fresh?' in':''}"><b>${esc(tip.t)}</b><p>${esc(tip.x)}</p>${tip.act?'':tip.id?`<div class="acts"><button class="btn" data-a="tutgot" data-id="${tip.id}">Got it</button></div>`:`<div class="acts"><button class="btn" data-a="tutnext">Next</button><button class="btn alt" data-a="tutskip">Skip tutorial</button></div>`}</div>`;COACHKEY=key;}
+  co.classList.add('show');const tg=tip.tg&&$(tip.tg);co.style.top=co.style.bottom='';
+  if(tip.pos==='bottom')co.style.top=Math.max(8,innerHeight-co.offsetHeight-14)+'px';
+  else if(tg){tg.classList.add('tutring');const r=tg.getBoundingClientRect(),h=co.offsetHeight;
+    if(r.top>innerHeight*0.5)co.style.top=Math.max(8,r.top-h-12)+'px';else co.style.top=Math.min(innerHeight-h-8,r.bottom+12)+'px';}
+  else co.style.top=Math.max(8,(innerHeight-co.offsetHeight)/2)+'px';}
+/* ---------- sounds: tiny, synthesized, license-free ---------- */
+const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
+ init(){if(!this.ctx){try{this.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume();},
+ tone(f,d,type,g,t0=0,slide=0){const c=this.ctx,t=c.currentTime+t0,o=c.createOscillator(),a=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);
+  a.gain.setValueAtTime(0.0001,t);a.gain.exponentialRampToValueAtTime(Math.max(0.0002,g*this.vol()),t+0.012);a.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(a).connect(c.destination);o.start(t);o.stop(t+d+0.03);},
+ noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/n,2);
+  const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
+ play(k){if(!this.ctx||this.vol()<=0)return;try{switch(k){
+  case 'card':this.noise(.07,.35,0,1500,7000);break;
+  case 'reveal':this.noise(.22,.22,0,400,3000);this.tone(330,.18,'triangle',.07,.02,520);break;
+  case 'counter':this.tone(880,.12,'triangle',.11);this.tone(1320,.2,'triangle',.09,.08);break;
+  case 'hit':this.tone(150,.2,'sine',.35,0,60);this.noise(.08,.14,0,200,1200);break;
+  case 'heal':this.tone(660,.14,'sine',.09);this.tone(990,.2,'sine',.07,.07);break;
+  case 'shard':[1320,1760,2350].forEach((f,i)=>this.tone(f,.14,'triangle',.06,i*.06));break;
+  case 'gain':this.noise(.12,.16,0,2500,9000);this.tone(740,.12,'sine',.05,.04);break;
+  case 'tick':this.tone(1200,.05,'square',.035);break;
+  case 'newbattle':this.noise(.5,.16,0,300,4000);this.tone(220,.5,'sawtooth',.045,0,440);break;
+  case 'ult':this.tone(440,.35,'sawtooth',.05,0,880);this.tone(660,.35,'triangle',.05,.05,1320);break;
+  case 'win':[523,659,784,1047].forEach((f,i)=>this.tone(f,.26,'triangle',.09,i*.11));break;
+  case 'lose':[392,330,262].forEach((f,i)=>this.tone(f,.3,'triangle',.09,i*.15));break;}}catch(e){}}};
+document.addEventListener('pointerdown',()=>SFX.init());document.addEventListener('keydown',()=>SFX.init());
+/* ---------- card library ---------- */
+const LIB={tab:'cloud',el:'all'};
+function libSheet(){const T=LIB.tab,tabs=[['cloud','Storm Cloud'],['basic','Starters & Essences'],['wiz','Wizards'],['weather','Weather'],['special','Dragons & Specials'],['extras','Traps, Potions & Journal']];
+  const cardBtn=id=>`<div class="libi"><button class="card ci-${id}" data-a="libcard" data-id="${id}" data-elt="${ELT[CARDS[id].el]||''}" aria-label="${esc(CARDS[id].n)}"></button><small>${esc(CARDS[id].n)}</small></div>`;
+  let body='';
+  if(T==='cloud'){const ids=STORM_IDS.filter(id=>LIB.el==='all'||CARDS[id].el===LIB.el).sort((a,b)=>CARDS[a].t-CARDS[b].t||CARDS[a].n.localeCompare(CARDS[b].n));
+    body=`<p class="seg libf">${[['all','All'],['F','Fire'],['W','Water'],['E','Earth']].map(([v,l])=>`<button data-a="libel" data-v="${v}" aria-pressed="${LIB.el===v}">${l}</button>`).join('')}</p><p class="lbl" style="text-align:left">${ids.length} cards, sorted by Tier.</p><div class="libgrid">${ids.map(cardBtn).join('')}</div>`;}
+  else if(T==='basic')body=`<h3>Every wizard starts with</h3><div class="libgrid">${['dart','block','pgem'].map(cardBtn).join('')}</div><h3>Essences (start in the Storm Cloud)</h3><div class="libgrid">${['essF','essW','essE'].map(cardBtn).join('')}</div>`;
+  else if(T==='wiz')body=[...ROSTER,'robot'].map(w=>`<div class="libwiz"><button class="tile" data-a="libwiz" data-w="${w}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button><div class="libgrid">${(w==='robot'?RB_IDS:WIZ[w].spells).map(cardBtn).join('')}</div></div>`).join('');
+  else if(T==='weather'){const cal=Object.keys(WEATHER).filter(k=>WEATHER[k].calm),std=Object.keys(WEATHER).filter(k=>WEATHER[k].std);const wb=k=>`<div class="libi"><button class="wcard ci-w_${k}" data-a="libw" data-id="${k}" aria-label="${esc(WEATHER[k].n)}"></button><small>${esc(WEATHER[k].n)}${(WEATHER[k].calm||WEATHER[k].std)>1?' ×2':''}</small></div>`;
+    body=`<h3>Calm Before the Storm (first battles)</h3><div class="libgrid wide">${cal.map(wb).join('')}</div><h3>Standard Weather</h3><div class="libgrid wide">${std.map(wb).join('')}</div>`;}
+  else if(T==='special')body=`<h3>Dragons (Tier IV)</h3><div class="libgrid">${DRAGON_IDS.map(cardBtn).join('')}</div><h3>ICE, ASH and CURSE</h3><div class="libgrid">${['ice','ash','curse'].map(cardBtn).join('')}</div>`;
+  else body=`<h3>Omar’s Traps</h3><div class="libgrid">${Object.keys(TRAPS).map(k=>`<div class="libi"><button class="card ci-${TRAPS[k].img}" data-a="libimg" data-img="${TRAPS[k].img}"></button><small>${esc(TRAPS[k].n)}</small></div>`).join('')}</div>
+   <h3>Oren’s Potions</h3><div class="libgrid">${Object.keys(POTIONS).map(k=>`<div class="libi"><button class="card pot ci-pot_${k}" data-a="libimg" data-img="pot_${k}"></button><small>${esc(POTIONS[k].n)}</small></div>`).join('')}</div>
+   <h3>Abragail’s Journal</h3><div class="libgrid"><div class="libi"><button class="card ci-journal" data-a="libimg" data-img="journal" data-big="bigwiz"></button><small>Journal</small></div></div>`;
+  openOv(`<h2>Card Library</h2><div class="tabs libtabs">${tabs.map(([v,l])=>`<button class="btn ${T===v?'':'alt'}" data-a="libtab" data-v="${v}">${l}</button>`).join('')}</div>${body}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);$('#sheet').classList.add('wide');}
+
+// Free-for-All table: cards in clockwise order with arrows showing who counters whom
+const ARR='<svg viewBox="0 0 32 16" aria-hidden="true"><path d="M2 8h24M20 2l7 6-7 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function ffaTable(sd){
+  const al=[...S.pl.keys()].filter(q=>!S.pl[q].out),nw=performance.now(),nm=q=>q?esc(WIZ[S.pl[q].wiz].short):'You';
+  if(S.team){const lt=q=>(FX.ctr||[]).find(x=>x.p===q&&nw<x.until+1800),cl=q=>{const c=S.rev&&S.rev[q];return c?ELC[CARDS[c.id].el]:'var(--bolt)';};
+    return `<div class="ffa"><div class="duel multi"><span class="cwheel ci-cwheel" role="img" aria-label="Fire beats Earth, Earth beats Water, Water beats Fire"></span>${al.map(q=>{const L=lt(q),ally=S.team[q]===S.team[0];return `<div class="side${ally&&q?' allyside':''}"><span class="lbl">${nm(q)}</span>${sd(q)}<span class="ccap${L?' lit':''}" style="--ac:${cl(q)}">${L?'<b>COUNTER!</b> ':''}→ ${nm(nextOppOf(S,q))}</span></div>`;}).join('')}</div></div>`;}
+  const lit=q=>(FX.ctr||[]).find(x=>x.p===q&&nw<x.until+1800);
+  const col=q=>{const c=S.rev&&S.rev[q];return c?ELC[CARDS[c.id].el]:'var(--bolt)';};
+  let h='';al.forEach((q,i)=>{const nx=al[(i+1)%al.length],L=lit(q);
+    h+=`<div class="side"><span class="lbl">${nm(q)}</span>${sd(q)}</div>`;
+    if(i<al.length-1)h+=`<span class="carr${L?' lit':''}" style="--ac:${col(q)}" title="${nm(q)} ${q?'counters':'counter'} ${nm(nx)} if the element beats it" aria-label="${nm(q)} ${q?'counters':'counter'} ${nm(nx)}">${ARR}${L?'<b>COUNTER!</b>':''}</span>`;});
+  const last=al[al.length-1],first=al[0],L=lit(last);
+  const wrap=`<div class="cwrap${L?' lit':''}" style="--ac:${col(last)}" aria-label="${nm(last)} ${last?'counters':'counter'} ${nm(first)}"><span class="cwl"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M8 3L2 8l6 5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cwt">${L?'<b>COUNTER!</b> ':''}${nm(last)} → ${nm(first)}</span></div>`;
+  return `<div class="ffa"><div class="duel multi"><span class="cwheel ci-cwheel" role="img" aria-label="Fire beats Earth, Earth beats Water, Water beats Fire" title="Fire beats Earth · Earth beats Water · Water beats Fire"></span>${h}</div>${wrap}</div>`;}
+function seatsHTML(){let h='';for(let q=1;q<S.pl.length;q++){const P=S.pl[q],W=WIZ[P.wiz];
+  const ally=S.team&&S.team[q]===S.team[0];
+  h+=`<button class="seat${P.out?' out':''}${ally?' ally':''}${S.resolving===q?' resolving':''}" id="seat${q}" data-a="seat" data-p="${q}" aria-label="${esc(W.n)}: ${P.hp} health, ${P.shards} shards, ${P.hand.length} cards">
+   <span class="porw"><i class="por ci-wz_${P.wiz}"></i>${P.out?'':`<span class="hc ci-back${bump(q,'hand')}">${P.rb?P.blast:P.hand.length}</span>`}</span>
+   <span class="sinfo"><span class="sname">${esc(W.short)}${ally?'<i class="allytag">Ally</i>':''}${S.init===q?`<i class="sinit">${IC.bolt}</i>`:''}</span>
+   ${P.out?'<span class="souttag">OUT</span>':`<span class="sstats"><span data-k="hp" class="${bump(q,'hp').trim()}">${IC.hp}${P.hp}</span><span data-k="shards" class="${bump(q,'shards').trim()}">${IC.shard}${P.shards}</span><span data-k="mana" class="${bump(q,'mana').trim()}">${IC.mana}${P.mana}</span><span data-k="power">T${ROM[P.tier]}</span></span>`}</span></button>`;}
+  return `<div class="seats">${h}</div><div class="tools"><button class="chip" data-a="menu">Menu</button></div>`;}
+function xtra(p){
+  const P=S.pl[p],row=(k,n,m)=>`<span class="tokrow">${Array.from({length:m},(_,i)=>`<i class="tk ci-tk_${k} ${i<n?'':'off'}"></i>`).join('')}</span>`;let h='';
+  if(P.rb)h=`<span data-k="energy" class="stat" title="Blast Tokens (his Blast Score)">Blast ${row('blast',P.blast,6)}</span><span class="rbult" title="Ultimate cards: one face-up, one face-down">${P.ultUp?`<button class="card ci-${P.ultUp.id}" data-a="rbup" data-p="${p}" aria-label="${esc(CARDS[P.ultUp.id].n)}"></button>`:''}${P.ultDown?'<i class="card back ci-back"></i>':''}</span>`;
+  if(P.wiz==='croh')h=`<span data-k="doom" class="stat${bump(p,'doom')}" title="DOOM Tokens">DOOM ${row('doom',P.doom,4)}</span>`;
+  if(P.wiz==='may')h=`<span data-k="energy" class="stat${bump(p,'energy')}" title="Energy Tokens">Energy ${row('energy',P.energy,3)}</span>`;
+  if(P.wiz==='abragail')h=`<button class="chip" data-a="journal" data-p="${p}">${tk('research')} Journal ${P.research.filter(Boolean).length}/6</button>`;
+  if(P.wiz==='oren')h=`<span class="stat" title="Chemistry Board Elements">${tk('chemF')}${P.chem.F} ${tk('chemE')}${P.chem.E} ${tk('chemW')}${P.chem.W}</span>`;
+  if(P.wiz==='omar'){const T=P.trap;const vis=T&&(p===0||T.used);h=`<button class="chip" data-a="traps" data-p="${p}">Traps: ${T?(vis?esc(TRAPS[T.id].n)+(T.used?' (used)':''):'one set face-down'):'none set'}</button>`;}
+  return h?`<div class="xtra">${h}</div>`:'';
+}
+function cloudHTML(){
+  const g=pending&&pending.req.k==='gain'?pending.req:null;
+  const row=S.cloud.map((c,i)=>{if(!c)return '<div class="slot">empty</div>';let cls=g?(g.slots.includes(i)?'elig':'inel'):'';const inc=INC[c.u];if(inc){const d=performance.now()-inc;if(d<0)cls+=' pend';else if(d<520)cls+=' arrive';}return card(c,cls,`data-a="cloud" data-i="${i}"`);}).join('');
+  const top=S.dragons[S.dragons.length-1];
+  return `<div class="lbl">Storm Cloud</div><div class="crow">${row}</div><div class="cfoot">
+   <span class="chip" title="Spellstorm Deck">Deck ${S.sdeck.length}</span><button class="chip" data-a="void">VOID ${S.void.length}</button>
+   <span class="chip">ICE ${S.special.ice}</span><span class="chip">ASH ${S.special.ash}</span><span class="chip">CURSE ${S.special.curse}</span>
+   ${top?`<button class="chip drag" data-a="dragon"><i class="card ci-${top.id}"></i>Dragons ${S.dragons.length}</button>`:'<span class="chip">Dragons 0</span>'}</div>`;
+}
+function arenaHTML(){
+  const w=S.wcur;
+  const wx=w?`<button class="wcard ci-w_${w}${on('wflip')?' flip':''}" data-a="weather" aria-label="${esc(WEATHER[w].n)}"></button>`
+    :`<div class="slot" style="aspect-ratio:1050/750;width:auto;height:calc(var(--cw)*1.4)">Weather deck<br>${S.wdeck.length} cards</div>`;
+  const shop=S.phase==='regroup'||S.phase==='gain';const last=!shop&&S.battle&&S.round===4;const rnd=shop?'Regroup':S.battle?`Round ${S.round} of 4`:'Game start';
+  const sd=p=>{const c=S.slot[p];const el=c&&CARDS[c.id].el;let cls='';
+    if(c&&on('won')&&FX.wonP===p)cls+=' won';if(c&&on('won')&&S.pl.length===2&&S.slot[1-p])cls+=FX.wonP===p?' bump':' recoil';if(c&&S.resolving===p)cls+=' resolving';
+    if(!c)return `<div class="slot">${p?'Waiting':'Your card'}</div>`;
+    if(c&&S.pl.length>2&&FX.ctr){const nw=performance.now();if(FX.ctr.some(x=>x.p===p&&nw<x.until))cls+=' cpop';if(FX.ctr.some(x=>x.t===p&&nw<x.until))cls+=' cshake';}
+    if(p!==0&&!S.revealed)return '<i class="card back ci-back"></i>';
+    if(S.pl[p].rb&&S.rbMore&&S.rbMore[p]&&S.rbMore[p].length){const x=S.rbMore[p][S.rbMore[p].length-1];return `<span class="rbstack">${card(c,'rbjunk',`data-a="slot" data-p="${p}"`)}${card(x,cls,`data-a="rbx" data-u="${x.u}"`)}</span>`;}
+    return card(c,(p!==0&&on('flip')?'flip':'')+cls,`data-a="slot" data-p="${p}" style="--elc:${ELC[el]};--bd:${FX.wonP===1?1:-1}"`);};
+  const pot=S.potionShow?`<div class="side"><span class="lbl">Potion</span><div class="potion ci-pot_${S.potionShow}" role="img" aria-label="${esc(POTIONS[S.potionShow].n)}"></div></div>`:'';
+  return `${pot}<div class="wx"><div class="rnd ${last?'last':''}">${rnd}${last?'<small>(Last round!)</small>':''}</div>${wx}</div>
+   ${S.pl.length>2?ffaTable(sd)
+   :`<div class="duel"><div class="side"><span class="lbl">${esc(WIZ[S.pl[1].wiz].short)}</span>${sd(1)}</div><span class="cwheel ci-cwheel" role="img" aria-label="Fire beats Earth, Earth beats Water, Water beats Fire" title="Fire beats Earth · Earth beats Water · Water beats Fire"></span><div class="side"><span class="lbl">You</span>${sd(0)}</div></div>`}`;
+}
+function handHTML(){
+  const pl=pending&&pending.req.k==='play';
+  const lk=tutLock();return S.pl[0].hand.map(c=>{const d=CARDS[c.id];return card(c,d.junk?'dead':(pl&&(!lk||c.id===lk)?'can':''),`data-a="hand" data-u="${c.u}"`);}).join('')||'<div class="lbl" style="align-self:center">Your hand is empty</div>';
+}
+function promptHTML(){
+  const el=$('#prompt');el.classList.toggle('ask',!!pending);el.classList.toggle('waiting',!pending);
+  if(!pending&&S.pl[0].out&&!S.over)return '<div class="q">You’ve been eliminated. '+(S.team?'Your team plays on…':'The match plays on…')+'</div><button class="btn alt" data-a="totitle">Leave match</button>';
+  if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?`${esc(WIZ[S.pl[1].wiz].short)} is choosing a card…`:esc(last?last.m:'')}</div>`;}
+  const r=pending.req;
+  switch(r.k){
+    case 'play':return `<div class="q">Choose a card to play face-down.</div>`;
+    case 'yn':{const m=r.q.match(/^(.*?)\s*\((.*)\)\s*$/s);if(m)return `<div class="q">${esc(m[1])}<small class="clamp">${esc(m[2])}</small></div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>`;}return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>`;
+    case 'player':if(S.pl.length>2){const os=r.opps||[...S.pl.keys()].filter(q=>!S.pl[q].out);return `<div class="q">${esc(r.q)}</div>${os.map((q,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${q}">${q===0?'Yourself':esc(WIZ[S.pl[q].wiz].short)}</button>`).join('')}`;}return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="ans" data-v="1">${esc(WIZ[S.pl[1].wiz].short)} (opponent)</button><button class="btn alt" data-a="ans" data-v="0">Yourself</button>`;
+    case 'opt':if(r.opts.length>3&&!r.trap)return `<div class="q">${esc(r.q.split(':')[0])}</div><button class="btn" data-a="openopt">Choose…</button>`;if(r.trap)return `<div class="q">Hidden Movement: set a Trap.</div><button class="btn" data-a="opentrap">Choose a Trap</button>`;return `<div class="q">${esc(r.q)}</div>${r.opts.map((o,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${i}" ${r.dis&&r.dis[i]?'disabled':''}>${esc(o)}</button>`).join('')}`;
+    case 'gain':{const sp=r.special?`<span class="spbtns"><span class="lbl">${r.slots.length?'Or take:':'Take:'}</span>${(r.specials||['ice','ash','curse']).map(t=>`<button class="btn alt sm" data-a="sp" data-v="${t}" title="${S.special[t]?S.special[t]+' left':'None left: the board effect applies'}">${CARDS[t].n}</button>`).join('')}</span>`:'';
+      const hint=r.special?'':(r.slots.length?'Tap a highlighted Storm Cloud card.':'');
+      const regroup=S.phase==='gain';const qq=r.special?(regroup?(r.slots.length?'Gain Spell: tap a highlighted Storm Cloud card.':'Gain Spell: no Storm Cloud card is at your Tier.'):(r.slots.length?r.q:'No Storm Cloud card is at your Tier. You can take a special card.')):r.q;
+      return `<div class="q">${esc(qq)}${hint?`<small>${hint}</small>`:''}</div>${sp}${r.optional?'<button class="btn alt" data-a="ans" data-v="-1">Skip</button>':''}`;}
+    case 'pick':return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="openpick">Choose cards</button>`;
+  }
+  return '';
+}
+function render(){
+  if(!S)return;
+  trackBumps();
+  document.body.classList.toggle('shop',S.phase==='regroup'||S.phase==='gain');
+  const opp=$('#opp'),me=$('#me');
+  const MP=S.pl.length>2;$('#app').classList.toggle('multi',MP);opp.classList.toggle('pp',!MP);setH(opp,MP?seatsHTML():panel(1));setH(me,panel(0));
+  opp.classList.toggle('ultglow',on('ult1'));me.classList.toggle('ultglow',on('ult0'));
+  setH($('#cloud'),cloudHTML());setH($('#arena'),arenaHTML());setH($('#hand'),handHTML());setH($('#prompt'),promptHTML());
+  const bl=$('#blast');if(S.blast){bl.classList.add('show');setH(bl,blastHTML());}else bl.classList.remove('show');
+  fitArena();layoutHand();animHand();animCloud();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
+  document.body.classList.toggle('ceremony',!!S.blast);
+  const po=$('#potov');const showPot=S.potion&&!(pending&&!pending.req.potion);if(showPot){po.classList.add('show');setH(po,potionHTML());}else po.classList.remove('show');
+}
+function renderLog(){
+  const h=logs.map(l=>`<li class="${l.c||''}">${esc(l.m)}</li>`).join('');
+  const L=$('#log');setH(L,h);L.scrollTop=L.scrollHeight;
+  const M=$('#logm');if(M){setH(M,h);M.scrollTop=M.scrollHeight;}
+}
+let toastT;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
+function fx(t,p){const n=performance.now();if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+  if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='hit')SFX.play('hit');if(t==='ult')SFX.play('ult');
+  if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
+  render();setTimeout(render,1500);}
+const io={sim:false,
+  log(m,c){logs.push({m,c});if(logs.length>400)logs.shift();renderLog();if((c==='big'||c==='shard')&&!(S&&S.blast))toast(m);},
+  render,pause:ms=>sleep(ms),fx,
+  async decide(g,p,req){
+    if(p!==0){
+      if(req.k==='play'&&g.S.tutorial&&g.S.battle===1&&g.S.round===1){const bl=g.S.pl[1].hand.find(c=>c.id==='block');if(bl){await sleep(600);SFX.play('card');return bl;}}
+      if(req.k==='play'){thinking=true;render();const [c]=await Promise.all([aiChoosePlay(g.S,p),sleep(700)]);thinking=false;SFX.play('card');return c;}
+      await sleep(350);if(req.k==='yn'&&req.ult)return await ultDecide(g.S,p,req.free);return cpuDecideX(g,p,req);
+    }
+    return new Promise(res=>{pending={req,res};sel=[];render();if(req.k==='pick')openPick();else if(req.trap)trapSheet(0,req);else if(req.k==='opt'&&req.opts.length>3)optSheet(req);else if(req.k==='gain'&&!req.slots.length&&!req.special)answer(-1);});
+  }};
+function makeIO(id){return {sim:false,
+  log(m,c){if(id===gameId)io.log(m,c);},ev(t,p,x){if(id===gameId)track(t,p,x);},render(){if(id===gameId)render();},pause:ms=>sleep(ms),fx(t,p){if(id===gameId)fx(t,p);},
+  decide(g,p,req){if(id!==gameId)return new Promise(()=>{});return io.decide(g,p,req);},
+  checkpoint(){if(id===gameId)saveGame();},
+  tut(st){if(id!==gameId)return new Promise(()=>{});return tutStage(st);},
+  ack(k){if(id!==gameId)return new Promise(()=>{});return new Promise(res=>{ACK={k,res};render();setTimeout(()=>{const b=document.querySelector('[data-a=ack]');if(b)b.focus();},60);});}};}
+let ACK=null;
+function answer(v){const p=pending;pending=null;closeOv();render();p.res(v);}
+
+// ---------- overlays ----------
+function openOv(h){$('#sheet').classList.remove('wide');setH($('#sheet'),h);$('#ov').classList.add('show');const b=$('#sheet button');if(b)b.focus();}
+function closeOv(){$('#ov').classList.remove('show');$('#sheet')._h=null;}
+function preview(c,acts=''){
+  const d=CARDS[c.id];const tierNote=d.t&&d.t<=3?`Tier ${ROM[d.t]}`:(d.t===4?'Tier IV Dragon':'Special card');
+  openOv(`<div class="bigcard ci-${c.id}" role="img" aria-label="${esc(d.n)}"></div><div class="lbl" style="margin-top:6px">${esc(d.n)}, ${ELN[d.el]}, ${tierNote}${d.disc?', has a discard effect':''}</div><div class="acts">${acts}<button class="btn alt" data-a="close">Close</button></div>`);
+}
+function openPick(){
+  const r=pending.req;const own=r.owner;
+  const items=r.items.map((c,i)=>`<div class="tc">${card(c,sel.includes(i)?'picked':'',`data-a="tog" data-i="${i}"`)}${own?`<span class="own">${esc(own(c))}</span>`:''}<button class="zoom" data-a="zoomi" data-i="${i}">Read</button></div>`).join('');
+  const n=sel.length,ok=n>=r.min&&n<=r.max;
+  const need=r.min===r.max?`Select ${r.min}.`:`Select ${r.min?r.min+' to ':'up to '}${r.max}.`;
+  openOv(`<h2>${esc(r.q)}</h2><p class="lbl" style="text-align:left">${need} Selected: ${n}</p><div class="grid">${items}</div><div class="acts"><button class="btn" data-a="pickok" ${ok?'':'disabled'}>${n||r.min?'Confirm':'Confirm none'}</button></div>`);
+}
+function showPile(p,z){
+  const P=S.pl[p];const who=p?WIZ[P.wiz].short+'’s':'Your';
+  if(z==='deck'){openOv(`<h2>${who} deck</h2><p>${P.deck.length} cards, face-down. Cards in a deck stay hidden until drawn.</p><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  showList(`${who} discard pile`,P.discard);
+}
+function showList(t,list){openOv(`<h2>${esc(t)}</h2>${list.length?`<div class="grid">${list.map((c,i)=>card(c,'',`data-a="zoomc" data-u="${c.u}"`)).join('')}</div>`:'<p>Empty.</p>'}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
+  showList.cur=list;}
+function wizCard(w){const W=WIZ[w];openOv(`<div class="bigwiz ci-wz_${w}" role="img" aria-label="${esc(W.n)}"></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
+function rules(){openOv(`<div class="rules"><h2>How a game goes</h2>
+<p>Each battle has four rounds. Every round a Weather card flips and affects both wizards, then you each play one card face-down. Cards reveal together; if your card’s element counters theirs (Fire beats Earth, Earth beats Water, Water beats Fire) you draw a card. Cards then resolve, Initiative holder first.</p>
+<h3>Regroup</h3><p>After four rounds, cards with discard effects in your hand trigger, then the rest of your hand is your Blast Score. Higher score gains 2 Storm Shards; a tie gives each 1. ICE discarded here is −1 Blast Score. Then each wizard gains a Storm Cloud card at or below their Tier and draws up to 3.</p>
+<h3>Resources</h3><p>Mana pays for your Ultimate, offered whenever you resolve a card with the Ultimate icon. Power fills a 6-step track; overflowing raises your Tier (I to III), and at Tier III it lets you take a Dragon.</p>
+<h3>Winning</h3><p>Reach 8 Storm Shards, or bring your opponent to 0 health.</p>
+<h3>Free-for-All (3–4 players)</h3><p>Everyone starts with 2 Storm Shards. Damage and “give” effects hit every opponent. You counter the next player clockwise, shown by the arrows on the table. A wizard at 0 health is eliminated and their cards go to the VOID. The last wizard standing, or the first to 8 Storm Shards, wins. In a Blast, the single highest score gains 2 Shards; tied highest scores gain 1 each.</p>
+<h3>Co-op vs Robot Boy and Two-on-Two</h3><p>You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next <i>opponent</i> clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.</p></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
+function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
+<p>Layout</p><div class="acts" style="justify-content:flex-start"><button class="btn ${$('#app').classList.contains('phone')?'':'alt'}" data-a="phone">Phone view ${$('#app').classList.contains('phone')?'on':'off'}</button><button class="btn alt" data-a="rules">Rules</button></div>
+<div class="acts"><button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
+const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v10c0 10-6 17-14 18-8-1-14-8-14-18z" fill="currentColor"/><path d="M18 12H8c0 9 5 14 11 15M46 12h10c0 9-5 14-11 15" fill="none" stroke="currentColor" stroke-width="4"/><rect x="28" y="36" width="8" height="10" fill="currentColor"/><rect x="19" y="46" width="26" height="8" rx="2" fill="currentColor"/></svg>';
+function showEnd(r,fresh=[]){
+  const w=r.winner,W=WIZ[S.pl[w].wiz],T=TOURRES,why=r.why==='shards'?'by collecting 8 Storm Shards':r.why==='health'?'by bringing their rival to 0 health':'on the tiebreak';
+  let head=`<h2 style="font-size:2rem">${S.team?(S.team[w]===S.team[0]?'Your team wins!':(S.mode==='coop'?'Robot Boy wins':'The other team wins')):w===0?'You win!':esc(W.short)+' wins'}</h2>`;
+  if(T){if(T.kind==='win')head=`<div class="tourhead"><span class="tourbig">OPPONENT ${T.n}/7 DEFEATED!</span><span>Next up: <b>${esc(RNAME[T.next])}</b>. Your progress is saved.</span></div>`;
+    else if(T.kind==='champ')head=`<div class="tourhead champ">${TROPHY}<span class="tourbig">TOURNAMENT CHAMPION!</span><span>You beat all 7 opponents on ${DNAME[T.diff]}. Your trophy is on the Stats screen.</span></div>`;
+    else head=`<div class="tourhead lose"><span class="tourbig">TOURNAMENT OVER</span><span>${esc(WIZ[S.pl[1].wiz].n)} ended your run. You defeated ${T.n} of 7 opponents.</span></div>`;}
+  openOv(`${head}<p>${w===0?'You':esc(W.n)} won ${why} after ${S.battle} battle${S.battle>1?'s':''}.</p>
+  <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${DNAME[S.diff]} difficulty${T?', Tournament Mode':''}.</p>
+  ${fresh.length?`<h2 style="font-size:1.1rem;margin-top:10px">Achievements unlocked</h2><div class="newach">${fresh.map(a=>`<span>${esc(a.n)}</span>`).join('')}</div>`:''}
+  <div class="acts">${T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
+}
+
+// ---------- events ----------
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]');
+  if(!b){if(e.target.id==='ov')closeOv();return;}
+  const a=b.dataset.a;
+  if(a==='close'){closeOv();if(pending&&pending.req.k==='pick'){}return;}
+  if(a==='ans'){if(pending)answer(pending.req.k==='yn'?b.dataset.v==='1':pending.req.k==='player'?+b.dataset.v:+b.dataset.v);return;}
+  if(a==='sp'){if(pending)answer(b.dataset.v);return;}
+  if(a==='hand'){const c=S.pl[0].hand.find(x=>x.u==b.dataset.u);if(!c)return;const lock=tutLock();const can=pending&&pending.req.k==='play'&&!CARDS[c.id].junk&&(!lock||c.id===lock);if(lock&&pending&&pending.req.k==='play'&&c.id!==lock)toast('For this tutorial round, play Power Gem.');
+    preview(c,can?`<button class="btn" data-a="play" data-u="${c.u}">Play face-down</button>`:'');return;}
+  if(a==='play'){const c=S.pl[0].hand.find(x=>x.u==b.dataset.u);if(c&&pending&&pending.req.k==='play'&&(!tutLock()||c.id===tutLock())){SFX.play('card');answer(c);}return;}
+  if(a==='cloud'){const i=+b.dataset.i,c=S.cloud[i];const g=pending&&pending.req.k==='gain'&&pending.req.slots.includes(i);
+    preview(c,g?`<button class="btn" data-a="take" data-i="${i}">${esc(pending.req.verb||'Gain')} ${esc(CARDS[c.id].n)}</button>`:(pending&&pending.req.k==='gain'?'':''));return;}
+  if(a==='take'){if(pending&&pending.req.k==='gain')answer(+b.dataset.i);return;}
+  if(a==='slot'){preview(S.slot[+b.dataset.p]);return;}
+  if(a==='weather'){openOv(`<div class="bigw ci-w_${S.wcur}" role="img" aria-label="${esc(WEATHER[S.wcur].n)}"></div><p style="text-align:center">${esc(WEATHER_TEXT[S.wcur])}</p><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(a==='dragon'){const t=S.dragons[S.dragons.length-1];if(t)preview(t);return;}
+  if(a==='void'){showList('The VOID',S.void);return;}
+  if(a==='pile'){showPile(+b.dataset.p,b.dataset.z);return;}
+  if(a==='zoomc'){const c=(showList.cur||[]).find(x=>x.u==b.dataset.u);if(c){const back=showList.cur;preview(c);}return;}
+  if(a==='wiz'){wizCard(S.pl[+b.dataset.p].wiz);return;}
+  if(a==='log'){openOv(`<h2>Battle log</h2><ol class="log" id="logm" style="max-height:60vh"></ol><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);renderLog();return;}
+  if(a==='journal'){const P=S.pl[+b.dataset.p];openOv(`<h2>${p0(b)} Journal</h2><div class="bigwiz ci-journal" style="width:min(80vw,40vh*0.652,300px)"></div><ul class="jl">${JOURNAL.map((j,i)=>`<li class="${P.research[i]?'on':''}">${P.research[i]?tk('research'):''}${esc(j)}</li>`).join('')}</ul><p class="lbl" style="text-align:left">Highlighted powers activate at the start of every battle.</p><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(a==='trap'){const T=S.pl[+b.dataset.p].trap;if(T)openOv(`<div class="bigcard ci-${TRAPS[T.id].img}"></div><p style="text-align:center">${T.used?'Used — inactive until the next Hidden Movement.':'Armed. '+esc(TRAPS[T.id].trig)}</p><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(a==='t_play'){$('#title').style.display='none';showStart();return;}
+  if(a==='t_opts'){optionsSheet();return;}
+  if(a==='t_stats'){statsTab='rec';statsSheet();return;}
+  if(a==='t_exit'){exitGame();return;}
+  if(a==='totitle'){closeOv();showTitle();return;}
+  if(a==='stab'){statsTab=b.dataset.v;statsSheet();return;}
+  if(a==='sdiff'){statsDiff=b.dataset.v;statsSheet();return;}
+  if(a==='setdiff'){if(OPT.tour&&loadProf().tour)return;if(OPT.mode==='coop'||((OPT.mode||'duel')==='duel'&&pickSel.opp==='robot'&&!rnd.opp&&!OPT.tour))OPT.rbdiff=b.dataset.v;else OPT.diff=b.dataset.v;saveOpt();drawSelect();return;}
+  if(a==='opt'){OPT[b.dataset.k]=(b.dataset.k==='speed'||b.dataset.k==='vol')?+b.dataset.v:b.dataset.v;if(b.dataset.k==='vol'){SFX.init();setTimeout(()=>SFX.play('shard'),30);}saveOpt();applyOpt();optionsSheet();return;}
+  if(a==='optphone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));settle();optionsSheet();return;}
+  if(a==='reset1'){optionsSheet(true);return;}
+  if(a==='reset2'){try{localStorage.removeItem(PKEY);}catch(e){}optionsSheet();toast('Progress reset');return;}
+  if(a==='traps'){trapSheet(+b.dataset.p);return;}
+  if(a==='opentrap'){if(pending&&pending.req.trap)trapSheet(0,pending.req);return;}
+  if(a==='trappick'){if(pending&&pending.req.trap)answer(+b.dataset.i);return;}
+  if(a==='abandon'){const T=loadProf().tour;openOv(`<h2>Abandon tournament?</h2><p>Your progress (${T?T.wins:0}/7 as ${T?RNAME[T.me]:''}) will be lost.</p><div class="acts"><button class="btn" data-a="abandon2" style="background:var(--hp)">Abandon</button><button class="btn alt" data-a="close">Keep going</button></div>`);return;}
+  if(a==='abandon2'){const P=loadProf();P.tour=null;saveProf(P);closeOv();drawSelect();return;}
+  if(a==='bskip'){if(S&&S.blast){S.blastSkip=true;render();}return;}
+  if(a==='ack'){const k=ACK;ACK=null;if(k){k.res();render();}return;}
+  if(a==='openopt'){if(pending&&pending.req.k==='opt')optSheet(pending.req);return;}
+  if(a==='exittour'){const T=loadProf().tour;openOv(`<h2>Exit tournament?</h2><p>This ends your tournament run (${T?T.wins:0}/7 as ${T?RNAME[T.me]:''}). You can start a new one any time.</p><div class="acts"><button class="btn" data-a="abandon2" style="background:var(--hp)">Exit tournament</button><button class="btn alt" data-a="close">Keep going</button></div>`);return;}
+  if(a==='wipe1'){openOv(`<h2>Wipe all data?</h2><p>This permanently erases your stats, all achievements, tournament trophies, any tournament in progress, and your settings on this device.</p><div class="acts"><button class="btn" data-a="wipe2" style="background:var(--hp)">Wipe everything</button><button class="btn alt" data-a="t_opts">Cancel</button></div>`);return;}
+  if(a==='wipe2'){try{localStorage.removeItem(PKEY);localStorage.removeItem(OKEY);}catch(e){}OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};applyOpt();pickSel={me:'derby',opp:'eve'};rnd={me:false,opp:false};closeOv();toast('All data wiped');if($('#start').style.display!=='none')drawSelect();return;}
+  if(a==='t_cont'){const sv=loadSave();if(sv)begin(null,null,{resume:sv});return;}
+  if(a==='tutstart'){closeOv();begin('derby','eve',{tutorial:true,diff:'easy'});return;}
+  if(a==='tutnext'){tutNext();return;}
+  if(a==='tutgot'){(TUT.seen=TUT.seen||{})[b.dataset.id]=1;render();return;}
+  if(a==='tutskip'){TUT.off=true;if(S)S.tutorial=false;const r=TUT.res;TUT.step=null;TUT.res=null;render();if(r)r();return;}
+  if(a==='t_lib'){LIB.tab=LIB.tab||'cloud';libSheet();return;}
+  if(a==='libtab'){LIB.tab=b.dataset.v;LIB.el='all';libSheet();return;}
+  if(a==='libel'){LIB.el=b.dataset.v;libSheet();return;}
+  if(a==='libcard'){preview({id:b.dataset.id},'<button class="btn" data-a="libback">Back to library</button>');return;}
+  if(a==='libw'){openOv(`<div class="bigw ci-w_${b.dataset.id}"></div><p style="text-align:center"><b>${esc(WEATHER[b.dataset.id].n)}</b>: ${esc(WEATHER_TEXT[b.dataset.id])}</p><div class="acts"><button class="btn" data-a="libback">Back to library</button><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(a==='libimg'){openOv(`<div class="${b.dataset.big||'bigcard'} ci-${b.dataset.img}"></div><div class="acts"><button class="btn" data-a="libback">Back to library</button><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(a==='libwiz'){openOv(`<div class="bigwiz ci-wz_${b.dataset.w}"></div><div class="acts"><button class="btn" data-a="libback">Back to library</button><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(a==='libback'){libSheet();return;}
+  if(a==='rbx'){const x=(S.rbMore||[]).flat().find(c=>c.u==b.dataset.u);if(x)preview(x);return;}
+  if(a==='rbup'){const P=S.pl[+b.dataset.p];if(P.ultUp)preview(P.ultUp);return;}
+  if(a==='seat'){const q=+b.dataset.p;openOv(`<div class="pp seatfull">${panel(q)}</div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(a==='setnp'){OPT.np=+b.dataset.v;saveOpt();drawSelect();return;}
+  if(a==='setmode'){OPT.mode=b.dataset.v;saveOpt();drawSelect();return;}
+  if(a==='setcoopn'){OPT.coopN=+b.dataset.v;saveOpt();drawSelect();return;}
+  if(a==='rules'){rules();return;}
+  if(a==='menu'){menu();return;}
+  if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
+  if(a==='phone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));menu();return;}
+  if(a==='openpick'){openPick();return;}
+  if(a==='tog'){const i=+b.dataset.i,r=pending.req,k=sel.indexOf(i);if(k>=0)sel.splice(k,1);else{if(r.max===1)sel=[i];else if(sel.length<r.max)sel.push(i);}openPick();return;}
+  if(a==='zoomi'){const c=pending.req.items[+b.dataset.i];preview(c,`<button class="btn" data-a="openpick">Back to choices</button>`);return;}
+  if(a==='pickok'){const r=pending.req;if(sel.length<r.min||sel.length>r.max)return;answer(sel.map(i=>r.items[i]));return;}
+  if(a==='again'){closeOv();launch();return;}
+  if(a==='restart'){closeOv();showStart();return;}
+  if(a==='tile'){const w=b.dataset.w,r=b.dataset.r;if(r==='opp'&&(OPT.mode||'duel')!=='duel'){const need=selNeed();const L=pickSel.opps=(pickSel.opps||[]).filter(x=>x!==pickSel.me);const i=L.indexOf(w);if(i>=0)L.splice(i,1);else{L.push(w);while(L.length>need)L.shift();}}else{pickSel[r]=w;if(r==='me'&&pickSel.opps)pickSel.opps=pickSel.opps.filter(x=>x!==w);}drawSelect();return;}
+  if(a==='readwiz'){wizCard(b.dataset.w);return;}
+  if(a==='launch'){launch();return;}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#ov').classList.contains('show')&&!(pending&&pending.req.k==='pick'&&false))closeOv();});
+
+// ---------- game lifecycle ----------
+let gameId=0;
+const ROSTER=['derby','eve','abragail','may','omar','bunny','oren','croh'];
+const RNAME={robot:'Robot Boy',derby:'Derby Pocket',eve:'Eve Williams',abragail:'Abragail',croh:'Croh Vosh',omar:'Omar Evans',bunny:'Bunny Wizard',oren:'Oren Bark',may:'May Danaris'};
+const BLURB={robot:'Single-player opponent from the rulebook: no hand, Blast Tokens instead, and an automatic Ultimate. Easy, Medium or Hard sets his starting Power.',derby:'Fire & Earth. Strong early aggression, builds power steadily. Great first pick.',eve:'Fire & Water. Aggressive saboteur who clogs your deck with ICE and CURSE.',
+ abragail:'Water & Earth. Researches new powers every time she levels up.',croh:'Fire & Water. Huge health, can’t heal, grows stronger with DOOM.',omar:'Fire & Water. Low health, lots of blocking and hidden traps.',
+ bunny:'Water & Earth. Tiny health, heals fast and past his limit.',oren:'Fire & Earth. Pushes his luck with a volatile potion deck.',may:'Fire & Earth. Hacker who steals plays with Energy.'};
+let pickSel={me:'derby',opp:'eve'},rnd={me:false,opp:false};
+const avail=w=>!!WIZ[w];
+function tourOrder(me){return ROSTER.filter(w=>w!==me);}
+function drawSelect(){
+  const mode=OPT.mode||'duel',np=mode==='duel'?2:mode==='ffa'?(OPT.np>2?OPT.np:4):mode==='coop'?(OPT.coopN||3):4,MPs=mode!=='duel';pickSel.opps=pickSel.opps||[];
+  const P=loadProf(),T=P.tour,tm=!!OPT.tour&&!MPs,lock=tm&&!!T,rndMe=rnd.me&&!lock;
+  const meSel=lock?T.me:pickSel.me,order=tm?tourOrder(meSel):[],wins=lock?T.wins:0,next=tm&&!rndMe?order[wins]:null;
+  const tile=(r,w,dis,pressed,badge,cls)=>`<button class="tile${cls?' '+cls:''}" data-a="tile" data-r="${r}" data-w="${w}" aria-pressed="${pressed}" ${dis?'disabled':''}>${badge?`<span class="tnum">${badge}</span>`:''}<i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`;
+  const meTiles=ROSTER.map(w=>lock?tile('me',w,w!==T.me,w===T.me,'',''):tile('me',w,!tm&&!rnd.opp&&pickSel.opp===w,pickSel.me===w&&!rnd.me,'','')).join('');
+  const oppTiles=MPs?ROSTER.map(w=>{const i=pickSel.opps.indexOf(w),on=i>=0&&!rnd.opp;return tile('opp',w,w===meSel&&!rnd.me,on,on&&mode==='2v2'?(i===0?'Ally':'Opp'):on&&mode==='coop'?'Ally':'','');}).join(''):ROSTER.map(w=>{if(tm){if(rndMe)return tile('opp',w,true,false,'','tour');const i=order.indexOf(w);if(i<0)return tile('opp',w,true,false,'','tour you');const beaten=i<wins;
+      return tile('opp',w,true,w===next,`${i+1}${beaten?' ✓':''}`,'tour'+(beaten?' beaten':''));}
+    return tile('opp',w,!rnd.me&&pickSel.me===w,pickSel.opp===w&&!rnd.opp,'','');}).join('')+(tm?'':tile('opp','robot',false,pickSel.opp==='robot'&&!rnd.opp,'','rbtile'));
+  const meHead=`<h2>Your wizard${lock?'':`<label><input type="checkbox" data-r="me" ${rnd.me?'checked':''}> Random player character</label>`}</h2>${lock?`<p class="lbl tl">Tournament in progress as <b>${RNAME[T.me]}</b> on ${DNAME[T.diff]}. <button class="chip" data-a="exittour">Exit tournament</button></p>`:''}`;
+  const oppHead=MPs?`<h2>${mode==='coop'?`Allies <span class="lbl">(pick ${np-1})</span>`:mode==='2v2'?'Ally and opponents <span class="lbl">(pick 3: your first pick is your ally)</span>':`Opponents <span class="lbl">(pick ${np-1})</span>`}<label><input type="checkbox" data-r="opp" ${rnd.opp?'checked':''}> Random</label></h2>`:`<h2>Opponent<label class="${tm?'off':''}"><input type="checkbox" data-r="opp" ${rnd.opp&&!tm?'checked':''} ${tm?'disabled':''}> Random opponent</label><label><input type="checkbox" data-t="tour" ${tm?'checked':''}> Tournament Mode${T?` (${T.wins}/7 Wins)`:''}</label></h2>`;
+  const cur=w=>WIZ[w]?`<p><b>${esc(WIZ[w].n)}</b> — ${esc(BLURB[w])} <button class="chip" data-a="readwiz" data-w="${w}">Read card</button></p>`:'';
+  const info=mode==='coop'?`<p><b>Co-op vs Robot Boy, ${np} players:</b> you and ${np-1===1?'an ally':(np-1)+' allies'} take on Robot Boy together. You only damage and give ICE, ASH and CURSE to him, and when you heal you may heal an ally instead. If anyone on your team wins, your whole team wins, and the team plays on if someone is eliminated.</p>${cur(pickSel.me)}`
+    :mode==='2v2'?`<p><b>Two-on-Two:</b> you and an ally against two opponents, seated alternately. You only damage your opponents, you may heal your ally instead of yourself, and if either of you wins, you both win. Each player counters the next opponent clockwise.</p>${cur(pickSel.me)}`
+    :MPs?`<p><b>Free-for-All, ${np} players:</b> every wizard for themselves. Everyone starts with 2 Storm Shards. A wizard at 0 health is eliminated, and their cards go to the VOID. The last wizard standing, or the first to 8 Storm Shards, wins.</p>${rnd.me?'<p>You’ll get a random wizard.</p>':cur(pickSel.me)}`:tm?`<p><b>Tournament Mode:</b> beat all 7 other wizards in order without losing once. Lose a match and the tournament is over. Progress is saved, so you can play one match at a time.</p><p>${next?`Next opponent: <b>${RNAME[next]}</b> (${wins+1} of 7).`:'Your opponents go in roster order, skipping your own wizard.'}</p>${rndMe?'<p>You’ll get a random wizard for this tournament.</p>':cur(meSel)}`
+    :`${rnd.me?'<p>You’ll get a random wizard.</p>':cur(pickSel.me)}${rnd.opp?'<p>Your opponent will be random.</p>':cur(pickSel.opp)}`;
+  const isRB=mode==='coop'||(!MPs&&!tm&&!rnd.opp&&pickSel.opp==='robot');const dsel=lock?T.diff:isRB?(OPT.rbdiff||'medium'):OPT.diff;
+  const diff=`<div class="row"><h2>Difficulty <span class="seg">${(isRB?['easy','medium','hard']:['easy','normal','hard','expert']).map(d=>`<button data-a="setdiff" data-v="${d}" aria-pressed="${dsel===d}" ${lock?'disabled':''}>${DNAME[d]}</button>`).join('')}</span>${lock?'<span class="lbl">&nbsp;locked for this tournament</span>':''}</h2></div>`;
+  const go=tm?(lock?`Fight ${RNAME[next]}`:'Start the tournament'):'Start the storm';
+  setH($('#picks'),`<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
+   <div class="info">${info}</div>${diff}<div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn alt" data-a="tutstart">Tutorial</button>${T?'<button class="btn alt" data-a="exittour">Exit Tournament</button>':''}<button class="btn" data-a="launch" style="font-size:1.1rem;padding:.7em 2em">${go}</button></div>${loadSave()?'<p class="lbl" style="text-align:center">Starting a new match replaces your saved match in progress.</p>':''}`);
+}
+document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
+function selNeed(){const m=OPT.mode||'duel';return m==='ffa'?(OPT.np>2?OPT.np:4)-1:m==='coop'?(OPT.coopN||3)-1:m==='2v2'?3:1;}
+function launch(){
+  const pool=ROSTER.filter(avail),pickR=a=>a[Math.floor(Math.random()*a.length)];
+  const mode=OPT.mode||'duel';
+  if(mode!=='duel'){const need=selNeed(),me=rnd.me?pickR(pool):pickSel.me;let os=rnd.opp?[]:(pickSel.opps||[]).filter(w=>w!==me).slice(0,need);const rest=pool.filter(w=>w!==me&&!os.includes(w));while(os.length<need)os.push(rest.splice(Math.floor(Math.random()*rest.length),1)[0]);
+    if(mode==='coop')begin(me,null,{coop:os,rb:OPT.rbdiff||'medium'});else if(mode==='2v2')begin(me,null,{tvt:os});else begin(me,null,{multi:os});return;}
+  if(OPT.tour){const P=loadProf();let T=P.tour;if(!T){T=P.tour={me:rnd.me?pickR(pool):pickSel.me,diff:OPT.diff,wins:0};saveProf(P);}
+    begin(T.me,tourOrder(T.me)[T.wins],{tour:true,diff:T.diff});return;}
+  const me=rnd.me?pickR(rnd.opp?pool:pool.filter(w=>w!==pickSel.opp)):pickSel.me;
+  const opp=(rnd.opp||pickSel.opp===me)?pickR(pool.filter(w=>w!==me)):pickSel.opp;
+  if(opp==='robot'){begin(me,'robot',{rb:OPT.rbdiff||'medium'});return;}
+  begin(me,opp);
+}
+/* ---------- options & profile ---------- */
+const PKEY='spellstorm.profile.v1',OKEY='spellstorm.options.v1';
+let OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};try{Object.assign(OPT,JSON.parse(localStorage.getItem(OKEY)||'{}'));}catch(e){}
+function saveOpt(){try{localStorage.setItem(OKEY,JSON.stringify(OPT));}catch(e){}}
+function applyOpt(){speed=OPT.speed;document.body.classList.toggle('cb',OPT.cb==='on');const r=document.documentElement;if(OPT.theme==='auto')delete r.dataset.theme;else r.dataset.theme=OPT.theme;}
+function blankProf(){return {ffa:{g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},tour:null,tbest:{},trophy:{},v:1,games:0,wins:0,streak:0,best:0,hstreak:0,hbest:0,rec:{normal:{},hard:{}},tot:{dmg:0,heal:0,counters:0,ults:0,shards:0},by:{shards:0,health:0},ach:{}};}
+function loadProf(){try{const p=JSON.parse(localStorage.getItem(PKEY)||'null');if(p&&p.v===1)return Object.assign(blankProf(),p);}catch(e){}return blankProf();}
+function saveProf(p){try{localStorage.setItem(PKEY,JSON.stringify(p));}catch(e){}}
+const cell=(P,d,me,op)=>((P.rec[d]||{})[me]||{})[op]||[0,0];
+const DIFFS=['easy','normal','medium','hard','expert'];
+const DNAME={easy:'Easy',normal:'Normal',medium:'Medium',hard:'Hard',expert:'Expert'};
+const dl=d=>d?(d==='hard'?['hard','expert']:[d]):DIFFS;   // 'Hard' achievements also count Expert
+const winsWith=(P,w,d)=>dl(d).reduce((s,x)=>s+ROSTER.reduce((t,o)=>t+cell(P,x,w,o)[0],0),0);
+const beats=(P,o,d)=>dl(d).reduce((s,x)=>s+ROSTER.reduce((t,w)=>t+cell(P,x,w,o)[0],0),0);
+const hardWins=P=>ROSTER.reduce((s,w)=>s+winsWith(P,w,'hard'),0);
+const pairsWon=(P,d)=>{let n=0;for(const w of ROSTER)for(const o of ROSTER)if(w!==o&&dl(d).reduce((s,x)=>s+cell(P,x,w,o)[0],0)>0)n++;return n;};
+/* ---------- per-game tracker ---------- */
+let TR=null;
+function newTR(me,opp,diff){return {me,opp,diff,minHp:WIZ[me].hp,dmg:0,rd:{},maxRd:0,counters:0,ults:0,gains:0,give:0,voids:0,dragons:0,tier:1,unplayable:false,maxBlastWin:0,stitch:0,doom:0,research:0,traps:[],downloads:0,potionsMax:0,yardodd:false,bauble:false,heal:0};}
+function track(t,p,x){if(!TR||!S)return;
+  if(t==='dmg'){if(x.t===0)TR.minHp=Math.min(TR.minHp,S.pl[0].hp);if(p===0&&x.t===1){TR.dmg+=x.d;const k=S.battle+'-'+S.round;TR.rd[k]=(TR.rd[k]||0)+x.d;TR.maxRd=Math.max(TR.maxRd,TR.rd[k]);}return;}
+  if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);return;}
+  if(p!==0)return;
+  switch(t){case 'counter':TR.counters++;break;case 'ult':TR.ults++;break;case 'gain':TR.gains++;break;case 'give':TR.give++;break;case 'void':TR.voids++;break;
+    case 'dragon':TR.dragons++;break;case 'tier':TR.tier=Math.max(TR.tier,x);break;case 'unplayable':TR.unplayable=true;break;case 'heal':TR.heal+=x;break;case 'stitch':TR.stitch+=x;break;
+    case 'doom':TR.doom=Math.max(TR.doom,x);break;case 'research':TR.research=Math.max(TR.research,x);break;case 'trap':if(!TR.traps.includes(x))TR.traps.push(x);break;
+    case 'download':TR.downloads++;break;case 'allyheal':TR.allyHeal=(TR.allyHeal||0)+1;break;case 'potions':if(!x.bust)TR.potionsMax=Math.max(TR.potionsMax,x.n);break;case 'yardodd':TR.yardodd=true;break;case 'bauble':if(x==='curse')TR.bauble=true;break;}}
+/* ---------- achievements (100) ---------- */
+const ACH=[];const A=(id,n,d,ok,prog)=>ACH.push({id,n,d,ok,prog});
+[[1,'First Victory'],[5,'Storm Chaser'],[10,'Seasoned Duelist'],[25,'Spire Regular'],[50,'Archmage'],[100,'Centurion']].forEach(([k,n])=>A('win'+k,n,k===1?'Win a match.':`Win ${k} matches.`,P=>P.wins>=k,P=>[P.wins,k]));
+[[10,'Into the Storm'],[50,'Weathered'],[100,'Storm Veteran'],[500,'Eternal Storm']].forEach(([k,n])=>A('play'+k,n,`Play ${k} matches.`,P=>P.games>=k,P=>[P.games,k]));
+[[1,'Hard Lesson'],[5,'Hardened'],[10,'Iron Will'],[25,'Tempest Tamer']].forEach(([k,n])=>A('hard'+k,n,k===1?'Win a match on Hard.':`Win ${k} matches on Hard.`,P=>hardWins(P)>=k,P=>[hardWins(P),k]));
+const SH={robot:'Robot Boy',derby:'Derby',eve:'Eve',abragail:'Abragail',croh:'Croh',omar:'Omar',bunny:'Bunny',oren:'Oren',may:'May'};
+ROSTER.forEach(w=>A('with_'+w,`${SH[w]}’s First Win`,`Win a match as ${RNAME[w]}.`,P=>winsWith(P,w)>=1));
+ROSTER.forEach(w=>A('withH_'+w,`${SH[w]}, Hardened`,`Win as ${RNAME[w]} on Hard.`,P=>winsWith(P,w,'hard')>=1));
+ROSTER.forEach(w=>A('beat_'+w,`Outwit ${SH[w]}`,`Defeat ${RNAME[w]}.`,P=>beats(P,w)>=1));
+ROSTER.forEach(w=>A('beatH_'+w,`Topple ${SH[w]}`,`Defeat ${RNAME[w]} on Hard.`,P=>beats(P,w,'hard')>=1));
+ROSTER.forEach(w=>A('master_'+w,`${SH[w]} Master`,`Win 10 matches as ${RNAME[w]}.`,P=>winsWith(P,w)>=10,P=>[winsWith(P,w),10]));
+A('allwith','Full Roster','Win a match with every wizard.',P=>ROSTER.every(w=>winsWith(P,w)),P=>[ROSTER.filter(w=>winsWith(P,w)).length,8]);
+A('allbeat','Spire Champion','Defeat every wizard.',P=>ROSTER.every(w=>beats(P,w)),P=>[ROSTER.filter(w=>beats(P,w)).length,8]);
+A('allwithH','Storm Sovereign','Win with every wizard on Hard.',P=>ROSTER.every(w=>winsWith(P,w,'hard')),P=>[ROSTER.filter(w=>winsWith(P,w,'hard')).length,8]);
+A('allbeatH','Eye of the Storm','Beat every wizard on Hard.',P=>ROSTER.every(w=>beats(P,w,'hard')),P=>[ROSTER.filter(w=>beats(P,w,'hard')).length,8]);
+A('matrix','Every Matchup','Win all 56 wizard matchups.',P=>pairsWon(P)>=56,P=>[pairsWon(P),56]);
+A('matrixH','Grand Grimoire','Win all 56 wizard matchups on Hard.',P=>pairsWon(P,'hard')>=56,P=>[pairsWon(P,'hard'),56]);
+A('streak3','Hot Streak','Win 3 matches in a row.',P=>P.best>=3,P=>[Math.min(P.streak,3),3]);
+A('streak5','On Fire','Win 5 matches in a row.',P=>P.best>=5,P=>[Math.min(P.streak,5),5]);
+A('streak10','Unstoppable','Win 10 matches in a row.',P=>P.best>=10,P=>[Math.min(P.streak,10),10]);
+A('hstreak3','Cold Blooded','Win 3 Hard matches in a row.',P=>P.hbest>=3,P=>[Math.min(P.hstreak,3),3]);
+A('shardwin','Shard Collector','Win by collecting 8 Storm Shards.',P=>P.by.shards>=1);
+A('kowin','Knockout','Win by bringing your opponent to 0 health.',P=>P.by.health>=1);
+A('shard10','Shard Hoarder','Win 10 matches by Storm Shards.',P=>P.by.shards>=10,P=>[P.by.shards,10]);
+A('ko10','Heavy Hitter','Win 10 matches by knockout.',P=>P.by.health>=10,P=>[P.by.health,10]);
+A('blitz','Blitz','Win in 3 battles or fewer.',(P,G)=>G.won&&G.battles<=3);
+A('marathon','Marathon','Win a match that lasts 7 or more battles.',(P,G)=>G.won&&G.battles>=7);
+A('clutch','By a Thread','Win with exactly 1 health.',(P,G)=>G.won&&G.hp===1);
+A('comeback','Comeback','Win after dropping to 3 health or less.',(P,G)=>G.won&&G.minHp<=3);
+A('untouched','Untouchable','Win at full health.',(P,G)=>G.won&&G.hp>=G.max);
+A('shutout','Shutout','Win by Storm Shards while your opponent has none.',(P,G)=>G.won&&G.byShards&&G.oppShards===0);
+A('overkill','Overkill','Deal 5 or more damage in a single round.',(P,G)=>G.maxRd>=5);
+A('blaster','Big Blast','Win a Blast with a score of 8 or more.',(P,G)=>G.maxBlastWin>=8);
+A('counterpunch','Counterpunch','Counter 5 times in one match.',(P,G)=>G.counters>=5);
+A('ultimate','Ultimate Power','Use your Ultimate.',(P,G)=>G.ults>=1);
+A('ultx3','Showstopper','Use your Ultimate 3 times in one match.',(P,G)=>G.ults>=3);
+A('tier2','Rising Power','Reach Tier II.',(P,G)=>G.tier>=2);
+A('tier3','Peak Power','Reach Tier III.',(P,G)=>G.tier>=3);
+A('dragon','Dragon Tamer','Gain a Dragon.',(P,G)=>G.dragons>=1);
+A('shopper','Storm Shopper','Gain 10 cards from the Storm Cloud in one match.',(P,G)=>G.gains>=10);
+A('saboteur','Saboteur','Give your opponent 5 ICE, ASH or CURSE in one match.',(P,G)=>G.give>=5);
+A('unplayable','Against the Odds','Win a match in which you had an unplayable hand.',(P,G)=>G.won&&G.unplayable);
+A('perfect','Flawless Storm','Win on Hard at full health.',(P,G)=>G.won&&(G.diff==='hard'||G.diff==='expert')&&G.hp>=G.max);
+A('dmg100','Spellslinger','Deal 100 total damage.',P=>P.tot.dmg>=100,P=>[P.tot.dmg,100]);
+A('dmg1000','Cataclysm','Deal 1,000 total damage.',P=>P.tot.dmg>=1000,P=>[P.tot.dmg,1000]);
+A('heal100','Mender','Heal 100 total health.',P=>P.tot.heal>=100,P=>[P.tot.heal,100]);
+A('counters100','Elemental Scholar','Counter 100 times.',P=>P.tot.counters>=100,P=>[P.tot.counters,100]);
+A('ults50','Signature Move','Use your Ultimate 50 times.',P=>P.tot.ults>=50,P=>[P.tot.ults,50]);
+A('shards100','Shard Magnate','Collect 100 Storm Shards.',P=>P.tot.shards>=100,P=>[P.tot.shards,100]);
+A('scholar','Tenured','As Abragail, place all 6 Research Tokens in one match.',(P,G)=>G.research>=6);
+A('doomed','DOOOOOOOOM','As Croh, hold 4 DOOM Tokens.',(P,G)=>G.doom>=4);
+A('ninja','Unseen Blade','As Omar, reveal all three Traps in one match.',(P,G)=>G.traps.length>=3);
+A('stitch','Triple Stitch','As Bunny, draw cards from wasted healing.',(P,G)=>G.stitch>0);
+A('chemist','Iron Stomach','As Oren, drink 6 potions in one Ultimate without a third TOXIC.',(P,G)=>G.potionsMax>=6);
+A('hacker','Dangerous Download','As May, resolve an opponent’s card with Dangerous Download.',(P,G)=>G.downloads>=1);
+A('overtime','Odd Hours','As Derby, use Flaming Yardstick at odd health.',(P,G)=>G.yardodd);
+A('bauble','Doom Bauble','As Eve, move a CURSE to your opponent with Doom Bauble.',(P,G)=>G.bauble);
+const tb=(P,d)=>Math.max(0,...dl(d).map(x=>(P.tbest||{})[x]||0));
+A('tour1n','Tournament Debut','Defeat your first Tournament opponent on Normal.',P=>tb(P,'normal')>=1,P=>[tb(P,'normal'),1]);
+A('tour4n','Halfway to Glory','Reach 4 of 7 wins in a Normal Tournament.',P=>tb(P,'normal')>=4,P=>[tb(P,'normal'),4]);
+A('tour7n','Tournament Champion','Win a Normal Tournament: all 7 opponents, no losses.',P=>tb(P,'normal')>=7,P=>[tb(P,'normal'),7]);
+A('tour1h','Hard Contender','Defeat your first Tournament opponent on Hard.',P=>tb(P,'hard')>=1,P=>[tb(P,'hard'),1]);
+A('tour4h','Iron Gauntlet','Reach 4 of 7 wins in a Hard Tournament.',P=>tb(P,'hard')>=4,P=>[tb(P,'hard'),4]);
+A('tour7h','Grand Champion','Win a Hard Tournament: all 7 opponents, no losses.',P=>tb(P,'hard')>=7,P=>[tb(P,'hard'),7]);
+A('expert1','Storm Sage','Win a match on Expert.',P=>winsWith(P,null,'expert')>=0&&ROSTER.some(w=>winsWith(P,w,'expert')>0));
+A('tour7x','Storm Legend','Win an Expert Tournament: all 7 opponents, no losses.',P=>tb(P,'expert')>=7,P=>[tb(P,'expert'),7]);
+const rbWins=(P,d)=>ROSTER.reduce((s,w)=>s+cell(P,d,w,'robot')[0],0);
+A('rb_easy','Robot Repairman','Beat Robot Boy on Easy.',P=>rbWins(P,'easy')>0);
+A('rb_med','Circuit Breaker','Beat Robot Boy on Medium.',P=>rbWins(P,'medium')>0);
+A('rb_hard','Factory Reset','Beat Robot Boy on Hard.',P=>rbWins(P,'hard')>0);
+const FF=P=>Object.assign({g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},P.ffa||{});
+A('ffa1','Last Wizard Standing','Win a Free-for-All match.',P=>FF(P).w>=1);
+A('ffa3','Three-Way Victor','Win a 3-player Free-for-All.',P=>FF(P).w3>=1);
+A('ffa4','Four-Way Victor','Win a 4-player Free-for-All.',P=>FF(P).w4>=1);
+A('ffashard','Shard Rush','Win a Free-for-All by collecting 8 Storm Shards.',P=>FF(P).ws>=1);
+A('ffa10','Storm Brawler','Win 10 Free-for-All matches.',P=>FF(P).w>=10,P=>[FF(P).w,10]);
+const CO=P=>Object.assign({g:0,w:0,we:0,wm:0,wh:0,w4:0},P.coop||{}),TV=P=>Object.assign({g:0,w:0},P.tvt||{});
+A('coop1','Teamwork','Beat Robot Boy in Co-op.',P=>CO(P).w>=1);
+A('coopH','Heavy Metal','Beat Robot Boy on Hard in Co-op.',P=>CO(P).wh>=1);
+A('coop4','Full Party','Win a 4-player Co-op match.',P=>CO(P).w4>=1);
+A('coop10','Robot Wranglers','Win 10 Co-op matches.',P=>CO(P).w>=10,P=>[CO(P).w,10]);
+A('tvt1','Dynamic Duo','Win a Two-on-Two match.',P=>TV(P).w>=1);
+A('tvt10','Tag Team Champions','Win 10 Two-on-Two matches.',P=>TV(P).w>=10,P=>[TV(P).w,10]);
+A('medic','Field Medic','Heal an ally in a team match.',(P,G)=>G.allyHeal>0);
+function recordGame(r){
+  if(!TR||TR.tutorial)return [];const P=loadProf(),won=S.team?S.team[r.winner]===S.team[0]:r.winner===0,me=S.pl[0];
+  P.games++;const d=TR.diff;P.rec[d]=P.rec[d]||{};P.rec[d][TR.me]=P.rec[d][TR.me]||{};const c=P.rec[d][TR.me][TR.opp]=P.rec[d][TR.me][TR.opp]||[0,0];c[1]++;
+  const byShards=me.shards>=8;
+  if(won){c[0]++;P.wins++;P.streak++;P.best=Math.max(P.best,P.streak);if(d==='hard'||d==='expert'){P.hstreak++;P.hbest=Math.max(P.hbest,P.hstreak);}P.by[byShards?'shards':'health']++;}else{P.streak=0;if(d==='hard'||d==='expert')P.hstreak=0;}
+  if(TR.tour&&P.tour){if(won){P.tour.wins++;P.tbest=P.tbest||{};P.tbest[d]=Math.max(P.tbest[d]||0,P.tour.wins);
+    if(P.tour.wins>=7){P.trophy=P.trophy||{};if(!P.trophy[d])P.trophy[d]={t:Date.now(),w:TR.me};TOURRES={kind:'champ',n:7,diff:d};P.tour=null;}
+    else TOURRES={kind:'win',n:P.tour.wins,next:tourOrder(P.tour.me)[P.tour.wins]};}
+  else{TOURRES={kind:'lose',n:P.tour.wins};P.tour=null;}}
+  if(TR.opp==='coop'){const C=P.coop=Object.assign({g:0,w:0,we:0,wm:0,wh:0,w4:0},P.coop||{});C.g++;if(won){C.w++;C['w'+(S.diff||'medium')[0]]++;if(S.pl.length===4)C.w4++;}}
+  if(TR.opp==='2v2'){const V=P.tvt=Object.assign({g:0,w:0},P.tvt||{});V.g++;if(won)V.w++;}
+  if(TR.opp==='ffa'){const n=S.pl.length,F=P.ffa=Object.assign({g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},P.ffa||{});F.g++;F['g'+n]++;if(won){F.w++;F['w'+n]++;if(me.shards>=8)F.ws++;}}
+  P.tot.dmg+=TR.dmg;P.tot.heal+=TR.heal;P.tot.counters+=TR.counters;P.tot.ults+=TR.ults;P.tot.shards+=me.shards;
+  const G2=Object.assign({},TR,{won,battles:S.battle,hp:me.hp,max:me.max,byShards,oppShards:S.pl[1].shards});
+  const fresh=[];for(const a of ACH)if(!P.ach[a.id]){let ok=false;try{ok=a.ok(P,G2);}catch(e){}if(ok){P.ach[a.id]=Date.now();fresh.push(a);}}
+  saveProf(P);return fresh;
+}
+/* ---------- sheets ---------- */
+let statsTab='rec',statsDiff='all';
+function statsSheet(){
+  const P=loadProf(),got=ACH.filter(a=>P.ach[a.id]).length;
+  const tabs=`<div class="tabs"><button class="btn ${statsTab==='rec'?'':'alt'}" data-a="stab" data-v="rec">Record</button><button class="btn ${statsTab==='ach'?'':'alt'}" data-a="stab" data-v="ach">Achievements ${got}/${ACH.length}</button></div>`;
+  let body='';
+  if(statsTab==='rec'){
+    const ds=statsDiff==='all'?DIFFS:[statsDiff];const cl=(w,o)=>ds.reduce((a,x)=>{const c=cell(P,x,w,o);return [a[0]+c[0],a[1]+c[1]];},[0,0]);
+    const rows=ROSTER.map(w=>{let tw=0,tg=0;const tds=[...ROSTER,'robot'].map(o=>{if(w===o)return '<td class="self"></td>';const [cw,cg]=cl(w,o);tw+=cw;tg+=cg;return `<td class="${cw?'win':''}">${cg?cw+'/'+cg:'—'}</td>`;}).join('');return `<tr><th>${SH[w]}</th>${tds}<th>${tg?tw+'/'+tg:'—'}</th></tr>`;}).join('');
+    const colT=[...ROSTER,'robot'].map(o=>{let a=0,g=0;for(const w of ROSTER)if(w!==o){const c=cl(w,o);a+=c[0];g+=c[1];}return `<th>${g?a+'/'+g:'—'}</th>`;}).join('');
+    const G=P.games,Wn=P.wins;
+    const tr=d=>{const x=(P.trophy||{})[d];return `<div class="troph${x?'':' off'}">${TROPHY}<span><b>${DNAME[d]} Tournament</b><small>${x?`Won as ${esc(RNAME[x.w])}`:'Not won yet'}</small></span></div>`;};
+    body=`<div class="trophies">${tr('normal')}${tr('hard')}${tr('expert')}</div>${P.tour?`<p class="lbl" style="text-align:left;margin:0 0 8px">Tournament in progress: ${P.tour.wins}/7 as ${RNAME[P.tour.me]} (${DNAME[P.tour.diff]}).</p>`:''}<div class="kpis"><div class="kpi"><b>${G}</b><span>Matches played</span></div><div class="kpi"><b>${Wn}</b><span>Wins</span></div><div class="kpi"><b>${G-Wn}</b><span>Losses</span></div><div class="kpi"><b>${G?Math.round(100*Wn/G):0}%</b><span>Win rate</span></div><div class="kpi"><b>${P.streak}</b><span>Current streak</span></div><div class="kpi"><b>${P.best}</b><span>Best streak</span></div><div class="kpi"><b>${hardWins(P)}</b><span>Hard wins</span></div><div class="kpi"><b>${FF(P).w}/${FF(P).g}</b><span>Free-for-All wins</span></div><div class="kpi"><b>${CO(P).w}/${CO(P).g}</b><span>Co-op wins</span></div><div class="kpi"><b>${TV(P).w}/${TV(P).g}</b><span>Two-on-Two wins</span></div></div>
+    <p style="margin:4px 0 6px"><span class="seg">${['all','easy','normal','medium','hard','expert'].map(d=>`<button data-a="sdiff" data-v="${d}" aria-pressed="${statsDiff===d}">${d[0].toUpperCase()+d.slice(1)}</button>`).join('')}</span></p>
+    <p class="lbl" style="text-align:left;margin:0 0 4px">Wins/matches. Rows are the wizard you played; columns are the opponent.</p>
+    <div class="mxw"><table class="mx"><tr><th>You \ vs</th>${[...ROSTER,'robot'].map(o=>`<th>${SH[o]}</th>`).join('')}<th>Total</th></tr>${rows}<tr><th>Beaten</th>${colT}<th></th></tr></table></div>
+    <div class="kpis" style="margin-top:10px"><div class="kpi"><b>${P.tot.dmg}</b><span>Damage dealt</span></div><div class="kpi"><b>${P.tot.heal}</b><span>Health healed</span></div><div class="kpi"><b>${P.tot.counters}</b><span>Counters</span></div><div class="kpi"><b>${P.tot.ults}</b><span>Ultimates</span></div><div class="kpi"><b>${P.tot.shards}</b><span>Storm Shards</span></div></div>`;
+  } else {
+    body=`<div class="achs">${ACH.map(a=>{const on=!!P.ach[a.id];let pr='';if(!on&&a.prog){const [c,m]=a.prog(P);pr=`<small>${Math.min(c,m)} / ${m}</small><div class="bar"><i style="width:${Math.min(100,100*c/m)}%"></i></div>`;}
+      return `<div class="ach ${on?'got':'lock'}"><i class="tk ci-tk_shard"></i><div><b>${esc(a.n)}</b><small>${esc(a.d)}</small>${pr}</div></div>`;}).join('')}</div>`;
+  }
+  openOv(`<h2>Stats</h2>${tabs}${body}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);$('#sheet').classList.add('wide');
+}
+function optionsSheet(confirmReset){
+  const seg=(k,vals)=>`<span class="seg">${vals.map(([v,l])=>`<button data-a="opt" data-k="${k}" data-v="${v}" aria-pressed="${String(OPT[k])===String(v)}">${l}</button>`).join('')}</span>`;
+  const ph=$('#app').classList.contains('phone');
+  openOv(`<h2>Options</h2><div class="rules">
+  <h3>Animation speed</h3>${seg('speed',[[1.4,'Relaxed'],[1,'Normal'],[0.45,'Fast']])}
+  <h3>Theme</h3>${seg('theme',[['auto','Match device'],['light','Light'],['dark','Dark']])}
+  <h3>Sound</h3>${seg('vol',[[0,'Off'],[0.25,'Quiet'],[0.5,'Normal'],[0.9,'Loud']])}
+  <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
+  <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
+  <h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone view ${ph?'on':'off'}</button>
+  <h3>Progress</h3><button class="btn alt" data-a="wipe1">Wipe all data</button>
+  </div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
+}
+const p0=b=>+b.dataset.p===0?'Your':esc(WIZ[S.pl[1].wiz].short)+'’s';
+function showStart(){gameId++;teardown();S=null;setTimeout(()=>{if(!OPT.tutAsked){OPT.tutAsked=true;saveOpt();openOv(`<h2>Welcome to Spellstorm!</h2><p>Do you want to play an interactive tutorial? (You can also read the rules in the menu, or play the tutorial later via the Tutorial button.)</p><div class="acts"><button class="btn" data-a="tutstart">Play the tutorial</button><button class="btn alt" data-a="close">Not now</button></div>`);}},250);document.body.classList.remove('shop');$('#start').style.display='flex';drawSelect();}
+let TOURRES=null;
+async function begin(w,opp,o={}){
+  const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
+  LCLOUD=null;LHAND=null;LASTV=[{},{}];INC={};TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
+  if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];}
+  else{S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,S.diff);TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
+  G=new Game(S,makeIO(id));renderLog();render();
+  if(o.resume)makeIO(id).log(`Match resumed at battle ${S.battle}, round ${S.round}.`,'head');
+  else makeIO(id).log(S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
+  try{const r=await (o.resume?G.resumeRun():G.run());if(id!==gameId)return;clearSave();S.blast=null;S.potion=null;pending=null;TUT.step=null;const fresh=recordGame(r);render();SFX.play(r.winner===0?'win':'lose');await sleep(600);if(id===gameId)showEnd(r,fresh);}
+  catch(err){console.error(err);if(id===gameId)openOv(`<h2>Something went wrong</h2><p>${esc(err.message)}</p><div class="acts"><button class="btn" data-a="again">Restart</button></div>`);}
+}
+function teardown(){ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
+  $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
+  document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
+function showTitle(){gameId++;teardown();S=null;{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
+function exitGame(){try{window.close();}catch(e){}setTimeout(()=>openOv(`<h2>Thanks for playing!</h2><p>A browser tab can’t be closed by the page itself, so close this tab whenever you like. In the desktop and phone apps, Exit will quit the game.</p><div class="acts"><button class="btn" data-a="close">Back to title</button></div>`),300);}
+const APP_VERSION='__APP_VERSION__';
+function setVer(v){const e=document.getElementById('ver');if(e)e.textContent=v;}
+{const q=new URLSearchParams(location.search).get('v');setVer(q?'v'+q:APP_VERSION);}
+document.documentElement.style.setProperty('--scene','url('+IMG.scene+')');
+applyOpt();showTitle();
+</script>
+</body>
+</html>
