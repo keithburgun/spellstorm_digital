@@ -305,9 +305,12 @@ class Game {
     return S.cloud.map((c, i) => { if (!c) return -1; const d = CARDS[c.id]; if (o.el && d.el !== o.el) return -1; if (o.anyTier) { if (d.t > (o.maxTier || 9)) return -1; } else if (d.t > P.tier) return -1; return i; }).filter(i => i >= 0);
   }
   async gainCard(p, o = {}) {
-    const slots = this.eligibleSlots(p, o), sp = o.el ? { F: ['curse'], W: ['ice'], E: ['ash'] }[o.el] : ['ice', 'ash', 'curse']; if (!slots.length && !sp.length) return null;
+    let slots = this.eligibleSlots(p, o), sp = o.el ? { F: ['curse'], W: ['ice'], E: ['ash'] }[o.el] : ['ice', 'ash', 'curse'];
+    const tutLock = this.S.tutorial && p === 0 && this.S.battle === 1 && this.S.round === 1;          // tutorial: Derby has you gain the Diamond
+    if (tutLock) { const d = slots.filter(i => this.S.cloud[i] && this.S.cloud[i].id === 'diamond'); if (d.length) { slots = d; sp = []; o = { ...o, must: true }; } }
+    if (!slots.length && !sp.length) return null;
     const what = o.el ? `a Tier I or II ${ELN[o.el]} card` : 'a card';
-    const i = await this.decide(p, { k: 'gain', q: o.must ? `You must gain ${what} from the Storm Cloud.` : `You may gain ${what} from the Storm Cloud.`, slots, optional: !o.must, verb: 'Gain', special: 1, specials: sp });
+    const i = await this.decide(p, { k: 'gain', q: o.must ? `You must gain ${what} from the Storm Cloud.` : `You may gain ${what} from the Storm Cloud.`, slots, optional: !o.must, verb: 'Gain', special: sp.length ? 1 : 0, specials: sp });
     if (typeof i === 'string') { const had = this.S.special[i] > 0; await this.gainSpecial(p, i); const D = this.S.pl[p].discard; return had ? D[D.length - 1] : null; }
     if (i < 0) return null;
     const S = this.S, c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c);

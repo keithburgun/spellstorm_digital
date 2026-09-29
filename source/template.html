@@ -494,6 +494,11 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 .ccap{display:block;margin-top:3px;font-size:.68rem;font-weight:700;color:var(--muted);white-space:nowrap;text-align:center}.ccap.lit{color:var(--ac)}.ccap b{color:var(--ac)}
 .side.allyside .lbl{color:#1f9a57}
 .modeseg{flex-wrap:wrap}
+/* Derby beside the tutorial bubble */
+#coach .cderby{position:absolute;bottom:0;height:min(190px,32vh);aspect-ratio:.8;background-size:contain;background-repeat:no-repeat;background-position:bottom center;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+#coach .cderby.dl{right:calc(100% - 14px);background-position:bottom right}#coach .cderby.dr{left:calc(100% - 14px);background-position:bottom left}
+#coach .cderby.in{animation:rise .35s ease-out}
+@media (max-width:760px){#coach .cderby{height:92px;bottom:calc(100% - 10px)}#coach .cderby.dl{right:auto;left:-4px}#coach .cderby.dr{left:auto;right:-4px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -659,29 +664,39 @@ function setupTutorial(S){const P=S.pl[0],E=S.pl[1],pull=(a,id)=>a.splice(a.find
   P.deck.push(...['block','coffee','dart','pgem'].map(id=>pull(P.deck,id)));   // you draw Power Gem, Magic Dart, Coffee Run, then Block
   E.deck.push(...['dart','punch','block'].map(id=>pull(E.deck,id)));           // Eve draws Block first
   const wi=S.wdeck.lastIndexOf('breeze');S.wdeck.splice(wi,1);S.wdeck.push('breeze');  // round 1 weather: Nice Breeze
+  if(!S.cloud.some(c=>c&&c.id==='diamond')){const i=S.sdeck.findIndex(c=>c.id==='diamond');const slot=S.cloud.findIndex(c=>c&&!CARDS[c.id].ess&&!/^ess/.test(c.id));const at=slot>=0?slot:3;
+    if(i>=0){const d=S.sdeck.splice(i,1)[0];if(S.cloud[at])S.sdeck.unshift(S.cloud[at]);S.cloud[at]=d;}}
   S.tutorial=true;S.diff='easy';}
 const TSTEPS={
  play:[
-  {t:'Welcome to Spellstorm!',x:'This short tutorial walks you through your first round. You are Derby Pocket; the CPU is Eve Williams, on Easy.'},
-  {t:'How to win',x:'Collect 8 Storm Shards, or bring Eve to 0 health. Your health and shards are shown here.',tg:'#me .goals'},
-  {t:'Mana and Power',x:'Mana pays for your Ultimate. Power fills a 6-step track; overflowing it raises your Tier, which lets you gain stronger cards.',tg:'#me .stats'},
-  {t:'The Storm Cloud',x:'These are the cards you can gain. Each shows its Tier in the corner. You can gain cards at or below your Tier.',tg:'#cloud .crow'},
-  {t:'Weather',x:'Each round begins with a Weather card that affects both players. Nice Breeze just gave you each a card, 1 mana and 1 power.',tg:'#arena .wcard'},
-  {t:'Playing cards',x:'You and Eve each play one card face-down, then both are revealed. Elements counter each other: Fire beats Earth, Earth beats Water, Water beats Fire. If your card counters hers, you draw a card.',tg:'#hand'}],
+  {t:'Welcome to Spellstorm',d:'L',x:"Whoa! I’m teaching you Spellstorm? Sweet! The name’s Derby, and I’m your guide for this little tutorial thing. It’ll be quick, don’t worry."},
+  {t:'Welcome to Spellstorm',d:'L',tg:'#opp .pname',x:"You’re playing as… me! And I’m battling my buddy, my absolute PAL, Eve Williams."},
+  {t:'How to Win',d:'R',tg:'#me .goals',x:"You can win at Spellstorm by gatherin’ up 8 Storm Shards, or by bringing your opponent to zero health. These resources are shown… here!"},
+  {t:'Mana',d:'R',tg:'#me [data-k="mana"]',x:"Mana fuels a wizard’s Ultimate Ability. You’ll wanna use your Ultimate as frequently as possible!"},
+  {t:'Power',d:'R',tg:'#me [data-k="power"]',x:"As you play, you’ll be adding more cards. Gain more Power to unlock higher tiers of cards!"},
+  {t:'The Storm Cloud',d:'L',tg:'#cloud .crow',x:"Oh, this? This is where you can obtain new cards for your deck. You can gain cards that are at or below your current tier."},
+  {t:'The Storm Cloud',d:'L',tg:'#cloud .drag',x:"There are 3 tiers of cards… actually there’s also Tier IV cards, which are super powerful DRAGONS!"},
+  {t:'Weather Cards',d:'R',tg:'#arena .wcard',x:"Each turn a new Weather card’ll pop out, doing some stuff. Luckily this one’s just a nice breeze, givin’ all of us some resources, but some aren’t so nice."},
+  {t:'Playing Cards',d:'L',tg:'#hand',x:"Oh yeah! You can play cards from your hand. Each turn you play one, face-down. Then they get revealed at the same time, and do some magic stuff!"},
+  {t:'Playing Cards',d:'R',tg:'#arena .cwheel',x:"There’s like an elemental rock paper scissors thing: Fire beats Earth, Earth beats Water and Water beats Fire. If you counter the opponent, you draw a card."},
+  {t:'Playing Cards',d:'R',tg:'#hand',x:"(Drawing cards is a big deal actually in Spellstorm, I’ll tell you why in a bit.)"}],
  reveal:[
-  {t:'Countered!',x:'Earth beats Water: your Power Gem countered Eve’s Block, so you drew a card.',tg:'#arena .duel'},
-  {t:'Initiative',x:'You have the Initiative (the ⚡ badge), so your card resolves first.',tg:'#me .initb'}],
+  {t:'Countered!',d:'L',tg:'#arena .duel',x:"Hell yeah! Earth beats Water - you just countered Eve’s card. She’s gonna be pissed. Anyway, you drew a card."},
+  {t:'Initiative',d:'R',tg:'#me .initb',x:"Right now you have the Initiative token, so your card resolves first. Initiative matters for a few things, especially Fire cards (my favorite)."}],
  done:[
-  {t:'Initiative can change hands',x:'Eve’s Block gave her the Initiative, so next round her card resolves first.',tg:'#opp .initb'},
-  {t:'Battles and the Blast',x:'A battle lasts 4 rounds. At the end, cards with discard effects trigger, then the cards left in your hand are your Blast Score. The higher score wins 2 Storm Shards, so holding cards matters too.',tg:'#hand'},
-  {t:'Your Ultimate',x:'Derby’s Ultimate, Flaming Yardstick, costs 6 mana. When you resolve a card with the Ultimate icon and have enough mana, you can use it.',tg:'#me .stats'},
-  {t:'You’re on your own!',x:'Play out the rest of this match against Easy Eve. Tap any card to read it, and find the Rules and Card Library in the Menu anytime. Good luck!'}]};
+  {t:'Initiative',d:'R',tg:'#opp .initb',x:"Eve’s Block card let her take the Initiative, so next turn, her card will resolve first."},
+  {t:'Blast Score',d:'R',tg:'#hand',x:"Each battle has four turns, and then you check how many cards each player has in hand. Whoever has more cards in hand gains 2 Storm Shards!"},
+  {t:'Blast Score',d:'R',tg:'#hand',x:"Actually, it’s a little more complicated than that, because cards with discard effects (they have a white border) aren’t counted towards your total (we call this your Blast Score)."},
+  {t:'Derby’s Ultimate',d:'L',tg:'#me [data-k="mana"]',x:"Each character has a different Ultimate ability. Mine is Flaming Yardstick, which deals 2 damage, and costs 6 mana. If you play it when I have an odd amount of health, 2 mana are refunded. REFUNNNDDDDD"},
+  {t:'Derby’s Ultimate',d:'L',x:"You can use your Ultimate whenever the Ultimate icon is on an action card, and you have the required amount of mana. Usually good to do it as much as you can!"},
+  {t:'Anyway',d:'L',x:"Okay, that’s enough Tutorial for now. You’re on your own from here. Don’t forget you can read the rules in the Menu! <3"}]};
 function tutStage(st){if(!S||!S.tutorial||S.battle!==1||S.round!==1)return Promise.resolve();return new Promise(res=>{TUT.steps=TSTEPS[st];TUT.idx=0;TUT.step=TUT.steps[0];TUT.res=res;render();});}
 function tutNext(){TUT.idx++;if(TUT.steps&&TUT.idx<TUT.steps.length){TUT.step=TUT.steps[TUT.idx];render();return;}const r=TUT.res;TUT.step=null;TUT.res=null;render();if(r)r();}
 function tutLock(){return S&&S.tutorial&&S.battle===1&&S.round===1&&!TUT.step&&S.pl[0].hand.some(c=>c.id==='pgem')?'pgem':null;}
 let COACHKEY='',COACHHIDE=null;
 // one-time tips for the rest of the tutorial match (non-blocking, "Got it" to dismiss)
-function tutOnce(){if(!S||!S.tutorial||TUT.off||TUT.step)return null;const seen=TUT.seen||(TUT.seen={});const R=pending&&pending.req;
+function tutOnce(){return null;   // Derby’s script ends with “you’re on your own”: no extra tips after it
+  if(!S||!S.tutorial||TUT.off||TUT.step)return null;const seen=TUT.seen||(TUT.seen={});const R=pending&&pending.req;
   if(S.blast&&S.blast.stage!=='result'&&!seen.blast)return {id:'blast',t:'The Blast',x:'At the end of every battle: cards with discard effects trigger first, then each card left in your hand scores 1. The highest Blast Score gains 2 Storm Shards; a tie gives each player 1.',pos:'bottom'};
   if(R&&R.k==='gain'&&S.phase==='gain'&&!seen.gain)return {id:'gain',t:'Gain Spell',x:'Between battles you add one Storm Cloud card at or below your Tier to your deck. It goes into your hand for the next battle. If nothing suits you, you can take a special card instead.',tg:'#cloud .crow'};
   if(R&&R.k==='yn'&&R.ult&&!seen.ult)return {id:'ult',t:'Ultimate ready',x:'You have enough mana for Flaming Yardstick. Use it now, or say No to save your mana for a better moment.',tg:'#prompt'};
@@ -689,8 +704,10 @@ function tutOnce(){if(!S||!S.tutorial||TUT.off||TUT.step)return null;const seen=
   return null;}
 function renderCoach(){const co=$('#coach');if(!co)return;document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));
   let tip=TUT.step;if(!tip&&S&&S.tutorial&&S.battle===1&&S.round===1&&pending&&!TUT.off){
-    if(pending.req.k==='play')tip={t:'Your move',x:'Eve’s deck is full of Water, so play Power Gem (Earth). Tap it, then “Play face-down.”',tg:'#hand [data-cid="pgem"]',act:1};
-    else if(pending.req.k==='gain')tip={t:'Gain a card',x:'Power Gem lets you gain a card at or below your Tier. Tap a highlighted Storm Cloud card and choose Gain, or Skip. Power Gem then discards it, triggering its discard effect if it has one.',tg:'#cloud .crow',act:1};}
+    if(pending.req.k==='play')tip={t:'Your Move',d:'L',x:'Anyway, let’s play a card. Tap Power Gem, and then tap “Play face-down”.',tg:'#hand [data-cid="pgem"]',act:1};
+    else if(pending.req.k==='gain'){const seen=TUT.seen||(TUT.seen={});
+      tip=!seen.pg1?{t:'Power Gem',d:'R',id:'pg1',btn:'Next',tg:'#arena .duel',x:'Okay so this card gives you +1 Power, and then it lets you gain a card from the Storm Cloud. Cards you gain typically go to your hand, but Power Gem makes you discard the new card right away.'}
+        :{t:'Power Gem',d:'L',tg:'#cloud .crow .card[data-cid="diamond"]',act:1,x:'Some cards have a Discard Effect, which triggers when the card is discarded. That Diamond there says, Discard Effect: +1 Power. So if we buy that, we’ll immediately get another power. Let’s do that!'};}}
   if(!tip)tip=tutOnce();
   const blocked=$('#ov').classList.contains('show')&&!TUT.step;
   if(!tip||blocked){   // hide after a short grace period, so back-to-back tips never blink
@@ -698,9 +715,9 @@ function renderCoach(){const co=$('#coach');if(!co)return;document.querySelector
     if(co.classList.contains('show')&&!COACHHIDE)COACHHIDE=setTimeout(()=>{COACHHIDE=null;COACHKEY='';co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));},blocked?0:500);
     return;}
   if(COACHHIDE){clearTimeout(COACHHIDE);COACHHIDE=null;}
-  const key=[tip.t,tip.x,tip.act,tip.id].join('|');
+  const key=[tip.t,tip.x,tip.act,tip.id,tip.d].join('|');
   if(key!==COACHKEY){const fresh=!co.classList.contains('show');
-    co.innerHTML=`<div class="cbox${fresh?' in':''}"><b>${esc(tip.t)}</b><p>${esc(tip.x)}</p>${tip.act?'':tip.id?`<div class="acts"><button class="btn" data-a="tutgot" data-id="${tip.id}">Got it</button></div>`:`<div class="acts"><button class="btn" data-a="tutnext">Next</button><button class="btn alt" data-a="tutskip">Skip tutorial</button></div>`}</div>`;COACHKEY=key;}
+    co.innerHTML=`<i class="cderby ${tip.d==='R'?'dr ci-derby_R':'dl ci-derby_L'}${fresh?' in':''}" aria-hidden="true"></i><div class="cbox${fresh?' in':''}"><b>${esc(tip.t)}</b><p>${esc(tip.x)}</p>${tip.act?'':tip.id?`<div class="acts"><button class="btn" data-a="tutgot" data-id="${tip.id}">${tip.btn||'Got it'}</button>${tip.btn?'<button class="btn alt" data-a="tutskip">Skip tutorial</button>':''}</div>`:`<div class="acts"><button class="btn" data-a="tutnext">Next</button><button class="btn alt" data-a="tutskip">Skip tutorial</button></div>`}</div>`;COACHKEY=key;}
   co.classList.add('show');const tg=tip.tg&&$(tip.tg);co.style.top=co.style.bottom='';
   if(tip.pos==='bottom')co.style.top=Math.max(8,innerHeight-co.offsetHeight-14)+'px';
   else if(tg){tg.classList.add('tutring');const r=tg.getBoundingClientRect(),h=co.offsetHeight;
