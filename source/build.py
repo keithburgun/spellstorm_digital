@@ -17,7 +17,7 @@ def wr(f, s):
     p = os.path.join(H, f); os.makedirs(os.path.dirname(p), exist_ok=True); open(p, 'w', encoding='utf-8').write(s)
 
 e2 = rd('engine2.js'); e2 = e2[:e2.index('//EXPORTS')]          # engine2 ends with Node-only test exports
-engine = '\n'.join([rd('engine.js'), e2, rd('engine3.js'), rd('engine4.js'), rd('engine5.js'), rd('engine6.js'), rd('engine7.js')])
+engine = '\n'.join([rd('engine.js'), e2, rd('engine3.js'), rd('engine4.js'), rd('engine5.js'), rd('engine6.js'), rd('engine7.js'), rd('engine8.js')])
 page = rd('template.html').replace('/*ENGINE*/', engine).replace('/*IMGS*/', rd('imgs.json')).replace('/*CORPORATA*/', rd('corporata.css'))
 
 now = datetime.datetime.now(ZoneInfo('America/New_York'))
@@ -35,5 +35,5 @@ app = app.replace('</body>', rd('native_hooks.html') + '\n</body>', 1)
 assert 'fonts.googleapis' not in app and 'exitApp' in app
 wr('../www/index.html', app)
 
-wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver};\n')
+wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard};\n')
 print(f'web  dist/spellstorm.html  {len(web)/1e6:.2f} MB\napp  ../www/index.html      {len(app)/1e6:.2f} MB\ntest tests/eng_all.js')

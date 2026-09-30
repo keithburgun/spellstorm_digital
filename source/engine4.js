@@ -31,7 +31,7 @@ function updatePlan(g, p) {
   for (const k in sc) sc[k] += Math.random() * 2.5;                       // a little randomness in the read
   let best = Object.keys(sc).sort((a, b) => sc[b] - sc[a])[0];
   if (cur && sc[cur] >= sc[best] - 1.5) best = cur;                        // don't flip-flop over small differences
-  if (best !== cur) { S.plan[p] = best; g.log(`${g.nm(p)} now aims to ${PLANS[best]}.`, 'ini'); }
+  if (best !== cur) { S.plan[p] = best; if (!S.aiProf) g.log(`${g.nm(p)} now aims to ${PLANS[best]}.`, 'ini'); }   // ranked opponents keep their intentions secret
 }
 function planBonus(S, p) {
   const k = S.plan && S.plan[p]; if (!k) return 0; const P = S.pl[p], O = S.pl[nextOppOf(S, p)];
@@ -51,13 +51,14 @@ function planCardBonus(S, p, id) {
 }
 const _roundP = Game.prototype.round;
 Game.prototype.round = async function (r) {
-  for (const p of this.S.pl.keys()) if (!this.S.pl[p].out && !this.S.pl[p].rb && isAI(this.S, p) && diffOf(this.S, p) !== 'easy' && (r === 1 || r === 3)) updatePlan(this, p);
+  for (const p of this.S.pl.keys()) if (!this.S.pl[p].out && !this.S.pl[p].rb && isAI(this.S, p) && (rankCfg(this.S, p) ? rankCfg(this.S, p).plan : diffOf(this.S, p) !== 'easy') && (r === 1 || r === 3)) updatePlan(this, p);
   return _roundP.call(this, r);
 };
 
 // ---------- evaluation ----------
 function evalAI(S, p) {
   if (S.over) return S.over.winner === p ? 1e4 : -1e4;
+  const R = rankCfg(S, p); if (R) return (R.hardEval ? evalHard(S, p) : evalState(S, p)) + (R.plan ? planBonus(S, p) : 0) + persBonus(S, p, R.pers);
   const d = diffOf(S, p);
   return (d === 'hard' || d === 'expert' ? evalHard(S, p) : evalState(S, p)) + planBonus(S, p);
 }
@@ -65,6 +66,7 @@ function evalAI(S, p) {
 // ---------- in-card decisions ----------
 function cpuDecideX(g, p, req) {
   const S = g.S, d = diffOf(S, p);
+  if (isAI(S, p) && req.k === 'gain' && req.slots.length && req.verb === 'Gain' && rankCfg(S, p)) return rankedGain(S, p, req, rankCfg(S, p));
   if (isAI(S, p) && req.k === 'gain' && req.slots.length && req.verb === 'Gain') {
     if (d === 'easy' && Math.random() < 0.6) return req.slots[Math.floor(Math.random() * req.slots.length)];
     const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
@@ -109,6 +111,7 @@ async function simRound(base, p, myU, oid, lookahead) {
 async function aiChoosePlay(S0, p) {
   const d = diffOf(S0, p), hand = S0.pl[p].hand.filter(c => !CARDS[c.id].junk);
   if (hand.length <= 1) return hand[0] || null;
+  if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }
@@ -129,7 +132,7 @@ async function aiChoosePlay(S0, p) {
 
 // ---------- should I use my Ultimate now, or save the mana? ----------
 async function ultDecide(S0, p, free) {
-  const d = diffOf(S0, p); if (d === 'easy' || d === 'normal') return true;
+  const d = diffOf(S0, p), R = rankCfg(S0, p); if (R) { if (R.pers === 'D' || !R.ultSim) return true; } else if (d === 'easy' || d === 'normal') return true;
   const W = WIZ[S0.pl[p].wiz], N = d === 'expert' ? 8 : 5; let yes = 0, no = 0;
   for (let k = 0; k < N; k++) {
     const base = structuredClone(S0); determinize(base, p); no += evalAI(base, p);

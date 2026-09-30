@@ -505,6 +505,14 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #coach[data-dock=log] .cderby{background-position:bottom center}
 .duel .card.won{position:relative;z-index:3}
 .longm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1rem}
+/* Ranked */
+.elobox{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin:6px 0 10px;padding:10px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.elonum{display:flex;flex-direction:column;align-items:center}.elonum b{font-size:2.6rem;line-height:1;color:var(--accent)}.elostats{display:flex;flex-direction:column;gap:2px;font-weight:700}
+.rkh{margin:.8em 0 .3em;font-size:1rem}.rkhist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;font-size:.88rem}
+.rw{color:#1f9a57}.rl{color:var(--hp)}.rup{color:#1f9a57;font-weight:700}.rdn{color:var(--hp);font-weight:700}
+.mm{text-align:center;padding:10px 4px}.mmdots i{font-style:normal;animation:mmd 1.2s infinite}.mmdots i:nth-child(2){animation-delay:.2s}.mmdots i:nth-child(3){animation-delay:.4s}@keyframes mmd{0%,60%,100%{opacity:.2}30%{opacity:1}}
+.mmopp{display:flex;align-items:center;justify-content:center;gap:14px;margin:10px 0;animation:rise .4s ease-out}.mmopp .por{width:64px;height:64px;display:block;border-radius:50%}.mmopp div{display:flex;flex-direction:column;text-align:left}.mmopp b{font-size:1.3rem}
+.elochg{font-size:1.15rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -575,7 +583,7 @@ function panel(p){
   const P=S.pl[p],W=WIZ[P.wiz];
   const pw=Array.from({length:6},(_,i)=>`<i class="pip ${i<P.power?'on':''}"></i>`).join('');
   const sh=Array.from({length:8},(_,i)=>`<i class="pip ${i<P.shards?'on':''}"></i>`).join('');
-  const name=p?`${W.n}<span class="tag">CPU - ${DNAME[S.diff]||"Normal"}</span>`:`${W.n}<span class="tag">You</span>`;
+  const name=p?(S.ranked&&p===1?`${esc(S.ranked.name)} <span class="lbl">${esc(W.short)}</span><span class="tag">Elo ${S.ranked.elo}</span>`:`${W.n}<span class="tag">CPU - ${DNAME[S.diff]||"Normal"}</span>`):`${W.n}<span class="tag">You</span>`;
   const backs='';const an=k=>bump(p,k);
   const tools=p?`<div class="tools"><button class="chip" data-a="menu">Menu</button></div>`:`<div class="tools"><button class="chip logbtn" data-a="log">Log</button></div>`;
   return `<span class="porw"><button class="por ci-wz_${P.wiz}" data-a="wiz" data-p="${p}" aria-label="View ${esc(W.n)}’s wizard card"></button>${P.rb?'':`<span class="hc ci-back${an('hand')}" title="${P.hand.length} cards in hand" aria-label="${P.hand.length} cards in hand">${P.hand.length}</span>`}</span>
@@ -970,6 +978,7 @@ function rules(){openOv(`<div class="rules"><h2>How a game goes</h2>
 <h3>Resources</h3><p>Mana pays for your Ultimate, offered whenever you resolve a card with the Ultimate icon. Power fills a 6-step track; overflowing raises your Tier (I to III), and at Tier III it lets you take a Dragon.</p>
 <h3>Winning</h3><p>Reach 8 Storm Shards, or bring your opponent to 0 health.</p>
 <h3>Free-for-All (3–4 players)</h3><p>Everyone starts with 2 Storm Shards. Damage and “give” effects hit every opponent. You counter the next player clockwise, shown by the arrows on the table. A wizard at 0 health is eliminated and their cards go to the VOID. The last wizard standing, or the first to 8 Storm Shards, wins. In a Blast, the single highest score gains 2 Shards; tied highest scores gain 1 each.</p>
+<h3>Ranked</h3><p>Play an endless stream of opponents near your rating, each with a username, an Elo and a secret playing style. Your Elo rises when you win and falls when you lose; beating a higher-rated opponent earns more. Resigning or abandoning a Ranked match counts as a loss.</p>
 <h3>Long Match</h3><p>An optional setting: every wizard has 50% more health (rounded), and you need 12 Storm Shards to win instead of 8.</p>
 <h3>Co-op vs Robot Boy and Two-on-Two</h3><p>You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next <i>opponent</i> clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.</p></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
 function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
@@ -979,13 +988,14 @@ const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d
 function showEnd(r,fresh=[]){
   const w=r.winner,W=WIZ[S.pl[w].wiz],T=TOURRES,why=r.why==='shards'?'by collecting 8 Storm Shards':r.why==='health'?'by bringing their rival to 0 health':'on the tiebreak';
   let head=`<h2 style="font-size:2rem">${S.team?(S.team[w]===S.team[0]?'Your team wins!':(S.mode==='coop'?'Robot Boy wins':'The other team wins')):w===0?'You win!':esc(W.short)+' wins'}</h2>`;
+  if(RANKRES){const X=RANKRES;head=`<div class="tourhead${X.won?'':' lose'}"><span class="tourbig">${X.won?'VICTORY':'DEFEAT'}</span><span class="elochg">Elo ${X.old} → <b>${X.now}</b> <span class="${X.d>=0?'rup':'rdn'}">(${X.d>=0?'+':''}${X.d})</span></span><span class="lbl">vs ${esc(X.name)} (${X.opp})</span></div>`;}
   if(T){if(T.kind==='win')head=`<div class="tourhead"><span class="tourbig">OPPONENT ${T.n}/7 DEFEATED!</span><span>Next up: <b>${esc(RNAME[T.next])}</b>. Your progress is saved.</span></div>`;
     else if(T.kind==='champ')head=`<div class="tourhead champ">${TROPHY}<span class="tourbig">TOURNAMENT CHAMPION!</span><span>You beat all 7 opponents on ${DNAME[T.diff]}. Your trophy is on the Stats screen.</span></div>`;
     else head=`<div class="tourhead lose"><span class="tourbig">TOURNAMENT OVER</span><span>${esc(WIZ[S.pl[1].wiz].n)} ended your run. You defeated ${T.n} of 7 opponents.</span></div>`;}
   openOv(`${head}<p>${w===0?'You':esc(W.n)} won ${why} after ${S.battle} battle${S.battle>1?'s':''}.</p>
-  <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${DNAME[S.diff]} difficulty${T?', Tournament Mode':''}${S.win?', Long Match':''}.</p>
+  <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${S.ranked?'Ranked':DNAME[S.diff]+' difficulty'}${T?', Tournament Mode':''}${S.win?', Long Match':''}${S.ranked?' (Ranked match)':''}.</p>
   ${fresh.length?`<h2 style="font-size:1.1rem;margin-top:10px">Achievements unlocked</h2><div class="newach">${fresh.map(a=>`<span>${esc(a.n)}</span>`).join('')}</div>`:''}
-  <div class="acts">${T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
+  <div class="acts">${RANKRES?'<button class="btn" data-a="rankagain">Play again</button><button class="btn alt" data-a="restart">Ranked lobby</button>':T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
 }
 
 // ---------- events ----------
@@ -1056,6 +1066,8 @@ document.addEventListener('click',e=>{
   if(a==='setcoopn'){OPT.coopN=+b.dataset.v;saveOpt();drawSelect();return;}
   if(a==='resign1'){openOv(`<h2>Resign this match?</h2><p>It counts as a loss${TR&&TR.tour?', and it ends your tournament run':''}. Your saved match will be cleared.</p><div class="acts"><button class="btn" data-a="resign2" style="background:var(--hp)">Resign</button><button class="btn alt" data-a="close">Keep playing</button></div>`);return;}
   if(a==='resign2'){resign();return;}
+  if(a==='mmcancel'){MM=null;closeOv();return;}
+  if(a==='rankagain'){closeOv();rankedLaunch();return;}
   if(a==='rules'){rules();return;}
   if(a==='menu'){menu();return;}
   if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
@@ -1084,6 +1096,7 @@ const avail=w=>!!WIZ[w];
 function tourOrder(me){return ROSTER.filter(w=>w!==me);}
 function drawSelect(){
   const mode=OPT.mode||'duel',np=mode==='duel'?2:mode==='ffa'?(OPT.np>2?OPT.np:4):mode==='coop'?(OPT.coopN||3):4,MPs=mode!=='duel';pickSel.opps=pickSel.opps||[];
+  if(mode==='ranked'){setH($('#picks'),rankedLobby());return;}
   const P=loadProf(),T=P.tour,tm=!!OPT.tour&&!MPs,lock=tm&&!!T,rndMe=rnd.me&&!lock;
   const meSel=lock?T.me:pickSel.me,order=tm?tourOrder(meSel):[],wins=lock?T.wins:0,next=tm&&!rndMe?order[wins]:null;
   const tile=(r,w,dis,pressed,badge,cls)=>`<button class="tile${cls?' '+cls:''}" data-a="tile" data-r="${r}" data-w="${w}" aria-pressed="${pressed}" ${dis?'disabled':''}>${badge?`<span class="tnum">${badge}</span>`:''}<i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`;
@@ -1101,14 +1114,37 @@ function drawSelect(){
   const isRB=mode==='coop'||(!MPs&&!tm&&!rnd.opp&&pickSel.opp==='robot');const dsel=lock?T.diff:isRB?(OPT.rbdiff||'medium'):OPT.diff;
   const diff=`<div class="row"><h2>Difficulty <span class="seg">${(isRB?['easy','medium','hard']:['easy','normal','hard','expert']).map(d=>`<button data-a="setdiff" data-v="${d}" aria-pressed="${dsel===d}" ${lock?'disabled':''}>${DNAME[d]}</button>`).join('')}</span>${lock?'<span class="lbl">&nbsp;locked for this tournament</span>':''}</h2></div>`;
   const go=tm?(lock?`Fight ${RNAME[next]}`:'Start the tournament'):'Start the storm';
-  setH($('#picks'),`<div class="row"><label class="longm"><input type="checkbox" data-t="long" ${OPT.long?'checked':''}> <b>Long Match</b> <span class="lbl">+50% health for every wizard · 12 Storm Shards to win</span></label></div><div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
+  setH($('#picks'),`<div class="row"><label class="longm"><input type="checkbox" data-t="long" ${OPT.long?'checked':''}> <b>Long Match</b> <span class="lbl">+50% health for every wizard · 12 Storm Shards to win</span></label></div><div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
    <div class="info">${info}</div>${diff}<div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn alt" data-a="tutstart">Tutorial</button>${T?'<button class="btn alt" data-a="exittour">Exit Tournament</button>':''}<button class="btn" data-a="launch" style="font-size:1.1rem;padding:.7em 2em">${go}</button></div>${loadSave()?'<p class="lbl" style="text-align:center">Starting a new match replaces your saved match in progress.</p>':''}`);
 }
 document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='long'){OPT.long=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
+// ---------- Ranked (single-player Elo) ----------
+const RK=P=>Object.assign({elo:900,g:0,w:0,peak:900,hist:[],streak:0,best:0,giant:false},P.rk||{});
+let RANKRES=null,MM=null;
+function rankedLobby(){const P=loadProf(),R=RK(P);
+  const tile=w=>`<button class="tile" data-a="tile" data-r="me" data-w="${w}" aria-pressed="${pickSel.me===w&&!rnd.me}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`;
+  const hist=R.hist.slice(-6).reverse().map(h=>`<li><b class="${h.won?'rw':'rl'}">${h.won?'W':'L'}</b> vs <b>${esc(h.name)}</b> <span class="lbl">(${h.opp})</span> as ${RNAME[h.me]} <span class="${h.d>=0?'rup':'rdn'}">${h.d>=0?'+':''}${h.d}</span></li>`).join('');
+  return `<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${m==='ranked'}">${l}</button>`).join('')}</span></h2></div>
+   <div class="elobox"><div class="elonum"><span class="lbl">Your Elo</span><b>${R.elo}</b></div><div class="elostats"><span>${R.w} wins · ${R.g-R.w} losses</span><span>Peak ${R.peak}${R.streak>1?` · ${R.streak}-win streak`:''}</span></div></div>
+   <div class="row rows ${rnd.me?'rand':''}"><h2>Your wizard<label><input type="checkbox" data-r="me" ${rnd.me?'checked':''}> Random</label></h2><div class="tiles">${ROSTER.map(tile).join('')}</div></div>
+   <div class="info"><p><b>Ranked:</b> you’re matched against an endless stream of opponents near your rating, each with their own style. Win to climb; lose and you drop. Resigning or abandoning a match counts as a loss.</p></div>
+   <div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn" data-a="launch" style="font-size:1.2rem;padding:.75em 2.4em">PLAY GAME</button></div>
+   ${hist?`<h3 class="rkh">Recent matches</h3><ul class="rkhist">${hist}</ul>`:''}`;}
+function applyRanked(P,rk,me,won,delta){const R=P.rk=RK(P);const old=R.elo;R.elo=Math.max(100,R.elo+delta);R.g++;
+  if(won){R.w++;R.streak++;R.best=Math.max(R.best,R.streak);if(rk.elo-old>=150)R.giant=true;}else R.streak=0;R.peak=Math.max(R.peak,R.elo);
+  R.hist.push({name:rk.name,opp:rk.elo,me,won,d:delta,t:Date.now()});if(R.hist.length>30)R.hist=R.hist.slice(-30);return {old,now:R.elo};}
+function rankedLaunch(){let P=loadProf();
+  const sv=loadSave();if(sv&&sv.S.ranked&&!sv.S.over){const R=RK(P),d=eloDelta(R.elo,sv.S.ranked.elo,0,R.g);applyRanked(P,sv.S.ranked,sv.S.pl[0].wiz,false,d);saveProf(P);clearSave();toast(`Your abandoned ranked match counted as a loss (${d}).`);P=loadProf();}
+  const R=RK(P),me=rnd.me?ROSTER[Math.floor(Math.random()*ROSTER.length)]:pickSel.me,rank=matchRank(R.elo),pers='ABCDEFGHIJ'[Math.floor(Math.random()*10)];
+  const opp=pickOppWizard(pers,me,ROSTER),name=genUsername(),elo=Math.max(100,RANK_ELO(rank)+Math.round((Math.random()-.5)*70));
+  const tok=MM={};openOv(`<div class="mm"><h2>Finding an opponent<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></h2><p class="lbl">Searching near Elo ${R.elo}</p><div class="acts"><button class="btn alt" data-a="mmcancel">Cancel</button></div></div>`);
+  setTimeout(()=>{if(MM!==tok)return;openOv(`<div class="mm"><h2>Opponent found!</h2><div class="mmopp"><i class="por ci-wz_${opp}"></i><div><b>${esc(name)}</b><span>Elo ${elo}</span><span class="lbl">playing ${RNAME[opp]}</span></div></div></div>`);
+    setTimeout(()=>{if(MM!==tok)return;MM=null;closeOv();begin(me,opp,{ranked:{name,elo,rank,pers}});},1600);},1200+Math.random()*1600);}
 function selNeed(){const m=OPT.mode||'duel';return m==='ffa'?(OPT.np>2?OPT.np:4)-1:m==='coop'?(OPT.coopN||3)-1:m==='2v2'?3:1;}
 function launch(){
   const pool=ROSTER.filter(avail),pickR=a=>a[Math.floor(Math.random()*a.length)];
   const mode=OPT.mode||'duel';
+  if(mode==='ranked'){rankedLaunch();return;}
   if(mode!=='duel'){const need=selNeed(),me=rnd.me?pickR(pool):pickSel.me;let os=rnd.opp?[]:(pickSel.opps||[]).filter(w=>w!==me).slice(0,need);const rest=pool.filter(w=>w!==me&&!os.includes(w));while(os.length<need)os.push(rest.splice(Math.floor(Math.random()*rest.length),1)[0]);
     if(mode==='coop')begin(me,null,{coop:os,rb:OPT.rbdiff||'medium'});else if(mode==='2v2')begin(me,null,{tvt:os});else begin(me,null,{multi:os});return;}
   if(OPT.tour){const P=loadProf();let T=P.tour;if(!T){T=P.tour={me:rnd.me?pickR(pool):pickSel.me,diff:OPT.diff,wins:0};saveProf(P);}
@@ -1127,8 +1163,8 @@ function blankProf(){return {ffa:{g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},tour:null,tb
 function loadProf(){try{const p=JSON.parse(localStorage.getItem(PKEY)||'null');if(p&&p.v===1)return Object.assign(blankProf(),p);}catch(e){}return blankProf();}
 function saveProf(p){try{localStorage.setItem(PKEY,JSON.stringify(p));}catch(e){}}
 const cell=(P,d,me,op)=>((P.rec[d]||{})[me]||{})[op]||[0,0];
-const DIFFS=['easy','normal','medium','hard','expert'];
-const DNAME={easy:'Easy',normal:'Normal',medium:'Medium',hard:'Hard',expert:'Expert'};
+const DIFFS=['easy','normal','medium','hard','expert','ranked'];
+const DNAME={easy:'Easy',normal:'Normal',medium:'Medium',hard:'Hard',expert:'Expert',ranked:'Ranked'};
 const dl=d=>d?(d==='hard'?['hard','expert']:[d]):DIFFS;   // 'Hard' achievements also count Expert
 const winsWith=(P,w,d)=>dl(d).reduce((s,x)=>s+ROSTER.reduce((t,o)=>t+cell(P,x,w,o)[0],0),0);
 const beats=(P,o,d)=>dl(d).reduce((s,x)=>s+ROSTER.reduce((t,w)=>t+cell(P,x,w,o)[0],0),0);
@@ -1229,6 +1265,12 @@ A('coop10','Robot Wranglers','Win 10 Co-op matches.',P=>CO(P).w>=10,P=>[CO(P).w,
 A('tvt1','Dynamic Duo','Win a Two-on-Two match.',P=>TV(P).w>=1);
 A('tvt10','Tag Team Champions','Win 10 Two-on-Two matches.',P=>TV(P).w>=10,P=>[TV(P).w,10]);
 A('medic','Field Medic','Heal an ally in a team match.',(P,G)=>G.allyHeal>0);
+A('rk1','Ranked Debut','Play a Ranked match.',P=>RK(P).g>=1);
+A('rk1000','Climbing','Reach 1000 Elo in Ranked.',P=>RK(P).peak>=1000,P=>[Math.min(RK(P).peak,1000),1000]);
+A('rk1200','Contender','Reach 1200 Elo in Ranked.',P=>RK(P).peak>=1200,P=>[Math.min(RK(P).peak,1200),1200]);
+A('rk1400','Storm Elite','Reach 1400 Elo in Ranked.',P=>RK(P).peak>=1400,P=>[Math.min(RK(P).peak,1400),1400]);
+A('rkgiant','Giant Slayer','In Ranked, beat an opponent rated 150 or more above you.',P=>!!RK(P).giant);
+A('rkstreak','Hot Streak','Win 5 Ranked matches in a row.',P=>RK(P).best>=5,P=>[Math.min(RK(P).best,5),5]);
 function recordGame(r){
   if(!TR||TR.tutorial)return [];const P=loadProf(),won=S.team?S.team[r.winner]===S.team[0]:r.winner===0,me=S.pl[0];
   P.games++;const d=TR.diff;P.rec[d]=P.rec[d]||{};P.rec[d][TR.me]=P.rec[d][TR.me]||{};const c=P.rec[d][TR.me][TR.opp]=P.rec[d][TR.me][TR.opp]||[0,0];c[1]++;
@@ -1238,6 +1280,7 @@ function recordGame(r){
     if(P.tour.wins>=7){P.trophy=P.trophy||{};if(!P.trophy[d])P.trophy[d]={t:Date.now(),w:TR.me};TOURRES={kind:'champ',n:7,diff:d};P.tour=null;}
     else TOURRES={kind:'win',n:P.tour.wins,next:tourOrder(P.tour.me)[P.tour.wins]};}
   else{TOURRES={kind:'lose',n:P.tour.wins};P.tour=null;}}
+  if(TR.ranked&&S.ranked){clearSave();const R=RK(P),dl2=eloDelta(R.elo,S.ranked.elo,won?1:0,R.g),x=applyRanked(P,S.ranked,TR.me,won,dl2);RANKRES={old:x.old,now:x.now,d:dl2,won,name:S.ranked.name,opp:S.ranked.elo};}
   if(TR.opp==='coop'){const C=P.coop=Object.assign({g:0,w:0,we:0,wm:0,wh:0,w4:0},P.coop||{});C.g++;if(won){C.w++;C['w'+(S.diff||'medium')[0]]++;if(S.pl.length===4)C.w4++;}}
   if(TR.opp==='2v2'){const V=P.tvt=Object.assign({g:0,w:0},P.tvt||{});V.g++;if(won)V.w++;}
   if(TR.opp==='ffa'){const n=S.pl.length,F=P.ffa=Object.assign({g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},P.ffa||{});F.g++;F['g'+n]++;if(won){F.w++;F['w'+n]++;if(me.shards>=8)F.ws++;}}
@@ -1258,8 +1301,8 @@ function statsSheet(){
     const colT=[...ROSTER,'robot'].map(o=>{let a=0,g=0;for(const w of ROSTER)if(w!==o){const c=cl(w,o);a+=c[0];g+=c[1];}return `<th>${g?a+'/'+g:'—'}</th>`;}).join('');
     const G=P.games,Wn=P.wins;
     const tr=d=>{const x=(P.trophy||{})[d];return `<div class="troph${x?'':' off'}">${TROPHY}<span><b>${DNAME[d]} Tournament</b><small>${x?`Won as ${esc(RNAME[x.w])}`:'Not won yet'}</small></span></div>`;};
-    body=`<div class="trophies">${tr('normal')}${tr('hard')}${tr('expert')}</div>${P.tour?`<p class="lbl" style="text-align:left;margin:0 0 8px">Tournament in progress: ${P.tour.wins}/7 as ${RNAME[P.tour.me]} (${DNAME[P.tour.diff]}).</p>`:''}<div class="kpis"><div class="kpi"><b>${G}</b><span>Matches played</span></div><div class="kpi"><b>${Wn}</b><span>Wins</span></div><div class="kpi"><b>${G-Wn}</b><span>Losses</span></div><div class="kpi"><b>${G?Math.round(100*Wn/G):0}%</b><span>Win rate</span></div><div class="kpi"><b>${P.streak}</b><span>Current streak</span></div><div class="kpi"><b>${P.best}</b><span>Best streak</span></div><div class="kpi"><b>${hardWins(P)}</b><span>Hard wins</span></div><div class="kpi"><b>${FF(P).w}/${FF(P).g}</b><span>Free-for-All wins</span></div><div class="kpi"><b>${CO(P).w}/${CO(P).g}</b><span>Co-op wins</span></div><div class="kpi"><b>${TV(P).w}/${TV(P).g}</b><span>Two-on-Two wins</span></div></div>
-    <p style="margin:4px 0 6px"><span class="seg">${['all','easy','normal','medium','hard','expert'].map(d=>`<button data-a="sdiff" data-v="${d}" aria-pressed="${statsDiff===d}">${d[0].toUpperCase()+d.slice(1)}</button>`).join('')}</span></p>
+    body=`<div class="trophies">${tr('normal')}${tr('hard')}${tr('expert')}</div>${P.tour?`<p class="lbl" style="text-align:left;margin:0 0 8px">Tournament in progress: ${P.tour.wins}/7 as ${RNAME[P.tour.me]} (${DNAME[P.tour.diff]}).</p>`:''}<div class="kpis"><div class="kpi"><b>${G}</b><span>Matches played</span></div><div class="kpi"><b>${Wn}</b><span>Wins</span></div><div class="kpi"><b>${G-Wn}</b><span>Losses</span></div><div class="kpi"><b>${G?Math.round(100*Wn/G):0}%</b><span>Win rate</span></div><div class="kpi"><b>${P.streak}</b><span>Current streak</span></div><div class="kpi"><b>${P.best}</b><span>Best streak</span></div><div class="kpi"><b>${hardWins(P)}</b><span>Hard wins</span></div><div class="kpi"><b>${FF(P).w}/${FF(P).g}</b><span>Free-for-All wins</span></div><div class="kpi"><b>${RK(P).elo}</b><span>Ranked Elo (peak ${RK(P).peak})</span></div><div class="kpi"><b>${CO(P).w}/${CO(P).g}</b><span>Co-op wins</span></div><div class="kpi"><b>${TV(P).w}/${TV(P).g}</b><span>Two-on-Two wins</span></div></div>
+    <p style="margin:4px 0 6px"><span class="seg">${['all','easy','normal','medium','hard','expert','ranked'].map(d=>`<button data-a="sdiff" data-v="${d}" aria-pressed="${statsDiff===d}">${d[0].toUpperCase()+d.slice(1)}</button>`).join('')}</span></p>
     <p class="lbl" style="text-align:left;margin:0 0 4px">Wins/matches. Rows are the wizard you played; columns are the opponent.</p>
     <div class="mxw"><table class="mx"><tr><th>You \ vs</th>${[...ROSTER,'robot'].map(o=>`<th>${SH[o]}</th>`).join('')}<th>Total</th></tr>${rows}<tr><th>Beaten</th>${colT}<th></th></tr></table></div>
     <div class="kpis" style="margin-top:10px"><div class="kpi"><b>${P.tot.dmg}</b><span>Damage dealt</span></div><div class="kpi"><b>${P.tot.heal}</b><span>Health healed</span></div><div class="kpi"><b>${P.tot.counters}</b><span>Counters</span></div><div class="kpi"><b>${P.tot.ults}</b><span>Ultimates</span></div><div class="kpi"><b>${P.tot.shards}</b><span>Storm Shards</span></div></div>`;
@@ -1289,16 +1332,16 @@ async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
   SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];}
-  else{S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(OPT.long&&!o.tutorial){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,S.diff);TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
+  else{if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked)S.diff='normal';if(OPT.long&&!o.tutorial&&!o.ranked){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
   G=new Game(S,makeIO(id));renderLog();render();
   if(S.win&&!o.resume)setTimeout(()=>{if(id===gameId)makeIO(id).log(`Long Match: every wizard has 50% more health, and ${S.win} Storm Shards win.`,'ini');},0);
   if(o.resume)makeIO(id).log(`Match resumed at battle ${S.battle}, round ${S.round}.`,'head');
-  else makeIO(id).log(S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
+  else makeIO(id).log(S.ranked?`Ranked match: you play ${WIZ[S.pl[0].wiz].n} against ${S.ranked.name} (Elo ${S.ranked.elo}), who plays ${WIZ[S.pl[1].wiz].n}.`:S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
   try{const r=await (o.resume?G.resumeRun():G.run());if(id!==gameId)return;clearSave();S.blast=null;S.potion=null;pending=null;TUT.step=null;const fresh=recordGame(r);render();SFX.play(r.winner===0?'win':'lose');await sleep(600);if(id===gameId)showEnd(r,fresh);}
   catch(err){console.error(err);if(id===gameId)openOv(`<h2>Something went wrong</h2><p>${esc(err.message)}</p><div class="acts"><button class="btn" data-a="again">Restart</button></div>`);}
 }
 function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&&!S.pl[q].out&&(!S.team||S.team[q]!==S.team[0]))??1,wasTour=TR&&TR.tour;
-  const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();toast(wasTour?'You resigned. It counts as a loss, and your tournament run has ended.':'You resigned. It counts as a loss.');}
+  const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();toast(RANKRES?`You resigned. Elo ${RANKRES.old} → ${RANKRES.now} (${RANKRES.d}).`:wasTour?'You resigned. It counts as a loss, and your tournament run has ended.':'You resigned. It counts as a loss.');}
 function teardown(){ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
