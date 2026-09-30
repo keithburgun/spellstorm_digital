@@ -41,10 +41,10 @@ Object.assign(CARDS, {
     const pick = await g.decide(p, { k: 'pick', q: 'Beetle Buster: you may discard a Fire card from your hand to deal 2 damage.', items: fs, min: 0, max: 1, cpu: x => [worst(x)] });
     for (const c of pick) { await g.discardFrom(p, c, 'hand'); await g.dmg(p, 2); } } },
   shuriken: { n: 'Shuriken', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    const S = g.S, o = g.nextOpp(p), oc = S.slot[o]; const can = !!(oc && S.phase === 'resolve' && S.cancel && !S.cancel[o] && !S.done[o]);
-    const k = await g.decide(p, { k: 'opt', q: 'Shuriken: choose one.', opts: ['Gain Initiative and draw a card', `Cancel ${oc ? CARDS[oc.id].n : 'their card'} — they discard it and draw`], dis: [false, !can], cpu: can && CARDS[oc.id].v >= 6 ? 1 : 0 });
+    const S = g.S, cands = g.opps(p).filter(q => S.slot[q] && S.phase === 'resolve' && S.cancel && !S.cancel[q] && !S.done[q]), can = cands.length > 0, oc0 = can ? S.slot[cands[0]] : null;
+    const k = await g.decide(p, { k: 'opt', q: 'Shuriken: choose one.', opts: ['Gain Initiative and draw a card', cands.length > 1 ? 'Cancel an opponent’s revealed card — they discard it and draw' : `Cancel ${oc0 ? CARDS[oc0.id].n : 'their card'} — they discard it and draw`], dis: [false, !can], cpu: can && CARDS[oc0.id].v >= 6 ? 1 : 0 });
     if (k === 0) { g.gainInit(p); await g.draw(p, 1); }
-    else { S.cancel[o] = true; g.log(`Shuriken! ${CARDS[oc.id].n} is discarded without resolving.`, 'big'); await g.draw(o, 1); } } },
+    else { const o = cands.length > 1 ? await g.decide(p, { k: 'player', q: 'Shuriken: cancel whose card?', opps: cands, cpu: cands.slice().sort((a, b) => CARDS[S.slot[b].id].v - CARDS[S.slot[a].id].v)[0] }) : cands[0], oc = S.slot[o]; S.cancel[o] = true; g.log(`Shuriken! ${CARDS[oc.id].n} is discarded without resolving.`, 'big'); await g.draw(o, 1); } } },
   // Croh
   undertow: { n: 'Undertow', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     for (const q of g.opps(p)) await g.randomDiscard(q, 1); await g.draw(p, 1); if (g.opps(p).some(q => g.S.pl[p].hand.length >= handSize(g.S, q) + 3)) await g.gainDoom(p); } },
@@ -73,7 +73,7 @@ Object.assign(CARDS, {
       const t2 = CARDS[c.id].t === 2; await g.discardFrom(p, c, 'hand'); await g.dmg(p, t2 ? 2 : 1); }
     if (P.energy) await g.mana(p, P.energy); const lost = Math.min(2, P.energy); P.energy -= lost; if (lost) g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} ${lost} Energy.`); } },
   databreach: { n: 'Data Breach', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    const o = g.nextOpp(p), P = g.S.pl[p], O = g.S.pl[o]; const mx = Math.min(2, P.energy); let k = 0;
+    const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), P = g.S.pl[p], O = g.S.pl[o]; const mx = Math.min(2, P.energy); let k = 0;
     if (mx) k = await g.decide(p, { k: 'opt', q: `Data Breach: lose Energy to Power Up that many times. (You have ${P.energy}.)`, opts: ['Lose none', 'Lose 1', 'Lose 2'], dis: [false, mx < 1, mx < 2], cpu: P.energy === 2 ? 0 : 1 });
     if (k) { P.energy -= k; await g.power(p, k); }
     if (P.energy >= 2 && O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } } else if (P.energy >= 2 && O.hand.length) {
@@ -85,7 +85,9 @@ Object.assign(CARDS, {
   buddy: { n: 'Buddy System', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     for (const q of g.order()) if (g.S.pl[q].tier === 1) await g.power(q, 1);
     await g.power(p, 1); await g.mana(p, 1);
-    const oc = g.opps(p).map(q => g.S.rev[q]).find(c => isEl(c, 'E') && !CARDS[c.id].junk) || g.S.rev[g.next(p)]; if (isEl(oc, 'E') && !CARDS[oc.id].junk && await g.yn(p, `Buddy System: resolve the revealed ${CARDS[oc.id].n} for yourself?`, CARDS[oc.id].v >= 4)) await g.resolve(p, oc, 'copy'); } },
+    const cands = [...g.S.pl.keys()].filter(q => q !== p).map(q => g.S.rev[q]).filter(c => isEl(c, 'E') && !CARDS[c.id].junk);
+    if (cands.length === 1) { const oc = cands[0]; if (await g.yn(p, `Buddy System: resolve the revealed ${CARDS[oc.id].n} for yourself?`, CARDS[oc.id].v >= 4)) await g.resolve(p, oc, 'copy'); }
+    else if (cands.length > 1) { const [oc] = await g.decide(p, { k: 'pick', q: 'Buddy System: you may resolve a different revealed Earth card for yourself.', items: cands, min: 0, max: 1, cpu: x => [best(x)] }); if (oc) await g.resolve(p, oc, 'copy'); } } },
   snowday: { n: 'Snow Day', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.heal(p, 2); for (const q of g.opps(p)) if (!g.S.pl[q].discard.some(c => c.id === 'ice')) await g.gainSpecial(q, 'ice'); } },
 });
@@ -163,7 +165,7 @@ Game.prototype.heal = async function (p, n) {
   if (n <= 0) return; const P = this.S.pl[p];
   if (P.wiz === 'croh') { this.log('Accursed: Croh can’t heal — he gives a CURSE instead.'); await this.giveAll(p, 'curse'); return; }
   if (P.wiz === 'bunny') {
-    const k = Math.min(n, 10 - P.hp), w = n - k; P.hp += k; if (k) { this.log(`${this.nm(p)} ${p === 0 ? 'heal' : 'heals'} ${k}.`, 'heal'); this.ev('heal', p, k); }
+    const k = Math.min(n, Math.max(0, P.max + 2 - P.hp)), w = n - k; P.hp += k; if (k) { this.log(`${this.nm(p)} ${p === 0 ? 'heal' : 'heals'} ${k}.`, 'heal'); this.ev('heal', p, k); }
     if (w > 0) { this.log(`Triple Stitch: ${this.nm(p)} ${p === 0 ? 'draw' : 'draws'} ${w} for wasted healing.`); this.ev('stitch', p, w); await this.draw(p, w); }
     return;
   }
@@ -230,9 +232,12 @@ Game.prototype.afterPlay = async function () {
   S.resolving = null;
   if (W.after) for (const p of this.order()) await this.offerUlt(p, false);
   for (const p of this.order()) {
-    const P = S.pl[p], oc = this.opps(p).map(q => S.rev[q]).find(c => c && CARDS[c.id].t === 2) || S.rev[this.next(p)];
-    if (P.wiz === 'may' && P.energy >= 1 && P.mana >= 1 && oc && CARDS[oc.id].t === 2) {
-      if (await this.yn(p, `Dangerous Download: spend 1 Energy and 1 mana to resolve ${CARDS[oc.id].n} for yourself?`, CARDS[oc.id].v >= 7)) {
+    const P = S.pl[p], cands = [...S.pl.keys()].filter(q => q !== p).map(q => S.rev[q]).filter(c => c && CARDS[c.id].t === 2);
+    if (P.wiz === 'may' && P.energy >= 1 && P.mana >= 1 && cands.length) {
+      let oc = null;
+      if (cands.length === 1) { if (await this.yn(p, `Dangerous Download: spend 1 Energy and 1 mana to resolve ${CARDS[cands[0].id].n} for yourself?`, CARDS[cands[0].id].v >= 7)) oc = cands[0]; }
+      else [oc] = await this.decide(p, { k: 'pick', q: 'Dangerous Download: you may spend 1 Energy and 1 mana to resolve another player’s revealed Tier II card.', items: cands, min: 0, max: 1, cpu: x => { const b = best(x); return CARDS[b.id].v >= 7 ? [b] : []; } });
+      if (oc) {
         P.energy--; P.mana--; this.ev('download', p); this.log(`${this.nm(p)} ${p === 0 ? 'download' : 'downloads'} ${CARDS[oc.id].n}!`, 'big'); await this.resolve(p, oc, 'copy');
       }
     }

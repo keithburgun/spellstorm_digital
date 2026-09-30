@@ -503,6 +503,8 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #coach .cacts{grid-area:a;display:flex;justify-content:flex-end;align-items:center;gap:8px;min-height:38px}
 #coach[data-dock=log] .cbox{grid-template-columns:1fr;grid-template-rows:minmax(0,42%) minmax(0,1fr) auto;grid-template-areas:"d" "t" "a"}
 #coach[data-dock=log] .cderby{background-position:bottom center}
+.duel .card.won{position:relative;z-index:3}
+.longm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -582,7 +584,7 @@ function panel(p){
    <span data-k="mana" class="stat${an('mana')}" title="Mana — ${W.un} costs ${W.cost}">${IC.mana}${P.mana}<small>/${W.cost}</small></span>
    <span data-k="power" class="stat${an('power')}" title="Tier and Power track">${IC.power}Tier ${ROM[P.tier]} <span class="pips">${pw}</span><small class="pn">${P.power}/6</small></span>
   </div>
-  ${xtra(p)}<div class="piles">${backs}<button class="chip" data-a="pile" data-z="deck" data-p="${p}">Deck ${P.deck.length}</button><button class="chip" data-a="pile" data-z="discard" data-p="${p}">Discard ${P.discard.length}</button></div></div><div class="goals">${hearts(P,an('hp'))}<span data-k="shards" class="goal${an('shards')}" title="Storm Shards — first to 8 wins">${IC.shard}<b>${P.shards}</b><small>/8</small></span></div>${tools}`;
+  ${xtra(p)}<div class="piles">${backs}<button class="chip" data-a="pile" data-z="deck" data-p="${p}">Deck ${P.deck.length}</button><button class="chip" data-a="pile" data-z="discard" data-p="${p}">Discard ${P.discard.length}</button></div></div><div class="goals">${hearts(P,an('hp'))}<span data-k="shards" class="goal${an('shards')}" title="Storm Shards — first to ${S.win||8} wins">${IC.shard}<b>${P.shards}</b><small>/${S.win||8}</small></span></div>${tools}`;
 }
 function hearts(P,cls=''){
   const cap=P.wiz==='bunny'?Math.max(P.max,P.hp):P.max, cols=Math.min(10,cap);
@@ -658,6 +660,14 @@ function anim(){
       if(s.zone!==o.zone)glide(o.e,s.r,o.r,460*sp);                                                        // changed zones: travel
       else if(o.zone==='hand'&&(Math.abs(s.r.left-o.r.left)>3||Math.abs(s.r.top-o.r.top)>3)&&(gone.length||came.length))glide(o.e,s.r,o.r,220*sp);}}  // hand reflow
   SEEN=new Map([...now].map(([u,o])=>[u,{zone:o.zone,id:o.id,r:o.r}]));}
+// Counter: the countering card leans into the card it beat, which recoils (2 players); pulse + shake in multiplayer.
+function counterAnim(p){if(!S||RM())return;const t=S.pl.length>2?nextOppOf(S,p):1-p;
+  const a=$(`#arena .duel [data-a=slot][data-p="${p}"]`),b=$(`#arena .duel [data-a=slot][data-p="${t}"]`);if(!a)return;
+  if(S.pl.length===2){const d=p===1?1:-1;
+    a.animate([{transform:'none'},{transform:`translateX(${d*24}px) rotate(${d*13}deg) scale(1.07)`,offset:.28},{transform:`translateX(${d*12}px) rotate(${d*6}deg) scale(1.03)`,offset:.5},{transform:'none'}],{duration:950,easing:'cubic-bezier(.3,.7,.3,1)'});
+    if(b)b.animate([{transform:'none'},{transform:'none',offset:.2},{transform:`translateX(${d*12}px) rotate(${-d*7}deg)`,offset:.38},{transform:'none'}],{duration:950,easing:'ease-out'});}
+  else{a.animate([{transform:'none'},{transform:'scale(1.14)',offset:.35},{transform:'none'}],{duration:700,easing:'ease-out'});
+    if(b)b.animate([{transform:'none'},{transform:'translateX(-6px)',offset:.15},{transform:'translateX(5px)',offset:.35},{transform:'translateX(-3px)',offset:.55},{transform:'none'}],{duration:520,delay:150});}}
 function glide(el,from,to,ms){const dx=from.left-to.left,dy=from.top-to.top,s=from.width/Math.max(1,to.width);
   el.animate([{transform:`translate(${dx}px,${dy}px) scale(${s})`},{transform:'none'}],{duration:ms,easing:'cubic-bezier(.25,.8,.25,1)'});}
 function slideIn(el,r,src,delay){const sr=src&&src.getBoundingClientRect();
@@ -855,9 +865,8 @@ function arenaHTML(){
     :`<div class="slot" style="aspect-ratio:1050/750;width:auto;height:calc(var(--cw)*1.4)">Weather deck<br>${S.wdeck.length} cards</div>`;
   const shop=S.phase==='regroup'||S.phase==='gain';const last=!shop&&S.battle&&S.round===4;const rnd=shop?'Regroup':S.battle?`Round ${S.round} of 4`:'Game start';
   const sd=p=>{const c=S.slot[p];const el=c&&CARDS[c.id].el;let cls='';
-    if(c&&on('won')&&FX.wonP===p)cls+=' won';if(c&&on('won')&&S.pl.length===2&&S.slot[1-p])cls+=FX.wonP===p?' bump':' recoil';if(c&&S.resolving===p)cls+=' resolving';
+    if(c&&on('won')&&FX.wonP===p)cls+=' won';if(c&&S.resolving===p)cls+=' resolving';
     if(!c)return `<div class="slot">${p?'Waiting':'Your card'}</div>`;
-    if(c&&S.pl.length>2&&FX.ctr){const nw=performance.now();if(FX.ctr.some(x=>x.p===p&&nw<x.until))cls+=' cpop';if(FX.ctr.some(x=>x.t===p&&nw<x.until))cls+=' cshake';}
     if(p!==0&&!S.revealed)return '<i class="card back ci-back"></i>';
     if(S.pl[p].rb&&S.rbMore&&S.rbMore[p]&&S.rbMore[p].length){const x=S.rbMore[p][S.rbMore[p].length-1];return `<span class="rbstack">${card(c,'rbjunk',`data-a="slot" data-p="${p}"`)}${card(x,cls,`data-a="rbx" data-u="${x.u}"`)}</span>`;}
     return card(c,(p!==0&&on('flip')?'flip':'')+cls,`data-a="slot" data-p="${p}" style="--elc:${ELC[el]};--bd:${FX.wonP===1?1:-1}"`);};
@@ -909,7 +918,7 @@ function renderLog(){
 let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
-function fx(t,p){const n=performance.now();if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+function fx(t,p){const n=performance.now();if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='hit')SFX.play('hit');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
@@ -961,10 +970,11 @@ function rules(){openOv(`<div class="rules"><h2>How a game goes</h2>
 <h3>Resources</h3><p>Mana pays for your Ultimate, offered whenever you resolve a card with the Ultimate icon. Power fills a 6-step track; overflowing raises your Tier (I to III), and at Tier III it lets you take a Dragon.</p>
 <h3>Winning</h3><p>Reach 8 Storm Shards, or bring your opponent to 0 health.</p>
 <h3>Free-for-All (3–4 players)</h3><p>Everyone starts with 2 Storm Shards. Damage and “give” effects hit every opponent. You counter the next player clockwise, shown by the arrows on the table. A wizard at 0 health is eliminated and their cards go to the VOID. The last wizard standing, or the first to 8 Storm Shards, wins. In a Blast, the single highest score gains 2 Shards; tied highest scores gain 1 each.</p>
+<h3>Long Match</h3><p>An optional setting: every wizard has 50% more health (rounded), and you need 12 Storm Shards to win instead of 8.</p>
 <h3>Co-op vs Robot Boy and Two-on-Two</h3><p>You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next <i>opponent</i> clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.</p></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
 function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
 <p>Layout</p><div class="acts" style="justify-content:flex-start"><button class="btn ${$('#app').classList.contains('phone')?'':'alt'}" data-a="phone">Phone view ${$('#app').classList.contains('phone')?'on':'off'}</button><button class="btn alt" data-a="rules">Rules</button></div>
-<div class="acts"><button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
+<div class="acts"><button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
 const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v10c0 10-6 17-14 18-8-1-14-8-14-18z" fill="currentColor"/><path d="M18 12H8c0 9 5 14 11 15M46 12h10c0 9-5 14-11 15" fill="none" stroke="currentColor" stroke-width="4"/><rect x="28" y="36" width="8" height="10" fill="currentColor"/><rect x="19" y="46" width="26" height="8" rx="2" fill="currentColor"/></svg>';
 function showEnd(r,fresh=[]){
   const w=r.winner,W=WIZ[S.pl[w].wiz],T=TOURRES,why=r.why==='shards'?'by collecting 8 Storm Shards':r.why==='health'?'by bringing their rival to 0 health':'on the tiebreak';
@@ -973,7 +983,7 @@ function showEnd(r,fresh=[]){
     else if(T.kind==='champ')head=`<div class="tourhead champ">${TROPHY}<span class="tourbig">TOURNAMENT CHAMPION!</span><span>You beat all 7 opponents on ${DNAME[T.diff]}. Your trophy is on the Stats screen.</span></div>`;
     else head=`<div class="tourhead lose"><span class="tourbig">TOURNAMENT OVER</span><span>${esc(WIZ[S.pl[1].wiz].n)} ended your run. You defeated ${T.n} of 7 opponents.</span></div>`;}
   openOv(`${head}<p>${w===0?'You':esc(W.n)} won ${why} after ${S.battle} battle${S.battle>1?'s':''}.</p>
-  <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${DNAME[S.diff]} difficulty${T?', Tournament Mode':''}.</p>
+  <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${DNAME[S.diff]} difficulty${T?', Tournament Mode':''}${S.win?', Long Match':''}.</p>
   ${fresh.length?`<h2 style="font-size:1.1rem;margin-top:10px">Achievements unlocked</h2><div class="newach">${fresh.map(a=>`<span>${esc(a.n)}</span>`).join('')}</div>`:''}
   <div class="acts">${T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
 }
@@ -1044,6 +1054,8 @@ document.addEventListener('click',e=>{
   if(a==='setnp'){OPT.np=+b.dataset.v;saveOpt();drawSelect();return;}
   if(a==='setmode'){OPT.mode=b.dataset.v;saveOpt();drawSelect();return;}
   if(a==='setcoopn'){OPT.coopN=+b.dataset.v;saveOpt();drawSelect();return;}
+  if(a==='resign1'){openOv(`<h2>Resign this match?</h2><p>It counts as a loss${TR&&TR.tour?', and it ends your tournament run':''}. Your saved match will be cleared.</p><div class="acts"><button class="btn" data-a="resign2" style="background:var(--hp)">Resign</button><button class="btn alt" data-a="close">Keep playing</button></div>`);return;}
+  if(a==='resign2'){resign();return;}
   if(a==='rules'){rules();return;}
   if(a==='menu'){menu();return;}
   if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
@@ -1089,10 +1101,10 @@ function drawSelect(){
   const isRB=mode==='coop'||(!MPs&&!tm&&!rnd.opp&&pickSel.opp==='robot');const dsel=lock?T.diff:isRB?(OPT.rbdiff||'medium'):OPT.diff;
   const diff=`<div class="row"><h2>Difficulty <span class="seg">${(isRB?['easy','medium','hard']:['easy','normal','hard','expert']).map(d=>`<button data-a="setdiff" data-v="${d}" aria-pressed="${dsel===d}" ${lock?'disabled':''}>${DNAME[d]}</button>`).join('')}</span>${lock?'<span class="lbl">&nbsp;locked for this tournament</span>':''}</h2></div>`;
   const go=tm?(lock?`Fight ${RNAME[next]}`:'Start the tournament'):'Start the storm';
-  setH($('#picks'),`<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
+  setH($('#picks'),`<div class="row"><label class="longm"><input type="checkbox" data-t="long" ${OPT.long?'checked':''}> <b>Long Match</b> <span class="lbl">+50% health for every wizard · 12 Storm Shards to win</span></label></div><div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
    <div class="info">${info}</div>${diff}<div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn alt" data-a="tutstart">Tutorial</button>${T?'<button class="btn alt" data-a="exittour">Exit Tournament</button>':''}<button class="btn" data-a="launch" style="font-size:1.1rem;padding:.7em 2em">${go}</button></div>${loadSave()?'<p class="lbl" style="text-align:center">Starting a new match replaces your saved match in progress.</p>':''}`);
 }
-document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
+document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='long'){OPT.long=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
 function selNeed(){const m=OPT.mode||'duel';return m==='ffa'?(OPT.np>2?OPT.np:4)-1:m==='coop'?(OPT.coopN||3)-1:m==='2v2'?3:1;}
 function launch(){
   const pool=ROSTER.filter(avail),pickR=a=>a[Math.floor(Math.random()*a.length)];
@@ -1277,13 +1289,16 @@ async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
   SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];}
-  else{S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,S.diff);TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
+  else{S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(OPT.long&&!o.tutorial){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,S.diff);TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
   G=new Game(S,makeIO(id));renderLog();render();
+  if(S.win&&!o.resume)setTimeout(()=>{if(id===gameId)makeIO(id).log(`Long Match: every wizard has 50% more health, and ${S.win} Storm Shards win.`,'ini');},0);
   if(o.resume)makeIO(id).log(`Match resumed at battle ${S.battle}, round ${S.round}.`,'head');
   else makeIO(id).log(S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
   try{const r=await (o.resume?G.resumeRun():G.run());if(id!==gameId)return;clearSave();S.blast=null;S.potion=null;pending=null;TUT.step=null;const fresh=recordGame(r);render();SFX.play(r.winner===0?'win':'lose');await sleep(600);if(id===gameId)showEnd(r,fresh);}
   catch(err){console.error(err);if(id===gameId)openOv(`<h2>Something went wrong</h2><p>${esc(err.message)}</p><div class="acts"><button class="btn" data-a="again">Restart</button></div>`);}
 }
+function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&&!S.pl[q].out&&(!S.team||S.team[q]!==S.team[0]))??1,wasTour=TR&&TR.tour;
+  const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();toast(wasTour?'You resigned. It counts as a loss, and your tournament run has ended.':'You resigned. It counts as a loss.');}
 function teardown(){ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}

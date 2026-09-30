@@ -21,7 +21,7 @@ Game.prototype.checkWin = function () {
   const S = this.S, pl = S.pl, n = pl.length; if (!S.team) return _checkWinTeam.call(this);
   const alive = [...pl.keys()].filter(i => !pl[i].out), close = a => a.slice().sort((x, y) => ((x - S.init + n) % n) - ((y - S.init + n) % n))[0];
   const pick = a => a.includes(0) ? 0 : a[0];
-  const eight = alive.filter(i => pl[i].shards >= 8);
+  const eight = alive.filter(i => pl[i].shards >= (S.win || 8));
   if (eight.length) { let w; if (new Set(eight.map(i => S.team[i])).size === 1) w = pick(eight); else { const mh = Math.max(...eight.map(i => pl[i].hp)); w = close(eight.filter(i => pl[i].hp === mh)); }
     S.over = { winner: w, why: 'shards', team: S.team[w] }; throw new GameOver(w, 'shards'); }
   const dying = alive.filter(i => pl[i].hp <= 0); if (!dying.length) return;

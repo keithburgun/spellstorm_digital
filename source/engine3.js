@@ -73,7 +73,7 @@ function evalHard(S, p) {
   v += wt * (d > 0 ? 14 : d < 0 ? -14 : 0);
   for (const [i, s] of [[p, 1], [op, -1]]) {
     const P = S.pl[i];
-    if (P.shards >= 5) v += s * (P.shards - 4) * 9;
+    const W8 = S.win || 8; if (P.shards >= W8 - 3) v += s * (P.shards - (W8 - 4)) * 9;   // closing in on the win
     if (P.hp <= 5) v -= s * (6 - P.hp) * 7;
   }
   return v;

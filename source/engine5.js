@@ -14,7 +14,7 @@ const _checkWin2 = Game.prototype.checkWin;
 Game.prototype.checkWin = function () {
   const S = this.S, pl = S.pl, n = pl.length; if (n === 2) return _checkWin2.call(this);
   const alive = [...pl.keys()].filter(i => !pl[i].out), close = a => a.slice().sort((x, y) => ((x - S.init + n) % n) - ((y - S.init + n) % n))[0];
-  const eight = alive.filter(i => pl[i].shards >= 8);
+  const eight = alive.filter(i => pl[i].shards >= (S.win || 8));
   if (eight.length) { const mh = Math.max(...eight.map(i => pl[i].hp)), w = close(eight.filter(i => pl[i].hp === mh)); S.over = { winner: w, why: eight.length > 1 ? 'tie' : 'shards' }; throw new GameOver(w, S.over.why); }
   const dying = alive.filter(i => pl[i].hp <= 0); if (!dying.length) return;
   const surv = alive.filter(i => pl[i].hp > 0);

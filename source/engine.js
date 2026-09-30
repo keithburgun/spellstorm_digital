@@ -71,7 +71,7 @@ const CARDS = {
     if (it.length) {
       const pick = await g.decide(p, { k: 'pick', q: 'Lava Bat: you may move a Fire card to the other discard pile.', items: it, owner: c => { const q = S.pl.findIndex(P => P.discard.includes(c)); return q === 0 ? 'Your discard' : WIZ[S.pl[q].wiz].short + '’s discard'; }, min: 0, max: 1,
         cpu: x => { const mine = x.filter(c => S.pl[p].discard.includes(c) && CARDS[c.id].junk); if (mine.length) return [mine[0]]; const th = x.filter(c => !S.pl[p].discard.includes(c) && !CARDS[c.id].junk); const b = th.length ? best(th) : null; return b && CARDS[b.id].v >= 6 ? [b] : []; } });
-      for (const c of pick) { const from = S.pl.findIndex(P => P.discard.includes(c)), to = from === p ? g.nextOpp(p) : p; S.pl[from].discard.splice(S.pl[from].discard.indexOf(c), 1); if (S.pl[to].rb && !CARDS[c.id].junk) S.void.push(c); else S.pl[to].discard.push(c); g.log(`${g.nm(p)} moved ${CARDS[c.id].n} to ${g.nm(to, 1, 1)} discard.`); }
+      for (const c of pick) { const from = S.pl.findIndex(P => P.discard.includes(c)), to = from === p ? await g.chooseOpp(p, 'Lava Bat: move it to which opponent’s discard pile?') : p; S.pl[from].discard.splice(S.pl[from].discard.indexOf(c), 1); if (S.pl[to].rb && !CARDS[c.id].junk) S.void.push(c); else S.pl[to].discard.push(c); g.log(`${g.nm(p)} moved ${CARDS[c.id].n} to ${g.nm(to, 1, 1)} discard.`); }
     }
     g.gainInit(p); } },
   ruby: { n: 'Ruby', el: 'F', t: 1, v: 6, fx: async (g, p) => {
@@ -259,10 +259,10 @@ class Game {
   async dmg(p, n) { await this.damage(1 - p, n); }
   async shards(p, n) { this.S.pl[p].shards += n; this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${n} Storm Shard${n > 1 ? 's' : ''}.`, 'shard'); this.checkWin(); }
   checkWin() {
-    const S = this.S, pl = S.pl; const cand = [0, 1].filter(i => pl[i].shards >= 8 || pl[1 - i].hp <= 0);
+    const S = this.S, pl = S.pl; const W8 = S.win || 8, cand = [0, 1].filter(i => pl[i].shards >= W8 || pl[1 - i].hp <= 0);
     if (!cand.length) return;
     let w, why;
-    if (cand.length === 1) { w = cand[0]; why = pl[w].shards >= 8 ? 'shards' : 'health'; }
+    if (cand.length === 1) { w = cand[0]; why = pl[w].shards >= W8 ? 'shards' : 'health'; }
     else {
       const bothDead = pl[0].hp <= 0 && pl[1].hp <= 0;
       if (bothDead && pl[0].shards !== pl[1].shards) w = pl[0].shards > pl[1].shards ? 0 : 1;
