@@ -35,5 +35,5 @@ app = app.replace('</body>', rd('native_hooks.html') + '\n</body>', 1)
 assert 'fonts.googleapis' not in app and 'exitApp' in app
 wr('../www/index.html', app)
 
-wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard};\n')
+wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard,BOTS,pickBot,botWizard};\n')
 print(f'web  dist/spellstorm.html  {len(web)/1e6:.2f} MB\napp  ../www/index.html      {len(app)/1e6:.2f} MB\ntest tests/eng_all.js')

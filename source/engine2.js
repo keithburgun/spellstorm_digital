@@ -74,7 +74,7 @@ Object.assign(CARDS, {
     if (P.energy) await g.mana(p, P.energy); const lost = Math.min(2, P.energy); P.energy -= lost; if (lost) g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} ${lost} Energy.`); } },
   databreach: { n: 'Data Breach', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), P = g.S.pl[p], O = g.S.pl[o]; const mx = Math.min(2, P.energy); let k = 0;
-    if (mx) k = await g.decide(p, { k: 'opt', q: `Data Breach: lose Energy to Power Up that many times. (You have ${P.energy}.)`, opts: ['Lose none', 'Lose 1', 'Lose 2'], dis: [false, mx < 1, mx < 2], cpu: P.energy === 2 ? 0 : 1 });
+    if (mx) k = mx === 1 ? 1 : 1 + await g.decide(p, { k: 'opt', q: `Data Breach: lose 1 or 2 Energy to Power Up that many times. (You have ${P.energy}.)`, opts: ['Lose 1', 'Lose 2'], dis: [false, mx < 2], cpu: P.energy >= 3 ? 0 : 1 });   // the card says lose 1 or 2
     if (k) { P.energy -= k; await g.power(p, k); }
     if (P.energy >= 2 && O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } } else if (P.energy >= 2 && O.hand.length) {
       g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`);

@@ -1119,7 +1119,7 @@ function drawSelect(){
 }
 document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='long'){OPT.long=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
 // ---------- Ranked (single-player Elo) ----------
-const RK=P=>Object.assign({elo:900,g:0,w:0,peak:900,hist:[],streak:0,best:0,giant:false},P.rk||{});
+const RK=P=>Object.assign({elo:900,g:0,w:0,peak:900,hist:[],streak:0,best:0,giant:false,bots:{}},P.rk||{});
 let RANKRES=null,MM=null;
 function rankedLobby(){const P=loadProf(),R=RK(P);
   const tile=w=>`<button class="tile" data-a="tile" data-r="me" data-w="${w}" aria-pressed="${pickSel.me===w&&!rnd.me}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`;
@@ -1132,11 +1132,12 @@ function rankedLobby(){const P=loadProf(),R=RK(P);
    ${hist?`<h3 class="rkh">Recent matches</h3><ul class="rkhist">${hist}</ul>`:''}`;}
 function applyRanked(P,rk,me,won,delta){const R=P.rk=RK(P);const old=R.elo;R.elo=Math.max(100,R.elo+delta);R.g++;
   if(won){R.w++;R.streak++;R.best=Math.max(R.best,R.streak);if(rk.elo-old>=150)R.giant=true;}else R.streak=0;R.peak=Math.max(R.peak,R.elo);
+  R.bots=R.bots||{};R.bots[rk.name]=Math.max(-150,Math.min(150,(R.bots[rk.name]||0)-Math.round(delta/2)));
   R.hist.push({name:rk.name,opp:rk.elo,me,won,d:delta,t:Date.now()});if(R.hist.length>30)R.hist=R.hist.slice(-30);return {old,now:R.elo};}
 function rankedLaunch(){let P=loadProf();
   const sv=loadSave();if(sv&&sv.S.ranked&&!sv.S.over){const R=RK(P),d=eloDelta(R.elo,sv.S.ranked.elo,0,R.g);applyRanked(P,sv.S.ranked,sv.S.pl[0].wiz,false,d);saveProf(P);clearSave();toast(`Your abandoned ranked match counted as a loss (${d}).`);P=loadProf();}
-  const R=RK(P),me=rnd.me?ROSTER[Math.floor(Math.random()*ROSTER.length)]:pickSel.me,rank=matchRank(R.elo),pers='ABCDEFGHIJ'[Math.floor(Math.random()*10)];
-  const opp=pickOppWizard(pers,me,ROSTER),name=genUsername(),elo=Math.max(100,RANK_ELO(rank)+Math.round((Math.random()-.5)*70));
+  const R=RK(P),me=rnd.me?ROSTER[Math.floor(Math.random()*ROSTER.length)]:pickSel.me,last=R.hist.length?R.hist[R.hist.length-1].name:null;
+  const bot=pickBot(R.elo,last),rank=bot.rank,pers=bot.pers,name=bot.name,opp=botWizard(bot,me,ROSTER),elo=Math.max(100,botBaseElo(bot)+((R.bots||{})[name]||0));
   const tok=MM={};openOv(`<div class="mm"><h2>Finding an opponent<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></h2><p class="lbl">Searching near Elo ${R.elo}</p><div class="acts"><button class="btn alt" data-a="mmcancel">Cancel</button></div></div>`);
   setTimeout(()=>{if(MM!==tok)return;openOv(`<div class="mm"><h2>Opponent found!</h2><div class="mmopp"><i class="por ci-wz_${opp}"></i><div><b>${esc(name)}</b><span>Elo ${elo}</span><span class="lbl">playing ${RNAME[opp]}</span></div></div></div>`);
     setTimeout(()=>{if(MM!==tok)return;MM=null;closeOv();begin(me,opp,{ranked:{name,elo,rank,pers}});},1600);},1200+Math.random()*1600);}
