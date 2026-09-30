@@ -13,7 +13,7 @@ const CARDS = {
   dart: { n: 'Magic Dart', el: 'F', t: 1, v: 3, ult: 1, fx: async (g, p) => { await g.mana(p, 1); if (g.hasInit(p)) await g.dmg(p, 1); } },
   block: { n: 'Block', el: 'W', t: 1, v: 3, fx: async (g, p) => { g.gainInit(p); const n = g.S.rev.filter(c => isEl(c, 'F')).length; if (n) await g.heal(p, n); } },
   pgem: { n: 'Power Gem', el: 'E', t: 1, v: 4, disc: 1,
-    fx: async (g, p) => { await g.power(p, 1); const c = await g.gainCard(p); if (c) await g.discardFrom(p, c, 'hand'); },
+    fx: async (g, p) => { await g.power(p, 1); const c = await g.gainCard(p); if (c && g.S.pl[p].hand.includes(c)) await g.pause(650); if (c) await g.discardFrom(p, c, 'hand'); },
     dfx: async (g, p) => { await g.power(p, 1); } },
   // essences
   essF: { n: 'Fire Essence', el: 'F', t: 1, v: 7, ess: 1, fx: async (g, p, x) => { await g.dmg(p, 1); await g.gainCard(p, { anyTier: 1, maxTier: 2, el: 'F' }); x.dest = 'void'; } },

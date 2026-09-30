@@ -494,11 +494,15 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 .ccap{display:block;margin-top:3px;font-size:.68rem;font-weight:700;color:var(--muted);white-space:nowrap;text-align:center}.ccap.lit{color:var(--ac)}.ccap b{color:var(--ac)}
 .side.allyside .lbl{color:#1f9a57}
 .modeseg{flex-wrap:wrap}
-/* Derby beside the tutorial bubble */
-#coach .cderby{position:absolute;bottom:0;height:min(190px,32vh);aspect-ratio:.8;background-size:contain;background-repeat:no-repeat;background-position:bottom center;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
-#coach .cderby.dl{right:calc(100% - 14px);background-position:bottom right}#coach .cderby.dr{left:calc(100% - 14px);background-position:bottom left}
-#coach .cderby.in{animation:rise .35s ease-out}
-@media (max-width:760px){#coach .cderby{height:92px;bottom:calc(100% - 10px)}#coach .cderby.dl{right:auto;left:-4px}#coach .cderby.dr{left:auto;right:-4px}}
+/* Tutorial panel: fixed size and home; Derby inside; buttons pinned along the bottom (Next always bottom-right) */
+#coach{transform:none;width:auto}
+#coach .cbox{box-sizing:border-box;height:100%;display:grid;grid-template-columns:clamp(64px,28%,130px) 1fr;grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"d t" "a a";gap:4px 10px;padding:10px 12px}
+#coach .cbox.dR{grid-template-columns:1fr clamp(64px,28%,130px);grid-template-areas:"t d" "a a"}
+#coach .cderby{grid-area:d;display:block;min-height:0;background-size:contain;background-repeat:no-repeat;background-position:bottom center}
+#coach .ctext{grid-area:t;min-height:0;overflow:hidden;font-size:1em}#coach .ctext p{margin:.2em 0 0;line-height:1.35}
+#coach .cacts{grid-area:a;display:flex;justify-content:flex-end;align-items:center;gap:8px;min-height:38px}
+#coach[data-dock=log] .cbox{grid-template-columns:1fr;grid-template-rows:minmax(0,42%) minmax(0,1fr) auto;grid-template-areas:"d" "t" "a"}
+#coach[data-dock=log] .cderby{background-position:bottom center}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -541,10 +545,29 @@ const tk=k=>`<i class="tk ci-tk_${k}"></i>`;
 const IC={hp:tk('hp'),mana:tk('mana'),power:tk('power'),bolt:tk('bolt'),shard:tk('shard')};
 let S=null,G=null,pending=null,logs=[],sel=[],thinking=false,FX={},speed=1,ended=null;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function setH(el,h){if(el._h!==h){el.innerHTML=h;el._h=h;}}
+function setH(el,h){if(el._h!==h){morph(el,h);el._h=h;}}
+// Update a section in place instead of rebuilding it: elements are matched by card identity (data-u) or position,
+// so an element that is still on screen keeps running whatever animation it is playing.
+const keyOf=n=>n.nodeType===1?(n.getAttribute('data-u')||n.getAttribute('data-key')):null;
+function morph(el,html){const tp=document.createElement('template');tp.innerHTML=html;syncKids(el,tp.content);}
+function syncKids(dst,src){
+  const byKey=new Map();for(const n of dst.childNodes){const k=keyOf(n);if(k)byKey.set(k,n);}
+  let i=0;for(const nn of [...src.childNodes]){const k=keyOf(nn);let use=null;
+    if(k){use=byKey.get(k)||null;if(use)byKey.delete(k);}
+    else{const c=dst.childNodes[i];if(c&&!keyOf(c)&&c.nodeType===nn.nodeType&&c.nodeName===nn.nodeName)use=c;}
+    if(use){patchNode(use,nn);if(dst.childNodes[i]!==use)dst.insertBefore(use,dst.childNodes[i]||null);}
+    else dst.insertBefore(nn,dst.childNodes[i]||null);
+    i++;}
+  while(dst.childNodes.length>i)dst.removeChild(dst.lastChild);}
+function patchNode(a,b){if(a.nodeType!==1){if(a.nodeValue!==b.nodeValue)a.nodeValue=b.nodeValue;return;}
+  for(const at of [...a.attributes])if(!b.hasAttribute(at.name)&&at.name!=='style')a.removeAttribute(at.name);
+  for(const at of b.attributes)if(a.getAttribute(at.name)!==at.value)a.setAttribute(at.name,at.value);
+  if(!b.hasAttribute('style')&&a.hasAttribute('style')&&!a._keepStyle)a.removeAttribute('style');
+  if(a.tagName==='INPUT')a.checked=b.hasAttribute('checked');
+  syncKids(a,b);}
 const on=k=>!!(FX[k]&&performance.now()<FX[k]);   // always true/false: classList.toggle(x, undefined) would flip the class on every render
 const ELT={F:'▲ FIRE',W:'● WATER',E:'■ EARTH'};
-function card(c,cls='',attrs=''){const d=CARDS[c.id];return `<button class="card ci-${c.id} ${cls}" data-cid="${c.id}" data-elt="${ELT[d.el]||''}" ${attrs} aria-label="${esc(d.n)}"></button>`;}
+function card(c,cls='',attrs=''){const d=CARDS[c.id];return `<button class="card ci-${c.id} ${cls}"${c.u&&!/data-u=/.test(attrs)?` data-u="${c.u}"`:''} data-cid="${c.id}" data-elt="${ELT[d.el]||''}" ${attrs} aria-label="${esc(d.n)}"></button>`;}
 
 function panel(p){
   const P=S.pl[p],W=WIZ[P.wiz];
@@ -605,32 +628,47 @@ addEventListener('resize',()=>{fitArena();layoutHand();requestAnimationFrame(lay
 function settle(){if(S)render();layoutHand();setTimeout(()=>{if(S)render();layoutHand();},300);setTimeout(layoutHand,700);}
 addEventListener('orientationchange',settle);
 if(window.ResizeObserver){let ro=null;const watch=()=>{const H=document.getElementById('hand');if(!H||ro)return;ro=new ResizeObserver(()=>requestAnimationFrame(layoutHand));ro.observe(H);ro.observe(document.getElementById('app'));};watch();}if(window.visualViewport)visualViewport.addEventListener('resize',()=>requestAnimationFrame(layoutHand));
-let LCLOUD=null,LIDS=[],LRECT=[],INC={},LHAND=null,LHID=new Map();
-function animHand(){const H=$('#hand');if(!H||!S)return;const els=[...H.querySelectorAll('.card[data-u]')],cur=new Map(els.map(e=>[+e.dataset.u,e]));
-  if(LHAND&&!RM()){
-    for(const [u,r] of LHAND)if(!cur.has(u)){const d=whereIs(u);fly(LHID.get(u),r,d,true);}                       // cards leaving your hand fly to where they went
-    const dk=$('#me [data-a=pile][data-z=deck]'),dr=dk&&dk.getBoundingClientRect();
-    for(const [u,e] of cur)if(!LHAND.has(u)&&dr){const r=e.getBoundingClientRect();                               // new cards fly in from your deck
-      e.animate([{transform:`translate(${dr.left+dr.width/2-(r.left+r.width/2)}px,${dr.top+dr.height/2-(r.top+r.height/2)}px) scale(.3)`,opacity:.2},{transform:'none',opacity:1}],{duration:430*speed,easing:'cubic-bezier(.2,.8,.25,1)'});}}
-  LHAND=new Map(els.map(e=>[+e.dataset.u,e.getBoundingClientRect()]));LHID=new Map(els.map(e=>[+e.dataset.u,e.dataset.cid]));}
 function whereIs(u){if(S.pl[0].hand.some(c=>c.u===u))return $(`#hand [data-u="${u}"]`)||$('#hand');for(let q=1;q<S.pl.length;q++)if(S.pl[q].hand.some(c=>c.u===u))return $(S.pl.length>2?'#seat'+q+' .porw':'#opp .porw');
   for(const q of S.pl.keys())if(S.pl[q].discard.some(c=>c.u===u))return $(`[data-a=pile][data-z=discard][data-p="${q}"]`)||$('#seat'+q);if(S.void.some(c=>c.u===u))return $('[data-a=void]');
   for(const q of S.pl.keys())if(S.slot[q]&&S.slot[q].u===u)return $(`#arena [data-p="${q}"]`)||$('#arena');return null;}
-function animCloud(){
-  const row=$('.crow');if(!row||!S)return;const cur=S.cloud.map(c=>c?c.u:null);const now=performance.now(),sp=Math.max(speed,.35);
-  const arrive=(u,ms)=>{INC[u]=now+ms;setTimeout(render,ms+5);setTimeout(render,ms+540);};
-  if(LCLOUD===null&&S.battle===0&&!RM()){cur.forEach((u,i)=>{if(u)arrive(u,(250+i*190)*sp);});}           // deal the Storm Cloud in at game start
-  else if(LCLOUD&&!RM()){
-    const ch=cur.map((u,i)=>LCLOUD[i]&&LCLOUD[i]!==u?i:-1).filter(i=>i>=0),bulk=ch.length>=3;
-    ch.forEach((i,k)=>{const pu=LCLOUD[i],u=cur[i],r=LRECT[i],id=LIDS[i],dest=whereIs(pu);
-      if(r){if(bulk)setTimeout(()=>fly(id,r,dest),k*170*sp);else fly(id,r,dest);}
-      if(u&&!INC[u])arrive(u,(bulk?ch.length*170+500+k*190:480)*sp);});}
-  LCLOUD=cur;LIDS=S.cloud.map(c=>c&&c.id);LRECT=[...row.children].map(e=>e.getBoundingClientRect());
-}
-function fly(id,r,dest,quiet){if(!r)return;if(!quiet)SFX.play('gain');else SFX.play('card');const g=document.createElement('div');g.className=`card ci-${id} ghost`;Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',zIndex:33,pointerEvents:'none',margin:0});
-  document.body.appendChild(g);let dx=0,dy=-40,s=.6,op=0;if(dest){const d=dest.getBoundingClientRect();dx=d.left+d.width/2-(r.left+r.width/2);dy=d.top+d.height/2-(r.top+r.height/2);s=Math.max(.25,Math.min(1.3,d.width/r.width));op=dest.classList.contains('card')?1:.15;if(dest.classList.contains('card'))dest.style.visibility='hidden';}
-  const a=g.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dx}px,${dy}px) scale(${s})`,opacity:op}],{duration:560*speed,easing:'cubic-bezier(.3,.75,.25,1)'});
-  a.onfinish=()=>{g.remove();if(dest)dest.style.visibility='';};}
+// ---------- card animation director ----------
+// After every render: compare where each card is now with where it was last seen, and animate each change exactly once.
+//   moved (e.g. Storm Cloud -> your hand, hand -> table): the real card glides from its old spot to its new one
+//   left the screen (discard pile, VOID, an opponent's hand): a ghost flies there, shrinking and fading
+//   arrived (drawn, dealt into the Storm Cloud): it slides in from the matching deck
+let SEEN=new Map(),ANIM_ON=false,TRANSIT=new Map();   // TRANSIT: cards that left the screen with nowhere visible to go yet
+function anim(){
+  if(!S)return;const now=new Map();
+  const grab=(sel,zone)=>{for(const e of document.querySelectorAll(sel)){const u=e.getAttribute('data-u');if(u)now.set(u,{e,zone,id:e.dataset.cid,r:e.getBoundingClientRect()});}};
+  grab('#cloud .crow .card[data-u]','cloud');grab('#hand .card[data-u]','hand');grab('#arena .duel .card[data-u]','slot');
+  const first=!ANIM_ON;ANIM_ON=true;
+  if(!RM()&&(!first||S.battle===0)){
+    const sp=Math.max(speed,.35),gone=[...SEEN].filter(([u])=>!now.has(u)),came=[...now].filter(([u])=>!SEEN.has(u));
+    const cloudOut=gone.filter(([,o])=>o.zone==='cloud'),bulkOut=cloudOut.length>=3;let k=0;
+    for(const [u,o] of gone){const dest=whereIs(+u);if(!dest){TRANSIT.set(u,{...o,t:performance.now()});continue;}   // mid-move: wait and see where it lands
+      const d=bulkOut&&o.zone==='cloud'?(k++)*170*sp:0;const go=()=>fly(o.id,o.r,dest,o.zone==='hand');d?setTimeout(go,d):go();}
+    for(const [u,o] of TRANSIT){if(now.has(u))continue;const dest=whereIs(+u);                                // landed off-screen (pile, VOID, opponent)
+      if(dest){fly(o.id,o.r,dest,o.zone==='hand');TRANSIT.delete(u);}else if(performance.now()-o.t>1500)TRANSIT.delete(u);}
+    const deal=first&&S.battle===0,cloudIn=came.filter(([,o])=>o.zone==='cloud'),bulkIn=deal||cloudIn.length>=3;let j=0;
+    const sdeck=$('#cloud .cfoot .chip'),mydeck=$('#me [data-a=pile][data-z=deck]');
+    for(const [u,o] of came){const tr=TRANSIT.get(u);if(tr){TRANSIT.delete(u);glide(o.e,tr.r,o.r,460*sp);continue;}   // reappeared: travel from where it was last seen
+      if(o.zone==='cloud'){const delay=deal?(250+j*190)*sp:bulkIn?(cloudOut.length*170+450+j*190)*sp:(cloudOut.length?300*sp:0);j++;slideIn(o.e,o.r,sdeck,delay);}
+      else if(o.zone==='hand')slideIn(o.e,o.r,mydeck,0);}
+    for(const [u,o] of now){const s=SEEN.get(u);if(!s)continue;
+      if(s.zone!==o.zone)glide(o.e,s.r,o.r,460*sp);                                                        // changed zones: travel
+      else if(o.zone==='hand'&&(Math.abs(s.r.left-o.r.left)>3||Math.abs(s.r.top-o.r.top)>3)&&(gone.length||came.length))glide(o.e,s.r,o.r,220*sp);}}  // hand reflow
+  SEEN=new Map([...now].map(([u,o])=>[u,{zone:o.zone,id:o.id,r:o.r}]));}
+function glide(el,from,to,ms){const dx=from.left-to.left,dy=from.top-to.top,s=from.width/Math.max(1,to.width);
+  el.animate([{transform:`translate(${dx}px,${dy}px) scale(${s})`},{transform:'none'}],{duration:ms,easing:'cubic-bezier(.25,.8,.25,1)'});}
+function slideIn(el,r,src,delay){const sr=src&&src.getBoundingClientRect();
+  const from=sr?`translate(${sr.left+sr.width/2-(r.left+r.width/2)}px,${sr.top+sr.height/2-(r.top+r.height/2)}px) scale(.3)`:'translateY(40%) scale(.7)';
+  el.animate([{transform:from,opacity:0},{transform:'none',opacity:1}],{duration:460*Math.max(speed,.35),delay,fill:'backwards',easing:'cubic-bezier(.2,.8,.25,1)'});}
+function fly(id,r,dest,quiet){if(!r||!id)return;SFX.play(quiet?'card':'gain');
+  const g=document.createElement('div');g.className=`card ci-${id} ghost`;Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',zIndex:33,pointerEvents:'none',margin:0});
+  document.body.appendChild(g);let dx=0,dy=-40,s=.6;
+  if(dest){const d=dest.getBoundingClientRect();dx=d.left+d.width/2-(r.left+r.width/2);dy=d.top+d.height/2-(r.top+r.height/2);s=Math.max(.18,Math.min(1,d.height/r.height));}
+  const a=g.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dx*.55}px,${dy*.55}px) scale(${(1+s)/2})`,opacity:.9,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(${s})`,opacity:0}],{duration:560*Math.max(speed,.35),easing:'cubic-bezier(.3,.7,.3,1)'});
+  a.onfinish=a.oncancel=()=>g.remove();}
 function newBattle(n){const el=$('#nb');el.querySelector('.nbs').textContent=`Battle ${n}`;el.style.setProperty('--d',(1.6*speed)+'s');el.classList.remove('go');void el.offsetWidth;el.classList.add('go');clearTimeout(newBattle.t);newBattle.t=setTimeout(()=>el.classList.remove('go'),1600*speed+60);}
 function blastHTML(){const B=S.blast,now=Date.now();
   const side=p=>{const cs=[...B.cards[p]].sort((a,b)=>(a.disc?blastRank(a.id):9)-(b.disc?blastRank(b.id):9)).map(e=>`<span class="bcw"><i class="card ${e.up?'ci-'+e.id:'back ci-back'}${e.up&&now-e.t<450?' fl':''}${e.gone?' gone':''}${e.up&&e.disc&&!e.gone?' discfx':''}" style="animation-delay:-${Math.max(0,now-e.t)}ms"></i>${e.fx&&now-e.ft<1700?`<span class="bfx" style="animation-delay:-${Math.max(0,now-e.ft)}ms">${e.fx.map(f=>`<b class="f-${f.k}">${esc(f.t)}</b>`).join('')}</span>`:''}</span>`).join('');
@@ -715,14 +753,24 @@ function renderCoach(){const co=$('#coach');if(!co)return;document.querySelector
     if(co.classList.contains('show')&&!COACHHIDE)COACHHIDE=setTimeout(()=>{COACHHIDE=null;COACHKEY='';co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));},blocked?0:500);
     return;}
   if(COACHHIDE){clearTimeout(COACHHIDE);COACHHIDE=null;}
-  const key=[tip.t,tip.x,tip.act,tip.id,tip.d].join('|');
+  const key=[tip.t,tip.x,tip.act,tip.id,tip.d].join('|'),side=tip.d==='R'?'R':'L';
   if(key!==COACHKEY){const fresh=!co.classList.contains('show');
-    co.innerHTML=`<i class="cderby ${tip.d==='R'?'dr ci-derby_R':'dl ci-derby_L'}${fresh?' in':''}" aria-hidden="true"></i><div class="cbox${fresh?' in':''}"><b>${esc(tip.t)}</b><p>${esc(tip.x)}</p>${tip.act?'':tip.id?`<div class="acts"><button class="btn" data-a="tutgot" data-id="${tip.id}">${tip.btn||'Got it'}</button>${tip.btn?'<button class="btn alt" data-a="tutskip">Skip tutorial</button>':''}</div>`:`<div class="acts"><button class="btn" data-a="tutnext">Next</button><button class="btn alt" data-a="tutskip">Skip tutorial</button></div>`}</div>`;COACHKEY=key;}
-  co.classList.add('show');const tg=tip.tg&&$(tip.tg);co.style.top=co.style.bottom='';
-  if(tip.pos==='bottom')co.style.top=Math.max(8,innerHeight-co.offsetHeight-14)+'px';
-  else if(tg){tg.classList.add('tutring');const r=tg.getBoundingClientRect(),h=co.offsetHeight;
-    if(r.top>innerHeight*0.5)co.style.top=Math.max(8,r.top-h-12)+'px';else co.style.top=Math.min(innerHeight-h-8,r.bottom+12)+'px';}
-  else co.style.top=Math.max(8,(innerHeight-co.offsetHeight)/2)+'px';}
+    const btns=tip.act?'':tip.id?`${tip.btn?'<button class="btn alt" data-a="tutskip">Skip tutorial</button>':''}<button class="btn" data-a="tutgot" data-id="${tip.id}">${tip.btn||'Got it'}</button>`
+      :'<button class="btn alt" data-a="tutskip">Skip tutorial</button><button class="btn" data-a="tutnext">Next</button>';
+    co.innerHTML=`<div class="cbox d${side}${fresh?' in':''}"><i class="cderby ci-derby_${side}" aria-hidden="true"></i><div class="ctext"><b>${esc(tip.t)}</b><p>${esc(tip.x)}</p></div><div class="cacts">${btns}</div></div>`;COACHKEY=key;}
+  co.classList.add('show');const tg=tip.tg&&$(tip.tg);if(tg)tg.classList.add('tutring');
+  placeCoach(co,tg);fitCoachText(co);}
+// The tutorial panel has a fixed size and a fixed home, so Next never moves.
+// Desktop: it sits in the battle-log column (nothing there is ever pointed at). Phones: docked at the top; it drops to the bottom
+// only if the top position would cover what Derby is pointing at.
+function placeCoach(co,tg){const lw=$('#logwrap'),lr=lw&&lw.offsetParent?lw.getBoundingClientRect():null;co.style.transform='none';
+  if(lr&&lr.width>=190&&lr.height>=260){const h=Math.min(360,lr.height-12);Object.assign(co.style,{left:(lr.left+6)+'px',width:(lr.width-12)+'px',height:h+'px',top:(lr.bottom-h-6)+'px',bottom:''});co.dataset.dock='log';return;}
+  const w=Math.min(innerWidth*.94,440),h=Math.max(150,Math.min(200,innerHeight*.26)),left=(innerWidth-w)/2;
+  const sa=parseFloat(getComputedStyle(document.getElementById('app')).paddingTop)||6,sb=parseFloat(getComputedStyle(document.getElementById('app')).paddingBottom)||6;
+  const topY=sa,botY=innerHeight-sb-h;let y=topY,dock='top';
+  if(tg){const r=tg.getBoundingClientRect(),hit=yy=>!(r.bottom<yy-4||r.top>yy+h+4||r.right<left-4||r.left>left+w+4);if(hit(topY)&&!hit(botY)){y=botY;dock='bottom';}}
+  Object.assign(co.style,{left:left+'px',width:w+'px',height:h+'px',top:y+'px',bottom:''});co.dataset.dock=dock;}
+function fitCoachText(co){const tx=co.querySelector('.ctext');if(!tx)return;tx.style.fontSize='';let s=1;while(tx.scrollHeight>tx.clientHeight+1&&s>.66){s-=.05;tx.style.fontSize=s+'em';}}
 /* ---------- sounds: tiny, synthesized, license-free ---------- */
 const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
  init(){if(!this.ctx){try{this.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume();},
@@ -794,7 +842,7 @@ function xtra(p){
 }
 function cloudHTML(){
   const g=pending&&pending.req.k==='gain'?pending.req:null;
-  const row=S.cloud.map((c,i)=>{if(!c)return '<div class="slot">empty</div>';let cls=g?(g.slots.includes(i)?'elig':'inel'):'';const inc=INC[c.u];if(inc){const d=performance.now()-inc;if(d<0)cls+=' pend';else if(d<520)cls+=' arrive';}return card(c,cls,`data-a="cloud" data-i="${i}"`);}).join('');
+  const row=S.cloud.map((c,i)=>{if(!c)return '<div class="slot">empty</div>';let cls=g?(g.slots.includes(i)?'elig':'inel'):'';return card(c,cls,`data-a="cloud" data-i="${i}"`);}).join('');
   const top=S.dragons[S.dragons.length-1];
   return `<div class="lbl">Storm Cloud</div><div class="crow">${row}</div><div class="cfoot">
    <span class="chip" title="Spellstorm Deck">Deck ${S.sdeck.length}</span><button class="chip" data-a="void">VOID ${S.void.length}</button>
@@ -849,7 +897,7 @@ function render(){
   opp.classList.toggle('ultglow',on('ult1'));me.classList.toggle('ultglow',on('ult0'));
   setH($('#cloud'),cloudHTML());setH($('#arena'),arenaHTML());setH($('#hand'),handHTML());setH($('#prompt'),promptHTML());
   const bl=$('#blast');if(S.blast){bl.classList.add('show');setH(bl,blastHTML());}else bl.classList.remove('show');
-  fitArena();layoutHand();animHand();animCloud();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
+  fitArena();layoutHand();anim();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
   document.body.classList.toggle('ceremony',!!S.blast);
   const po=$('#potov');const showPot=S.potion&&!(pending&&!pending.req.potion);if(showPot){po.classList.add('show');setH(po,potionHTML());}else po.classList.remove('show');
 }
@@ -1227,7 +1275,7 @@ function showStart(){gameId++;teardown();S=null;setTimeout(()=>{if(!OPT.tutAsked
 let TOURRES=null;
 async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
-  LCLOUD=null;LHAND=null;LASTV=[{},{}];INC={};TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
+  SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];}
   else{S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,S.diff);TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
   G=new Game(S,makeIO(id));renderLog();render();
