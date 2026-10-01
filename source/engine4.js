@@ -94,6 +94,8 @@ function fastPlay(S, p) {
 }
 const ROLL_IO = { sim: true, decide: (g, p, req) => Promise.resolve(req.k === 'play' ? fastPlay(g.S, p) : cpuDecideX(g, p, req)), log() { }, render() { }, pause() { return Promise.resolve(); } };
 
+let SIMCAP = null;   // Expert Tips reads the simulated outcomes through this (no effect on play)
+function simSnap(S, p) { const P = S.pl[p], O = S.pl[nextOppOf(S, p)]; return { hp: P.hp, ohp: O.hp, pw: (P.tier - 1) * 7 + P.power, tier: P.tier, mana: P.mana, sh: P.shards, osh: O.shards, hb: handBlast(P), ohb: handBlast(O), won: S.over && S.over.winner === p ? 1 : 0, lost: S.over && S.over.winner !== p ? 1 : 0 }; }
 async function simRound(base, p, myU, oid, lookahead) {
   const S = structuredClone(base), nx = nextOppOf(S, p), me = S.pl[p], op = S.pl[nx];
   const mc = me.hand.find(x => x.u === myU); me.hand.splice(me.hand.indexOf(mc), 1); S.slot[p] = mc;
@@ -103,9 +105,10 @@ async function simRound(base, p, myU, oid, lookahead) {
   try {
     await g.afterPlay();
   } catch (e) { if (!(e instanceof GameOver)) throw e; }
-  const now = evalAI(S, p);
+  const now = evalAI(S, p); if (SIMCAP) SIMCAP.round = simSnap(S, p);
   if (!lookahead || S.over) return now;
   try { for (let r = S.round + 1; r <= 4; r++) await g.round(r); await g.regroup(); } catch (e) { if (!(e instanceof GameOver)) throw e; }
+  if (SIMCAP) SIMCAP.end = simSnap(S, p);
   return 0.45 * now + 0.55 * evalAI(S, p);          // blend: this round's result + where the battle ends up
 }
 async function aiChoosePlay(S0, p) {
