@@ -1,0 +1,571 @@
+[
+ {
+  "id": 1,
+  "title": "Seize the Moment",
+  "concept": "Initiative",
+  "hint": "Some cards hit harder when you hold the Initiative.",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 2,
+   "power": 1,
+   "hand": [
+    "dart",
+    "block",
+    "fb"
+   ],
+   "deck": [
+    "sapph",
+    "step",
+    "dart"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 3,
+   "hand": [
+    "pgem",
+    "block",
+    "step"
+   ],
+   "deck": [
+    "dart",
+    "pgem",
+    "step"
+   ]
+  },
+  "youInit": true,
+  "weather": [
+   "breeze"
+  ],
+  "oppPlays": [
+   "pgem"
+  ],
+  "goal": {
+   "type": "kill",
+   "rounds": 1
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "step"
+  ]
+ },
+ {
+  "id": 2,
+  "title": "Draw Your Weapon",
+  "concept": "Countering draws a card",
+  "hint": "Fire beats Earth, and whoever counters draws a card. Next round’s Weather draws one more. Which order gets you Fireball II?",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 1,
+   "power": 1,
+   "hand": [
+    "dart",
+    "block",
+    "pgem"
+   ],
+   "deck": [
+    "step",
+    "fb2",
+    "sapph",
+    "step"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 4,
+   "hand": [
+    "pgem",
+    "block",
+    "step"
+   ],
+   "deck": [
+    "step",
+    "pgem",
+    "dart"
+   ]
+  },
+  "youInit": true,
+  "weather": [
+   "breeze",
+   "heat"
+  ],
+  "oppPlays": [
+   "pgem",
+   "block"
+  ],
+  "goal": {
+   "type": "kill",
+   "rounds": 2
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "step"
+  ]
+ },
+ {
+  "id": 3,
+  "title": "Throwing Star",
+  "concept": "Shuriken goes first",
+  "hint": "Eve holds the Initiative, so her Fireball will resolve before your card… unless your card doesn’t wait its turn.",
+  "you": {
+   "wiz": "omar",
+   "hp": 3,
+   "mana": 1,
+   "power": 1,
+   "hand": [
+    "shuriken",
+    "block",
+    "sapph"
+   ],
+   "deck": [
+    "step",
+    "dart",
+    "pgem"
+   ]
+  },
+  "opp": {
+   "wiz": "derby",
+   "hp": 13,
+   "hand": [
+    "fb",
+    "pgem",
+    "dart"
+   ],
+   "deck": [
+    "step",
+    "dart",
+    "pgem"
+   ]
+  },
+  "youInit": false,
+  "weather": [
+   "breeze"
+  ],
+  "oppPlays": [
+   "fb"
+  ],
+  "goal": {
+   "type": "survive",
+   "rounds": 1
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "step"
+  ]
+ },
+ {
+  "id": 4,
+  "title": "Build to the Peak",
+  "concept": "Power overflow raises your Tier",
+  "hint": "Power past the end of your track raises your Tier. Count carefully — and look at what Eve is about to reveal.",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 2,
+   "power": 4,
+   "hand": [
+    "twopow",
+    "threepow",
+    "dart"
+   ],
+   "deck": [
+    "step",
+    "sapph",
+    "dart"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 14,
+   "hand": [
+    "block",
+    "pgem",
+    "step"
+   ],
+   "deck": [
+    "step",
+    "pgem",
+    "dart"
+   ]
+  },
+  "youInit": true,
+  "weather": [
+   "heat"
+  ],
+  "oppPlays": [
+   "block"
+  ],
+  "goal": {
+   "type": "tier",
+   "n": 2,
+   "rounds": 1
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "step",
+   "dart"
+  ]
+ },
+ {
+  "id": 5,
+  "title": "Last Card Standing",
+  "concept": "The Blast Score",
+  "hint": "Cards with a white border don’t count toward your Blast Score — and countering draws a card.",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 2,
+   "power": 1,
+   "hand": [
+    "pgem",
+    "dart",
+    "block",
+    "ice"
+   ],
+   "deck": [
+    "dart",
+    "step",
+    "sapph"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 12,
+   "hand": [
+    "block",
+    "dart"
+   ],
+   "deck": [
+    "step",
+    "pgem",
+    "dart"
+   ]
+  },
+  "battle": 1,
+  "round": 4,
+  "youInit": true,
+  "weather": [
+   "heat"
+  ],
+  "oppPlays": [
+   "block"
+  ],
+  "goal": {
+   "type": "blast"
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "opal"
+  ]
+ },
+ {
+  "id": 6,
+  "title": "Charge!",
+  "concept": "Ultimate timing",
+  "hint": "Flaming Yardstick deals 2 damage and costs 6 mana. Which card gets you there with enough damage?",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 5,
+   "power": 1,
+   "hand": [
+    "dart",
+    "charge",
+    "block"
+   ],
+   "deck": [
+    "step",
+    "sapph",
+    "dart"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 4,
+   "hand": [
+    "block",
+    "pgem",
+    "step"
+   ],
+   "deck": [
+    "step",
+    "pgem",
+    "dart"
+   ]
+  },
+  "youInit": true,
+  "weather": [
+   "heat"
+  ],
+  "oppPlays": [
+   "block"
+  ],
+  "goal": {
+   "type": "kill",
+   "rounds": 1
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "step"
+  ]
+ },
+ {
+  "id": 7,
+  "title": "Take the Lead",
+  "concept": "Initiative before Crossfire",
+  "hint": "Crossfire does nothing without the Initiative. Get it first.",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 2,
+   "power": 1,
+   "hand": [
+    "cross",
+    "step",
+    "fb",
+    "dart"
+   ],
+   "deck": [
+    "sapph",
+    "dart",
+    "pgem"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 3,
+   "hand": [
+    "pgem",
+    "pgem",
+    "dart"
+   ],
+   "deck": [
+    "step",
+    "pgem",
+    "dart"
+   ]
+  },
+  "youInit": false,
+  "weather": [
+   "breeze",
+   "heat"
+  ],
+  "oppPlays": [
+   "pgem",
+   "pgem"
+  ],
+  "goal": {
+   "type": "kill",
+   "rounds": 2
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "step"
+  ]
+ },
+ {
+  "id": 8,
+  "title": "Here Be Dragons",
+  "concept": "Tier III overflow earns a Dragon",
+  "hint": "At Tier III, overflowing your Power earns you a Dragon. Storm Dragon deals 3 damage.",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 2,
+   "power": 5,
+   "tier": 3,
+   "hand": [
+    "twopow",
+    "dart",
+    "block"
+   ],
+   "deck": [
+    "step",
+    "sapph",
+    "pgem"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 3,
+   "hand": [
+    "block",
+    "pgem",
+    "step"
+   ],
+   "deck": [
+    "step",
+    "pgem",
+    "dart"
+   ]
+  },
+  "youInit": true,
+  "weather": [
+   "heat",
+   "heat"
+  ],
+  "oppPlays": [
+   "block",
+   "pgem"
+  ],
+  "goal": {
+   "type": "kill",
+   "rounds": 2
+  },
+  "dragons": [
+   "dStorm",
+   "dFire",
+   "dEarth"
+  ],
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "step",
+   "dart"
+  ]
+ },
+ {
+  "id": 9,
+  "title": "Weather the Storm",
+  "concept": "Healing and Initiative under fire",
+  "hint": "Healing first only helps if the next hit isn’t a big one. Who will hold the Initiative next round?",
+  "you": {
+   "wiz": "eve",
+   "hp": 2,
+   "mana": 1,
+   "power": 1,
+   "hand": [
+    "block",
+    "heart",
+    "step",
+    "sapph"
+   ],
+   "deck": [
+    "dart",
+    "pgem",
+    "step",
+    "dart"
+   ]
+  },
+  "opp": {
+   "wiz": "derby",
+   "hp": 13,
+   "hand": [
+    "fb",
+    "fb2",
+    "dart",
+    "pgem"
+   ],
+   "deck": [
+    "step",
+    "dart",
+    "pgem"
+   ]
+  },
+  "youInit": true,
+  "weather": [
+   "heat",
+   "heat"
+  ],
+  "oppPlays": [
+   "fb",
+   "fb2"
+  ],
+  "goal": {
+   "type": "survive",
+   "rounds": 2
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "step"
+  ]
+ },
+ {
+  "id": 10,
+  "title": "Grand Finale",
+  "concept": "Putting it all together",
+  "hint": "Counter to draw your best card, hold the Initiative, and don’t forget your Ultimate.",
+  "you": {
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 3,
+   "power": 1,
+   "hand": [
+    "dart",
+    "block",
+    "pgem",
+    "charge"
+   ],
+   "deck": [
+    "fb2",
+    "step",
+    "sapph",
+    "dart",
+    "step"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 8,
+   "hand": [
+    "pgem",
+    "block",
+    "step",
+    "dart"
+   ],
+   "deck": [
+    "step",
+    "pgem",
+    "dart"
+   ]
+  },
+  "youInit": true,
+  "weather": [
+   "heat",
+   "heat",
+   "heat"
+  ],
+  "oppPlays": [
+   "pgem",
+   "block",
+   "step"
+  ],
+  "goal": {
+   "type": "kill",
+   "rounds": 3
+  },
+  "cloud": [
+   "essF",
+   "essW",
+   "essE",
+   "diamond",
+   "step"
+  ]
+ }
+]

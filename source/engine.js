@@ -394,6 +394,7 @@ class Game {
     const myCard = !S.pl[0].out && S.pl[0].hand.some(c => !CARDS[c.id].junk) ? await this.decide(0, { k: 'play' }) : null;
     if (myCard) { S.pl[0].hand.splice(S.pl[0].hand.indexOf(myCard), 1); S.slot[0] = myCard; }
     await this.afterPlay();
+    if (!this.io.sim && this.io.roundDone) this.io.roundDone();          // replays record each finished round
     if (!this.io.sim && this.io.tut && S.tutorial) await this.io.tut('done');
   }
   async afterPlay() {

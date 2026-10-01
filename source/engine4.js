@@ -111,6 +111,7 @@ async function simRound(base, p, myU, oid, lookahead) {
 async function aiChoosePlay(S0, p) {
   const d = diffOf(S0, p), hand = S0.pl[p].hand.filter(c => !CARDS[c.id].junk);
   if (hand.length <= 1) return hand[0] || null;
+  if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];

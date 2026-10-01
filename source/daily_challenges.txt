@@ -1,0 +1,248 @@
+# SPELLSTORM — DAILY CHALLENGES
+# One challenge per day, cycling through this list in order. Everyone gets the same challenge (and the same
+# shuffled decks, Storm Cloud and Weather) on the same day. Edit freely and send it back.
+#
+# Each challenge is a block of "key: value" lines. Blocks are separated by a line containing only ---
+#
+#   title:       name shown to the player
+#   you:         your wizard        (derby, eve, abragail, may, omar, bunny, oren, croh)
+#   opponent:    the CPU's wizard   (same list, or robot for Robot Boy)
+#   cpu:         easy | normal | hard | expert            — the usual difficulties, OR
+#                rank N / type X                          — a Ranked-style opponent (rank 1–10, personality type A–J)
+#                For Robot Boy use: easy | medium | hard
+#   rules:       optional, comma-separated:
+#                  long                 Long Match (+50% health, 12 Storm Shards to win)
+#                  you_hp +N / -N       change your starting health (and maximum)
+#                  opp_hp +N / -N       change the opponent's starting health (and maximum)
+#                  you_mana N, opp_mana N, you_power N, opp_power N, you_tier N, opp_tier N, you_shards N, opp_shards N
+#                  you_init / opp_init  who starts with the Initiative
+#   goal:        win                    win the match any way
+#                win_health             win by bringing the opponent to 0 health
+#                win_shards             win by collecting Storm Shards
+#                win_within N           win within N battles
+#                win_above N            win and finish with at least N health
+#   note:        one or two sentences of flavor / advice shown with the challenge
+---
+title: Opening Spark
+you: derby
+opponent: eve
+cpu: normal
+goal: win
+note: A classic rivalry to start the calendar. Derby’s Fire against Eve’s ICE.
+---
+title: Ice Age
+you: omar
+opponent: eve
+cpu: hard
+goal: win_health
+note: Eve will bury you in ICE. Win by bringing her to 0 health anyway.
+---
+title: Head Start
+you: bunny
+opponent: croh
+cpu: hard
+rules: opp_shards 2
+goal: win
+note: Croh starts with 2 Storm Shards. Catch up and pass him.
+---
+title: Glass Cannon
+you: derby
+opponent: abragail
+cpu: normal
+rules: you_hp -5
+goal: win
+note: Derby starts with 5 less health. Strike first, strike hard.
+---
+title: The Long Game
+you: abragail
+opponent: oren
+cpu: normal
+rules: long
+goal: win_shards
+note: A Long Match where only Storm Shards will do.
+---
+title: Blitz
+you: may
+opponent: bunny
+cpu: normal
+goal: win_within 3
+note: Win within three battles. No dawdling.
+---
+title: Robot Uprising
+you: oren
+opponent: robot
+cpu: medium
+goal: win
+note: Robot Boy doesn’t think. He just keeps coming.
+---
+title: Untouchable
+you: eve
+opponent: derby
+cpu: normal
+goal: win_above 8
+note: Win while keeping at least 8 health. Derby’s Fireballs say otherwise.
+---
+title: The Hexer
+you: croh
+opponent: eve
+cpu: rank 6 / type C
+goal: win
+note: This opponent loves filling your deck with junk. Keep yours clean.
+---
+title: Mana Surge
+you: derby
+opponent: may
+cpu: hard
+rules: you_mana 5
+goal: win
+note: You start one mana short of Flaming Yardstick. Make it count.
+---
+title: Tier Two Tango
+you: abragail
+opponent: omar
+cpu: hard
+rules: you_tier 2, opp_tier 2
+goal: win
+note: Both wizards start at Tier II. Stronger cards from the very first gain.
+---
+title: Underdog
+you: bunny
+opponent: oren
+cpu: expert
+rules: you_hp +4
+goal: win
+note: Bunny against the Expert — with a little extra health to work with.
+---
+title: Health Race
+you: omar
+opponent: derby
+cpu: hard
+goal: win_health
+note: Both of you can deal damage. Who drops first?
+---
+title: Initiative Wars
+you: eve
+opponent: omar
+cpu: rank 7 / type H
+rules: opp_init
+goal: win
+note: This opponent fights to hold the Initiative, and starts with it.
+---
+title: Shard Collector
+you: may
+opponent: abragail
+cpu: hard
+goal: win_shards
+note: Abragail builds Power fast. Out-blast her for the win.
+---
+title: Croh’s Curse
+you: oren
+opponent: croh
+cpu: hard
+goal: win
+note: Croh can’t heal, but his CURSEs pile up. Stay ahead of them.
+---
+title: Robot Boy, Hard Mode
+you: derby
+opponent: robot
+cpu: hard
+goal: win
+note: Robot Boy starts with 4 Power. Brace yourself.
+---
+title: Big Game
+you: croh
+opponent: bunny
+cpu: hard
+rules: long
+goal: win
+note: A Long Match. Croh’s 30 health against Bunny’s stitches.
+---
+title: The Gambler
+you: may
+opponent: derby
+cpu: rank 8 / type I
+goal: win
+note: Wildly unpredictable, occasionally brilliant. Expect anything.
+---
+title: Quick Draw
+you: omar
+opponent: may
+cpu: normal
+goal: win_within 2
+note: Two battles. That’s all you get.
+---
+title: Ultimate Showdown
+you: derby
+opponent: oren
+cpu: rank 7 / type D
+rules: you_mana 4, opp_mana 4
+goal: win
+note: Both wizards start with mana in the tank, and this opponent never saves an Ultimate.
+---
+title: Fortress
+you: bunny
+opponent: abragail
+cpu: hard
+goal: win_above 6
+note: Win with at least 6 health left. Bunny’s stitches will need to work overtime.
+---
+title: Turtle Shell
+you: oren
+opponent: eve
+cpu: rank 6 / type G
+rules: opp_hp +4
+goal: win_health
+note: A defensive opponent with extra health. Break through.
+---
+title: Dragon’s Hoard
+you: abragail
+opponent: derby
+cpu: hard
+rules: you_tier 3
+goal: win
+note: You start at Tier III. The Dragons are waiting.
+---
+title: Even Footing
+you: eve
+opponent: eve
+cpu: expert
+goal: win
+note: A mirror match against the Expert.
+---
+title: Short Fuse
+you: derby
+opponent: croh
+cpu: hard
+rules: you_hp -4, opp_hp -6
+goal: win_within 3
+note: Low health on both sides, and only three battles to finish.
+---
+title: The Reader
+you: omar
+opponent: abragail
+cpu: rank 8 / type E
+goal: win
+note: This opponent is good at reading the reveal. Be unpredictable.
+---
+title: Patience
+you: croh
+opponent: may
+cpu: expert
+rules: long
+goal: win_shards
+note: A Long Match against the Expert, won only by Storm Shards.
+---
+title: Full Power
+you: may
+opponent: oren
+cpu: hard
+rules: you_power 4, opp_power 4
+goal: win
+note: Both wizards start with 4 Power. Tier II is one good card away.
+---
+title: Storm Legend
+you: derby
+opponent: abragail
+cpu: expert
+goal: win_within 4
+note: The month’s finale: beat the Expert within four battles.

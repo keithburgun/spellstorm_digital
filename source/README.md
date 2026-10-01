@@ -13,7 +13,10 @@ Everything needed to build and test the game. The playable result is one self-co
 | `engine5.js` | 3–4 player Free-for-All rules (elimination, next-clockwise countering, tiebreaks) |
 | `engine6.js` | Robot Boy (single-player opponent) |
 | `engine7.js` | Team modes: Co-op vs Robot Boy and Two-on-Two |
-| `engine8.js` | Ranked: CPU ranks 1–10, the ten secret personalities, Elo, matchmaking, usernames |
+| `engine8.js` | Ranked: CPU ranks 1–10, the ten secret personalities, Elo, matchmaking, bot profiles |
+| `engine9.js` | Puzzle Mode (fixed positions, scripted opponents, goals) and seeded randomness |
+| `puzzles.json` | The puzzles. Check any edit with `node tests/solve.js` (it must report at least one winning line) |
+| `daily_challenges.txt` | The Daily Challenges, one block per day (format explained at the top of the file) |
 | `template.html` | The interface: layout, styles, animation, sound, menus, stats, achievements, tutorial, saving |
 | `imgs.json` | All card art and graphics as embedded images |
 | `corporata.css`, `fonts/` | Fonts (Corporata is embedded; Atkinson Hyperlegible is the fallback for missing glyphs) |
@@ -42,6 +45,7 @@ Engine tests need Node.js 18+ (run `python3 build.py` first; it writes `tests/en
     node test6.js normal hard 20 # AI difficulty ladder (Hard should beat Normal)
     node test_rank.js            # Ranked: every personality at several ranks, plus a rank ladder check
     node test_long.js            # Long Match: nobody wins below 12 Storm Shards
+    node solve.js                # solves every puzzle; each must have at least one winning line
 
 If you intentionally change rules, re-record the 2-player baseline with `node regress.js record 40`.
 

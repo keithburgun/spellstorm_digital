@@ -526,6 +526,32 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 .hmain{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left;line-height:1.2;margin-left:4px}.hmain .lbl{text-align:left}.hside{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
 .hdet{padding:2px 12px 10px}.hdet p{margin:.3em 0 .5em}.htab td,.htab th{padding:2px 8px;text-align:left}
 .hstats{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:8px}.hstats span{display:flex;flex-direction:column;background:var(--panel2);border-radius:8px;padding:4px 8px;font-size:.78rem}.hstats b{font-size:1.1rem}
+/* Expert Tips */
+.tipbtn{border-color:var(--bolt)!important}
+.tiplist{display:flex;flex-direction:column;gap:6px}.tiprow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:6px 8px}.tiprow.best{border-color:var(--bolt);background:color-mix(in srgb,var(--bolt) 10%,transparent)}
+.tiprow .card{--cw:54px;flex:none}.tipinfo{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.tipbar{height:8px;border-radius:4px;background:var(--panel2);overflow:hidden}.tipbar span{display:block;height:100%;background:var(--accent)}
+/* Replays */
+.rpnav{display:flex;align-items:center;gap:8px;margin:4px 0 8px}.rpnav input{flex:1}
+.rpboard{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;justify-content:center}.rpw .wcard{width:min(30vw,150px);height:auto;aspect-ratio:1050/750}
+.rpc{display:flex;flex-direction:column;align-items:center;gap:3px}.rpc .card{--cw:min(18vw,96px)}.rpc.ctr .card{outline:3px solid var(--bolt);outline-offset:2px}.rpc.hit .card{opacity:.8}
+.rpctr{font-size:.7rem;color:#b07a00}.rpblast{display:flex;gap:10px;flex-wrap:wrap;font-size:1.05rem;padding:8px 0}
+.rplog{margin:0;padding-left:18px;font-size:.85rem;max-height:220px;overflow:auto}.htab .por{width:20px;height:20px;display:inline-block;border-radius:50%;vertical-align:middle}
+.achb{border:1px solid var(--bolt);background:color-mix(in srgb,var(--bolt) 14%,var(--panel));border-radius:999px;padding:3px 10px;font:inherit;font-weight:700;font-size:.85rem;color:var(--ink);cursor:pointer}
+.newach{display:flex;flex-wrap:wrap;gap:6px}.achdesc{margin:.4em 0 0;font-weight:700}
+.rptxt{width:100%;box-sizing:border-box;font:inherit;padding:8px 10px;border:2px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);resize:vertical}
+.dragghost{transition:none!important;box-shadow:0 18px 40px rgba(0,0,0,.45)!important;cursor:grabbing}
+#hand .card.can,#cloud .crow .card.elig{touch-action:none;cursor:grab}body.dragging,body.dragging *{cursor:grabbing!important;user-select:none}
+#arena.dropok,#hand.dropok{outline:3px dashed var(--bolt);outline-offset:-4px;border-radius:16px;background:color-mix(in srgb,var(--bolt) 10%,transparent)}
+.dailycard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:10px 14px;margin:6px 0}.dailycard h2{margin:.1em 0}
+.dmatch{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0}.dmatch .por{width:40px;height:40px;display:block;border-radius:50%}
+.dstreak{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700}.ddays{display:flex;gap:4px}.dday{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;background:var(--panel2);color:var(--muted)}.dday.won{background:#1f9a57;color:#fff}.dday.tried{background:color-mix(in srgb,var(--hp) 30%,var(--panel2))}
+.pztiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.pztile{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--panel);text-align:left;font:inherit;color:inherit;cursor:pointer;position:relative}
+.pztile>b{font-size:1.4rem;width:1.6em;text-align:center;color:var(--accent)}.pztile>span{display:flex;flex-direction:column}.pztile[aria-pressed=true]{outline:3px solid var(--bolt);outline-offset:1px}
+.pztile.locked{opacity:.5;cursor:not-allowed}.pztile.done>b{color:#1f9a57}.pzok{position:absolute;right:8px;top:6px;font-style:normal;color:#1f9a57;font-weight:700}
+.pzgoal{font-size:1.15rem;font-weight:700}.pzhint{font-weight:700;color:#b07a00}
+#pzbar{position:fixed;top:max(8px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:30;background:var(--accent);color:#fff;font-weight:700;padding:5px 14px;border-radius:999px;display:none;box-shadow:var(--shadow);font-size:.9rem;max-width:92vw;text-align:center}#pzbar.show{display:block}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -543,6 +569,7 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 <div id="toast"></div>
 <div id="ver" aria-hidden="true"></div>
 <div id="onlbar" role="status"></div>
+<div id="pzbar" role="status"></div>
 <div id="coach" role="dialog" aria-live="polite"></div>
 <div id="blast" aria-live="polite"></div>
 <div id="potov" aria-live="polite"></div>
@@ -805,11 +832,12 @@ function placeCoach(co,tg){const lw=$('#logwrap'),lr=lw&&lw.offsetParent?lw.getB
   Object.assign(co.style,{left:left+'px',width:w+'px',height:h+'px',top:y+'px',bottom:''});co.dataset.dock=dock;}
 function fitCoachText(co){const tx=co.querySelector('.ctext');if(!tx)return;tx.style.fontSize='';let s=1;while(tx.scrollHeight>tx.clientHeight+1&&s>.66){s-=.05;tx.style.fontSize=s+'em';}}
 /* ---------- sounds: tiny, synthesized, license-free ---------- */
+let _sfxs=12345;const sfxRand=()=>{_sfxs=(_sfxs*1103515245+12345)&0x7fffffff;return _sfxs/0x7fffffff;};
 const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
  init(){if(!this.ctx){try{this.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume();},
  tone(f,d,type,g,t0=0,slide=0){const c=this.ctx,t=c.currentTime+t0,o=c.createOscillator(),a=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);
   a.gain.setValueAtTime(0.0001,t);a.gain.exponentialRampToValueAtTime(Math.max(0.0002,g*this.vol()),t+0.012);a.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(a).connect(c.destination);o.start(t);o.stop(t+d+0.03);},
- noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/n,2);
+ noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(sfxRand()*2-1)*Math.pow(1-i/n,2);
   const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
  play(k){if(!this.ctx||this.vol()<=0)return;try{switch(k){
   case 'card':this.noise(.07,.35,0,1500,7000);break;
@@ -949,6 +977,85 @@ function onlGuestState(st){if(!ONL.on||ONL.role!=='guest')return;ONL.state=st;if
   if(st.status==='over'&&!ONL.endShown){ONL.endShown=true;setTimeout(()=>{const w=st.winner;openOv(`<h2 style="font-size:2rem">${w===0?'You win!':esc(WIZ[S.pl[1].wiz].short)+' wins'}</h2><p>Online match against ${esc(WIZ[S.pl[1].wiz].n)}. Online matches aren’t recorded.</p><div class="acts"><button class="btn" data-a="olexit">Back to title</button><button class="btn alt" data-a="close">View board</button></div>`);},700);}}
 function onlAnswer(id,v){ONL.answered=id;const enc=x=>Array.isArray(x)?x.map(y=>y&&y.u!==undefined?y.u:y):(x&&typeof x==='object'&&x.u!==undefined?x.u:x);ONL.net.presence({ans:{id,v:enc(v)}});pending=null;render();}
 
+/* ---------- Expert Tips: what the Expert AI would do in your position ---------- */
+const tipsOn=()=>!!(S&&S.tips&&!S.over);
+function expertView(S0,p){const d={};S0.pl.forEach((_,q)=>d[q]=q===p?'expert':diffOf(S0,q));return d;}
+function oppElements(S0,p){const q=nextOppOf(S0,p),O=S0.pl[q],pool=[...O.hand,...O.deck].filter(c=>!CARDS[c.id].junk),n=pool.length||1,f={F:0,W:0,E:0};
+  for(const c of pool)f[CARDS[c.id].el]++;for(const k in f)f[k]=f[k]/n;return {q,f};}
+async function expertAdvice(S0,p){
+  const hand=S0.pl[p].hand.filter(c=>!CARDS[c.id].junk);if(!hand.length)return null;
+  const view=expertView(S0,p),uniq=[],seen={};for(const c of hand)if(!seen[c.id]){seen[c.id]=1;uniq.push(c);}
+  const n=uniq.length>1?10:1,res=[];
+  for(const c of uniq){let tot=0;
+    for(let k=0;k<n;k++){const base=structuredClone(S0);base.aiDiff=view;determinize(base,p);const nx=nextOppOf(base,p);
+      const ids=[...new Set(base.pl[nx].hand.filter(x=>!CARDS[x.id].junk).map(x=>x.id))],vals=[];
+      for(const oid of (ids.length?ids:[null]))vals.push(await simRound(base,p,c.u,oid,true));
+      tot+=.6*vals.reduce((a,b)=>a+b,0)/vals.length+.4*Math.min(...vals);}
+    res.push({c,v:tot/n});}
+  return res.sort((a,b)=>b.v-a.v);}
+let TIPBUSY=false;
+async function showTip(){if(!pending||TIPBUSY||!tipsOn())return;const r=pending.req;TIPBUSY=true;
+  const proxy=Object.assign(Object.create(Object.getPrototypeOf(S)),S,{aiDiff:expertView(S,0)});
+  if(r.k==='play'){openOv('<h2>Expert Tip</h2><p class="lbl">The Expert is thinking<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></p>');await sleep(30);
+    try{const res=await expertAdvice(structuredClone(S),0);if(!res||!pending||pending.req.k!=='play'){closeOv();return;}
+      const {q,f}=oppElements(S,0),on=WIZ[S.pl[q].wiz].short,best=res[0].v,worst=res[res.length-1].v,span=Math.max(1,best-worst);
+      const pct=x=>Math.round(x*100)+'%',ctr=c=>f[BEATS[CARDS[c.id].el]]||0,risk=c=>f[Object.keys(BEATS).find(k=>BEATS[k]===CARDS[c.id].el)]||0;
+      const verdict=(e,i)=>i===0?'Best play':best-e.v<span*.15?'Nearly as good':best-e.v<span*.5?'Decent':'Weaker';
+      openOv(`<h2>Expert Tip</h2><p>${esc(on)}’s likely plays: <b>Fire ${pct(f.F)}</b> · <b>Water ${pct(f.W)}</b> · <b>Earth ${pct(f.E)}</b></p>
+        <div class="tiplist">${res.map((e,i)=>`<div class="tiprow${i===0?' best':''}"><i class="card ci-${e.c.id}"></i><div class="tipinfo"><b>${esc(CARDS[e.c.id].n)}</b> <span class="lbl">${verdict(e,i)}</span>
+          <div class="tipbar"><span style="width:${Math.max(6,Math.round(100-((best-e.v)/span)*94))}%"></span></div>
+          <span class="lbl">Counters ${on} ${pct(ctr(e.c))} of the time · gets countered ${pct(risk(e.c))}</span></div></div>`).join('')}</div>
+        <p class="lbl">The Expert simulates each card against ${esc(on)}’s possible plays through the rest of the battle.</p>
+        <div class="acts"><button class="btn" data-a="tipplay" data-u="${res[0].c.u}">Play ${esc(CARDS[res[0].c.id].n)}</button><button class="btn alt" data-a="close">Close</button></div>`);}
+    finally{TIPBUSY=false;}return;}
+  try{if(r.k==='gain'){const pick=cpuDecideX({S:proxy},0,{...r,optional:false});const what=typeof pick==='string'?CARDS[pick].n:S.cloud[pick]?CARDS[S.cloud[pick].id].n:null;
+      openOv(`<h2>Expert Tip</h2><p>${what?`The Expert would gain <b>${esc(what)}</b>.`:'The Expert would skip this gain.'}</p><div class="acts"><button class="btn alt" data-a="close">OK</button></div>`);}
+    else if(r.k==='yn'&&r.ult){const yes=await ultDecide(structuredClone(proxy),0,r.free);
+      openOv(`<h2>Expert Tip</h2><p>The Expert would <b>${yes?'use the Ultimate now':'save the mana for a better moment'}</b>.</p><div class="acts"><button class="btn alt" data-a="close">OK</button></div>`);}}
+  finally{TIPBUSY=false;}}
+/* ---------- Replays: a round-by-round record of each match ---------- */
+function rpRound(){if(!TR||!S||S.online)return;const R=TR.rp=TR.rp||{rounds:[],li:0};const L=logs.slice(R.li);R.li=logs.length;
+  R.rounds.push({k:'r',b:S.battle,r:S.round,w:S.wcur,cards:S.rev.map(c=>c?c.id:null),ctr:(R.ctr||[]).slice(),init:S.init,
+    st:S.pl.map(P=>({hp:Math.max(0,P.hp),sh:P.shards,t:P.tier,pw:P.power,m:P.mana,h:P.hand.length,out:!!P.out})),log:L.map(l=>l.m).slice(-14)});R.ctr=[];}
+function rpBlast(sc){if(!TR||!S||S.online)return;const R=TR.rp=TR.rp||{rounds:[],li:0};const L=logs.slice(R.li);R.li=logs.length;
+  R.rounds.push({k:'b',b:S.battle,sc:sc.slice(),st:S.pl.map(P=>({hp:Math.max(0,P.hp),sh:P.shards,t:P.tier,pw:P.power,m:P.mana,h:P.hand.length,out:!!P.out})),log:L.map(l=>l.m).slice(-10)});}
+let RPV=null;   // {h, i}
+function replayView(h,i){RPV={h,i:Math.max(0,Math.min(i||0,h.rp.rounds.length-1))};const R=h.rp.rounds,e=R[RPV.i],nm=q=>q===0?'You':(h.foes[q-1]&&(h.foes[q-1].name||RNAME[h.foes[q-1].wiz]))||'?';
+  const wiz=q=>q===0?h.me.wiz:h.foes[q-1].wiz;
+  const stTable=`<table class="mx htab"><tr><th></th><th>Health</th><th>Shards</th><th>Tier</th><th>Mana</th><th>Hand</th></tr>${e.st.map((x,q)=>`<tr><td><i class="por ci-wz_${wiz(q)}"></i> ${esc(nm(q))}</td><td>${x.out?'out':x.hp}</td><td>${x.sh}</td><td>${ROM[x.t]||x.t}</td><td>${x.m}</td><td>${x.h}</td></tr>`).join('')}</table>`;
+  let main='';
+  if(e.k==='r')main=`<div class="rpboard"><div class="rpw"><span class="lbl">Weather</span><div class="wcard ci-w_${e.w}"></div></div>${e.cards.map((id,q)=>`<div class="rpc${e.ctr.some(x=>x[0]===q)?' ctr':''}${e.ctr.some(x=>x[1]===q)?' hit':''}"><span class="lbl">${esc(nm(q))}${e.init===q?' ⚡':''}</span>${id?`<button class="card ci-${id}" data-a="libcard" data-id="${id}" aria-label="${esc(CARDS[id].n)}"></button>`:'<div class="slot">—</div>'}${e.ctr.filter(x=>x[0]===q).map(x=>`<b class="rpctr">COUNTER → ${esc(nm(x[1]))}</b>`).join('')}</div>`).join('')}</div>`;
+  else main=`<div class="rpblast"><b>Blast Score</b> ${e.sc.map((s,q)=>`<span>${esc(nm(q))}: <b>${s}</b></span>`).join(' · ')}</div>`;
+  openOv(`<h2>Replay: ${esc(RNAME[h.me.wiz])} vs ${h.foes.map(f=>esc(f.name||RNAME[f.wiz])).join(', ')}</h2>
+    <p class="lbl">${e.k==='r'?`Battle ${e.b}, round ${e.r}`:`End of battle ${e.b}`} · step ${RPV.i+1} of ${R.length}</p>
+    <div class="rpnav"><button class="btn alt" data-a="rpstep" data-v="-1" ${RPV.i?'':'disabled'}>◀ Previous</button><input type="range" min="0" max="${R.length-1}" value="${RPV.i}" data-a="rpslide" aria-label="Replay position"><button class="btn" data-a="rpstep" data-v="1" ${RPV.i<R.length-1?'':'disabled'}>Next ▶</button></div>
+    ${main}<h3>After this ${e.k==='r'?'round':'Blast'}</h3>${stTable}<h3>What happened</h3><ul class="rplog">${e.log.map(m=>`<li>${esc(m)}</li>`).join('')}</ul>
+    <div class="acts"><button class="btn alt" data-a="rpclose">Close</button></div>`);$('#sheet').classList.add('wide');}
+
+/* ---------- drag and drop: hand -> table to play; Storm Cloud -> hand to gain ---------- */
+let DRAG=null,DRAG_SUPPRESS=0;
+function dragZone(D){return D.kind==='play'?$('#arena'):$('#hand');}
+function overZone(D,x,y){const z=dragZone(D);if(!z)return false;const r=z.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top-(D.kind==='gain'?40:0)&&y<=r.bottom;}
+document.addEventListener('pointerdown',e=>{if(e.button>0||!pending||!S)return;const el=e.target.closest('#hand .card.can,#cloud .crow .card.elig');if(!el)return;
+  const kind=el.closest('#hand')?'play':'gain';if((kind==='play'&&pending.req.k!=='play')||(kind==='gain'&&pending.req.k!=='gain'))return;
+  const r=el.getBoundingClientRect();DRAG={el,kind,id:e.pointerId,x0:e.clientX,y0:e.clientY,ox:e.clientX-r.left,oy:e.clientY-r.top,r,on:false,lx:e.clientX,tilt:0};});
+document.addEventListener('pointermove',e=>{const D=DRAG;if(!D||e.pointerId!==D.id)return;
+  if(!D.on){if(Math.hypot(e.clientX-D.x0,e.clientY-D.y0)<8)return;D.on=true;
+    const g=D.el.cloneNode(true);g.removeAttribute('data-a');g.removeAttribute('data-u');g.className+=' dragghost';Object.assign(g.style,{position:'fixed',left:D.r.left+'px',top:D.r.top+'px',width:D.r.width+'px',height:D.r.height+'px',margin:0,zIndex:60,pointerEvents:'none'});
+    document.body.appendChild(g);D.g=g;D.el._keepStyle=true;D.el.style.opacity='.25';document.body.classList.add('dragging');SFX.play('card');}
+  const vx=e.clientX-D.lx;D.lx=e.clientX;D.tilt=Math.max(-14,Math.min(14,D.tilt*.7+vx*.9));
+  D.g.style.left=(e.clientX-D.ox)+'px';D.g.style.top=(e.clientY-D.oy)+'px';D.g.style.transform=`rotate(${D.tilt}deg) scale(1.08)`;
+  const z=dragZone(D);if(z)z.classList.toggle('dropok',overZone(D,e.clientX,e.clientY));});
+function dragEnd(e,cancel){const D=DRAG;if(!D||e.pointerId!==D.id)return;DRAG=null;if(!D.on)return;DRAG_SUPPRESS=performance.now()+350;
+  const z=dragZone(D);if(z)z.classList.remove('dropok');document.body.classList.remove('dragging');D.el.style.opacity='';D.el._keepStyle=false;
+  const ok=!cancel&&pending&&overZone(D,e.clientX,e.clientY),gr=D.g.getBoundingClientRect();
+  if(ok){const u=D.el.getAttribute('data-u'),seen=SEEN.get(u);if(seen)SEEN.set(u,{...seen,r:gr});D.g.remove();      // the card continues from where you let go
+    if(D.kind==='play'){const c=S.pl[0].hand.find(x=>String(x.u)===u);if(c){SFX.play('card');answer(c);}}
+    else{const i=+D.el.dataset.i;if(pending&&pending.req.k==='gain'&&pending.req.slots.includes(i))answer(i);}
+    return;}
+  const a=D.g.animate([{left:gr.left+'px',top:gr.top+'px',transform:D.g.style.transform},{left:D.r.left+'px',top:D.r.top+'px',transform:'none'}],{duration:220,easing:'ease-out'});a.onfinish=()=>D.g.remove();}
+document.addEventListener('pointerup',e=>dragEnd(e,false));document.addEventListener('pointercancel',e=>dragEnd(e,true));
+document.addEventListener('click',e=>{if(performance.now()<DRAG_SUPPRESS){e.stopPropagation();e.preventDefault();}},true);
 function xtra(p){
   const P=S.pl[p],row=(k,n,m)=>`<span class="tokrow">${Array.from({length:m},(_,i)=>`<i class="tk ci-tk_${k} ${i<n?'':'off'}"></i>`).join('')}</span>`;let h='';
   if(P.rb)h=`<span data-k="energy" class="stat" title="Blast Tokens (his Blast Score)">Blast ${row('blast',P.blast,6)}</span><span class="rbult" title="Ultimate cards: one face-up, one face-down">${P.ultUp?`<button class="card ci-${P.ultUp.id}" data-a="rbup" data-p="${p}" aria-label="${esc(CARDS[P.ultUp.id].n)}"></button>`:''}${P.ultDown?'<i class="card back ci-back"></i>':''}</span>`;
@@ -994,14 +1101,14 @@ function promptHTML(){
   if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?(S.online?`Waiting for ${esc(WIZ[S.pl[1].wiz].short)}…`:`${esc(WIZ[S.pl[1].wiz].short)} is choosing a card…`):esc(last?last.m:'')}</div>`;}
   const r=pending.req;
   switch(r.k){
-    case 'play':return `<div class="q">Choose a card to play face-down.</div>`;
-    case 'yn':{const m=r.q.match(/^(.*?)\s*\((.*)\)\s*$/s);if(m)return `<div class="q">${esc(m[1])}<small class="clamp">${esc(m[2])}</small></div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>`;}return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>`;
+    case 'play':return `<div class="q">Choose a card to play face-down.</div>${tipsOn()?'<button class="btn alt tipbtn" data-a="tip">💡 Expert Tip</button>':''}`;
+    case 'yn':{const m=r.q.match(/^(.*?)\s*\((.*)\)\s*$/s);if(m)return `<div class="q">${esc(m[1])}<small class="clamp">${esc(m[2])}</small></div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>${r.ult&&tipsOn()?'<button class="btn alt tipbtn" data-a="tip">💡 Tip</button>':''}`;}return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>`;
     case 'player':if(S.pl.length>2){const os=r.opps||[...S.pl.keys()].filter(q=>!S.pl[q].out);return `<div class="q">${esc(r.q)}</div>${os.map((q,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${q}">${q===0?'Yourself':esc(WIZ[S.pl[q].wiz].short)}</button>`).join('')}`;}return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="ans" data-v="1">${esc(WIZ[S.pl[1].wiz].short)} (opponent)</button><button class="btn alt" data-a="ans" data-v="0">Yourself</button>`;
     case 'opt':if(r.opts.length>3&&!r.trap)return `<div class="q">${esc(r.q.split(':')[0])}</div><button class="btn" data-a="openopt">Choose…</button>`;if(r.trap)return `<div class="q">Hidden Movement: set a Trap.</div><button class="btn" data-a="opentrap">Choose a Trap</button>`;return `<div class="q">${esc(r.q)}</div>${r.opts.map((o,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${i}" ${r.dis&&r.dis[i]?'disabled':''}>${fmtOpt(o)}</button>`).join('')}`;
-    case 'gain':{const sp=r.special?`<span class="spbtns"><span class="lbl">${r.slots.length?'Or take:':'Take:'}</span>${(r.specials||['ice','ash','curse']).map(t=>`<button class="btn alt sm" data-a="sp" data-v="${t}" title="${S.special[t]?S.special[t]+' left':'None left: the board effect applies'}">${CARDS[t].n}</button>`).join('')}</span>`:'';
+    case 'gain':{const tipb=tipsOn()&&r.verb==='Gain'?'<button class="btn alt tipbtn" data-a="tip">💡 Tip</button>':'';const sp=r.special?`<span class="spbtns"><span class="lbl">${r.slots.length?'Or take:':'Take:'}</span>${(r.specials||['ice','ash','curse']).map(t=>`<button class="btn alt sm" data-a="sp" data-v="${t}" title="${S.special[t]?S.special[t]+' left':'None left: the board effect applies'}">${CARDS[t].n}</button>`).join('')}</span>`:'';
       const hint=r.special?'':(r.slots.length?'Tap a highlighted Storm Cloud card.':'');
       const regroup=S.phase==='gain';const qq=r.special?(regroup?(r.slots.length?'Gain Spell: tap a highlighted Storm Cloud card.':'Gain Spell: no Storm Cloud card is at your Tier.'):(r.slots.length?r.q:'No Storm Cloud card is at your Tier. You can take a special card.')):r.q;
-      return `<div class="q">${esc(qq)}${hint?`<small>${hint}</small>`:''}</div>${sp}${r.optional?'<button class="btn alt" data-a="ans" data-v="-1">Skip</button>':''}`;}
+      return `<div class="q">${esc(qq)}${hint?`<small>${hint}</small>`:''}</div>${tipb}${sp}${r.optional?'<button class="btn alt" data-a="ans" data-v="-1">Skip</button>':''}`;}
     case 'pick':return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="openpick">Choose cards</button>`;
   }
   return '';
@@ -1015,6 +1122,7 @@ function render(){
   opp.classList.toggle('ultglow',on('ult1'));me.classList.toggle('ultglow',on('ult0'));
   setH($('#cloud'),cloudHTML());setH($('#arena'),arenaHTML());setH($('#hand'),handHTML());setH($('#prompt'),promptHTML());
   const bl=$('#blast');if(S.blast){bl.classList.add('show');setH(bl,blastHTML());}else bl.classList.remove('show');
+  {const pb=$('#pzbar');if(pb){if(S&&S.puzzle&&!PZEND){pb.textContent=`Puzzle ${S.puzzle.id} · ${PUZZLE_GOAL_TEXT(S.puzzle.goal)}${S.puzzle.goal.rounds>1?` · round ${Math.min(S.puzzle.rounds+1,S.puzzle.goal.rounds)} of ${S.puzzle.goal.rounds}`:''}`;pb.classList.add('show');}else pb.classList.remove('show');}}
   fitArena();layoutHand();anim();if(ONL.on&&ONL.role==='host')onlPush();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
   document.body.classList.toggle('ceremony',!!S.blast);
   const po=$('#potov');const showPot=S.potion&&!(pending&&!pending.req.potion);if(showPot){po.classList.add('show');setH(po,potionHTML());}else po.classList.remove('show');
@@ -1027,7 +1135,7 @@ function renderLog(){
 let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
-function fx(t,p){const n=performance.now();if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+function fx(t,p){const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='hit')SFX.play('hit');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
@@ -1047,6 +1155,7 @@ function makeIO(id){return {sim:false,
   log(m,c){if(id===gameId)io.log(m,c);},ev(t,p,x){if(id===gameId)track(t,p,x);},render(){if(id===gameId)render();},pause:ms=>sleep(ms),fx(t,p){if(id===gameId)fx(t,p);},
   decide(g,p,req){if(id!==gameId)return new Promise(()=>{});return io.decide(g,p,req);},
   checkpoint(){if(id===gameId&&!S.online)saveGame();},
+  roundDone(){if(id===gameId){rpRound();puzzleCheck('round');}},
   tut(st){if(id!==gameId)return new Promise(()=>{});return tutStage(st);},
   ack(k){if(id!==gameId)return new Promise(()=>{});return new Promise(res=>{ACK={k,res};render();setTimeout(()=>{const b=document.querySelector('[data-a=ack]');if(b)b.focus();},60);});}};}
 let ACK=null;
@@ -1085,19 +1194,43 @@ function rules(){openOv(`<div class="rules"><h2>How a game goes</h2>
 <h3>Co-op vs Robot Boy and Two-on-Two</h3><p>You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next <i>opponent</i> clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.</p></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
 function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
 <p>Layout</p><div class="acts" style="justify-content:flex-start"><button class="btn ${$('#app').classList.contains('phone')?'':'alt'}" data-a="phone">Phone view ${$('#app').classList.contains('phone')?'on':'off'}</button><button class="btn alt" data-a="rules">Rules</button></div>
-<div class="acts">${S&&S.online||ONL.on?'<button class="btn alt" data-a="olexit">Leave online match</button>':'<button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button>'}<button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
+<div class="acts">${S&&S.online||ONL.on?'<button class="btn alt" data-a="olexit">Leave online match</button>':'<button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button>'}<button class="btn alt" data-a="report">Report a problem</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
 const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v10c0 10-6 17-14 18-8-1-14-8-14-18z" fill="currentColor"/><path d="M18 12H8c0 9 5 14 11 15M46 12h10c0 9-5 14-11 15" fill="none" stroke="currentColor" stroke-width="4"/><rect x="28" y="36" width="8" height="10" fill="currentColor"/><rect x="19" y="46" width="26" height="8" rx="2" fill="currentColor"/></svg>';
+function gameReport(){const L=loadProf().hist||[],h=L[L.length-1];if(!h||Math.abs(h.t-Date.now())>60000||!S||S.online)return '';
+  const tiles=[['Rounds',h.rounds],['Length',fmtDur(h.dur)],['Damage dealt',h.st.dmg],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons',h.st.dragons],['Healing',h.st.heal]];
+  return `<h2 style="font-size:1.1rem;margin-top:10px">Game Report</h2><div class="hstats">${tiles.map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>`;}
+// ---------- Report a problem ----------
+const REPORT_EMAIL='keithburgun@gmail.com';
+function reportSheet(){openOv(`<h2>Report a problem</h2><p>What went wrong? A sentence or two is plenty.</p>
+  <textarea id="rptxt" class="rptxt" rows="5" placeholder="e.g. Shuriken cancelled the wrong card in round 3"></textarea>
+  <label class="longm"><input type="checkbox" id="rpdet" checked> Include game details (version, mode, the last 40 log lines and a snapshot of the game)</label>
+  <p class="lbl" id="rpmsg"></p><div class="acts"><button class="btn" data-a="reportsend">Send report</button><button class="btn alt" data-a="close">Cancel</button></div>`);setTimeout(()=>{const x=$('#rptxt');if(x)x.focus();},60);}
+function reportText(note,det){const v=(document.getElementById('ver')||{}).textContent||'';let s=`SPELLSTORM PROBLEM REPORT\nWhen: ${new Date().toString()}\nVersion: ${v}\nDevice: ${navigator.userAgent}\nScreen: ${innerWidth}x${innerHeight}\n\nDescription:\n${note||'(none)'}\n`;
+  if(det&&S){s+=`\nMode: ${S.ranked?'Ranked':S.online?'Online':S.mode||'Versus'}${S.win?' (Long Match)':''} | Players: ${S.pl.map(P=>WIZ[P.wiz].short+(P.out?' (out)':'')).join(', ')}\nBattle ${S.battle}, round ${S.round}, phase ${S.phase} | Weather: ${S.wcur||'-'}\n`;
+    s+=`Status: ${S.pl.map(P=>`${WIZ[P.wiz].short} hp ${P.hp}/${P.max} shards ${P.shards} tier ${P.tier} power ${P.power} mana ${P.mana} hand [${P.hand.map(c=>c.id).join(',')}]`).join(' || ')}\n`;
+    s+=`\nLast log lines:\n${logs.slice(-40).map(l=>'  '+l.m).join('\n')}\n`;
+    try{s+=`\nSnapshot:\n${JSON.stringify(S).slice(0,60000)}\n`;}catch(e){}}
+  return s;}
+async function sendReport(){const note=($('#rptxt')||{}).value||'',det=($('#rpdet')||{}).checked,txt=reportText(note.trim(),det),msg=$('#rpmsg');
+  if(msg)msg.textContent='Sending…';
+  if(window.claude&&claude.use){try{const db=await claude.use('db');if(db){await db.collection('reports').add({text:txt,t:Date.now(),note:note.slice(0,500)});
+    openOv(`<h2>Thanks!</h2><p>Your report was saved. It will be collected into the project’s problem-report file.</p><div class="acts"><button class="btn" data-a="close">OK</button></div>`);return;}}catch(e){}}
+  try{await navigator.clipboard.writeText(txt);}catch(e){}
+  const mail=`mailto:${REPORT_EMAIL}?subject=${encodeURIComponent('Spellstorm problem report')}&body=${encodeURIComponent(txt.slice(0,1800)+(txt.length>1800?'\n\n[Full report copied to the clipboard; paste it here.]':''))}`;
+  openOv(`<h2>Send your report by email</h2><p>The full report has been copied to your clipboard. Tap below to open an email to the developer, then paste it in if it’s cut short.</p>
+    <div class="acts"><a class="btn" href="${mail}" target="_blank" rel="noopener">Open email</a><button class="btn alt" data-a="close">Done</button></div><p class="lbl">Or email it yourself to ${REPORT_EMAIL}.</p>`);}
 function showEnd(r,fresh=[]){
   const w=r.winner,W=WIZ[S.pl[w].wiz],T=TOURRES,why=r.why==='shards'?'by collecting 8 Storm Shards':r.why==='health'?'by bringing their rival to 0 health':'on the tiebreak';
   let head=`<h2 style="font-size:2rem">${S.team?(S.team[w]===S.team[0]?'Your team wins!':(S.mode==='coop'?'Robot Boy wins':'The other team wins')):w===0?'You win!':esc(W.short)+' wins'}</h2>`;
+  if(DAILYRES&&S.daily){const X=DAILYRES;head=`<div class="tourhead${X.ok?'':' lose'}"><span class="tourbig">${X.ok?'CHALLENGE COMPLETE':'CHALLENGE FAILED'}</span><span>${esc(S.daily.C.title)}${X.ok?` · 🔥 ${X.streak}-day streak`:''}</span>${X.why?`<span class="lbl">${esc(X.why)}</span>`:''}</div>`;}
   if(RANKRES){const X=RANKRES;head=`<div class="tourhead${X.won?'':' lose'}"><span class="tourbig">${X.won?'VICTORY':'DEFEAT'}</span><span class="elochg">Elo ${X.old} → <b>${X.now}</b> <span class="${X.d>=0?'rup':'rdn'}">(${X.d>=0?'+':''}${X.d})</span></span><span class="lbl">vs ${esc(X.name)} (${X.opp})</span></div>`;}
   if(T){if(T.kind==='win')head=`<div class="tourhead"><span class="tourbig">OPPONENT ${T.n}/7 DEFEATED!</span><span>Next up: <b>${esc(RNAME[T.next])}</b>. Your progress is saved.</span></div>`;
     else if(T.kind==='champ')head=`<div class="tourhead champ">${TROPHY}<span class="tourbig">TOURNAMENT CHAMPION!</span><span>You beat all 7 opponents on ${DNAME[T.diff]}. Your trophy is on the Stats screen.</span></div>`;
     else head=`<div class="tourhead lose"><span class="tourbig">TOURNAMENT OVER</span><span>${esc(WIZ[S.pl[1].wiz].n)} ended your run. You defeated ${T.n} of 7 opponents.</span></div>`;}
   openOv(`${head}<p>${w===0?'You':esc(W.n)} won ${why} after ${S.battle} battle${S.battle>1?'s':''}.</p>
   <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${S.ranked?'Ranked':DNAME[S.diff]+' difficulty'}${T?', Tournament Mode':''}${S.win?', Long Match':''}${S.ranked?' (Ranked match)':''}.</p>
-  ${fresh.length?`<h2 style="font-size:1.1rem;margin-top:10px">Achievements unlocked</h2><div class="newach">${fresh.map(a=>`<span>${esc(a.n)}</span>`).join('')}</div>`:''}
-  <div class="acts">${S.online?'<button class="btn" data-a="olexit">Back to title</button><button class="btn alt" data-a="close">View board</button>':RANKRES?'<button class="btn" data-a="rankagain">Play again</button><button class="btn alt" data-a="restart">Ranked lobby</button>':T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
+  ${gameReport()}${fresh.length?`<h2 style="font-size:1.1rem;margin-top:10px">Achievements unlocked</h2><div class="newach">${fresh.map(a=>`<button class="achb" data-a="achinfo" data-n="${esc(a.n)}" data-d="${esc(a.d)}" title="${esc(a.d)}">🏆 ${esc(a.n)}</button>`).join('')}</div><p class="achdesc lbl">Tap an achievement to see what it’s for.</p>`:''}
+  ${(()=>{const L=loadProf().hist||[],h=L[L.length-1];return !S.online&&h&&h.rp&&Math.abs(h.t-Date.now())<60000?'<div class="acts" style="margin-bottom:-4px"><button class="btn alt" data-a="rpwatch" data-i="-1">▶ Watch replay</button></div>':'';})()}<div class="acts">${S.online?'<button class="btn" data-a="olexit">Back to title</button><button class="btn alt" data-a="close">View board</button>':RANKRES?'<button class="btn" data-a="rankagain">Play again</button><button class="btn alt" data-a="restart">Ranked lobby</button>':T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
 }
 
 // ---------- events ----------
@@ -1178,6 +1311,18 @@ document.addEventListener('click',e=>{
   if(a==='olcancel'){onlLeave();closeOv();return;}
   if(a==='olexit'){onlLeave();closeOv();showTitle();return;}
   if(a==='hrow'){const i=+b.dataset.i;HOPEN=HOPEN===i?-1:i;statsSheet();return;}
+  if(a==='tip'){showTip();return;}
+  if(a==='tipplay'){const c=S&&S.pl[0].hand.find(x=>x.u==b.dataset.u);closeOv();if(c&&pending&&pending.req.k==='play'){SFX.play('card');answer(c);}return;}
+  if(a==='rpwatch'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rp){RPV={back:i<0?'end':'hist'};replayView(h,0);}return;}
+  if(a==='rpstep'){if(RPV&&RPV.h)replayView(RPV.h,RPV.i+(+b.dataset.v));return;}
+  if(a==='rpclose'){const back=RPV&&RPV.back;RPV=null;closeOv();if(back==='hist'){statsTab='hist';statsSheet();}return;}
+  if(a==='achinfo'){const p=$('#sheet .achdesc');if(p){p.textContent=`${b.dataset.n}: ${b.dataset.d}`;p.classList.remove('lbl');}return;}
+  if(a==='report'){reportSheet();return;}
+  if(a==='reportsend'){sendReport();return;}
+  if(a==='pzpick'){pickSel.pz=+b.dataset.i;drawSelect();return;}
+  if(a==='pzgo'){closeOv();puzzleLaunch(+b.dataset.i);return;}
+  if(a==='pzlist'){closeOv();OPT.mode='puzzle';saveOpt();showTitle();$('#title').style.display='none';showStart();return;}
+  if(a==='pzhint'){const D=S&&S.puzzle&&PUZZLES[S.puzzle.id-1];if(D){const p=$('#sheet .pzgoal');if(p&&!$('#sheet .pzhint'))p.insertAdjacentHTML('afterend',`<p class="pzhint">💡 ${esc(D.hint)}</p>`);}return;}
   if(a==='rules'){rules();return;}
   if(a==='menu'){menu();return;}
   if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
@@ -1207,6 +1352,8 @@ function tourOrder(me){return ROSTER.filter(w=>w!==me);}
 function drawSelect(){
   const mode=OPT.mode||'duel',np=mode==='duel'?2:mode==='ffa'?(OPT.np>2?OPT.np:4):mode==='coop'?(OPT.coopN||3):4,MPs=mode!=='duel';pickSel.opps=pickSel.opps||[];
   if(mode==='ranked'){setH($('#picks'),rankedLobby());return;}
+  if(mode==='daily'){setH($('#picks'),dailyLobby());return;}
+  if(mode==='puzzle'){setH($('#picks'),puzzleLobby());return;}
   const P=loadProf(),T=P.tour,tm=!!OPT.tour&&!MPs,lock=tm&&!!T,rndMe=rnd.me&&!lock;
   const meSel=lock?T.me:pickSel.me,order=tm?tourOrder(meSel):[],wins=lock?T.wins:0,next=tm&&!rndMe?order[wins]:null;
   const tile=(r,w,dis,pressed,badge,cls)=>`<button class="tile${cls?' '+cls:''}" data-a="tile" data-r="${r}" data-w="${w}" aria-pressed="${pressed}" ${dis?'disabled':''}>${badge?`<span class="tnum">${badge}</span>`:''}<i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`;
@@ -1224,10 +1371,11 @@ function drawSelect(){
   const isRB=mode==='coop'||(!MPs&&!tm&&!rnd.opp&&pickSel.opp==='robot');const dsel=lock?T.diff:isRB?(OPT.rbdiff||'medium'):OPT.diff;
   const diff=`<div class="row"><h2>Difficulty <span class="seg">${(isRB?['easy','medium','hard']:['easy','normal','hard','expert']).map(d=>`<button data-a="setdiff" data-v="${d}" aria-pressed="${dsel===d}" ${lock?'disabled':''}>${DNAME[d]}</button>`).join('')}</span>${lock?'<span class="lbl">&nbsp;locked for this tournament</span>':''}</h2></div>`;
   const go=tm?(lock?`Fight ${RNAME[next]}`:'Start the tournament'):'Start the storm';
-  setH($('#picks'),`<div class="row"><label class="longm"><input type="checkbox" data-t="long" ${OPT.long?'checked':''}> <b>Long Match</b> <span class="lbl">+50% health for every wizard · 12 Storm Shards to win</span></label></div><div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
+  setH($('#picks'),`<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['daily','Daily Challenge'],['puzzle','Puzzles'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="row"><label class="longm"><input type="checkbox" data-t="tips" ${OPT.tips?'checked':''}${tm?' disabled':''}> <b>Expert Tips</b> <span class="lbl">${tm?'not available in Tournaments':'ask the Expert AI what it would play'}</span></label><label class="longm"><input type="checkbox" data-t="long" ${OPT.long?'checked':''}> <b>Long Match</b> <span class="lbl">+50% health for every wizard · 12 Storm Shards to win</span></label></div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
    <div class="info">${info}</div>${diff}<div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn alt" data-a="tutstart">Tutorial</button>${T?'<button class="btn alt" data-a="exittour">Exit Tournament</button>':''}<button class="btn" data-a="launch" style="font-size:1.1rem;padding:.7em 2em">${go}</button></div>${loadSave()?'<p class="lbl" style="text-align:center">Starting a new match replaces your saved match in progress.</p>':''}`);
 }
-document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='long'){OPT.long=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
+document.addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.a==='rpslide'&&RPV&&RPV.h)replayView(RPV.h,+e.target.value);});
+document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='long'){OPT.long=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tips'){OPT.tips=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
 // ---------- Ranked (single-player Elo) ----------
 // Ranked keeps one Elo per character plus one for Random; history, bot drift and streak records are shared.
 const RKEYS=()=>[...ROSTER,'random'];
@@ -1243,7 +1391,7 @@ function rankedTable(P){const rows=RKEYS().map(k=>{const R=RK(P,k);return `<tr><
 function rankedLobby(){const P=loadProf(),key=rkKey(),R=RK(P,key);
   const tile=w=>`<button class="tile" data-a="tile" data-r="me" data-w="${w}" aria-pressed="${pickSel.me===w&&!rnd.me}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>Elo ${RK(P,w).elo}</span></button>`;
   const hist=R.hist.slice(-6).reverse().map(h=>`<li><b class="${h.won?'rw':'rl'}">${h.won?'W':'L'}</b> vs <b>${esc(h.name)}</b> <span class="lbl">(${h.opp})</span> as ${RNAME[h.me]}${h.key==='random'?' (Random)':''} <span class="${h.d>=0?'rup':'rdn'}">${h.d>=0?'+':''}${h.d}</span></li>`).join('');
-  return `<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${m==='ranked'}">${l}</button>`).join('')}</span></h2></div>
+  return `<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['daily','Daily Challenge'],['puzzle','Puzzles'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${m==='ranked'}">${l}</button>`).join('')}</span></h2></div>
    <div class="elobox"><div class="elonum"><span class="lbl">Your Elo — ${key==='random'?'Random':RNAME[key]}</span><b>${R.elo}</b></div><div class="elostats"><span>${R.w} wins · ${R.g-R.w} losses</span><span>Peak ${R.peak}${R.streak>1?` · ${R.streak}-win streak`:''}</span></div></div>
    <div class="row rows ${rnd.me?'rand':''}"><h2>Your wizard<label><input type="checkbox" data-r="me" ${rnd.me?'checked':''}> Random <span class="lbl">(Elo ${RK(P,'random').elo})</span></label></h2><div class="tiles">${ROSTER.map(tile).join('')}</div></div>
    <div class="info"><p><b>Ranked:</b> each character has its own Elo, and so does Random. you’re matched against an endless stream of opponents near your rating, each with their own style. Win to climb; lose and you drop. Resigning or abandoning a match counts as a loss.</p></div>
@@ -1261,11 +1409,61 @@ function rankedLaunch(){let P=loadProf();
   const tok=MM={};openOv(`<div class="mm"><h2>Finding an opponent<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></h2><p class="lbl">Searching near Elo ${R.elo}</p><div class="acts"><button class="btn alt" data-a="mmcancel">Cancel</button></div></div>`);
   setTimeout(()=>{if(MM!==tok)return;openOv(`<div class="mm"><h2>Opponent found!</h2><div class="mmopp"><i class="por ci-wz_${opp}"></i><div><b>${esc(name)}</b><span>Elo ${elo}</span><span class="lbl">playing ${RNAME[opp]}</span></div></div></div>`);
     setTimeout(()=>{if(MM!==tok)return;MM=null;closeOv();begin(me,opp,{ranked:{name,elo,rank,pers,key}});},1600);},1200+Math.random()*1600);}
+// ---------- Daily Challenge ----------
+const MODEROW_FN=()=>`<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['daily','Daily Challenge'],['puzzle','Puzzles'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${m===OPT.mode}">${l}</button>`).join('')}</span></h2></div>`;
+const dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+function dailyToday(){const d=new Date(),n=Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(2026,0,1))/864e5),i=((n%DAILY.length)+DAILY.length)%DAILY.length;return {C:DAILY[i],i,key:dayKey(d),seed:20260000+n};}
+function dailyStreak(P){const D=P.daily||{};let s=0;const d=new Date();if(!(D[dayKey(d)]||{}).won)d.setDate(d.getDate()-1);while((D[dayKey(d)]||{}).won){s++;d.setDate(d.getDate()-1);}return s;}
+const GOALTXT=g=>{const [k,n]=(g||'win').split(/\s+/);return k==='win_health'?'Win by bringing your opponent to 0 health.':k==='win_shards'?'Win by collecting Storm Shards.':k==='win_within'?`Win within ${n} battles.`:k==='win_above'?`Win and finish with at least ${n} health.`:'Win the match.';};
+function dailyCpu(C){const m=(C.cpu||'normal').match(/rank\s*(\d+)\s*\/\s*type\s*([A-J])/i);return m?{rank:+m[1],pers:m[2].toUpperCase()}:{diff:(C.cpu||'normal').trim().toLowerCase()};}
+function dailyLobby(){const MODEROW=MODEROW_FN(),P=loadProf(),{C,key}=dailyToday(),rec=(P.daily||{})[key],st=dailyStreak(P),cpu=dailyCpu(C);
+  const days=[...Array(7)].map((_,k)=>{const d=new Date();d.setDate(d.getDate()-6+k);const r=(P.daily||{})[dayKey(d)];return `<span class="dday ${r&&r.won?'won':r?'tried':''}" title="${dayKey(d)}">${d.toLocaleDateString(undefined,{weekday:'narrow'})}</span>`;}).join('');
+  return `${MODEROW}<div class="dailycard"><div class="dhead"><span class="lbl">Today’s challenge · ${new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}</span><h2>${esc(C.title)}</h2></div>
+    <div class="dmatch"><i class="por ci-wz_${C.you}"></i><b>${RNAME[C.you]}</b><span class="hvs">vs</span><i class="por ci-wz_${C.opponent}"></i><b>${C.opponent==='robot'?'Robot Boy':RNAME[C.opponent]}</b><span class="tag">${cpu.rank?'Rank '+cpu.rank:DNAME[cpu.diff]||cpu.diff}</span></div>
+    <p><b>Goal:</b> ${GOALTXT(C.goal)}${C.rules?`<br><b>Rules:</b> ${ruleText(C.rules)}`:''}</p><p class="lbl">${esc(C.note||'')}</p>
+    ${rec?`<p class="${rec.won?'rw':'rl'}"><b>${rec.won?'✓ Completed today':'Not completed yet'}</b> · ${rec.tries} attempt${rec.tries>1?'s':''}${rec.best?` · best: won in ${rec.best} rounds`:''}</p>`:''}
+    <div class="dstreak"><span>🔥 Streak: <b>${st}</b> day${st===1?'':'s'}</span><span class="ddays">${days}</span></div></div>
+    <div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn" data-a="launch" style="font-size:1.15rem;padding:.7em 2.2em">${rec&&rec.won?'Play again':'Start challenge'}</button></div>`;}
+function ruleText(rules){return (rules||'').split(',').map(x=>x.trim()).filter(Boolean).map(r=>{const m=r.match(/^(you|opp)_(hp|mana|power|tier|shards)\s*([+-]?\d+)$/);
+  if(r==='long')return 'Long Match (+50% health, 12 Storm Shards to win)';if(r==='you_init')return 'you start with the Initiative';if(r==='opp_init')return 'your opponent starts with the Initiative';if(!m)return esc(r);
+  const who=m[1]==='you'?'you':'your opponent',v=+m[3];
+  return m[2]==='hp'?`${who} start${m[1]==='you'?'':'s'} with ${Math.abs(v)} ${v<0?'less':'extra'} health`:m[2]==='tier'?`${who} start${m[1]==='you'?'':'s'} at Tier ${['','I','II','III'][v]||v}`:`${who} start${m[1]==='you'?'':'s'} with ${v} ${m[2]==='shards'?'Storm Shards':m[2]==='power'?'Power':'mana'}`;}).join('; ')+'.';}
+function applyRules(S,rules){for(const r of (rules||'').split(',').map(x=>x.trim()).filter(Boolean)){const m=r.match(/^(you|opp)_(hp|mana|power|tier|shards)\s*([+-]?\d+)$/),me=S.pl[0],op=S.pl[1];
+  if(r==='long'){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}else if(r==='you_init')S.init=0;else if(r==='opp_init')S.init=1;
+  else if(m){const P=m[1]==='you'?me:op,v=+m[3];if(m[2]==='hp'){P.max=Math.max(1,P.max+v);P.hp=P.max;}else P[m[2]]=v;}}}
+function dailyLaunch(){const {C,key,seed,i}=dailyToday();begin(C.you,C.opponent==='robot'?null:C.opponent,{daily:{C,key,seed,i}});}
+function dailyResult(r){const X=S.daily,C=X.C,[k,n]=(C.goal||'win').split(/\s+/),won=r.winner===0;
+  const ok=won&&(k==='win_health'?r.why==='health':k==='win_shards'?r.why==='shards':k==='win_within'?S.battle<=+n:k==='win_above'?S.pl[0].hp>=+n:true);
+  const P=loadProf();P.daily=P.daily||{};const R=P.daily[X.key]=Object.assign({tries:0,won:false},P.daily[X.key]||{});R.tries++;const rounds=(S.battle-1)*4+(S.round||1);
+  if(ok){R.won=true;R.best=R.best?Math.min(R.best,rounds):rounds;}saveProf(P);return {ok,won,streak:dailyStreak(P),why:!won?'You lost the match.':!ok?`You won, but the goal was: ${GOALTXT(C.goal).toLowerCase()}`:''};}
+// ---------- Puzzles ----------
+function pzNext(){const P=loadProf();return Math.min(PUZZLES.length,(P.pz||0)+1);}
+function puzzleLobby(){const MODEROW=MODEROW_FN(),P=loadProf(),solved=P.pz||0,sel=pickSel.pz||pzNext(),D=PUZZLES[sel-1];
+  const tiles=PUZZLES.map(z=>{const st=z.id<=solved?'done':z.id===solved+1?'next':'locked';return `<button class="pztile ${st}" data-a="pzpick" data-i="${z.id}" aria-pressed="${z.id===sel}" ${st==='locked'?'disabled':''}><b>${z.id}</b><span><b>${esc(z.title)}</b><span class="lbl">${st==='locked'?'🔒 Locked':esc(z.concept)}</span></span>${st==='done'?'<i class="pzok">✓</i>':''}</button>`;}).join('');
+  return `${MODEROW}<div class="row"><h2>Puzzles <span class="lbl">${solved}/${PUZZLES.length} solved · solve one to unlock the next</span></h2><div class="pztiles">${tiles}</div></div>
+    ${D?`<div class="info"><p><b>${D.id}. ${esc(D.title)}</b> — ${esc(D.concept)}. <b>${PUZZLE_GOAL_TEXT(D.goal)}</b></p></div>`:''}
+    <div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn" data-a="launch" style="font-size:1.15rem;padding:.7em 2.2em">Start puzzle ${sel}</button></div>`;}
+function puzzleLaunch(n){const D=PUZZLES[(n||1)-1];if(!D)return;pickSel.pz=D.id;begin(D.you.wiz,D.opp.wiz,{puzzle:D});}
+function puzzleIntro(D){const on=WIZ[D.opp.wiz].short,plays=D.oppPlays.map(id=>CARDS[id].n),deck=(D.you.deck||[]).slice(0,3).map(id=>CARDS[id].n);
+  openOv(`<h2>Puzzle ${D.id}: ${esc(D.title)}</h2><p class="lbl">${esc(D.concept)}</p><p class="pzgoal">🎯 ${PUZZLE_GOAL_TEXT(D.goal)}</p>
+    <p><b>${esc(on)} will play:</b> ${plays.map(esc).join(', then ')}.</p>${deck.length?`<p><b>Your deck, top card first:</b> ${deck.map(esc).join(', ')}.</p>`:''}
+    <p class="lbl">Everything in a puzzle plays out the same way every time.</p><div class="acts"><button class="btn" data-a="close">Let’s go</button><button class="btn alt" data-a="pzhint">Hint</button></div>`);}
+let PZEND=false;
+function puzzleCheck(ev,x){if(!S||!S.puzzle||PZEND)return;const r=puzzleJudge(S,ev,x);if(r)puzzleEnd(r);}
+function puzzleEnd(r){if(PZEND)return;PZEND=true;const D=PUZZLES[S.puzzle.id-1];gameId++;pending=null;thinking=false;render();
+  const P=loadProf();if(r==='win'&&(P.pz||0)<D.id){P.pz=D.id;saveProf(P);}const nxt=PUZZLES[D.id];
+  setTimeout(()=>{SFX.play(r==='win'?'win':'lose');openOv(r==='win'?`<h2 style="font-size:2rem">Solved! ✓</h2><p>Puzzle ${D.id}, <b>${esc(D.title)}</b>: ${esc(D.concept)}.</p>${nxt?`<p>Unlocked: <b>${nxt.id}. ${esc(nxt.title)}</b></p>`:'<p><b>That was the last puzzle. Well done!</b></p>'}
+      <div class="acts">${nxt?`<button class="btn" data-a="pzgo" data-i="${nxt.id}">Next puzzle</button>`:''}<button class="btn alt" data-a="pzgo" data-i="${D.id}">Play again</button><button class="btn alt" data-a="pzlist">All puzzles</button></div>`
+     :`<h2 style="font-size:2rem">Not quite</h2><p>${PUZZLE_GOAL_TEXT(D.goal)} Try a different line.</p><p class="lbl">Hint: ${esc(D.hint)}</p>
+      <div class="acts"><button class="btn" data-a="pzgo" data-i="${D.id}">Try again</button><button class="btn alt" data-a="pzlist">All puzzles</button><button class="btn alt" data-a="close">View board</button></div>`);},700);}
+
 function selNeed(){const m=OPT.mode||'duel';return m==='ffa'?(OPT.np>2?OPT.np:4)-1:m==='coop'?(OPT.coopN||3)-1:m==='2v2'?3:1;}
 function launch(){
   const pool=ROSTER.filter(avail),pickR=a=>a[Math.floor(Math.random()*a.length)];
   const mode=OPT.mode||'duel';
   if(mode==='ranked'){rankedLaunch();return;}
+  if(mode==='daily'){dailyLaunch();return;}
+  if(mode==='puzzle'){puzzleLaunch(pickSel.pz||pzNext());return;}
   if(mode!=='duel'){const need=selNeed(),me=rnd.me?pickR(pool):pickSel.me;let os=rnd.opp?[]:(pickSel.opps||[]).filter(w=>w!==me).slice(0,need);const rest=pool.filter(w=>w!==me&&!os.includes(w));while(os.length<need)os.push(rest.splice(Math.floor(Math.random()*rest.length),1)[0]);
     if(mode==='coop')begin(me,null,{coop:os,rb:OPT.rbdiff||'medium'});else if(mode==='2v2')begin(me,null,{tvt:os});else begin(me,null,{multi:os});return;}
   if(OPT.tour){const P=loadProf();let T=P.tour;if(!T){T=P.tour={me:rnd.me?pickR(pool):pickSel.me,diff:OPT.diff,wins:0};saveProf(P);}
@@ -1294,9 +1492,9 @@ const pairsWon=(P,d)=>{let n=0;for(const w of ROSTER)for(const o of ROSTER)if(w!
 /* ---------- per-game tracker ---------- */
 let TR=null;
 function newTR(me,opp,diff){return {t0:Date.now(),me,opp,diff,minHp:WIZ[me].hp,dmg:0,rd:{},maxRd:0,counters:0,ults:0,gains:0,give:0,voids:0,dragons:0,tier:1,unplayable:false,maxBlastWin:0,stitch:0,doom:0,research:0,traps:[],downloads:0,potionsMax:0,yardodd:false,bauble:false,heal:0};}
-function track(t,p,x){if(!TR||!S)return;
+function track(t,p,x){if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
   if(t==='dmg'){if(x.t===0)TR.minHp=Math.min(TR.minHp,S.pl[0].hp);if(p===0&&x.t===1){TR.dmg+=x.d;const k=S.battle+'-'+S.round;TR.rd[k]=(TR.rd[k]||0)+x.d;TR.maxRd=Math.max(TR.maxRd,TR.rd[k]);}return;}
-  if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);return;}
+  if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);rpBlast(x);return;}
   if(p!==0)return;
   switch(t){case 'counter':TR.counters++;break;case 'ult':TR.ults++;break;case 'gain':TR.gains++;break;case 'give':TR.give++;break;case 'void':TR.voids++;break;
     case 'dragon':TR.dragons++;break;case 'tier':TR.tier=Math.max(TR.tier,x);break;case 'unplayable':TR.unplayable=true;break;case 'heal':TR.heal+=x;break;case 'stitch':TR.stitch+=x;break;
@@ -1405,13 +1603,15 @@ function recordGame(r){
   if(TR.opp==='coop'){const C=P.coop=Object.assign({g:0,w:0,we:0,wm:0,wh:0,w4:0},P.coop||{});C.g++;if(won){C.w++;C['w'+(S.diff||'medium')[0]]++;if(S.pl.length===4)C.w4++;}}
   if(TR.opp==='2v2'){const V=P.tvt=Object.assign({g:0,w:0},P.tvt||{});V.g++;if(won)V.w++;}
   if(TR.opp==='ffa'){const n=S.pl.length,F=P.ffa=Object.assign({g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},P.ffa||{});F.g++;F['g'+n]++;if(won){F.w++;F['w'+n]++;if(me.shards>=8)F.ws++;}}
-  {const mode=S.ranked?'Ranked':TR.tour?'Tournament':TR.opp==='ffa'?'Free-for-All':TR.opp==='coop'?'Co-op':TR.opp==='2v2'?'Two-on-Two':TR.opp==='robot'?'vs Robot Boy':'Versus';
+  {if(TR.daily&&S.daily)DAILYRES=dailyResult(r);else DAILYRES=null;
+    const mode=S.daily?'Daily':S.ranked?'Ranked':TR.tour?'Tournament':TR.opp==='ffa'?'Free-for-All':TR.opp==='coop'?'Co-op':TR.opp==='2v2'?'Two-on-Two':TR.opp==='robot'?'vs Robot Boy':'Versus';
     const fin=q=>{const X=S.pl[q];return {wiz:X.wiz,hp:Math.max(0,X.hp),max:X.max,sh:X.shards,tier:X.tier,out:!!X.out,ally:!!(S.team&&q&&S.team[q]===S.team[0]),name:q===1&&S.ranked?S.ranked.name:null};};
     const H={t:Date.now(),dur:Math.max(1,Math.round((Date.now()-(TR.t0||Date.now()))/1000)),mode,diff:S.ranked?null:DNAME[S.diff]||null,long:!!S.win,won,why:r.why,
       battles:S.battle,rounds:Math.max(1,(S.battle-1)*4+(S.round||1)),me:fin(0),foes:[...S.pl.keys()].filter(q=>q).map(fin),
       st:{dmg:TR.dmg,heal:TR.heal,counters:TR.counters,ults:TR.ults,gains:TR.gains,dragons:TR.dragons,voids:TR.voids,give:TR.give,mana:S.pl[0].mana},
       elo:RANKRES?{old:RANKRES.old,now:RANKRES.now,d:RANKRES.d,opp:RANKRES.opp}:null,tour:TOURRES?{kind:TOURRES.kind,n:TOURRES.n}:null};
-    P.hist=(P.hist||[]);P.hist.push(H);if(P.hist.length>150)P.hist=P.hist.slice(-150);}
+    if(TR.rp&&TR.rp.rounds.length)H.rp={rounds:TR.rp.rounds};P.hist=(P.hist||[]);P.hist.push(H);if(P.hist.length>150)P.hist=P.hist.slice(-150);
+    let kept=0;for(let i=P.hist.length-1;i>=0;i--){if(P.hist[i].rp){if(++kept>25)delete P.hist[i].rp;}}}
   P.tot.dmg+=TR.dmg;P.tot.heal+=TR.heal;P.tot.counters+=TR.counters;P.tot.ults+=TR.ults;P.tot.shards+=me.shards;
   const G2=Object.assign({},TR,{won,battles:S.battle,hp:me.hp,max:me.max,byShards,oppShards:S.pl[1].shards});
   const fresh=[];for(const a of ACH)if(!P.ach[a.id]){let ok=false;try{ok=a.ok(P,G2);}catch(e){}if(ok){P.ach[a.id]=Date.now();fresh.push(a);}}
@@ -1419,7 +1619,7 @@ function recordGame(r){
 }
 /* ---------- sheets ---------- */
 let statsTab='rec',statsDiff='all';
-let HOPEN=-1;
+let HOPEN=-1,DAILYRES=null;
 const WHY={shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'};
 function fmtDur(s){const m=Math.floor(s/60);return m?`${m}m ${String(s%60).padStart(2,'0')}s`:`${s}s`;}
 function historyHTML(P){const L=(P.hist||[]).slice().reverse();
@@ -1437,7 +1637,7 @@ function historyHTML(P){const L=(P.hist||[]).slice().reverse();
         <table class="mx htab"><tr><th></th><th>Health</th><th>Shards</th><th>Tier</th></tr>
           <tr><td>You (${RNAME[h.me.wiz]})</td><td>${h.me.hp}/${h.me.max}</td><td>${h.me.sh}</td><td>${ROM[h.me.tier]||h.me.tier}</td></tr>
           ${h.foes.map(f=>`<tr><td>${who(f)}</td><td>${f.out?'eliminated':f.hp+'/'+f.max}</td><td>${f.sh}</td><td>${ROM[f.tier]||f.tier}</td></tr>`).join('')}</table>
-        <div class="hstats">${[['Damage dealt',h.st.dmg],['Healing',h.st.heal],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons gained',h.st.dragons],['Cards voided',h.st.voids],['Junk given',h.st.give]].map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>
+        ${h.rp?`<div class="acts" style="justify-content:flex-start"><button class="btn alt" data-a="rpwatch" data-i="${i}">▶ Watch replay</button></div>`:''}<div class="hstats">${[['Damage dealt',h.st.dmg],['Healing',h.st.heal],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons gained',h.st.dragons],['Cards voided',h.st.voids],['Junk given',h.st.give]].map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>
       </div>`:''}</li>`;};
   return `<div class="kpis"><div class="kpi"><b>${w}–${last.length-w}</b><span>Last ${last.length} matches</span></div><div class="kpi"><b>${fmtDur(avg)}</b><span>Average length</span></div><div class="kpi"><b>${RNAME[fav]}</b><span>Most played</span></div><div class="kpi"><b>${L.length}</b><span>Matches saved</span></div></div>
     <ul class="hlist">${L.map(row).join('')}</ul>`;}
@@ -1473,7 +1673,7 @@ function optionsSheet(confirmReset){
   <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
   <h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone view ${ph?'on':'off'}</button>
-  <h3>Progress</h3><button class="btn alt" data-a="wipe1">Wipe all data</button>
+  <h3>Progress</h3><button class="btn alt" data-a="report">Report a problem</button> <button class="btn alt" data-a="wipe1">Wipe all data</button>
   </div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
 }
 const p0=b=>+b.dataset.p===0?'Your':esc(WIZ[S.pl[1].wiz].short)+'’s';
@@ -1483,17 +1683,18 @@ async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
   SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];}
-  else{if(o.online){S=newState(w,opp);S.online=true;S.diff='normal';}else if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked)S.diff='normal';if(OPT.long&&!o.tutorial&&!o.ranked){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;if(o.online)TR=null;}
+  else{if(o.puzzle){PZEND=false;seedRandom(1000+o.puzzle.id);S=puzzleState(o.puzzle);}else if(o.daily){seedRandom(o.daily.seed);const C=o.daily.C,cpu=dailyCpu(C);S=C.opponent==='robot'?newStateRB(w,cpu.diff||'medium'):newState(w,opp);if(cpu.rank)S.aiProf={1:{rank:cpu.rank,pers:cpu.pers}};applyRules(S,C.rules);S.daily=o.daily;unseedRandom();}else if(o.online){S=newState(w,opp);S.online=true;S.diff='normal';}else if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked||o.puzzle)S.diff='normal';if(o.daily){const cpu=dailyCpu(o.daily.C);S.diff=cpu.rank?'normal':(cpu.diff||'normal');}S.tips=!!(OPT.tips&&!o.ranked&&!o.tour&&!o.online&&!o.tutorial&&!o.puzzle);if(OPT.long&&!o.tutorial&&!o.ranked&&!o.daily&&!o.puzzle){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;TR.daily=!!o.daily;if(o.online||o.puzzle)TR=null;}
   G=new Game(S,makeIO(id));renderLog();render();
   if(S.win&&!o.resume)setTimeout(()=>{if(id===gameId)makeIO(id).log(`Long Match: every wizard has 50% more health, and ${S.win} Storm Shards win.`,'ini');},0);
   if(o.resume)makeIO(id).log(`Match resumed at battle ${S.battle}, round ${S.round}.`,'head');
-  else makeIO(id).log(S.online?`Online match: you play ${WIZ[S.pl[0].wiz].n} against ${WIZ[S.pl[1].wiz].n}.`:S.ranked?`Ranked match: you play ${WIZ[S.pl[0].wiz].n} against ${S.ranked.name} (Elo ${S.ranked.elo}), who plays ${WIZ[S.pl[1].wiz].n}.`:S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
-  try{const r=await (o.resume?G.resumeRun():G.run());if(id!==gameId)return;clearSave();S.blast=null;S.potion=null;pending=null;TUT.step=null;const fresh=recordGame(r);render();SFX.play(r.winner===0?'win':'lose');await sleep(600);if(id===gameId)showEnd(r,fresh);}
+  else makeIO(id).log(S.puzzle?`Puzzle ${S.puzzle.id}: ${PUZZLES[S.puzzle.id-1].title}. ${PUZZLE_GOAL_TEXT(S.puzzle.goal)}`:S.daily?`Daily Challenge: ${S.daily.C.title}. ${GOALTXT(S.daily.C.goal)}`:S.online?`Online match: you play ${WIZ[S.pl[0].wiz].n} against ${WIZ[S.pl[1].wiz].n}.`:S.ranked?`Ranked match: you play ${WIZ[S.pl[0].wiz].n} against ${S.ranked.name} (Elo ${S.ranked.elo}), who plays ${WIZ[S.pl[1].wiz].n}.`:S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
+  if(o.puzzle)setTimeout(()=>{if(id===gameId)puzzleIntro(o.puzzle);},300);
+  try{const r=await (o.resume||o.puzzle?G.resumeRun():G.run());if(id!==gameId)return;if(S.puzzle){puzzleCheck('over');return;}clearSave();S.blast=null;S.potion=null;pending=null;TUT.step=null;const fresh=recordGame(r);render();SFX.play(r.winner===0?'win':'lose');await sleep(600);if(id===gameId)showEnd(r,fresh);}
   catch(err){console.error(err);if(id===gameId)openOv(`<h2>Something went wrong</h2><p>${esc(err.message)}</p><div class="acts"><button class="btn" data-a="again">Restart</button></div>`);}
 }
 function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&&!S.pl[q].out&&(!S.team||S.team[q]!==S.team[0]))??1,wasTour=TR&&TR.tour;
   const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();toast(RANKRES?`You resigned. Elo ${RANKRES.old} → ${RANKRES.now} (${RANKRES.d}).`:wasTour?'You resigned. It counts as a loss, and your tournament run has ended.':'You resigned. It counts as a loss.');}
-function teardown(){ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
+function teardown(){unseedRandom();ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
 function showTitle(){gameId++;teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
