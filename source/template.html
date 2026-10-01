@@ -518,6 +518,14 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 .olin{font:inherit;font-size:1.2rem;letter-spacing:.2em;text-transform:uppercase;width:8.5em;padding:.35em .6em;border:2px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
 .olcodebig{font-size:2.6rem;font-weight:700;letter-spacing:.25em;color:var(--accent);text-align:center;margin:4px 0}.olerr{color:var(--hp);font-weight:700}
 #onlbar{position:fixed;top:max(8px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:41;background:var(--hp);color:#fff;font-weight:700;padding:6px 14px;border-radius:999px;display:none;box-shadow:var(--shadow)}#onlbar.show{display:block}
+/* match history */
+.hlist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.hrow{border:1px solid var(--line);border-radius:10px;background:var(--panel)}.hrow.open{border-color:var(--accent)}
+.hsum{display:flex;align-items:center;gap:6px;width:100%;padding:6px 10px;background:none;border:0;text-align:left;cursor:pointer;color:inherit;font:inherit}
+.hsum .por{width:26px;height:26px;display:block;border-radius:50%;flex:none}.hres{width:20px;text-align:center;flex:none}.hvs{font-size:.75rem;color:var(--muted)}
+.hmain{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left;line-height:1.2;margin-left:4px}.hmain .lbl{text-align:left}.hside{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
+.hdet{padding:2px 12px 10px}.hdet p{margin:.3em 0 .5em}.htab td,.htab th{padding:2px 8px;text-align:left}
+.hstats{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:8px}.hstats span{display:flex;flex-direction:column;background:var(--panel2);border-radius:8px;padding:4px 8px;font-size:.78rem}.hstats b{font-size:1.1rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -1169,6 +1177,7 @@ document.addEventListener('click',e=>{
   if(a==='olstart'){onlStart();return;}
   if(a==='olcancel'){onlLeave();closeOv();return;}
   if(a==='olexit'){onlLeave();closeOv();showTitle();return;}
+  if(a==='hrow'){const i=+b.dataset.i;HOPEN=HOPEN===i?-1:i;statsSheet();return;}
   if(a==='rules'){rules();return;}
   if(a==='menu'){menu();return;}
   if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
@@ -1284,7 +1293,7 @@ const hardWins=P=>ROSTER.reduce((s,w)=>s+winsWith(P,w,'hard'),0);
 const pairsWon=(P,d)=>{let n=0;for(const w of ROSTER)for(const o of ROSTER)if(w!==o&&dl(d).reduce((s,x)=>s+cell(P,x,w,o)[0],0)>0)n++;return n;};
 /* ---------- per-game tracker ---------- */
 let TR=null;
-function newTR(me,opp,diff){return {me,opp,diff,minHp:WIZ[me].hp,dmg:0,rd:{},maxRd:0,counters:0,ults:0,gains:0,give:0,voids:0,dragons:0,tier:1,unplayable:false,maxBlastWin:0,stitch:0,doom:0,research:0,traps:[],downloads:0,potionsMax:0,yardodd:false,bauble:false,heal:0};}
+function newTR(me,opp,diff){return {t0:Date.now(),me,opp,diff,minHp:WIZ[me].hp,dmg:0,rd:{},maxRd:0,counters:0,ults:0,gains:0,give:0,voids:0,dragons:0,tier:1,unplayable:false,maxBlastWin:0,stitch:0,doom:0,research:0,traps:[],downloads:0,potionsMax:0,yardodd:false,bauble:false,heal:0};}
 function track(t,p,x){if(!TR||!S)return;
   if(t==='dmg'){if(x.t===0)TR.minHp=Math.min(TR.minHp,S.pl[0].hp);if(p===0&&x.t===1){TR.dmg+=x.d;const k=S.battle+'-'+S.round;TR.rd[k]=(TR.rd[k]||0)+x.d;TR.maxRd=Math.max(TR.maxRd,TR.rd[k]);}return;}
   if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);return;}
@@ -1396,6 +1405,13 @@ function recordGame(r){
   if(TR.opp==='coop'){const C=P.coop=Object.assign({g:0,w:0,we:0,wm:0,wh:0,w4:0},P.coop||{});C.g++;if(won){C.w++;C['w'+(S.diff||'medium')[0]]++;if(S.pl.length===4)C.w4++;}}
   if(TR.opp==='2v2'){const V=P.tvt=Object.assign({g:0,w:0},P.tvt||{});V.g++;if(won)V.w++;}
   if(TR.opp==='ffa'){const n=S.pl.length,F=P.ffa=Object.assign({g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},P.ffa||{});F.g++;F['g'+n]++;if(won){F.w++;F['w'+n]++;if(me.shards>=8)F.ws++;}}
+  {const mode=S.ranked?'Ranked':TR.tour?'Tournament':TR.opp==='ffa'?'Free-for-All':TR.opp==='coop'?'Co-op':TR.opp==='2v2'?'Two-on-Two':TR.opp==='robot'?'vs Robot Boy':'Versus';
+    const fin=q=>{const X=S.pl[q];return {wiz:X.wiz,hp:Math.max(0,X.hp),max:X.max,sh:X.shards,tier:X.tier,out:!!X.out,ally:!!(S.team&&q&&S.team[q]===S.team[0]),name:q===1&&S.ranked?S.ranked.name:null};};
+    const H={t:Date.now(),dur:Math.max(1,Math.round((Date.now()-(TR.t0||Date.now()))/1000)),mode,diff:S.ranked?null:DNAME[S.diff]||null,long:!!S.win,won,why:r.why,
+      battles:S.battle,rounds:Math.max(1,(S.battle-1)*4+(S.round||1)),me:fin(0),foes:[...S.pl.keys()].filter(q=>q).map(fin),
+      st:{dmg:TR.dmg,heal:TR.heal,counters:TR.counters,ults:TR.ults,gains:TR.gains,dragons:TR.dragons,voids:TR.voids,give:TR.give,mana:S.pl[0].mana},
+      elo:RANKRES?{old:RANKRES.old,now:RANKRES.now,d:RANKRES.d,opp:RANKRES.opp}:null,tour:TOURRES?{kind:TOURRES.kind,n:TOURRES.n}:null};
+    P.hist=(P.hist||[]);P.hist.push(H);if(P.hist.length>150)P.hist=P.hist.slice(-150);}
   P.tot.dmg+=TR.dmg;P.tot.heal+=TR.heal;P.tot.counters+=TR.counters;P.tot.ults+=TR.ults;P.tot.shards+=me.shards;
   const G2=Object.assign({},TR,{won,battles:S.battle,hp:me.hp,max:me.max,byShards,oppShards:S.pl[1].shards});
   const fresh=[];for(const a of ACH)if(!P.ach[a.id]){let ok=false;try{ok=a.ok(P,G2);}catch(e){}if(ok){P.ach[a.id]=Date.now();fresh.push(a);}}
@@ -1403,11 +1419,34 @@ function recordGame(r){
 }
 /* ---------- sheets ---------- */
 let statsTab='rec',statsDiff='all';
+let HOPEN=-1;
+const WHY={shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'};
+function fmtDur(s){const m=Math.floor(s/60);return m?`${m}m ${String(s%60).padStart(2,'0')}s`:`${s}s`;}
+function historyHTML(P){const L=(P.hist||[]).slice().reverse();
+  if(!L.length)return '<p>No matches yet. Finished matches appear here (the tutorial and online matches aren’t recorded).</p>';
+  const last=L.slice(0,20),w=last.filter(h=>h.won).length,avg=Math.round(L.slice(0,20).reduce((a,h)=>a+h.dur,0)/Math.min(20,L.length));
+  const cnt={};for(const h of L)cnt[h.me.wiz]=(cnt[h.me.wiz]||0)+1;const fav=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  const who=f=>`${f.name?esc(f.name)+' ':''}${RNAME[f.wiz]||f.wiz}${f.ally?' (ally)':''}`;
+  const row=(h,i)=>{const d=new Date(h.t),open=HOPEN===i;
+    return `<li class="hrow${open?' open':''}"><button class="hsum" data-a="hrow" data-i="${i}" aria-expanded="${open}">
+      <b class="hres ${h.won?'rw':'rl'}">${h.won?'W':'L'}</b><i class="por ci-wz_${h.me.wiz}"></i><span class="hvs">vs</span>${h.foes.map(f=>`<i class="por ci-wz_${f.wiz}" title="${who(f)}"></i>`).join('')}
+      <span class="hmain"><b>${h.mode}${h.long?' · Long':''}</b> <span class="lbl">${h.diff&&h.mode!=='Ranked'?h.diff+' · ':''}${d.toLocaleDateString(undefined,{month:'short',day:'numeric'})} ${d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}</span></span>
+      <span class="hside">${h.elo?`<b class="${h.elo.d>=0?'rup':'rdn'}">${h.elo.d>=0?'+':''}${h.elo.d}</b>`:''}<span class="lbl">${h.battles} battle${h.battles>1?'s':''}</span></span></button>
+      ${open?`<div class="hdet">
+        <p><b>${h.won?'Won':'Lost'} ${WHY[h.why]||''}</b> after ${h.battles} battle${h.battles>1?'s':''} (${h.rounds} rounds) in ${fmtDur(h.dur)}.${h.elo?` Elo ${h.elo.old} → ${h.elo.now} vs ${h.foes[0]&&h.foes[0].name?esc(h.foes[0].name):'opponent'} (${h.elo.opp}).`:''}${h.tour?` Tournament: ${h.tour.kind==='champ'?'champion!':h.tour.kind==='win'?h.tour.n+'/7 defeated':'run ended at '+h.tour.n+'/7'}.`:''}</p>
+        <table class="mx htab"><tr><th></th><th>Health</th><th>Shards</th><th>Tier</th></tr>
+          <tr><td>You (${RNAME[h.me.wiz]})</td><td>${h.me.hp}/${h.me.max}</td><td>${h.me.sh}</td><td>${ROM[h.me.tier]||h.me.tier}</td></tr>
+          ${h.foes.map(f=>`<tr><td>${who(f)}</td><td>${f.out?'eliminated':f.hp+'/'+f.max}</td><td>${f.sh}</td><td>${ROM[f.tier]||f.tier}</td></tr>`).join('')}</table>
+        <div class="hstats">${[['Damage dealt',h.st.dmg],['Healing',h.st.heal],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons gained',h.st.dragons],['Cards voided',h.st.voids],['Junk given',h.st.give]].map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>
+      </div>`:''}</li>`;};
+  return `<div class="kpis"><div class="kpi"><b>${w}–${last.length-w}</b><span>Last ${last.length} matches</span></div><div class="kpi"><b>${fmtDur(avg)}</b><span>Average length</span></div><div class="kpi"><b>${RNAME[fav]}</b><span>Most played</span></div><div class="kpi"><b>${L.length}</b><span>Matches saved</span></div></div>
+    <ul class="hlist">${L.map(row).join('')}</ul>`;}
 function statsSheet(){
   const P=loadProf(),got=ACH.filter(a=>P.ach[a.id]).length;
-  const tabs=`<div class="tabs"><button class="btn ${statsTab==='rec'?'':'alt'}" data-a="stab" data-v="rec">Record</button><button class="btn ${statsTab==='ach'?'':'alt'}" data-a="stab" data-v="ach">Achievements ${got}/${ACH.length}</button></div>`;
+  const tabs=`<div class="tabs"><button class="btn ${statsTab==='rec'?'':'alt'}" data-a="stab" data-v="rec">Record</button><button class="btn ${statsTab==='ach'?'':'alt'}" data-a="stab" data-v="ach">Achievements ${got}/${ACH.length}</button><button class="btn ${statsTab==='hist'?'':'alt'}" data-a="stab" data-v="hist">History</button></div>`;
   let body='';
-  if(statsTab==='rec'){
+  if(statsTab==='hist')body=historyHTML(P);
+  else if(statsTab==='rec'){
     const ds=statsDiff==='all'?DIFFS:[statsDiff];const cl=(w,o)=>ds.reduce((a,x)=>{const c=cell(P,x,w,o);return [a[0]+c[0],a[1]+c[1]];},[0,0]);
     const rows=ROSTER.map(w=>{let tw=0,tg=0;const tds=[...ROSTER,'robot'].map(o=>{if(w===o)return '<td class="self"></td>';const [cw,cg]=cl(w,o);tw+=cw;tg+=cg;return `<td class="${cw?'win':''}">${cg?cw+'/'+cg:'—'}</td>`;}).join('');return `<tr><th>${SH[w]}</th>${tds}<th>${tg?tw+'/'+tg:'—'}</th></tr>`;}).join('');
     const colT=[...ROSTER,'robot'].map(o=>{let a=0,g=0;for(const w of ROSTER)if(w!==o){const c=cl(w,o);a+=c[0];g+=c[1];}return `<th>${g?a+'/'+g:'—'}</th>`;}).join('');
