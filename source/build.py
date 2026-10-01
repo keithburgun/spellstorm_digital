@@ -29,7 +29,7 @@ def daily_and_puzzles():
     return 'const DAILY = ' + json.dumps(blocks, ensure_ascii=False) + ';\nconst PUZZLES = ' + rd('puzzles.json') + ';\n'
 
 e2 = rd('engine2.js'); e2 = e2[:e2.index('//EXPORTS')]          # engine2 ends with Node-only test exports
-engine = '\n'.join([rd('engine.js'), e2, rd('engine3.js'), rd('engine4.js'), rd('engine5.js'), rd('engine6.js'), rd('engine7.js'), rd('engine8.js'), rd('engine9.js'), daily_and_puzzles()])
+engine = '\n'.join([rd('engine.js'), e2, rd('engine3.js'), rd('engine4.js'), rd('engine5.js'), rd('engine6.js'), rd('engine7.js'), rd('engine8.js'), rd('engine9.js'), rd('engine10.js'), daily_and_puzzles()])
 page = rd('template.html').replace('/*ENGINE*/', engine).replace('/*IMGS*/', rd('imgs.json')).replace('/*CORPORATA*/', rd('corporata.css'))
 
 now = datetime.datetime.now(ZoneInfo('America/New_York'))
@@ -47,5 +47,5 @@ app = app.replace('</body>', rd('native_hooks.html') + '\n</body>', 1)
 assert 'fonts.googleapis' not in app and 'exitApp' in app
 wr('../www/index.html', app)
 
-wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,CARDS,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard,BOTS,pickBot,botWizard,puzzleState,puzzleJudge,seedRandom,unseedRandom};\n')
+wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,CARDS,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard,BOTS,pickBot,botWizard,puzzleState,puzzleJudge,seedRandom,unseedRandom,MXMODE};\n')
 print(f'web  dist/spellstorm.html  {len(web)/1e6:.2f} MB\napp  ../www/index.html      {len(app)/1e6:.2f} MB\ntest tests/eng_all.js')

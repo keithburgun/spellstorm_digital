@@ -376,6 +376,8 @@ class Game {
   }
   async round(r) {
     const S = this.S; S.round = r; S.rev = S.pl.map(() => null); S.slot = S.pl.map(() => null); S.revealed = false; S.phase = 'weather';
+    if (S.cheater) for (const p of S.pl.keys()) if (p !== 0 && !S.pl[p].out) {          // Cheater difficulty: a free health and a free card every round
+      const P = S.pl[p]; P.hp = Math.min(P.max, P.hp + 1); this.log(`${WIZ[P.wiz].short}: Got +1 health and drew +1 card from cheating.`, 'big'); await this.draw(p, 1); }
     const w = await this.flipWeather();
     this.log(`Battle ${S.battle}, round ${r}: ${WEATHER[w].n}.`, 'head'); await this.pause(900);
     await this.weatherFx(w); await this.pause(300);
