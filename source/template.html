@@ -1427,7 +1427,7 @@ function dailyLobby(){const MODEROW=MODEROW_FN(),P=loadProf(),{C,key}=dailyToday
 function ruleText(rules){return (rules||'').split(',').map(x=>x.trim()).filter(Boolean).map(r=>{const m=r.match(/^(you|opp)_(hp|mana|power|tier|shards)\s*([+-]?\d+)$/);
   if(r==='long')return 'Long Match (+50% health, 12 Storm Shards to win)';if(r==='you_init')return 'you start with the Initiative';if(r==='opp_init')return 'your opponent starts with the Initiative';if(!m)return esc(r);
   const who=m[1]==='you'?'you':'your opponent',v=+m[3];
-  return m[2]==='hp'?`${who} start${m[1]==='you'?'':'s'} with ${Math.abs(v)} ${v<0?'less':'extra'} health`:m[2]==='tier'?`${who} start${m[1]==='you'?'':'s'} at Tier ${['','I','II','III'][v]||v}`:`${who} start${m[1]==='you'?'':'s'} with ${v} ${m[2]==='shards'?'Storm Shards':m[2]==='power'?'Power':'mana'}`;}).join('; ')+'.';}
+  return m[2]==='hp'?`${who} start${m[1]==='you'?'':'s'} with ${Math.abs(v)} ${v<0?'less':'extra'} health`:m[2]==='tier'?`${who} start${m[1]==='you'?'':'s'} at Tier ${['','I','II','III'][v]||v}`:`${who} start${m[1]==='you'?'':'s'} with ${v} ${m[2]==='shards'?'Storm Shards':m[2]==='power'?'Power':'mana'}`;}).join('; ').replace(/^./,c=>c.toUpperCase())+'.';}
 function applyRules(S,rules){for(const r of (rules||'').split(',').map(x=>x.trim()).filter(Boolean)){const m=r.match(/^(you|opp)_(hp|mana|power|tier|shards)\s*([+-]?\d+)$/),me=S.pl[0],op=S.pl[1];
   if(r==='long'){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}else if(r==='you_init')S.init=0;else if(r==='opp_init')S.init=1;
   else if(m){const P=m[1]==='you'?me:op,v=+m[3];if(m[2]==='hp'){P.max=Math.max(1,P.max+v);P.hp=P.max;}else P[m[2]]=v;}}}
