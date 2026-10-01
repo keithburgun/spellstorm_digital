@@ -513,6 +513,11 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 .mm{text-align:center;padding:10px 4px}.mmdots i{font-style:normal;animation:mmd 1.2s infinite}.mmdots i:nth-child(2){animation-delay:.2s}.mmdots i:nth-child(3){animation-delay:.4s}@keyframes mmd{0%,60%,100%{opacity:.2}30%{opacity:1}}
 .mmopp{display:flex;align-items:center;justify-content:center;gap:14px;margin:10px 0;animation:rise .4s ease-out}.mmopp .por{width:64px;height:64px;display:block;border-radius:50%}.mmopp div{display:flex;flex-direction:column;text-align:left}.mmopp b{font-size:1.3rem}
 .elochg{font-size:1.15rem}
+.opticon .tk{width:22px;height:22px;vertical-align:middle}.rktable{overflow-x:auto;margin-bottom:10px}.rktable td,.rktable th{padding:3px 10px;text-align:left}
+.olgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px}.olgrid>div{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.olin{font:inherit;font-size:1.2rem;letter-spacing:.2em;text-transform:uppercase;width:8.5em;padding:.35em .6em;border:2px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+.olcodebig{font-size:2.6rem;font-weight:700;letter-spacing:.25em;color:var(--accent);text-align:center;margin:4px 0}.olerr{color:var(--hp);font-weight:700}
+#onlbar{position:fixed;top:max(8px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:41;background:var(--hp);color:#fff;font-weight:700;padding:6px 14px;border-radius:999px;display:none;box-shadow:var(--shadow)}#onlbar.show{display:block}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -529,12 +534,13 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 <div id="ov" class="ov" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
 <div id="toast"></div>
 <div id="ver" aria-hidden="true"></div>
+<div id="onlbar" role="status"></div>
 <div id="coach" role="dialog" aria-live="polite"></div>
 <div id="blast" aria-live="polite"></div>
 <div id="potov" aria-live="polite"></div>
 <div id="nb" aria-hidden="true"><div class="nbt">NEW BATTLE!</div><div class="nbs"></div></div>
 <div id="title"><div class="hero ci-hero2" aria-hidden="true"></div><div class="tlogo ci-logo" role="img" aria-label="Spellstorm"></div>
-  <nav class="tmenu" aria-label="Main menu"><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
+  <nav class="tmenu" aria-label="Main menu"><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_online" id="onlbtn">Play Online</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
   <p class="fine">Duel CPU wizards in the storm.</p></div>
 <div id="start">
   <h1 class="slogo"><span class="ci-logo" role="img" aria-label="Spellstorm"></span></h1>
@@ -583,7 +589,7 @@ function panel(p){
   const P=S.pl[p],W=WIZ[P.wiz];
   const pw=Array.from({length:6},(_,i)=>`<i class="pip ${i<P.power?'on':''}"></i>`).join('');
   const sh=Array.from({length:8},(_,i)=>`<i class="pip ${i<P.shards?'on':''}"></i>`).join('');
-  const name=p?(S.ranked&&p===1?`${esc(S.ranked.name)} <span class="lbl">${esc(W.short)}</span><span class="tag">Elo ${S.ranked.elo}</span>`:`${W.n}<span class="tag">CPU - ${DNAME[S.diff]||"Normal"}</span>`):`${W.n}<span class="tag">You</span>`;
+  const name=p?(S.online&&p===1?`${W.n}<span class="tag">Online opponent</span>`:S.ranked&&p===1?`${W.n}<span class="tag">${esc(S.ranked.name)} · ${S.ranked.elo}</span>`:`${W.n}<span class="tag">CPU - ${DNAME[S.diff]||"Normal"}</span>`):`${W.n}<span class="tag">You</span>`;
   const backs='';const an=k=>bump(p,k);
   const tools=p?`<div class="tools"><button class="chip" data-a="menu">Menu</button></div>`:`<div class="tools"><button class="chip logbtn" data-a="log">Log</button></div>`;
   return `<span class="porw"><button class="por ci-wz_${P.wiz}" data-a="wiz" data-p="${p}" aria-label="View ${esc(W.n)}’s wizard card"></button>${P.rb?'':`<span class="hc ci-back${an('hand')}" title="${P.hand.length} cards in hand" aria-label="${P.hand.length} cards in hand">${P.hand.length}</span>`}</span>
@@ -702,7 +708,8 @@ function potionHTML(){const X=S.potion,P=S.pl[X.p],who=X.p?esc(WIZ[P.wiz].short)
   const ask=X.stage==='done'&&ACK&&ACK.k==='potion'?'<div class="acts"><button class="btn" data-a="ack" style="min-width:8em">OK</button></div>':pending&&pending.req.potion?`<div class="acts"><button class="btn" data-a="ans" data-v="1">Drink another</button><button class="btn alt" data-a="ans" data-v="0">Stop here</button></div>`:(X.stage==='done'?'':`<p class="lbl">${X.p?who+' is deciding…':''}</p>`);
   return `<div class="bpanel ppanel"><h2 class="btitle">BOTTOMS UP, I GUESS!</h2><p class="psub">${who} ${X.p?'drinks':'drink'} from the Potion Deck. Each potion costs its Element; a third TOXIC ends it badly.</p>
    <div class="pstat"><span class="pels">${els}</span><span class="ptox">TOXIC ${tox}</span></div><div class="prow">${cards}</div>${res}${ask}</div>`;}
-function optSheet(r){openOv(`<h2>${esc(r.q.split(':')[0])}</h2><p>${esc(r.q.includes(':')?r.q.slice(r.q.indexOf(':')+1).trim():'')}</p><div class="optlist">${r.opts.map((o,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${i}" ${r.dis&&r.dis[i]?'disabled':''}>${esc(o)}</button>`).join('')}</div><div class="acts"><button class="btn alt" data-a="close">Decide later</button></div>`);}
+const fmtOpt=o=>esc(o).replace(/\{([FEW])\}/g,(m,e)=>`<span class="opticon" aria-label="${ELN[e]}">${tk('chem'+e)}</span>`);
+function optSheet(r){openOv(`<h2>${esc(r.q.split(':')[0])}</h2><p>${esc(r.q.includes(':')?r.q.slice(r.q.indexOf(':')+1).trim():'')}</p><div class="optlist">${r.opts.map((o,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${i}" ${r.dis&&r.dis[i]?'disabled':''}>${fmtOpt(o)}</button>`).join('')}</div><div class="acts"><button class="btn alt" data-a="close">Decide later</button></div>`);}
 function trapSheet(p,req){const P=S.pl[p],T=P.trap,own=p===0,ids=Object.keys(TRAPS);
   const cards=ids.map((id,i)=>{const X=TRAPS[id],cur=T&&T.id===id&&(own||T.used),dis=req&&req.dis&&req.dis[i];
     const art=req&&!dis?`<button class="card ci-${X.img} tpick" data-a="trappick" data-i="${i}" aria-label="Set ${esc(X.n)}"></button>`:`<div class="card ci-${X.img}" role="img" aria-label="${esc(X.n)}"></div>`;
@@ -848,6 +855,92 @@ function seatsHTML(){let h='';for(let q=1;q<S.pl.length;q++){const P=S.pl[q],W=W
    <span class="sinfo"><span class="sname">${esc(W.short)}${ally?'<i class="allytag">Ally</i>':''}${S.init===q?`<i class="sinit">${IC.bolt}</i>`:''}</span>
    ${P.out?'<span class="souttag">OUT</span>':`<span class="sstats"><span data-k="hp" class="${bump(q,'hp').trim()}">${IC.hp}${P.hp}</span><span data-k="shards" class="${bump(q,'shards').trim()}">${IC.shard}${P.shards}</span><span data-k="mana" class="${bump(q,'mana').trim()}">${IC.mana}${P.mana}</span><span data-k="power">T${ROM[P.tier]}</span></span>`}</span></button>`;}
   return `<div class="seats">${h}</div><div class="tools"><button class="chip" data-a="menu">Menu</button></div>`;}
+/* ---------- Online (invite) play: two players, one host. The host's browser runs the game; the guest's mirrors it. ----------
+   Transport on claude.ai: a named room per game code (the guest's answers travel in its presence) + one shared db document
+   (the host's game state). Off claude.ai (local testing) a same-browser BroadcastChannel + localStorage stand in. */
+const ONL_URL='https://claude.ai/artifact/Ahyn8vzn8FeQmBeqNkgw5B';
+const onlFresh=()=>({on:false,role:null,code:null,net:null,guest:null,host:null,started:false,pendingRemote:null,reqId:0,fxq:[],fxSeq:0,lastFx:0,answered:null,wTimer:null,dirty:false,state:null,endShown:false,logN:0});
+let ONL=onlFresh();
+const onlInApp=()=>!!window.Capacitor||/[?&]v=/.test(location.search);
+function onlCode(){const a='abcdefghjkmnpqrstuvwxyz23456789';return Array.from({length:6},()=>a[Math.floor(Math.random()*a.length)]).join('');}
+async function onlConnect(code){
+  if(window.claude&&claude.use){let room=null,db=null;
+    try{const r=await claude.use('room');db=await claude.use('db');if(r)room=await r.join('ss-'+code);}catch(e){room=null;}
+    if(!room||!db)throw new Error('Online play isn’t available in this view. Make sure you’re signed in to Claude and opening Spellstorm from its claude.ai link.');
+    const ref=db.doc('online/'+code);
+    return {kind:'claude',presence:p=>room.presence(p).catch(()=>{}),onPeers:fn=>room.onPeers(ch=>fn(ch.peers.filter(x=>!x.sameTab).map(x=>x.presence||{}))),
+      write:s=>ref.set({json:JSON.stringify(s),t:Date.now()}),watch:fn=>ref.onSnapshot(sn=>{if(sn.exists){const d=sn.data();try{fn(JSON.parse(d.json));}catch(e){}}}),leave:()=>room.leave().catch(()=>{})};}
+  const bc=new BroadcastChannel('ss-'+code),me=Math.random().toString(36).slice(2),peers={};let pfn=null,wfn=null;const mine={};
+  const send=hello=>bc.postMessage({t:'p',from:me,p:mine,hello});const list=()=>Object.values(peers).map(x=>x.p);
+  bc.onmessage=e=>{const m=e.data;if(m.t==='p'){peers[m.from]={p:m.p};if(m.hello)send(false);pfn&&pfn(list());}else if(m.t==='s'){wfn&&wfn(m.s);}else if(m.t==='bye'){delete peers[m.from];pfn&&pfn(list());}};
+  setTimeout(()=>send(true),50);
+  return {kind:'local',presence:p=>{for(const k in p){if(p[k]===null)delete mine[k];else mine[k]=p[k];}send(false);return Promise.resolve();},onPeers:fn=>{pfn=fn;fn(list());},
+    write:s=>{try{localStorage.setItem('ss-online-'+code,JSON.stringify(s));}catch(e){}bc.postMessage({t:'s',s});return Promise.resolve();},
+    watch:fn=>{wfn=fn;try{const v=localStorage.getItem('ss-online-'+code);if(v)fn(JSON.parse(v));}catch(e){}},leave:()=>{bc.postMessage({t:'bye',from:me});bc.close();}};}
+function onlLeave(){try{ONL.net&&ONL.net.leave();}catch(e){}ONL=onlFresh();$('#onlbar').classList.remove('show');}
+// ----- lobby -----
+function onlWizTiles(){return `<div class="tiles">${ROSTER.map(w=>`<button class="tile" data-a="olwiz" data-w="${w}" aria-pressed="${pickSel.me===w}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`).join('')}</div>`;}
+function onlMenu(pre){openOv(`<h2>Play a friend online</h2><p>A simple 1-vs-1 match against someone with access to this Spellstorm page. Online matches aren’t recorded in your stats.</p>
+  <h3>Your wizard</h3>${onlWizTiles()}
+  <div class="olgrid"><div><h3>Host a game</h3><p class="lbl">You get a code to send your friend. Hosting needs edit or Contributor access to this page.</p><button class="btn" data-a="olhost">Host a game</button></div>
+  <div><h3>Join a game</h3><p class="lbl">Enter the code your friend sent you.</p><input id="olcode" class="olin" maxlength="6" placeholder="code" value="${esc(pre||'')}" autocomplete="off"> <button class="btn" data-a="oljoin">Join</button></div></div>
+  <div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);$('#sheet').classList.add('wide');}
+function onlLobby(msg){if(ONL.started)return;const me=ONL.role==='host',g=ONL.guest,h=ONL.host;
+  const body=me?`<p>Send your friend this code (and the Spellstorm link):</p><div class="olcodebig">${ONL.code.toUpperCase()}</div><p class="lbl" style="word-break:break-all">${ONL_URL}#join=${ONL.code}</p>
+     <p>${g?`<b>Opponent connected</b>, playing ${RNAME[g.wiz]||'?'}.`:'Waiting for your opponent to join…'}</p><div class="acts"><button class="btn alt" data-a="olcancel">Cancel</button><button class="btn" data-a="olstart" ${g&&g.wiz?'':'disabled'}>Start the match</button></div>`
+    :`<p>Joined game <b>${ONL.code.toUpperCase()}</b> as ${RNAME[pickSel.me]}.</p><p>${h?'Connected to the host. Waiting for them to start…':'Looking for the host…'}</p><div class="acts"><button class="btn alt" data-a="olcancel">Leave</button></div>`;
+  openOv(`<h2>Online match</h2>${msg?`<p class="olerr">${esc(msg)}</p>`:''}${body}`);}
+async function onlHost(){const code=onlCode();ONL=onlFresh();Object.assign(ONL,{on:true,role:'host',code});
+  try{ONL.net=await onlConnect(code);await ONL.net.write({status:'lobby',code});}
+  catch(e){const m=e&&e.message||'';onlLeave();onlMenu();$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(/permit|denied|not_/.test(m)||!m?'Couldn’t create the game. Hosting needs edit or Contributor access to this page; ask the page owner to host, or to give you access.':m)}</p>`);return;}
+  ONL.net.presence({role:'host',wiz:pickSel.me});
+  ONL.net.onPeers(ps=>{const prev=ONL.guest;ONL.guest=ps.find(x=>x.role==='guest')||null;if(!ONL.started)onlLobby();else{onlBar();if(!prev&&ONL.guest)onlPush(true);}onlCheckAns();});
+  onlLobby();}
+async function onlJoin(code){code=(code||'').trim().toLowerCase();if(!/^[a-z0-9]{6}$/.test(code)){toast('Enter the 6-character code.');return;}
+  ONL=onlFresh();Object.assign(ONL,{on:true,role:'guest',code});
+  try{ONL.net=await onlConnect(code);}catch(e){onlLeave();onlMenu(code);$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(e.message)}</p>`);return;}
+  ONL.net.presence({role:'guest',wiz:pickSel.me,ans:null});
+  ONL.net.onPeers(ps=>{ONL.host=ps.find(x=>x.role==='host')||null;if(!ONL.started)onlLobby();else onlBar();});
+  ONL.net.watch(st=>onlGuestState(st));onlLobby();}
+function onlBar(){const b=$('#onlbar');if(!ONL.on||!ONL.started){b.classList.remove('show');return;}const other=ONL.role==='host'?ONL.guest:ONL.host;
+  b.textContent=other?'':'Your opponent disconnected. Waiting for them to come back…';b.classList.toggle('show',!other&&!(S&&S.over));}
+// ----- host side -----
+function onlStart(){const g=ONL.guest;if(!g||!g.wiz)return;closeOv();ONL.started=true;begin(pickSel.me,g.wiz,{online:true});}
+function onlRemoteDecide(g,p,req){return new Promise(res=>{const id=++ONL.reqId;ONL.pendingRemote={id,req,res};thinking=true;render();onlPush(true);onlCheckAns();});}
+function onlCheckAns(){const R=ONL.pendingRemote,a=ONL.guest&&ONL.guest.ans;if(!R||!a||a.id!==R.id)return;ONL.pendingRemote=null;thinking=false;R.res(onlDecode(R.req,a.v));onlPush(true);}
+function onlDecode(req,v){if(req.k==='play')return S.pl[1].hand.find(c=>c.u===v)||null;
+  if(req.k==='pick'){const s=new Set(v||[]);return req.items.filter(c=>s.has(c.u));}
+  if(req.k==='player'&&typeof v==='number')return 1-v;   // the guest sees the seats mirrored
+  return v;}
+function mirror(S0){const s=JSON.parse(JSON.stringify(S0)),sw=a=>Array.isArray(a)&&a.length===2?[a[1],a[0]]:a,fl=x=>typeof x==='number'&&x>=0?1-x:x;
+  s.pl=sw(s.pl);s.slot=sw(s.slot);s.rev=sw(s.rev);s.cancel=sw(s.cancel);s.done=sw(s.done);s.init=fl(s.init);s.resolving=fl(s.resolving);
+  if(s.blast){const B=s.blast;B.score=sw(B.score);B.ts=sw(B.ts);B.cards=sw(B.cards);B.turn=fl(B.turn);B.winner=fl(B.winner);if(B.winners)B.winners=B.winners.map(fl);}
+  if(s.potion){s.potion.p=fl(s.potion.p);if(s.potion.result)s.potion.result=sw(s.potion.result);}
+  if(s.plan){const n={};for(const k in s.plan)n[1-k]=s.plan[k];s.plan=n;}
+  if(s.over)s.over={...s.over,winner:fl(s.over.winner)};return s;}
+const IRREG={have:'has',are:'is',do:'does',go:'goes'};
+function third(v){if(/^[A-Z]+$/.test(v)||/ed$/.test(v))return v;if(IRREG[v])return IRREG[v];if(/(s|sh|ch|x|z)$/.test(v))return v+'es';if(/[^aeiou]y$/.test(v))return v.slice(0,-1)+'ies';return v+'s';}
+function guestLog(m){const H=WIZ[S.pl[0].wiz].short;return m.replace(/\bYou ([^.!?]*)/g,(x,rest)=>`${H} `+rest.replace(/^(\w+)/,v=>third(v)).replace(/\band (\w+)/g,(y,v)=>'and '+third(v))).replace(/\byou\b/g,H).replace(/\bYour\b/g,H+'’s').replace(/\byour\b/g,H+'’s');}
+function onlPush(now){if(!ONL.on||ONL.role!=='host'||!ONL.started||!S)return;ONL.dirty=true;
+  if(now){clearTimeout(ONL.wTimer);ONL.wTimer=null;onlWrite();return;}if(!ONL.wTimer)ONL.wTimer=setTimeout(()=>{ONL.wTimer=null;onlWrite();},300);}
+function onlWrite(){if(!ONL.dirty||!ONL.net)return;ONL.dirty=false;const R=ONL.pendingRemote;
+  const req=R?JSON.parse(JSON.stringify({...R.req,id:R.id,opps:R.req.opps?R.req.opps.map(q=>1-q):undefined})):null;
+  const st={status:S.over?'over':'playing',code:ONL.code,view:mirror(S),req,fx:ONL.fxq.slice(-24),logs:logs.slice(-80).map(l=>({m:guestLog(l.m),c:l.c})),winner:S.over?1-S.over.winner:null,why:S.over?S.over.why:null};
+  ONL.net.write(st).catch(()=>{});}
+// ----- guest side -----
+function onlGuestStart(){gameId++;teardown();$('#start').style.display='none';$('#title').style.display='none';ONL.started=true;G=null;TR=null;SEEN=new Map();ANIM_ON=false;closeOv();}
+function onlGuestState(st){if(!ONL.on||ONL.role!=='guest')return;ONL.state=st;if(st.status==='lobby'){onlLobby();return;}
+  if(!ONL.started)onlGuestStart();
+  S=st.view;const newLogs=st.logs||[];
+  if(newLogs.length&&ONL.logN&&newLogs.length>=ONL.logN){for(const l of newLogs.slice(Math.max(0,newLogs.length-(newLogs.length-ONL.logN))).slice(-3))if((l.c==='big'||l.c==='shard')&&!S.blast)toast(l.m);}
+  ONL.logN=newLogs.length;logs=newLogs;renderLog();
+  for(const e of st.fx||[])if(e.n>ONL.lastFx){ONL.lastFx=e.n;fx(e.t,typeof e.p==='number'?1-e.p:e.p);}
+  if(st.req&&st.req.id!==ONL.answered){if(!pending||pending.req.id!==st.req.id){pending={req:st.req,res:v=>onlAnswer(st.req.id,v)};sel=[];if(st.req.k==='pick')openPick();else if(st.req.k==='opt'&&st.req.opts&&st.req.opts.length>3)optSheet(st.req);}}
+  else if(pending&&(!st.req||st.req.id===ONL.answered))pending=null;
+  thinking=!st.req&&st.status==='playing';render();onlBar();
+  if(st.status==='over'&&!ONL.endShown){ONL.endShown=true;setTimeout(()=>{const w=st.winner;openOv(`<h2 style="font-size:2rem">${w===0?'You win!':esc(WIZ[S.pl[1].wiz].short)+' wins'}</h2><p>Online match against ${esc(WIZ[S.pl[1].wiz].n)}. Online matches aren’t recorded.</p><div class="acts"><button class="btn" data-a="olexit">Back to title</button><button class="btn alt" data-a="close">View board</button></div>`);},700);}}
+function onlAnswer(id,v){ONL.answered=id;const enc=x=>Array.isArray(x)?x.map(y=>y&&y.u!==undefined?y.u:y):(x&&typeof x==='object'&&x.u!==undefined?x.u:x);ONL.net.presence({ans:{id,v:enc(v)}});pending=null;render();}
+
 function xtra(p){
   const P=S.pl[p],row=(k,n,m)=>`<span class="tokrow">${Array.from({length:m},(_,i)=>`<i class="tk ci-tk_${k} ${i<n?'':'off'}"></i>`).join('')}</span>`;let h='';
   if(P.rb)h=`<span data-k="energy" class="stat" title="Blast Tokens (his Blast Score)">Blast ${row('blast',P.blast,6)}</span><span class="rbult" title="Ultimate cards: one face-up, one face-down">${P.ultUp?`<button class="card ci-${P.ultUp.id}" data-a="rbup" data-p="${p}" aria-label="${esc(CARDS[P.ultUp.id].n)}"></button>`:''}${P.ultDown?'<i class="card back ci-back"></i>':''}</span>`;
@@ -890,13 +983,13 @@ function handHTML(){
 function promptHTML(){
   const el=$('#prompt');el.classList.toggle('ask',!!pending);el.classList.toggle('waiting',!pending);
   if(!pending&&S.pl[0].out&&!S.over)return '<div class="q">You’ve been eliminated. '+(S.team?'Your team plays on…':'The match plays on…')+'</div><button class="btn alt" data-a="totitle">Leave match</button>';
-  if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?`${esc(WIZ[S.pl[1].wiz].short)} is choosing a card…`:esc(last?last.m:'')}</div>`;}
+  if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?(S.online?`Waiting for ${esc(WIZ[S.pl[1].wiz].short)}…`:`${esc(WIZ[S.pl[1].wiz].short)} is choosing a card…`):esc(last?last.m:'')}</div>`;}
   const r=pending.req;
   switch(r.k){
     case 'play':return `<div class="q">Choose a card to play face-down.</div>`;
     case 'yn':{const m=r.q.match(/^(.*?)\s*\((.*)\)\s*$/s);if(m)return `<div class="q">${esc(m[1])}<small class="clamp">${esc(m[2])}</small></div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>`;}return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="ans" data-v="1">Yes</button><button class="btn alt" data-a="ans" data-v="0">No</button>`;
     case 'player':if(S.pl.length>2){const os=r.opps||[...S.pl.keys()].filter(q=>!S.pl[q].out);return `<div class="q">${esc(r.q)}</div>${os.map((q,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${q}">${q===0?'Yourself':esc(WIZ[S.pl[q].wiz].short)}</button>`).join('')}`;}return `<div class="q">${esc(r.q)}</div><button class="btn" data-a="ans" data-v="1">${esc(WIZ[S.pl[1].wiz].short)} (opponent)</button><button class="btn alt" data-a="ans" data-v="0">Yourself</button>`;
-    case 'opt':if(r.opts.length>3&&!r.trap)return `<div class="q">${esc(r.q.split(':')[0])}</div><button class="btn" data-a="openopt">Choose…</button>`;if(r.trap)return `<div class="q">Hidden Movement: set a Trap.</div><button class="btn" data-a="opentrap">Choose a Trap</button>`;return `<div class="q">${esc(r.q)}</div>${r.opts.map((o,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${i}" ${r.dis&&r.dis[i]?'disabled':''}>${esc(o)}</button>`).join('')}`;
+    case 'opt':if(r.opts.length>3&&!r.trap)return `<div class="q">${esc(r.q.split(':')[0])}</div><button class="btn" data-a="openopt">Choose…</button>`;if(r.trap)return `<div class="q">Hidden Movement: set a Trap.</div><button class="btn" data-a="opentrap">Choose a Trap</button>`;return `<div class="q">${esc(r.q)}</div>${r.opts.map((o,i)=>`<button class="btn ${i?'alt':''}" data-a="ans" data-v="${i}" ${r.dis&&r.dis[i]?'disabled':''}>${fmtOpt(o)}</button>`).join('')}`;
     case 'gain':{const sp=r.special?`<span class="spbtns"><span class="lbl">${r.slots.length?'Or take:':'Take:'}</span>${(r.specials||['ice','ash','curse']).map(t=>`<button class="btn alt sm" data-a="sp" data-v="${t}" title="${S.special[t]?S.special[t]+' left':'None left: the board effect applies'}">${CARDS[t].n}</button>`).join('')}</span>`:'';
       const hint=r.special?'':(r.slots.length?'Tap a highlighted Storm Cloud card.':'');
       const regroup=S.phase==='gain';const qq=r.special?(regroup?(r.slots.length?'Gain Spell: tap a highlighted Storm Cloud card.':'Gain Spell: no Storm Cloud card is at your Tier.'):(r.slots.length?r.q:'No Storm Cloud card is at your Tier. You can take a special card.')):r.q;
@@ -914,7 +1007,7 @@ function render(){
   opp.classList.toggle('ultglow',on('ult1'));me.classList.toggle('ultglow',on('ult0'));
   setH($('#cloud'),cloudHTML());setH($('#arena'),arenaHTML());setH($('#hand'),handHTML());setH($('#prompt'),promptHTML());
   const bl=$('#blast');if(S.blast){bl.classList.add('show');setH(bl,blastHTML());}else bl.classList.remove('show');
-  fitArena();layoutHand();anim();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
+  fitArena();layoutHand();anim();if(ONL.on&&ONL.role==='host')onlPush();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
   document.body.classList.toggle('ceremony',!!S.blast);
   const po=$('#potov');const showPot=S.potion&&!(pending&&!pending.req.potion);if(showPot){po.classList.add('show');setH(po,potionHTML());}else po.classList.remove('show');
 }
@@ -926,7 +1019,7 @@ function renderLog(){
 let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
-function fx(t,p){const n=performance.now();if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+function fx(t,p){const n=performance.now();if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='hit')SFX.play('hit');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
@@ -934,6 +1027,7 @@ const io={sim:false,
   log(m,c){logs.push({m,c});if(logs.length>400)logs.shift();renderLog();if((c==='big'||c==='shard')&&!(S&&S.blast))toast(m);},
   render,pause:ms=>sleep(ms),fx,
   async decide(g,p,req){
+    if(p!==0&&g.S.online)return onlRemoteDecide(g,p,req);
     if(p!==0){
       if(req.k==='play'&&g.S.tutorial&&g.S.battle===1&&g.S.round===1){const bl=g.S.pl[1].hand.find(c=>c.id==='block');if(bl){await sleep(600);SFX.play('card');return bl;}}
       if(req.k==='play'){thinking=true;render();const [c]=await Promise.all([aiChoosePlay(g.S,p),sleep(700)]);thinking=false;SFX.play('card');return c;}
@@ -944,7 +1038,7 @@ const io={sim:false,
 function makeIO(id){return {sim:false,
   log(m,c){if(id===gameId)io.log(m,c);},ev(t,p,x){if(id===gameId)track(t,p,x);},render(){if(id===gameId)render();},pause:ms=>sleep(ms),fx(t,p){if(id===gameId)fx(t,p);},
   decide(g,p,req){if(id!==gameId)return new Promise(()=>{});return io.decide(g,p,req);},
-  checkpoint(){if(id===gameId)saveGame();},
+  checkpoint(){if(id===gameId&&!S.online)saveGame();},
   tut(st){if(id!==gameId)return new Promise(()=>{});return tutStage(st);},
   ack(k){if(id!==gameId)return new Promise(()=>{});return new Promise(res=>{ACK={k,res};render();setTimeout(()=>{const b=document.querySelector('[data-a=ack]');if(b)b.focus();},60);});}};}
 let ACK=null;
@@ -983,7 +1077,7 @@ function rules(){openOv(`<div class="rules"><h2>How a game goes</h2>
 <h3>Co-op vs Robot Boy and Two-on-Two</h3><p>You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next <i>opponent</i> clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.</p></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
 function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
 <p>Layout</p><div class="acts" style="justify-content:flex-start"><button class="btn ${$('#app').classList.contains('phone')?'':'alt'}" data-a="phone">Phone view ${$('#app').classList.contains('phone')?'on':'off'}</button><button class="btn alt" data-a="rules">Rules</button></div>
-<div class="acts"><button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
+<div class="acts">${S&&S.online||ONL.on?'<button class="btn alt" data-a="olexit">Leave online match</button>':'<button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button>'}<button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
 const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v10c0 10-6 17-14 18-8-1-14-8-14-18z" fill="currentColor"/><path d="M18 12H8c0 9 5 14 11 15M46 12h10c0 9-5 14-11 15" fill="none" stroke="currentColor" stroke-width="4"/><rect x="28" y="36" width="8" height="10" fill="currentColor"/><rect x="19" y="46" width="26" height="8" rx="2" fill="currentColor"/></svg>';
 function showEnd(r,fresh=[]){
   const w=r.winner,W=WIZ[S.pl[w].wiz],T=TOURRES,why=r.why==='shards'?'by collecting 8 Storm Shards':r.why==='health'?'by bringing their rival to 0 health':'on the tiebreak';
@@ -995,7 +1089,7 @@ function showEnd(r,fresh=[]){
   openOv(`${head}<p>${w===0?'You':esc(W.n)} won ${why} after ${S.battle} battle${S.battle>1?'s':''}.</p>
   <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${S.ranked?'Ranked':DNAME[S.diff]+' difficulty'}${T?', Tournament Mode':''}${S.win?', Long Match':''}${S.ranked?' (Ranked match)':''}.</p>
   ${fresh.length?`<h2 style="font-size:1.1rem;margin-top:10px">Achievements unlocked</h2><div class="newach">${fresh.map(a=>`<span>${esc(a.n)}</span>`).join('')}</div>`:''}
-  <div class="acts">${RANKRES?'<button class="btn" data-a="rankagain">Play again</button><button class="btn alt" data-a="restart">Ranked lobby</button>':T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
+  <div class="acts">${S.online?'<button class="btn" data-a="olexit">Back to title</button><button class="btn alt" data-a="close">View board</button>':RANKRES?'<button class="btn" data-a="rankagain">Play again</button><button class="btn alt" data-a="restart">Ranked lobby</button>':T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
 }
 
 // ---------- events ----------
@@ -1026,7 +1120,7 @@ document.addEventListener('click',e=>{
   if(a==='t_opts'){optionsSheet();return;}
   if(a==='t_stats'){statsTab='rec';statsSheet();return;}
   if(a==='t_exit'){exitGame();return;}
-  if(a==='totitle'){closeOv();showTitle();return;}
+  if(a==='totitle'){closeOv();if(ONL.on)onlLeave();showTitle();return;}
   if(a==='stab'){statsTab=b.dataset.v;statsSheet();return;}
   if(a==='sdiff'){statsDiff=b.dataset.v;statsSheet();return;}
   if(a==='setdiff'){if(OPT.tour&&loadProf().tour)return;if(OPT.mode==='coop'||((OPT.mode||'duel')==='duel'&&pickSel.opp==='robot'&&!rnd.opp&&!OPT.tour))OPT.rbdiff=b.dataset.v;else OPT.diff=b.dataset.v;saveOpt();drawSelect();return;}
@@ -1068,6 +1162,13 @@ document.addEventListener('click',e=>{
   if(a==='resign2'){resign();return;}
   if(a==='mmcancel'){MM=null;closeOv();return;}
   if(a==='rankagain'){closeOv();rankedLaunch();return;}
+  if(a==='t_online'){onlMenu();return;}
+  if(a==='olwiz'){pickSel.me=b.dataset.w;document.querySelectorAll('#sheet [data-a=olwiz]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.w===pickSel.me));if(ONL.on&&ONL.net)ONL.net.presence({wiz:pickSel.me});return;}
+  if(a==='olhost'){onlHost();return;}
+  if(a==='oljoin'){onlJoin(($('#olcode')||{}).value);return;}
+  if(a==='olstart'){onlStart();return;}
+  if(a==='olcancel'){onlLeave();closeOv();return;}
+  if(a==='olexit'){onlLeave();closeOv();showTitle();return;}
   if(a==='rules'){rules();return;}
   if(a==='menu'){menu();return;}
   if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
@@ -1119,28 +1220,38 @@ function drawSelect(){
 }
 document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='long'){OPT.long=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
 // ---------- Ranked (single-player Elo) ----------
-const RK=P=>Object.assign({elo:900,g:0,w:0,peak:900,hist:[],streak:0,best:0,giant:false,bots:{}},P.rk||{});
+// Ranked keeps one Elo per character plus one for Random; history, bot drift and streak records are shared.
+const RKEYS=()=>[...ROSTER,'random'];
+function RKX(P){if(!P.rkx){P.rkx={};const old=P.rk;if(old&&old.g){const c={};for(const h of old.hist||[])c[h.me]=(c[h.me]||0)+1;const k=Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||'random';
+    P.rkx[k]={elo:old.elo,g:old.g,w:old.w,peak:old.peak,streak:old.streak};}}return P.rkx;}
+const RK=(P,key)=>{const shared=Object.assign({hist:[],best:0,giant:false,bots:{}},P.rk||{});if(!key)return shared;
+  return Object.assign(shared,{elo:900,g:0,w:0,peak:900,streak:0},(RKX(P)[key])||{});};
+const rkPeak=P=>Math.max(900,...Object.values(RKX(P)).map(x=>x.peak||900));
+const rkKey=()=>rnd.me?'random':pickSel.me;
 let RANKRES=null,MM=null;
-function rankedLobby(){const P=loadProf(),R=RK(P);
-  const tile=w=>`<button class="tile" data-a="tile" data-r="me" data-w="${w}" aria-pressed="${pickSel.me===w&&!rnd.me}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`;
-  const hist=R.hist.slice(-6).reverse().map(h=>`<li><b class="${h.won?'rw':'rl'}">${h.won?'W':'L'}</b> vs <b>${esc(h.name)}</b> <span class="lbl">(${h.opp})</span> as ${RNAME[h.me]} <span class="${h.d>=0?'rup':'rdn'}">${h.d>=0?'+':''}${h.d}</span></li>`).join('');
+function rankedTable(P){const rows=RKEYS().map(k=>{const R=RK(P,k);return `<tr><td>${k==='random'?'Random':RNAME[k]}</td><td><b>${R.elo}</b></td><td>${R.peak}</td><td>${R.w}–${R.g-R.w}</td></tr>`;}).join('');
+  return `<h3 style="margin:.2em 0 .4em">Ranked Elo</h3><div class="rktable"><table class="mx"><tr><th>Character</th><th>Elo</th><th>Peak</th><th>W–L</th></tr>${rows}</table></div>`;}
+function rankedLobby(){const P=loadProf(),key=rkKey(),R=RK(P,key);
+  const tile=w=>`<button class="tile" data-a="tile" data-r="me" data-w="${w}" aria-pressed="${pickSel.me===w&&!rnd.me}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>Elo ${RK(P,w).elo}</span></button>`;
+  const hist=R.hist.slice(-6).reverse().map(h=>`<li><b class="${h.won?'rw':'rl'}">${h.won?'W':'L'}</b> vs <b>${esc(h.name)}</b> <span class="lbl">(${h.opp})</span> as ${RNAME[h.me]}${h.key==='random'?' (Random)':''} <span class="${h.d>=0?'rup':'rdn'}">${h.d>=0?'+':''}${h.d}</span></li>`).join('');
   return `<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['ranked','Ranked'],['ffa','Free-for-All'],['coop','Co-op vs Robot Boy'],['2v2','Two-on-Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${m==='ranked'}">${l}</button>`).join('')}</span></h2></div>
-   <div class="elobox"><div class="elonum"><span class="lbl">Your Elo</span><b>${R.elo}</b></div><div class="elostats"><span>${R.w} wins · ${R.g-R.w} losses</span><span>Peak ${R.peak}${R.streak>1?` · ${R.streak}-win streak`:''}</span></div></div>
-   <div class="row rows ${rnd.me?'rand':''}"><h2>Your wizard<label><input type="checkbox" data-r="me" ${rnd.me?'checked':''}> Random</label></h2><div class="tiles">${ROSTER.map(tile).join('')}</div></div>
-   <div class="info"><p><b>Ranked:</b> you’re matched against an endless stream of opponents near your rating, each with their own style. Win to climb; lose and you drop. Resigning or abandoning a match counts as a loss.</p></div>
+   <div class="elobox"><div class="elonum"><span class="lbl">Your Elo — ${key==='random'?'Random':RNAME[key]}</span><b>${R.elo}</b></div><div class="elostats"><span>${R.w} wins · ${R.g-R.w} losses</span><span>Peak ${R.peak}${R.streak>1?` · ${R.streak}-win streak`:''}</span></div></div>
+   <div class="row rows ${rnd.me?'rand':''}"><h2>Your wizard<label><input type="checkbox" data-r="me" ${rnd.me?'checked':''}> Random <span class="lbl">(Elo ${RK(P,'random').elo})</span></label></h2><div class="tiles">${ROSTER.map(tile).join('')}</div></div>
+   <div class="info"><p><b>Ranked:</b> each character has its own Elo, and so does Random. you’re matched against an endless stream of opponents near your rating, each with their own style. Win to climb; lose and you drop. Resigning or abandoning a match counts as a loss.</p></div>
    <div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn" data-a="launch" style="font-size:1.2rem;padding:.75em 2.4em">PLAY GAME</button></div>
    ${hist?`<h3 class="rkh">Recent matches</h3><ul class="rkhist">${hist}</ul>`:''}`;}
-function applyRanked(P,rk,me,won,delta){const R=P.rk=RK(P);const old=R.elo;R.elo=Math.max(100,R.elo+delta);R.g++;
-  if(won){R.w++;R.streak++;R.best=Math.max(R.best,R.streak);if(rk.elo-old>=150)R.giant=true;}else R.streak=0;R.peak=Math.max(R.peak,R.elo);
+function applyRanked(P,rk,me,won,delta){const key=rk.key||me,X=RKX(P),K=X[key]=Object.assign({elo:900,g:0,w:0,peak:900,streak:0},X[key]||{}),R=P.rk=Object.assign({hist:[],best:0,giant:false,bots:{}},P.rk||{});
+  const old=K.elo;K.elo=Math.max(100,K.elo+delta);K.g++;
+  if(won){K.w++;K.streak++;R.best=Math.max(R.best||0,K.streak);if(rk.elo-old>=150)R.giant=true;}else K.streak=0;K.peak=Math.max(K.peak,K.elo);
   R.bots=R.bots||{};R.bots[rk.name]=Math.max(-150,Math.min(150,(R.bots[rk.name]||0)-Math.round(delta/2)));
-  R.hist.push({name:rk.name,opp:rk.elo,me,won,d:delta,t:Date.now()});if(R.hist.length>30)R.hist=R.hist.slice(-30);return {old,now:R.elo};}
+  R.hist.push({name:rk.name,opp:rk.elo,me,key,won,d:delta,t:Date.now()});if(R.hist.length>30)R.hist=R.hist.slice(-30);return {old,now:K.elo};}
 function rankedLaunch(){let P=loadProf();
-  const sv=loadSave();if(sv&&sv.S.ranked&&!sv.S.over){const R=RK(P),d=eloDelta(R.elo,sv.S.ranked.elo,0,R.g);applyRanked(P,sv.S.ranked,sv.S.pl[0].wiz,false,d);saveProf(P);clearSave();toast(`Your abandoned ranked match counted as a loss (${d}).`);P=loadProf();}
-  const R=RK(P),me=rnd.me?ROSTER[Math.floor(Math.random()*ROSTER.length)]:pickSel.me,last=R.hist.length?R.hist[R.hist.length-1].name:null;
+  const sv=loadSave();if(sv&&sv.S.ranked&&!sv.S.over){const R=RK(P,sv.S.ranked.key||sv.S.pl[0].wiz),d=eloDelta(R.elo,sv.S.ranked.elo,0,R.g);applyRanked(P,sv.S.ranked,sv.S.pl[0].wiz,false,d);saveProf(P);clearSave();toast(`Your abandoned ranked match counted as a loss (${d}).`);P=loadProf();}
+  const key=rkKey(),R=RK(P,key),me=rnd.me?ROSTER[Math.floor(Math.random()*ROSTER.length)]:pickSel.me,last=R.hist.length?R.hist[R.hist.length-1].name:null;
   const bot=pickBot(R.elo,last),rank=bot.rank,pers=bot.pers,name=bot.name,opp=botWizard(bot,me,ROSTER),elo=Math.max(100,botBaseElo(bot)+((R.bots||{})[name]||0));
   const tok=MM={};openOv(`<div class="mm"><h2>Finding an opponent<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></h2><p class="lbl">Searching near Elo ${R.elo}</p><div class="acts"><button class="btn alt" data-a="mmcancel">Cancel</button></div></div>`);
   setTimeout(()=>{if(MM!==tok)return;openOv(`<div class="mm"><h2>Opponent found!</h2><div class="mmopp"><i class="por ci-wz_${opp}"></i><div><b>${esc(name)}</b><span>Elo ${elo}</span><span class="lbl">playing ${RNAME[opp]}</span></div></div></div>`);
-    setTimeout(()=>{if(MM!==tok)return;MM=null;closeOv();begin(me,opp,{ranked:{name,elo,rank,pers}});},1600);},1200+Math.random()*1600);}
+    setTimeout(()=>{if(MM!==tok)return;MM=null;closeOv();begin(me,opp,{ranked:{name,elo,rank,pers,key}});},1600);},1200+Math.random()*1600);}
 function selNeed(){const m=OPT.mode||'duel';return m==='ffa'?(OPT.np>2?OPT.np:4)-1:m==='coop'?(OPT.coopN||3)-1:m==='2v2'?3:1;}
 function launch(){
   const pool=ROSTER.filter(avail),pickR=a=>a[Math.floor(Math.random()*a.length)];
@@ -1266,10 +1377,10 @@ A('coop10','Robot Wranglers','Win 10 Co-op matches.',P=>CO(P).w>=10,P=>[CO(P).w,
 A('tvt1','Dynamic Duo','Win a Two-on-Two match.',P=>TV(P).w>=1);
 A('tvt10','Tag Team Champions','Win 10 Two-on-Two matches.',P=>TV(P).w>=10,P=>[TV(P).w,10]);
 A('medic','Field Medic','Heal an ally in a team match.',(P,G)=>G.allyHeal>0);
-A('rk1','Ranked Debut','Play a Ranked match.',P=>RK(P).g>=1);
-A('rk1000','Climbing','Reach 1000 Elo in Ranked.',P=>RK(P).peak>=1000,P=>[Math.min(RK(P).peak,1000),1000]);
-A('rk1200','Contender','Reach 1200 Elo in Ranked.',P=>RK(P).peak>=1200,P=>[Math.min(RK(P).peak,1200),1200]);
-A('rk1400','Storm Elite','Reach 1400 Elo in Ranked.',P=>RK(P).peak>=1400,P=>[Math.min(RK(P).peak,1400),1400]);
+A('rk1','Ranked Debut','Play a Ranked match.',P=>(RK(P).hist||[]).length>=1);
+A('rk1000','Climbing','Reach 1000 Elo in Ranked.',P=>rkPeak(P)>=1000,P=>[Math.min(rkPeak(P),1000),1000]);
+A('rk1200','Contender','Reach 1200 Elo in Ranked.',P=>rkPeak(P)>=1200,P=>[Math.min(rkPeak(P),1200),1200]);
+A('rk1400','Storm Elite','Reach 1400 Elo in Ranked.',P=>rkPeak(P)>=1400,P=>[Math.min(rkPeak(P),1400),1400]);
 A('rkgiant','Giant Slayer','In Ranked, beat an opponent rated 150 or more above you.',P=>!!RK(P).giant);
 A('rkstreak','Hot Streak','Win 5 Ranked matches in a row.',P=>RK(P).best>=5,P=>[Math.min(RK(P).best,5),5]);
 function recordGame(r){
@@ -1281,7 +1392,7 @@ function recordGame(r){
     if(P.tour.wins>=7){P.trophy=P.trophy||{};if(!P.trophy[d])P.trophy[d]={t:Date.now(),w:TR.me};TOURRES={kind:'champ',n:7,diff:d};P.tour=null;}
     else TOURRES={kind:'win',n:P.tour.wins,next:tourOrder(P.tour.me)[P.tour.wins]};}
   else{TOURRES={kind:'lose',n:P.tour.wins};P.tour=null;}}
-  if(TR.ranked&&S.ranked){clearSave();const R=RK(P),dl2=eloDelta(R.elo,S.ranked.elo,won?1:0,R.g),x=applyRanked(P,S.ranked,TR.me,won,dl2);RANKRES={old:x.old,now:x.now,d:dl2,won,name:S.ranked.name,opp:S.ranked.elo};}
+  if(TR.ranked&&S.ranked){clearSave();const R=RK(P,S.ranked.key||TR.me),dl2=eloDelta(R.elo,S.ranked.elo,won?1:0,R.g),x=applyRanked(P,S.ranked,TR.me,won,dl2);RANKRES={old:x.old,now:x.now,d:dl2,won,name:S.ranked.name,opp:S.ranked.elo};}
   if(TR.opp==='coop'){const C=P.coop=Object.assign({g:0,w:0,we:0,wm:0,wh:0,w4:0},P.coop||{});C.g++;if(won){C.w++;C['w'+(S.diff||'medium')[0]]++;if(S.pl.length===4)C.w4++;}}
   if(TR.opp==='2v2'){const V=P.tvt=Object.assign({g:0,w:0},P.tvt||{});V.g++;if(won)V.w++;}
   if(TR.opp==='ffa'){const n=S.pl.length,F=P.ffa=Object.assign({g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},P.ffa||{});F.g++;F['g'+n]++;if(won){F.w++;F['w'+n]++;if(me.shards>=8)F.ws++;}}
@@ -1302,7 +1413,7 @@ function statsSheet(){
     const colT=[...ROSTER,'robot'].map(o=>{let a=0,g=0;for(const w of ROSTER)if(w!==o){const c=cl(w,o);a+=c[0];g+=c[1];}return `<th>${g?a+'/'+g:'—'}</th>`;}).join('');
     const G=P.games,Wn=P.wins;
     const tr=d=>{const x=(P.trophy||{})[d];return `<div class="troph${x?'':' off'}">${TROPHY}<span><b>${DNAME[d]} Tournament</b><small>${x?`Won as ${esc(RNAME[x.w])}`:'Not won yet'}</small></span></div>`;};
-    body=`<div class="trophies">${tr('normal')}${tr('hard')}${tr('expert')}</div>${P.tour?`<p class="lbl" style="text-align:left;margin:0 0 8px">Tournament in progress: ${P.tour.wins}/7 as ${RNAME[P.tour.me]} (${DNAME[P.tour.diff]}).</p>`:''}<div class="kpis"><div class="kpi"><b>${G}</b><span>Matches played</span></div><div class="kpi"><b>${Wn}</b><span>Wins</span></div><div class="kpi"><b>${G-Wn}</b><span>Losses</span></div><div class="kpi"><b>${G?Math.round(100*Wn/G):0}%</b><span>Win rate</span></div><div class="kpi"><b>${P.streak}</b><span>Current streak</span></div><div class="kpi"><b>${P.best}</b><span>Best streak</span></div><div class="kpi"><b>${hardWins(P)}</b><span>Hard wins</span></div><div class="kpi"><b>${FF(P).w}/${FF(P).g}</b><span>Free-for-All wins</span></div><div class="kpi"><b>${RK(P).elo}</b><span>Ranked Elo (peak ${RK(P).peak})</span></div><div class="kpi"><b>${CO(P).w}/${CO(P).g}</b><span>Co-op wins</span></div><div class="kpi"><b>${TV(P).w}/${TV(P).g}</b><span>Two-on-Two wins</span></div></div>
+    body=`${rankedTable(P)}<div class="trophies">${tr('normal')}${tr('hard')}${tr('expert')}</div>${P.tour?`<p class="lbl" style="text-align:left;margin:0 0 8px">Tournament in progress: ${P.tour.wins}/7 as ${RNAME[P.tour.me]} (${DNAME[P.tour.diff]}).</p>`:''}<div class="kpis"><div class="kpi"><b>${G}</b><span>Matches played</span></div><div class="kpi"><b>${Wn}</b><span>Wins</span></div><div class="kpi"><b>${G-Wn}</b><span>Losses</span></div><div class="kpi"><b>${G?Math.round(100*Wn/G):0}%</b><span>Win rate</span></div><div class="kpi"><b>${P.streak}</b><span>Current streak</span></div><div class="kpi"><b>${P.best}</b><span>Best streak</span></div><div class="kpi"><b>${hardWins(P)}</b><span>Hard wins</span></div><div class="kpi"><b>${FF(P).w}/${FF(P).g}</b><span>Free-for-All wins</span></div><div class="kpi"><b>${rkPeak(P)}</b><span>Best Ranked Elo</span></div><div class="kpi"><b>${CO(P).w}/${CO(P).g}</b><span>Co-op wins</span></div><div class="kpi"><b>${TV(P).w}/${TV(P).g}</b><span>Two-on-Two wins</span></div></div>
     <p style="margin:4px 0 6px"><span class="seg">${['all','easy','normal','medium','hard','expert','ranked'].map(d=>`<button data-a="sdiff" data-v="${d}" aria-pressed="${statsDiff===d}">${d[0].toUpperCase()+d.slice(1)}</button>`).join('')}</span></p>
     <p class="lbl" style="text-align:left;margin:0 0 4px">Wins/matches. Rows are the wizard you played; columns are the opponent.</p>
     <div class="mxw"><table class="mx"><tr><th>You \ vs</th>${[...ROSTER,'robot'].map(o=>`<th>${SH[o]}</th>`).join('')}<th>Total</th></tr>${rows}<tr><th>Beaten</th>${colT}<th></th></tr></table></div>
@@ -1333,11 +1444,11 @@ async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
   SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];}
-  else{if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked)S.diff='normal';if(OPT.long&&!o.tutorial&&!o.ranked){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;}
+  else{if(o.online){S=newState(w,opp);S.online=true;S.diff='normal';}else if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked)S.diff='normal';if(OPT.long&&!o.tutorial&&!o.ranked){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;if(o.online)TR=null;}
   G=new Game(S,makeIO(id));renderLog();render();
   if(S.win&&!o.resume)setTimeout(()=>{if(id===gameId)makeIO(id).log(`Long Match: every wizard has 50% more health, and ${S.win} Storm Shards win.`,'ini');},0);
   if(o.resume)makeIO(id).log(`Match resumed at battle ${S.battle}, round ${S.round}.`,'head');
-  else makeIO(id).log(S.ranked?`Ranked match: you play ${WIZ[S.pl[0].wiz].n} against ${S.ranked.name} (Elo ${S.ranked.elo}), who plays ${WIZ[S.pl[1].wiz].n}.`:S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
+  else makeIO(id).log(S.online?`Online match: you play ${WIZ[S.pl[0].wiz].n} against ${WIZ[S.pl[1].wiz].n}.`:S.ranked?`Ranked match: you play ${WIZ[S.pl[0].wiz].n} against ${S.ranked.name} (Elo ${S.ranked.elo}), who plays ${WIZ[S.pl[1].wiz].n}.`:S.mode==='coop'?`Co-op: you play ${WIZ[S.pl[0].wiz].n} with ${S.pl.slice(1,-1).map(P=>WIZ[P.wiz].n).join(', ')} against Robot Boy.`:S.mode==='2v2'?`Two-on-Two: you and ${WIZ[S.pl[2].wiz].n} against ${WIZ[S.pl[1].wiz].n} and ${WIZ[S.pl[3].wiz].n}.`:S.pl.length>2?`Free-for-All: you play ${WIZ[S.pl[0].wiz].n} against ${S.pl.slice(1).map(P=>WIZ[P.wiz].n).join(', ')}.`:`You play ${WIZ[S.pl[0].wiz].n}; the CPU plays ${WIZ[S.pl[1].wiz].n}. ${S.init===0?'You have':WIZ[S.pl[1].wiz].short+' has'} the Initiative.`,'head');
   try{const r=await (o.resume?G.resumeRun():G.run());if(id!==gameId)return;clearSave();S.blast=null;S.potion=null;pending=null;TUT.step=null;const fresh=recordGame(r);render();SFX.play(r.winner===0?'win':'lose');await sleep(600);if(id===gameId)showEnd(r,fresh);}
   catch(err){console.error(err);if(id===gameId)openOv(`<h2>Something went wrong</h2><p>${esc(err.message)}</p><div class="acts"><button class="btn" data-a="again">Restart</button></div>`);}
 }
@@ -1346,12 +1457,13 @@ function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&
 function teardown(){ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
-function showTitle(){gameId++;teardown();S=null;{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
+function showTitle(){gameId++;teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
 function exitGame(){try{window.close();}catch(e){}setTimeout(()=>openOv(`<h2>Thanks for playing!</h2><p>A browser tab can’t be closed by the page itself, so close this tab whenever you like. In the desktop and phone apps, Exit will quit the game.</p><div class="acts"><button class="btn" data-a="close">Back to title</button></div>`),300);}
 const APP_VERSION='__APP_VERSION__';
 function setVer(v){const e=document.getElementById('ver');if(e)e.textContent=v;}
 {const q=new URLSearchParams(location.search).get('v');setVer(q?'v'+q:APP_VERSION);}
 document.documentElement.style.setProperty('--scene','url('+IMG.scene+')');
+setTimeout(()=>{const m=(location.hash||'').match(/join=([a-z0-9]{6})/i);if(m&&!onlInApp())onlMenu(m[1].toLowerCase());},400);
 applyOpt();showTitle();
 </script>
 </body>

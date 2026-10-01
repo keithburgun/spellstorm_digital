@@ -30,7 +30,7 @@ Object.assign(CARDS, {
     for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c); const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },
   unstable: { n: 'Unstable Formula', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.power(p, 1); await g.mana(p, 1); const P = g.S.pl[p]; const pairs = [], opts = [], dis = [];
-    for (const a of 'FEW') for (const b of 'FEW') if (a !== b) { pairs.push([a, b]); opts.push(`${ELN[a]} −2, ${ELN[b]} +2`); dis.push(P.chem[a] < 2 || P.chem[b] >= 6); }
+    for (const [b, a] of [['F', 'W'], ['F', 'E'], ['E', 'W'], ['E', 'F'], ['W', 'F'], ['W', 'E']]) { pairs.push([a, b]); opts.push(`{${b}} +2, {${a}} −2`); dis.push(P.chem[a] < 2 || P.chem[b] >= 6); }   // raise first, in the card's order; {X} = Element icon
     opts.push('No change'); dis.push(false);
     const k = await g.decide(p, { k: 'opt', q: `Unstable Formula: lower one Element by 2 to raise another by 2. (Fire ${P.chem.F}, Earth ${P.chem.E}, Water ${P.chem.W})`, opts, dis, cpu: opts.length - 1 });
     if (k < pairs.length) { const [a, b] = pairs[k]; P.chem[a] -= 2; P.chem[b] = Math.min(6, P.chem[b] + 2); g.log(`${g.nm(p)} shifted 2 ${ELN[a]} into ${ELN[b]}.`); }
