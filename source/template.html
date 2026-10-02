@@ -1496,9 +1496,9 @@ function puzzleLobby(){const MODEROW=MODEROW_FN(),P=loadProf(),solved=P.pz||0,se
     ${D?`<div class="info"><p><b>${D.id}. ${esc(D.title)}</b> · ${esc(D.level||'')}. <b>${PUZZLE_GOAL_TEXT(D.goal)}</b>${D.id<=solved?` <span class="lbl">The idea: ${esc(D.concept)}.</span>`:''}</p></div>`:''}
     <div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn" data-a="launch" style="font-size:1.15rem;padding:.7em 2.2em">Start puzzle ${sel}</button></div>`;}
 function puzzleLaunch(n){const D=PUZZLES[(n||1)-1];if(!D)return;pickSel.pz=D.id;begin(D.you.wiz,D.opp.wiz,{puzzle:D});}
-function puzzleIntro(D){const on=WIZ[D.opp.wiz].short,plays=D.oppPlays.map(id=>CARDS[id].n),deck=(D.you.deck||[]).slice(0,3).map(id=>CARDS[id].n);
+function puzzleIntro(D){const on=WIZ[D.opp.wiz].short,plays=D.oppPlays.slice(0,D.goal.rounds||1).map(id=>CARDS[id].n),deck=(D.you.deck||[]).slice(0,3).map(id=>CARDS[id].n);
   openOv(`<h2>Puzzle ${D.id}: ${esc(D.title)}</h2><p class="lbl">${esc(D.level||'')}</p><p class="pzgoal">🎯 ${PUZZLE_GOAL_TEXT(D.goal)}</p>
-    <p><b>${esc(on)} will play:</b> ${plays.map(esc).join(', then ')}.</p>${deck.length?`<p><b>Your deck, top card first:</b> ${deck.map(esc).join(', ')}.</p>`:''}
+    <p><b>${esc(on)} will play:</b> ${plays.map(esc).join(', then ')}.</p>
     <p class="lbl">Everything in a puzzle plays out the same way every time.</p><div class="acts"><button class="btn" data-a="close">Let’s go</button><button class="btn alt" data-a="pzhint">Hint</button></div>`);}
 let PZEND=false;
 function puzzleCheck(ev,x){if(!S||!S.puzzle||PZEND)return;const r=puzzleJudge(S,ev,x);if(r)puzzleEnd(r);}

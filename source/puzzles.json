@@ -52,65 +52,82 @@
    "diamond",
    "step"
   ],
-  "level": "Beginner"
+  "level": "Beginner",
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 2,
-  "title": "The Long Way Round",
-  "concept": "Countering draws a card",
-  "hint": "Fire beats Earth, and whoever counters draws a card. Next round’s Weather draws one more. Which order gets you Fireball II?",
+  "title": "Strength in Numbers",
+  "level": "Beginner",
+  "concept": "Countering draws a card, and cards in hand are your Blast Score",
+  "hint": "White-bordered cards don’t count toward your Blast Score. Whoever counters draws a card.",
   "you": {
    "wiz": "derby",
    "hp": 13,
-   "mana": 1,
+   "mana": 2,
    "power": 1,
    "hand": [
+    "pgem",
     "dart",
-    "block",
-    "pgem"
+    "block"
    ],
    "deck": [
-    "step",
-    "fb2",
-    "sapph",
-    "step"
+    "sift",
+    "frost",
+    "dart"
    ]
   },
   "opp": {
    "wiz": "eve",
-   "hp": 4,
+   "hp": 12,
    "hand": [
-    "pgem",
     "block",
-    "step"
+    "dart"
    ],
    "deck": [
-    "step",
-    "pgem",
-    "dart"
+    "frost",
+    "sift",
+    "pgem"
    ]
   },
+  "battle": 1,
+  "round": 4,
   "youInit": true,
   "weather": [
-   "breeze",
    "heat"
   ],
   "oppPlays": [
-   "pgem",
    "block"
   ],
   "goal": {
-   "type": "kill",
-   "rounds": 2
+   "type": "blast"
   },
   "cloud": [
    "essF",
    "essW",
    "essE",
-   "diamond",
-   "step"
+   "sift",
+   "frost"
   ],
-  "level": "Beginner"
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 3,
@@ -165,7 +182,17 @@
    "diamond",
    "step"
   ],
-  "level": "Easy"
+  "level": "Easy",
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 4,
@@ -221,7 +248,17 @@
    "step",
    "dart"
   ],
-  "level": "Easy"
+  "level": "Easy",
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 5,
@@ -278,7 +315,17 @@
    "diamond",
    "opal"
   ],
-  "level": "Intermediate"
+  "level": "Intermediate",
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 6,
@@ -333,7 +380,17 @@
    "diamond",
    "step"
   ],
-  "level": "Intermediate"
+  "level": "Intermediate",
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 7,
@@ -391,7 +448,17 @@
    "diamond",
    "opal"
   ],
-  "level": "Advanced"
+  "level": "Advanced",
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 8,
@@ -454,7 +521,17 @@
    "step",
    "dart"
   ],
-  "level": "Advanced"
+  "level": "Advanced",
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  },
  {
   "id": 9,
@@ -510,6 +587,16 @@
    "essE",
    "diamond",
    "step"
+  ],
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
   ]
  },
  {
@@ -541,9 +628,9 @@
    "wiz": "eve",
    "hp": 6,
    "hand": [
-    "pgem",
+    "sift",
     "step",
-    "pgem",
+    "sift",
     "dart"
    ],
    "deck": [
@@ -560,21 +647,30 @@
    "fearth"
   ],
   "oppPlays": [
-   "pgem",
+   "sift",
    "step",
-   "pgem"
+   "sift"
   ],
   "goal": {
    "type": "kill",
    "rounds": 3
   },
   "cloud": [
-   null,
-   null,
-   null,
-   null,
-   null
+   "sapph",
+   "step",
+   "lavabat",
+   "moon",
+   "frost"
   ],
-  "sdeck": []
+  "sdeck": [
+   "sift",
+   "frost",
+   "swamp",
+   "arctite",
+   "sift",
+   "frost",
+   "swamp",
+   "arctite"
+  ]
  }
 ]
