@@ -558,7 +558,8 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 @keyframes swoop{0%{transform:translateX(-115vw) skewX(-14deg);opacity:0}16%{transform:translateX(3vw) skewX(4deg);opacity:1}22%{transform:translateX(0) skewX(0)}78%{transform:translateX(0) skewX(0);opacity:1}100%{transform:translateX(115vw) skewX(14deg);opacity:0}}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+body.rm *{animation:none!important;transition:none!important}
+#mv{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:visible}.mvcard{position:fixed;margin:0!important;transform-origin:0 0;transition:none!important;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.35)}
 </style>
 </head>
 <body>
@@ -648,7 +649,7 @@ function hearts(P,cls=''){
   return `<span data-k="hp" class="goal hpbar${cls}" title="Health ${P.hp} of ${P.max}${P.wiz==='bunny'?' (can heal to 10)':''}" role="img" aria-label="Health ${P.hp} of ${P.max}"><span class="hearts" style="--cols:${cols}">${h}</span><b>${P.hp}</b></span>`;
 }
 /* ---------- animation helpers ---------- */
-const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const RM=()=>OPT.motion==='reduced';
 let LASTV=[{},{}];
 let FLQ=[],LASTSNAP=[null,null],LASTW=null,LASTBT=null,BRES=0;
 let LASTSP=null,LASTJ=null;
@@ -703,29 +704,49 @@ function whereIs(u){if(S.pl[0].hand.some(c=>c.u===u))return $(`#hand [data-u="${
 //   arrived (drawn, dealt into the Storm Cloud): it slides in from the matching deck
 let SEEN=new Map(),ANIM_ON=false,TRANSIT=new Map();   // TRANSIT: cards that left the screen with nowhere visible to go yet
 function anim(){
-  if(!S)return;if(RPLAY&&RPLAY.ff){SEEN=new Map();return;}const now=new Map();
-  const grab=(sel,zone)=>{for(const e of document.querySelectorAll(sel)){const u=e.getAttribute('data-u')||e.getAttribute('data-key');if(u)now.set(u,{e,zone,id:e.dataset.cid,r:e.getBoundingClientRect()});}};
+  if(!S)return;if(RPLAY&&RPLAY.ff){SEEN=new Map();SHEETR.clear();return;}const now=new Map();
+  const grab=(sel,zone)=>{for(const e of document.querySelectorAll(sel)){const u=e.getAttribute('data-u')||e.getAttribute('data-key');if(u)now.set(u,{e,zone,id:e.classList.contains('back')?'back':e.dataset.cid,r:e.getBoundingClientRect()});}};
   grab('#cloud .crow .card[data-u]','cloud');grab('#hand .card[data-u]','hand');grab('#arena .duel .card[data-u]','slot');grab('#arena .duel .card.back[data-key]','back');
   const first=!ANIM_ON;ANIM_ON=true;
   if(!RM()&&(!first||S.battle===0)){
-    const sp=Math.max(speed,.35),gone=[...SEEN].filter(([u])=>!now.has(u)),came=[...now].filter(([u])=>!SEEN.has(u));
+    const sp=Math.max(speed,.35),deal=first&&S.battle===0;
+    const sdeck=$('#cloud .cfoot .chip'),mydeck=$('#me [data-a=pile][data-z=deck]'),from=(el,w)=>smallAt(rectOf(el),w);
+    // cards chosen in a menu take off from where they were shown in the menu
+    const prev=new Map(SEEN);for(const [u,s] of SHEETR)if(!prev.has(u))prev.set(u,{zone:'sheet',id:s.id,r:s.r});
+    const gone=[...prev].filter(([u])=>!now.has(u)),came=[...now].filter(([u])=>!prev.has(u));
     const cloudOut=gone.filter(([,o])=>o.zone==='cloud'),bulkOut=cloudOut.length>=3;let k=0;
-    const cloudMoved=[...now].some(([u,o])=>{const s=SEEN.get(u);return s&&s.zone==='cloud'&&o.zone!=='cloud';})||cloudOut.length>0;
-    for(const [u,o] of gone){if(o.zone==='back')continue;const dest=whereIs(+u);if(!dest){TRANSIT.set(u,{...o,t:performance.now()});continue;}   // mid-move: wait and see where it lands
-      const d=bulkOut&&o.zone==='cloud'?(k++)*170*sp:0;const go=()=>fly(o.id,o.r,dest,o.zone==='hand');d?setTimeout(go,d):go();}
-    for(const [u,o] of TRANSIT){if(now.has(u))continue;const dest=whereIs(+u);                                // landed off-screen (pile, VOID, opponent)
-      if(dest){fly(o.id,o.r,dest,o.zone==='hand');TRANSIT.delete(u);}else if(performance.now()-o.t>1500)TRANSIT.delete(u);}
-    let handIn=0;const deal=first&&S.battle===0,cloudIn=came.filter(([,o])=>o.zone==='cloud'),bulkIn=deal||cloudIn.length>=3;let j=0;
-    const sdeck=$('#cloud .cfoot .chip'),mydeck=$('#me [data-a=pile][data-z=deck]');
-    for(const [u,o] of came){const tr=TRANSIT.get(u);if(tr){TRANSIT.delete(u);glide(o.e,tr.r,o.r,460*sp);continue;}   // reappeared: travel from where it was last seen
-      if(o.zone==='cloud'){const delay=deal?(250+j*190)*sp:bulkIn?(cloudOut.length*170+450+j*190)*sp:(cloudMoved?620*sp:0);j++;slideIn(o.e,o.r,sdeck,delay);}
-      else if(o.zone==='back'){const q=+String(u).slice(2),src=$(S.pl.length>2?'#seat'+q+' .porw':'#opp .porw');slideIn(o.e,o.r,src,0);}
-      else if(o.zone==='hand'&&/^d[A-Z]/.test(o.id||'')){slideIn(o.e,o.r,$('#cloud .drag')||mydeck,0,true);}
-      else if(o.zone==='hand'){const nb=$('#nb'),wait=nb&&nb.classList.contains('go')?1300*speed:0;slideIn(o.e,o.r,mydeck,wait+(handIn++)*150*sp,true);}}
-    for(const [u,o] of now){const s=SEEN.get(u);if(!s)continue;
-      if(s.zone!==o.zone)glide(o.e,s.r,o.r,460*sp);                                                        // changed zones: travel
-      else if(o.zone==='hand'&&(Math.abs(s.r.left-o.r.left)>3||Math.abs(s.r.top-o.r.top)>3)&&(gone.length||came.length))o.e.animate([{transform:`translate(${s.r.left-o.r.left}px,${s.r.top-o.r.top}px)`},{transform:'translate(0,0)'}],{duration:220*sp,easing:'ease-out',composite:'add'});}}   // reflow ADDS to any flight in progress  // hand reflow
-  SEEN=new Map([...now].map(([u,o])=>[u,{zone:o.zone,id:o.id,r:o.r}]));}
+    const cloudMoved=cloudOut.length>0||[...now].some(([u,o])=>{const s=prev.get(u);return s&&s.zone==='cloud'&&o.zone!=='cloud';});
+    for(const [u,o] of gone){if(o.zone==='back')continue;const dest=whereIs(+u)||junkPile(o.id,+u);if(!dest){TRANSIT.set(u,{...o,t:performance.now()});continue;}
+      const d=bulkOut&&o.zone==='cloud'?(k++)*170*sp:0;const go=()=>fly(o.id,o.r,dest,o.zone==='hand'||o.zone==='sheet');d?setTimeout(go,d):go();}
+    for(const [u,o] of TRANSIT){if(now.has(u))continue;const dest=whereIs(+u)||junkPile(o.id,+u);if(dest){fly(o.id,o.r,dest,true);TRANSIT.delete(u);}else if(performance.now()-o.t>700){fly(o.id,o.r,null,true);TRANSIT.delete(u);}}   
+    let j=0,handIn=0;const cloudIn=came.filter(([,o])=>o.zone==='cloud'),bulkIn=deal||cloudIn.length>=3;
+    for(const [u,o] of came){const tr=TRANSIT.get(u);if(tr){TRANSIT.delete(u);flyCard(o.id,tr.r,o.r,{hide:o.e,lift:1});continue;}
+      if(o.zone==='cloud'){const delay=deal?(250+j*190)*sp:bulkIn?(cloudOut.length*170+450+j*190)*sp:(cloudMoved?620*sp:0);j++;flyCard(o.id,from(sdeck,o.r.width),o.r,{hide:o.e,delay,o0:.3,dur:480});}
+      else if(o.zone==='back'){const q=+String(u).slice(2);flyCard('back',from($(S.pl.length>2?'#seat'+q+' .porw':'#opp .porw'),o.r.width),o.r,{hide:o.e,o0:.4,dur:420});}
+      else if(o.zone==='hand'){const dragon=/^d[A-Z]/.test(o.id||''),nb=$('#nb'),wait=nb&&nb.classList.contains('go')?1300*speed:0,delay=wait+(handIn++)*150*sp;
+        flyCard(o.id,from(dragon?($('#cloud .drag')||mydeck):mydeck,o.r.width),o.r,{hide:o.e,delay,o0:.3,lift:1,dur:560});if(!(RPLAY&&RPLAY.ff))setTimeout(()=>SFX.play('card'),delay);}}
+    for(const [u,o] of now){const s=prev.get(u);if(!s)continue;
+      if(s.zone!==o.zone)flyCard(o.id,s.r,o.r,{hide:o.e,lift:1});                                                      // changed places: the copy travels
+      else if(o.zone==='hand'&&(Math.abs(s.r.left-o.r.left)>3||Math.abs(s.r.top-o.r.top)>3)&&(gone.length||came.length))   // hand shuffles over (stays inside the hand)
+        o.e.animate([{transform:`translate(${s.r.left-o.r.left}px,${s.r.top-o.r.top}px)`},{transform:'translate(0,0)'}],{duration:220*sp,easing:'ease-out',composite:'add'});}}
+  SEEN=new Map([...now].map(([u,o])=>[u,{zone:o.zone,id:o.id,r:o.r}]));SHEETR.clear();}
+// The motion layer: a transparent layer above the whole screen. Every card that changes place flies here as a copy,
+// so nothing can clip or cover it, and screen updates can't interrupt it. The real card waits hidden until the copy lands.
+function junkPile(id,u){if(!['ice','ash','curse'].includes(id)||!S)return null;if(S.pl.some(P=>[...P.hand,...P.deck,...P.discard].some(c=>c.u===u)))return null;
+  return [...document.querySelectorAll('#cloud .cfoot .chip')].find(e=>e.textContent.trim().toUpperCase().startsWith(id.toUpperCase()))||null;}
+function mvLayer(){let L=document.getElementById('mv');if(!L){L=document.createElement('div');L.id='mv';document.body.appendChild(L);}return L;}
+const rectOf=el=>el?el.getBoundingClientRect():null;
+const smallAt=(r,w)=>r?{left:r.left+r.width/2-w*.3,top:r.top+r.height/2-w*.42,width:w*.6,height:w*.84}:null;
+function flyCard(id,a,b,o={}){if(!a||!b||!id)return 0;const sp=Math.max(speed,.35),dur=(o.dur||520)*sp,delay=o.delay||0;
+  const g=document.createElement('div');g.className=`card ci-${id} mvcard`;Object.assign(g.style,{left:a.left+'px',top:a.top+'px',width:a.width+'px',height:a.height+'px'});mvLayer().appendChild(g);
+  const dx=b.left-a.left,dy=b.top-a.top,sx=b.width/Math.max(1,a.width),sy=b.height/Math.max(1,a.height),kf=[{transform:'translate(0,0) scale(1,1)',opacity:o.o0??1}];
+  if(o.lift)kf.push({transform:`translate(${dx*.5}px,${dy*.5-Math.min(60,Math.abs(dy)*.15+18)}px) scale(${(1+sx)/2*1.08},${(1+sy)/2*1.08})`,opacity:1,offset:.5});
+  kf.push({transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,opacity:o.o1??1});
+  if(delay)g.style.opacity=0;const an=g.animate(kf,{duration:dur,delay,easing:'cubic-bezier(.3,.7,.3,1)',fill:'forwards'});an.onfinish=an.oncancel=()=>g.remove();
+  if(o.hide)o.hide.animate([{opacity:0},{opacity:0}],{duration:delay+dur});return delay+dur;}
+let SHEETR=new Map();
+function captureSheet(v){const want=new Set((Array.isArray(v)?v:[v]).filter(x=>x&&typeof x==='object'&&x.u!=null).map(x=>String(x.u)));if(!want.size)return;   // only the cards actually chosen
+  for(const e of document.querySelectorAll('#ov .card[data-u]')){const u=e.getAttribute('data-u');if(!want.has(u))continue;const r=e.getBoundingClientRect();if(r.width)SHEETR.set(u,{r,id:e.dataset.cid});}}
 // Counter: the countering card leans into the card it beat, which recoils (2 players); pulse + shake in multiplayer.
 function counterAnim(p){if(!S||RM())return;const t=S.pl.length>2?nextOppOf(S,p):1-p;
   const a=$(`#arena .duel [data-a=slot][data-p="${p}"]`),b=$(`#arena .duel [data-a=slot][data-p="${t}"]`);if(!a)return;
@@ -740,12 +761,8 @@ function slideIn(el,r,src,delay,draw){const sr=src&&src.getBoundingClientRect();
   const from=sr?`translate(${sr.left+sr.width/2-(r.left+r.width/2)}px,${sr.top+sr.height/2-(r.top+r.height/2)}px) scale(${draw?.5:.3})`:'translateY(60%) scale(.6)';
   el.animate(draw?[{transform:from,opacity:.25},{transform:'translateY(-14px) scale(1.06)',opacity:1,offset:.7},{transform:'none',opacity:1}]:[{transform:from,opacity:0},{transform:'none',opacity:1}],
     {duration:(draw?560:460)*Math.max(speed,.35),delay,fill:'backwards',easing:'cubic-bezier(.2,.8,.25,1)'});if(draw&&!(RPLAY&&RPLAY.ff))setTimeout(()=>SFX.play('card'),delay);}
-function fly(id,r,dest,quiet){if(!r||!id)return;SFX.play(quiet?'card':'gain');
-  const g=document.createElement('div');g.className=`card ci-${id} ghost`;Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',zIndex:33,pointerEvents:'none',margin:0});
-  document.body.appendChild(g);let dx=0,dy=-40,s=.6;
-  if(dest){const d=dest.getBoundingClientRect();dx=d.left+d.width/2-(r.left+r.width/2);dy=d.top+d.height/2-(r.top+r.height/2);s=Math.max(.18,Math.min(1,d.height/r.height));}
-  const a=g.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dx*.55}px,${dy*.55}px) scale(${(1+s)/2})`,opacity:.9,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(${s})`,opacity:0}],{duration:560*Math.max(speed,.35),easing:'cubic-bezier(.3,.7,.3,1)'});
-  a.onfinish=a.oncancel=()=>g.remove();}
+function fly(id,r,dest,quiet){if(!r||!id)return;SFX.play(quiet?'card':'gain');const d=rectOf(dest);   // a card leaving: it travels to its pile / the VOID / a player, shrinking and fading
+  flyCard(id,r,d?smallAt(d,r.width):{left:r.left,top:r.top-50,width:r.width,height:r.height},{dur:580,o1:d?.15:0,lift:!!d});}
 function newBattle(n){const el=$('#nb');el.querySelector('.nbs').textContent=`Battle ${n}`;el.style.setProperty('--d',(1.6*speed)+'s');el.classList.remove('go');void el.offsetWidth;el.classList.add('go');clearTimeout(newBattle.t);newBattle.t=setTimeout(()=>el.classList.remove('go'),1600*speed+60);}
 function blastHTML(){const B=S.blast,now=Date.now();
   const side=p=>{const cs=[...B.cards[p]].sort((a,b)=>(a.disc?blastRank(a.id):9)-(b.disc?blastRank(b.id):9)).map(e=>`<span class="bcw"><i class="card ${e.up?'ci-'+e.id:'back ci-back'}${e.up&&now-e.t<450?' fl':''}${e.gone?' gone':''}${e.up&&e.disc&&!e.gone?' discfx':''}" style="animation-delay:-${Math.max(0,now-e.t)}ms"></i>${e.fx&&now-e.ft<1700?`<span class="bfx" style="animation-delay:-${Math.max(0,now-e.ft)}ms">${e.fx.map(f=>`<b class="f-${f.k}">${esc(f.t)}</b>`).join('')}</span>`:''}</span>`).join('');
@@ -1237,7 +1254,7 @@ function makeIO(id){return {sim:false,
   tut(st){if(id!==gameId)return new Promise(()=>{});return tutStage(st);},
   ack(k){if(id!==gameId)return new Promise(()=>{});if(S.replay)return sleep(1800);return new Promise(res=>{ACK={k,res};render();setTimeout(()=>{const b=document.querySelector('[data-a=ack]');if(b)b.focus();},60);});}};}
 let ACK=null;
-function answer(v){const p=pending;pending=null;closeOv();render();p.res(v);}
+function answer(v){const p=pending;pending=null;captureSheet(v);closeOv();render();p.res(v);}
 
 // ---------- overlays ----------
 function openOv(h){$('#sheet').classList.remove('wide');setH($('#sheet'),h);$('#ov').classList.add('show');const b=$('#sheet button');if(b)b.focus();}
@@ -1560,7 +1577,7 @@ function launch(){
 const PKEY='spellstorm.profile.v1',OKEY='spellstorm.options.v1';
 let OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};try{Object.assign(OPT,JSON.parse(localStorage.getItem(OKEY)||'{}'));}catch(e){}
 function saveOpt(){try{localStorage.setItem(OKEY,JSON.stringify(OPT));}catch(e){}}
-function applyOpt(){speed=OPT.speed;document.body.classList.toggle('cb',OPT.cb==='on');const r=document.documentElement;if(OPT.theme==='auto')delete r.dataset.theme;else r.dataset.theme=OPT.theme;}
+function applyOpt(){document.body.classList.toggle('rm',OPT.motion==='reduced');speed=OPT.speed;document.body.classList.toggle('cb',OPT.cb==='on');const r=document.documentElement;if(OPT.theme==='auto')delete r.dataset.theme;else r.dataset.theme=OPT.theme;}
 function blankProf(){return {ffa:{g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},tour:null,tbest:{},trophy:{},v:1,games:0,wins:0,streak:0,best:0,hstreak:0,hbest:0,rec:{normal:{},hard:{}},tot:{dmg:0,heal:0,counters:0,ults:0,shards:0},by:{shards:0,health:0},ach:{}};}
 function loadProf(){try{const p=JSON.parse(localStorage.getItem(PKEY)||'null');if(p&&p.v===1)return Object.assign(blankProf(),p);}catch(e){}return blankProf();}
 function saveProf(p){try{localStorage.setItem(PKEY,JSON.stringify(p));}catch(e){}}
@@ -1755,6 +1772,7 @@ function optionsSheet(confirmReset){
   <h3>Sound</h3>${seg('vol',[[0,'Off'],[0.25,'Quiet'],[0.5,'Normal'],[0.9,'Loud']])}
   <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
+  <h3>Animations</h3>${seg('motion',[['full','Full'],['reduced','Reduced']])}
   <h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone view ${ph?'on':'off'}</button>
   <h3>Progress</h3><button class="btn alt" data-a="report">Report a problem</button> <button class="btn alt" data-a="wipe1">Wipe all data</button>
   </div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
