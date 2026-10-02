@@ -554,6 +554,10 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 
 #rpbar{position:fixed;bottom:max(10px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:42;display:none;align-items:center;gap:8px;background:var(--panel);border:2px solid var(--accent);border-radius:999px;padding:6px 12px;box-shadow:var(--shadow);max-width:96vw;flex-wrap:wrap;justify-content:center}#rpbar.show{display:flex}#rpbar .chip.on{background:var(--accent);color:#fff}
 .tipplan{margin:.2em 0 .3em}.tipwhy{font-size:.84rem;line-height:1.3}.tipchips{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}.tipchip{font-size:.72rem;font-weight:700;background:var(--panel2);border-radius:999px;padding:1px 7px}
+.nbt,.nbs{will-change:transform}
+@keyframes swoop{0%{transform:translateX(-115vw) skewX(-14deg);opacity:0}16%{transform:translateX(3vw) skewX(4deg);opacity:1}22%{transform:translateX(0) skewX(0)}78%{transform:translateX(0) skewX(0);opacity:1}100%{transform:translateX(115vw) skewX(14deg);opacity:0}}
+#toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
+#toast.show{transform:translate(-50%,-50%) scale(1)!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -647,8 +651,13 @@ function hearts(P,cls=''){
 const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 let LASTV=[{},{}];
 let FLQ=[],LASTSNAP=[null,null],LASTW=null,LASTBT=null,BRES=0;
-let LASTSP=null;
-function trackBumps(){const n=performance.now();if(S&&S.special){const sp=S.special;if(LASTSP)for(const k of ['ice','ash','curse'])if(sp[k]<LASTSP[k])SFX.seq(k,Math.min(6,LASTSP[k]-sp[k]),150);LASTSP={ice:sp.ice,ash:sp.ash,curse:sp.curse};}for(const p of S.pl.keys()){LASTV[p]=LASTV[p]||{};const P=S.pl[p];const v={hp:P.hp,mana:P.mana,power:P.tier*10+P.power,shards:P.shards,doom:P.doom,energy:P.energy,hand:P.hand.length};
+let LASTSP=null,LASTJ=null;
+function junkCounts(){return S.pl.map(P=>{const o={ice:0,ash:0,curse:0};for(const c of [...P.hand,...P.deck,...P.discard])if(o[c.id]!==undefined)o[c.id]++;return o;});}
+function trackBumps(){const n=performance.now();if(S&&S.special){const sp=S.special,J=junkCounts();
+    if(LASTSP&&LASTJ&&LASTJ.length===J.length)for(const k of ['ice','ash','curse'])if(sp[k]<LASTSP[k]){SFX.seq(k,Math.min(6,LASTSP[k]-sp[k]),150);
+      if(!(RPLAY&&RPLAY.ff)&&!RM()){const chip=[...document.querySelectorAll('#cloud .cfoot .chip')].find(e=>e.textContent.trim().toUpperCase().startsWith(k.toUpperCase())),cr=chip&&chip.getBoundingClientRect();
+        if(cr)J.forEach((o,q)=>{const got=o[k]-(LASTJ[q][k]||0);for(let i=0;i<Math.min(3,got);i++)setTimeout(()=>{const d=$(`[data-a=pile][data-z=discard][data-p="${q}"]`)||$('#seat'+q)||$(q?'#opp':'#me');fly(k,{left:cr.left,top:cr.top-20,width:56,height:78},d,true);},i*150);});}}
+    LASTSP={ice:sp.ice,ash:sp.ash,curse:sp.curse};LASTJ=J;}for(const p of S.pl.keys()){LASTV[p]=LASTV[p]||{};const P=S.pl[p];const v={hp:P.hp,mana:P.mana,power:P.tier*10+P.power,shards:P.shards,doom:P.doom,energy:P.energy,hand:P.hand.length};
   for(const k in v){const o=LASTV[p][k];if(o!==undefined&&o!==v[k]){FX['b_'+k+p]=n+600;FX['d_'+k+p]=v[k]>o?1:-1;setTimeout(render,650);}}
   {const ov=LASTV[p];if(ov&&ov.hp!==undefined){if(v.hp<ov.hp)SFX.seq('hit',Math.min(8,ov.hp-v.hp),110);if(v.shards>ov.shards&&!S.blast)SFX.seq('shard',Math.min(8,v.shards-ov.shards),170);}}LASTV[p]=v;
   const sn=snapP(S,p);if(LASTSNAP[p]&&!S.blast&&!S.potion){for(const d of deltaList(LASTSNAP[p],sn,{float:1})){FLQ.push({p,k:d.k,t:d.t});if(d.k==='heal')SFX.play('heal');}}LASTSNAP[p]=sn;}
@@ -695,20 +704,23 @@ function whereIs(u){if(S.pl[0].hand.some(c=>c.u===u))return $(`#hand [data-u="${
 let SEEN=new Map(),ANIM_ON=false,TRANSIT=new Map();   // TRANSIT: cards that left the screen with nowhere visible to go yet
 function anim(){
   if(!S)return;if(RPLAY&&RPLAY.ff){SEEN=new Map();return;}const now=new Map();
-  const grab=(sel,zone)=>{for(const e of document.querySelectorAll(sel)){const u=e.getAttribute('data-u');if(u)now.set(u,{e,zone,id:e.dataset.cid,r:e.getBoundingClientRect()});}};
-  grab('#cloud .crow .card[data-u]','cloud');grab('#hand .card[data-u]','hand');grab('#arena .duel .card[data-u]','slot');
+  const grab=(sel,zone)=>{for(const e of document.querySelectorAll(sel)){const u=e.getAttribute('data-u')||e.getAttribute('data-key');if(u)now.set(u,{e,zone,id:e.dataset.cid,r:e.getBoundingClientRect()});}};
+  grab('#cloud .crow .card[data-u]','cloud');grab('#hand .card[data-u]','hand');grab('#arena .duel .card[data-u]','slot');grab('#arena .duel .card.back[data-key]','back');
   const first=!ANIM_ON;ANIM_ON=true;
   if(!RM()&&(!first||S.battle===0)){
     const sp=Math.max(speed,.35),gone=[...SEEN].filter(([u])=>!now.has(u)),came=[...now].filter(([u])=>!SEEN.has(u));
     const cloudOut=gone.filter(([,o])=>o.zone==='cloud'),bulkOut=cloudOut.length>=3;let k=0;
-    for(const [u,o] of gone){const dest=whereIs(+u);if(!dest){TRANSIT.set(u,{...o,t:performance.now()});continue;}   // mid-move: wait and see where it lands
+    const cloudMoved=[...now].some(([u,o])=>{const s=SEEN.get(u);return s&&s.zone==='cloud'&&o.zone!=='cloud';})||cloudOut.length>0;
+    for(const [u,o] of gone){if(o.zone==='back')continue;const dest=whereIs(+u);if(!dest){TRANSIT.set(u,{...o,t:performance.now()});continue;}   // mid-move: wait and see where it lands
       const d=bulkOut&&o.zone==='cloud'?(k++)*170*sp:0;const go=()=>fly(o.id,o.r,dest,o.zone==='hand');d?setTimeout(go,d):go();}
     for(const [u,o] of TRANSIT){if(now.has(u))continue;const dest=whereIs(+u);                                // landed off-screen (pile, VOID, opponent)
       if(dest){fly(o.id,o.r,dest,o.zone==='hand');TRANSIT.delete(u);}else if(performance.now()-o.t>1500)TRANSIT.delete(u);}
     let handIn=0;const deal=first&&S.battle===0,cloudIn=came.filter(([,o])=>o.zone==='cloud'),bulkIn=deal||cloudIn.length>=3;let j=0;
     const sdeck=$('#cloud .cfoot .chip'),mydeck=$('#me [data-a=pile][data-z=deck]');
     for(const [u,o] of came){const tr=TRANSIT.get(u);if(tr){TRANSIT.delete(u);glide(o.e,tr.r,o.r,460*sp);continue;}   // reappeared: travel from where it was last seen
-      if(o.zone==='cloud'){const delay=deal?(250+j*190)*sp:bulkIn?(cloudOut.length*170+450+j*190)*sp:(cloudOut.length?300*sp:0);j++;slideIn(o.e,o.r,sdeck,delay);}
+      if(o.zone==='cloud'){const delay=deal?(250+j*190)*sp:bulkIn?(cloudOut.length*170+450+j*190)*sp:(cloudMoved?620*sp:0);j++;slideIn(o.e,o.r,sdeck,delay);}
+      else if(o.zone==='back'){const q=+String(u).slice(2),src=$(S.pl.length>2?'#seat'+q+' .porw':'#opp .porw');slideIn(o.e,o.r,src,0);}
+      else if(o.zone==='hand'&&/^d[A-Z]/.test(o.id||'')){slideIn(o.e,o.r,$('#cloud .drag')||mydeck,0,true);}
       else if(o.zone==='hand'){const nb=$('#nb'),wait=nb&&nb.classList.contains('go')?1300*speed:0;slideIn(o.e,o.r,mydeck,wait+(handIn++)*150*sp,true);}}
     for(const [u,o] of now){const s=SEEN.get(u);if(!s)continue;
       if(s.zone!==o.zone)glide(o.e,s.r,o.r,460*sp);                                                        // changed zones: travel
@@ -1147,7 +1159,7 @@ function arenaHTML(){
   const sd=p=>{const c=S.slot[p];const el=c&&CARDS[c.id].el;let cls='';
     if(c&&on('won')&&FX.wonP===p)cls+=' won';if(c&&S.resolving===p)cls+=' resolving';
     if(!c)return `<div class="slot">${p?'Waiting':'Your card'}</div>`;
-    if(p!==0&&!S.revealed)return '<i class="card back ci-back"></i>';
+    if(p!==0&&!S.revealed)return `<i class="card back ci-back" data-key="bk${p}"></i>`;
     if(S.pl[p].rb&&S.rbMore&&S.rbMore[p]&&S.rbMore[p].length){const x=S.rbMore[p][S.rbMore[p].length-1];return `<span class="rbstack">${card(c,'rbjunk',`data-a="slot" data-p="${p}"`)}${card(x,cls,`data-a="rbx" data-u="${x.u}"`)}</span>`;}
     return card(c,(p!==0&&on('flip')?'flip':'')+cls,`data-a="slot" data-p="${p}" style="--elc:${ELC[el]};--bd:${FX.wonP===1?1:-1}"`);};
   const pot=S.potionShow?`<div class="side"><span class="lbl">Potion</span><div class="potion ci-pot_${S.potionShow}" role="img" aria-label="${esc(POTIONS[S.potionShow].n)}"></div></div>`:'';
@@ -1236,7 +1248,8 @@ function preview(c,acts=''){
 }
 function openPick(){
   const r=pending.req;const own=r.owner;
-  const items=r.items.map((c,i)=>`<div class="tc">${card(c,sel.includes(i)?'picked':'',`data-a="tog" data-i="${i}"`)}${own?`<span class="own">${esc(own(c))}</span>`:''}<button class="zoom" data-a="zoomi" data-i="${i}">Read</button></div>`).join('');
+  const where=c=>{const P=S&&S.pl[0];if(!P)return '';return P.hand.some(x=>x.u===c.u)?'In your hand':P.discard.some(x=>x.u===c.u)?'In your discard':P.deck.some(x=>x.u===c.u)?'In your deck':'';};
+  const items=r.items.map((c,i)=>{const lab=own?own(c):where(c);return `<div class="tc">${card(c,sel.includes(i)?'picked':'',`data-a="tog" data-i="${i}"`)}${lab?`<span class="own">${esc(lab)}</span>`:''}<button class="zoom" data-a="zoomi" data-i="${i}">Read</button></div>`;}).join('');
   const n=sel.length,ok=n>=r.min&&n<=r.max;
   const need=r.min===r.max?`Select ${r.min}.`:`Select ${r.min?r.min+' to ':'up to '}${r.max}.`;
   openOv(`<h2>${esc(r.q)}</h2><p class="lbl" style="text-align:left">${need} Selected: ${n}</p><div class="grid">${items}</div><div class="acts"><button class="btn" data-a="pickok" ${ok?'':'disabled'}>${n||r.min?'Confirm':'Confirm none'}</button></div>`);
@@ -1751,7 +1764,7 @@ function showStart(){gameId++;teardown();S=null;setTimeout(()=>{if(!OPT.tutAsked
 let TOURRES=null;
 async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
-  SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];LASTSP=null;TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
+  SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];LASTSP=null;LASTJ=null;TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];if(TR&&TR.rpx&&o.resume.rng!=null)seedRandomState(o.resume.rng);}
   else if(o.replay){const X=o.replay.h.rpx,tg=o.replay.target||0,sp0=o.replay.speed0!=null?o.replay.speed0:speed;S=JSON.parse(X.s0);S.replay=true;S.tips=false;TR=null;
     RPLAY={d:X.d,i:0,h:o.replay.h,from:o.replay.from,speed0:sp0,turn:0,auto:false,done:false,target:tg>0?tg:null,ff:tg>0,paused:false,hold:!(tg>0)};speed=RPLAY.ff?0.0005:sp0;SFX.mute=RPLAY.ff;seedRandom(X.seed);}
@@ -1767,7 +1780,7 @@ async function begin(w,opp,o={}){
 }
 function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&&!S.pl[q].out&&(!S.team||S.team[q]!==S.team[0]))??1,wasTour=TR&&TR.tour;
   const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();}
-function teardown(){unseedRandom();if(RPLAY&&!(S&&S.replay)){}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
+function teardown(){unseedRandom();if(RPLAY){speed=RPLAY.speed0;RPLAY=null;}SFX.mute=false;{const rb=document.getElementById('rpbar');if(rb)rb.classList.remove('show');}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
 function showTitle(){gameId++;teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
