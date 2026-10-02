@@ -51,7 +51,7 @@ function planCardBonus(S, p, id) {
 }
 const _roundP = Game.prototype.round;
 Game.prototype.round = async function (r) {
-  for (const p of this.S.pl.keys()) if (!this.S.pl[p].out && !this.S.pl[p].rb && isAI(this.S, p) && (rankCfg(this.S, p) ? rankCfg(this.S, p).plan : diffOf(this.S, p) !== 'easy') && (r === 1 || r === 3)) updatePlan(this, p);
+  for (const p of this.S.pl.keys()) if (!this.S.pl[p].out && !this.S.pl[p].rb && isAI(this.S, p) && !this.S.puzzle && (rankCfg(this.S, p) ? rankCfg(this.S, p).plan : diffOf(this.S, p) !== 'easy') && (r === 1 || r === 3)) updatePlan(this, p);
   return _roundP.call(this, r);
 };
 
@@ -70,7 +70,7 @@ function cpuDecideX(g, p, req) {
   if (isAI(S, p) && req.k === 'gain' && req.slots.length && req.verb === 'Gain') {
     if (d === 'easy' && Math.random() < 0.6) return req.slots[Math.floor(Math.random() * req.slots.length)];
     const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
-    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + Math.random() * 1.2; };
+    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle ? 0 : Math.random() * 1.2); };   // puzzles: no coin flips
     return req.slots.slice().sort((a, b) => val(b) - val(a))[0];
   }
   return cpuDecide(g, p, req);

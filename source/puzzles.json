@@ -515,64 +515,66 @@
  {
   "id": 10,
   "title": "Grand Finale",
-  "concept": "Counter, Initiative and your Ultimate together",
-  "hint": "Counter to draw your best card, hold the Initiative, and don’t forget your Ultimate.",
+  "level": "Expert",
+  "concept": "Flaming Yardstick refunds 2 mana when Derby’s health is odd — even if you have to hurt yourself to get there",
+  "hint": "Two Ultimates would do it, but you can’t afford two… unless something gives mana back. Read Flaming Yardstick again.",
   "you": {
    "wiz": "derby",
-   "hp": 13,
-   "mana": 3,
+   "hp": 12,
+   "mana": 8,
    "power": 1,
    "hand": [
-    "dart",
-    "block",
-    "pgem",
-    "charge"
+    "meteor",
+    "charge",
+    "coffee",
+    "block"
    ],
    "deck": [
-    "fb2",
-    "step",
-    "sapph",
-    "dart",
-    "step"
+    "pgem",
+    "block",
+    "pgem",
+    "block",
+    "pgem"
    ]
   },
   "opp": {
    "wiz": "eve",
-   "hp": 8,
+   "hp": 6,
    "hand": [
     "pgem",
-    "block",
     "step",
+    "pgem",
     "dart"
    ],
    "deck": [
-    "step",
     "pgem",
-    "dart"
+    "block",
+    "pgem",
+    "block"
    ]
   },
   "youInit": true,
   "weather": [
-   "heat",
-   "heat",
-   "heat"
+   "fearth",
+   "fearth",
+   "fearth"
   ],
   "oppPlays": [
    "pgem",
-   "block",
-   "step"
+   "step",
+   "pgem"
   ],
   "goal": {
    "type": "kill",
    "rounds": 3
   },
   "cloud": [
-   "essF",
-   "essW",
-   "essE",
-   "diamond",
-   "step"
+   null,
+   null,
+   null,
+   null,
+   null
   ],
-  "level": "Expert"
+  "sdeck": []
  }
 ]
