@@ -647,10 +647,12 @@ function hearts(P,cls=''){
 const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 let LASTV=[{},{}];
 let FLQ=[],LASTSNAP=[null,null],LASTW=null,LASTBT=null,BRES=0;
-function trackBumps(){const n=performance.now();for(const p of S.pl.keys()){LASTV[p]=LASTV[p]||{};const P=S.pl[p];const v={hp:P.hp,mana:P.mana,power:P.tier*10+P.power,shards:P.shards,doom:P.doom,energy:P.energy,hand:P.hand.length};
-  for(const k in v){const o=LASTV[p][k];if(o!==undefined&&o!==v[k]){FX['b_'+k+p]=n+600;FX['d_'+k+p]=v[k]>o?1:-1;setTimeout(render,650);}}LASTV[p]=v;
-  const sn=snapP(S,p);if(LASTSNAP[p]&&!S.blast&&!S.potion){for(const d of deltaList(LASTSNAP[p],sn,{float:1})){FLQ.push({p,k:d.k,t:d.t});if(d.k==='heal')SFX.play('heal');if(d.k==='shard')SFX.play('shard');}}LASTSNAP[p]=sn;}
-  if(S.blast){const k=S.blast.ts[0]+S.blast.ts[1];if(k!==LASTBT){if(LASTBT!==null)SFX.play('tick');LASTBT=k;}if(S.blast.stage==='result'&&!BRES){BRES=1;SFX.play('shard');}}else{LASTBT=null;BRES=0;}
+let LASTSP=null;
+function trackBumps(){const n=performance.now();if(S&&S.special){const sp=S.special;if(LASTSP)for(const k of ['ice','ash','curse'])if(sp[k]<LASTSP[k])SFX.seq(k,Math.min(6,LASTSP[k]-sp[k]),150);LASTSP={ice:sp.ice,ash:sp.ash,curse:sp.curse};}for(const p of S.pl.keys()){LASTV[p]=LASTV[p]||{};const P=S.pl[p];const v={hp:P.hp,mana:P.mana,power:P.tier*10+P.power,shards:P.shards,doom:P.doom,energy:P.energy,hand:P.hand.length};
+  for(const k in v){const o=LASTV[p][k];if(o!==undefined&&o!==v[k]){FX['b_'+k+p]=n+600;FX['d_'+k+p]=v[k]>o?1:-1;setTimeout(render,650);}}
+  {const ov=LASTV[p];if(ov&&ov.hp!==undefined){if(v.hp<ov.hp)SFX.seq('hit',Math.min(8,ov.hp-v.hp),110);if(v.shards>ov.shards&&!S.blast)SFX.seq('shard',Math.min(8,v.shards-ov.shards),170);}}LASTV[p]=v;
+  const sn=snapP(S,p);if(LASTSNAP[p]&&!S.blast&&!S.potion){for(const d of deltaList(LASTSNAP[p],sn,{float:1})){FLQ.push({p,k:d.k,t:d.t});if(d.k==='heal')SFX.play('heal');}}LASTSNAP[p]=sn;}
+  if(S.blast){const k=S.blast.ts[0]+S.blast.ts[1];if(k!==LASTBT){if(LASTBT!==null)SFX.play('tick');LASTBT=k;}if(S.blast.stage==='result'&&!BRES){BRES=1;SFX.seq('shard',S.blast.winner>=0?2:1,170);}}else{LASTBT=null;BRES=0;}
   if(S.wcur&&S.wcur!==LASTW){FX.wflip=n+1500;setTimeout(render,1550);}LASTW=S.wcur;
   if(LASTINIT!==null&&S.init!==LASTINIT){FX.initOut=n+500;FX.initOutP=LASTINIT;FX.initIn=n+900;FX.initInP=S.init;setTimeout(render,520);setTimeout(render,920);}LASTINIT=S.init;}
 let LASTINIT=null;
@@ -842,13 +844,17 @@ const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
   a.gain.setValueAtTime(0.0001,t);a.gain.exponentialRampToValueAtTime(Math.max(0.0002,g*this.vol()),t+0.012);a.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(a).connect(c.destination);o.start(t);o.stop(t+d+0.03);},
  noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(sfxRand()*2-1)*Math.pow(1-i/n,2);
   const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
+ seq(k,n,gap){for(let i=0;i<n;i++)setTimeout(()=>this.play(k),i*gap);},
  play(k){if(!this.ctx||this.vol()<=0)return;try{switch(k){
   case 'card':this.noise(.07,.35,0,1500,7000);break;
   case 'reveal':this.noise(.22,.22,0,400,3000);this.tone(330,.18,'triangle',.07,.02,520);break;
   case 'counter':this.tone(880,.12,'triangle',.11);this.tone(1320,.2,'triangle',.09,.08);break;
-  case 'hit':this.tone(150,.2,'sine',.35,0,60);this.noise(.08,.14,0,200,1200);break;
+  case 'hit':this.tone(560,.14,'triangle',.16,0,240);this.tone(140,.12,'sine',.18,0,70);this.noise(.05,.07,0,300,1500);break;   // one short descending note per point of damage
   case 'heal':this.tone(660,.14,'sine',.09);this.tone(990,.2,'sine',.07,.07);break;
-  case 'shard':[1320,1760,2350].forEach((f,i)=>this.tone(f,.14,'triangle',.06,i*.06));break;
+  case 'shard':[1568,2093,2637,3136].forEach((f,i)=>this.tone(f,.16,'sine',.06,i*.035));this.noise(.16,.04,.02,6000,14000);break;   // sparkle
+  case 'ice':[2637,3520,3136,4186].forEach((f,i)=>this.tone(f,.2,'sine',.045,i*.03));this.noise(.2,.05,0,5000,12000);break;   // glassy shimmer
+  case 'ash':this.noise(.34,.3,0,120,900);this.tone(95,.2,'sine',.1,0,50);break;   // dust puff
+  case 'curse':this.tone(110,.75,'sawtooth',.055,0,82);this.tone(155.6,.75,'sawtooth',.045,0,116);this.tone(233,.55,'triangle',.03,.12,165);this.noise(.65,.06,0,60,420);break;   // low, dissonant, sinking
   case 'gain':this.noise(.12,.16,0,2500,9000);this.tone(740,.12,'sine',.05,.04);break;
   case 'tick':this.tone(1200,.05,'square',.035);break;
   case 'newbattle':this.noise(.5,.16,0,300,4000);this.tone(220,.5,'sawtooth',.045,0,440);break;
@@ -1182,7 +1188,7 @@ let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
 function fx(t,p){const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
-  if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='hit')SFX.play('hit');if(t==='ult')SFX.play('ult');
+  if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
 const io={sim:false,
@@ -1733,7 +1739,7 @@ function showStart(){gameId++;teardown();S=null;setTimeout(()=>{if(!OPT.tutAsked
 let TOURRES=null;
 async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
-  SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
+  SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];LASTSP=null;TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];if(TR&&TR.rpx&&o.resume.rng!=null)seedRandomState(o.resume.rng);}
   else if(o.replay){const X=o.replay.h.rpx;S=JSON.parse(X.s0);S.replay=true;S.tips=false;TR=null;RPLAY={d:X.d,i:0,h:o.replay.h,paused:false,from:o.replay.from,speed0:speed};seedRandom(X.seed);}
   else{if(o.puzzle){PZEND=false;seedRandom(1000+o.puzzle.id);S=puzzleState(o.puzzle);}else if(o.daily){seedRandom(o.daily.seed);const C=o.daily.C,cpu=dailyCpu(C);S=C.opponent==='robot'?newStateRB(w,cpu.diff||'medium'):newState(w,opp);if(cpu.rank)S.aiProf={1:{rank:cpu.rank,pers:cpu.pers}};applyRules(S,C.rules);S.daily=o.daily;unseedRandom();}else if(o.online){S=newState(w,opp);S.online=true;S.diff='normal';}else if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff==='cheater'?'expert':OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff==='cheater'?'expert':OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked||o.puzzle)S.diff='normal';if(S.diff==='cheater'){if(S.pl.length===2&&!o.tour&&!o.daily&&!o.ranked&&!S.rbMode&&!S.pl[1].rb){S.cheater=true;}S.diff='expert';}if(o.daily){const cpu=dailyCpu(o.daily.C);S.diff=cpu.rank?'normal':(cpu.diff||'normal');}S.tips=!!(OPT.tips&&!o.ranked&&!o.tour&&!o.online&&!o.tutorial&&!o.puzzle);if(OPT.long&&!o.tutorial&&!o.ranked&&!o.daily&&!o.puzzle){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.cheater?'cheater':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;TR.daily=!!o.daily;if(o.online||o.puzzle)TR=null;}

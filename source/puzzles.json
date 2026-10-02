@@ -207,7 +207,9 @@
    "hand": [
     "twopow",
     "threepow",
-    "dart"
+    "dart",
+    "amber",
+    "opal"
    ],
    "deck": [
     "step",
