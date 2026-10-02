@@ -47,6 +47,7 @@ Engine tests need Node.js 18+ (run `python3 build.py` first; it writes `tests/en
     node test_rank.js            # Ranked: every personality at several ranks, plus a rank ladder check
     node test_long.js            # Long Match: nobody wins below 12 Storm Shards
     node solve.js                # solves every puzzle; each must have at least one winning line
+    node solve2.js [n]           # which first plays win each puzzle (a good puzzle has one or two); with n, lists puzzle n's winning lines
     node ab.js hard 40           # new Hard vs old Hard (MX=mix|br picks the variant); expect the new one to win more
 
 If you intentionally change rules, re-record the 2-player baseline with `node regress.js record 40`.

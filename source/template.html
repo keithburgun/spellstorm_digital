@@ -1072,7 +1072,7 @@ document.addEventListener('pointermove',e=>{const D=DRAG;if(!D||e.pointerId!==D.
   if(!D.on){if(Math.hypot(e.clientX-D.x0,e.clientY-D.y0)<8)return;D.on=true;
     const g=D.el.cloneNode(true);g.removeAttribute('data-a');g.removeAttribute('data-u');g.className+=' dragghost';Object.assign(g.style,{position:'fixed',left:D.r.left+'px',top:D.r.top+'px',width:D.r.width+'px',height:D.r.height+'px',margin:0,zIndex:60,pointerEvents:'none'});
     document.body.appendChild(g);D.g=g;D.el._keepStyle=true;D.el.style.opacity='.25';document.body.classList.add('dragging');SFX.play('card');}
-  const vx=e.clientX-D.lx;D.lx=e.clientX;D.tilt=Math.max(-14,Math.min(14,D.tilt*.7+vx*.9));
+  const vx=e.clientX-D.lx;D.lx=e.clientX;D.tilt=Math.max(-4.7,Math.min(4.7,D.tilt*.7+vx*.3));
   D.g.style.left=(e.clientX-D.ox)+'px';D.g.style.top=(e.clientY-D.oy)+'px';D.g.style.transform=`rotate(${D.tilt}deg) scale(1.08)`;
   const z=dragZone(D);if(z)z.classList.toggle('dropok',overZone(D,e.clientX,e.clientY));});
 function dragEnd(e,cancel){const D=DRAG;if(!D||e.pointerId!==D.id)return;DRAG=null;if(!D.on)return;DRAG_SUPPRESS=performance.now()+350;
@@ -1747,7 +1747,7 @@ async function begin(w,opp,o={}){
   catch(err){console.error(err);if(id===gameId)openOv(`<h2>Something went wrong</h2><p>${esc(err.message)}</p><div class="acts"><button class="btn" data-a="again">Restart</button></div>`);}
 }
 function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&&!S.pl[q].out&&(!S.team||S.team[q]!==S.team[0]))??1,wasTour=TR&&TR.tour;
-  const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();toast(RANKRES?`You resigned. Elo ${RANKRES.old} → ${RANKRES.now} (${RANKRES.d}).`:wasTour?'You resigned. It counts as a loss, and your tournament run has ended.':'You resigned. It counts as a loss.');}
+  const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();}
 function teardown(){unseedRandom();if(RPLAY&&!(S&&S.replay)){}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}

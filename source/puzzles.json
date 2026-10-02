@@ -221,24 +221,25 @@
  },
  {
   "id": 5,
-  "title": "Last Card Standing",
-  "concept": "The Blast Score",
-  "hint": "Cards with a white border don’t count toward your Blast Score — and countering draws a card.",
+  "title": "Thin Ice",
+  "concept": "Clearing ICE before the Blast",
+  "hint": "ICE only costs you at the Blast, and only if it’s still in your hand. Lapis lets you discard up to two cards.",
   "you": {
    "wiz": "derby",
-   "hp": 13,
+   "hp": 10,
    "mana": 2,
    "power": 1,
    "hand": [
-    "pgem",
+    "lapis",
     "dart",
     "block",
+    "ice",
     "ice"
    ],
    "deck": [
-    "dart",
     "step",
-    "sapph"
+    "sapph",
+    "dart"
    ]
   },
   "opp": {
@@ -449,22 +450,21 @@
  },
  {
   "id": 9,
-  "title": "Weather the Storm",
-  "concept": "Healing and Initiative under fire",
-  "hint": "Healing first only helps if the next hit isn’t a big one. Who will hold the Initiative next round?",
+  "title": "Hot Potato",
+  "concept": "Fireball hands over the Initiative",
+  "hint": "Fireball’s bonus damage costs whoever plays it the Initiative. Who will resolve first next round?",
   "you": {
    "wiz": "eve",
-   "hp": 2,
+   "hp": 4,
    "mana": 1,
    "power": 1,
    "hand": [
-    "block",
     "heart",
-    "step",
-    "sapph"
+    "dart",
+    "fb"
    ],
    "deck": [
-    "dart",
+    "step",
     "pgem",
     "step",
     "dart"
@@ -476,7 +476,6 @@
    "hand": [
     "fb",
     "fb2",
-    "dart",
     "pgem"
    ],
    "deck": [
@@ -485,7 +484,7 @@
     "pgem"
    ]
   },
-  "youInit": true,
+  "youInit": false,
   "weather": [
    "heat",
    "heat"
