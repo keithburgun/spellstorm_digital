@@ -19,6 +19,7 @@ async function run(D,script){E.seedRandom(1000+D.id);const S=E.puzzleState(D);le
   finally{E.unseedRandom();}}
 (async()=>{const only=process.argv[2]?+process.argv[2]:null;for(const D of PZ){if(only&&D.id!==only)continue;const first={},wins=[];let leaves=0;const stack=[[]];
   while(stack.length){const s=stack.pop();const res=await run(D,s);if(res.branch){for(const o of res.branch)stack.push([...s,o]);continue;}leaves++;
-    const f=res.tr[0];first[f]=first[f]||[0,0];first[f][1]++;if(res.r==='win'){first[f][0]++;wins.push(res.tr.join(' → '));}}
-  console.log(`#${D.id} ${D.title}: ${wins.length}/${leaves} lines win | by first play: ${Object.entries(first).map(([k,[w,n]])=>`${k} ${w}/${n}`).join(', ')}`);
+    const f=res.tr[0];first[f]=first[f]||[0,0];first[f][1]++;if(res.r==='win'){first[f][0]++;wins.push(res.tr.filter(x=>!/^gain:/.test(x)).join(' → '));}}
+  const uniq=[...new Set(wins)];
+  console.log(`#${D.id} ${D.title.padEnd(18)} ${uniq.length===1?'✓ exactly 1':'✗ '+uniq.length} winning sequence${uniq.length===1?'':'s'}: ${uniq.join('  |  ')||'none'}   (${leaves} lines tried)`);if(false)console.log(`#${D.id} ${D.title}: ${wins.length}/${leaves} lines win | by first play: ${Object.entries(first).map(([k,[w,n]])=>`${k} ${w}/${n}`).join(', ')}`);
   if(only)for(const w of [...new Set(wins)].slice(0,8))console.log('     win:',w);}})();

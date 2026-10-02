@@ -1168,7 +1168,7 @@ function render(){
   opp.classList.toggle('ultglow',on('ult1'));me.classList.toggle('ultglow',on('ult0'));
   setH($('#cloud'),cloudHTML());setH($('#arena'),arenaHTML());setH($('#hand'),handHTML());setH($('#prompt'),promptHTML());
   const bl=$('#blast');if(S.blast){bl.classList.add('show');setH(bl,blastHTML());}else bl.classList.remove('show');
-  {const pb=$('#pzbar');if(pb){if(S&&S.puzzle&&!PZEND){pb.textContent=`Puzzle ${S.puzzle.id} · ${PUZZLE_GOAL_TEXT(S.puzzle.goal)}${S.puzzle.goal.rounds>1?` · round ${Math.min(S.puzzle.rounds+1,S.puzzle.goal.rounds)} of ${S.puzzle.goal.rounds}`:''}`;pb.classList.add('show');}else pb.classList.remove('show');}}
+  {const pb=$('#pzbar');if(pb){if(S&&S.puzzle&&!PZEND){pb.textContent=`Puzzle ${S.puzzle.id} · ${PUZZLE_GOAL_TEXT(S.puzzle.goal)}${S.puzzle.goal.rounds>1?` · turn ${Math.min(S.puzzle.rounds+1,S.puzzle.goal.rounds)} of ${S.puzzle.goal.rounds}`:''}`;pb.classList.add('show');}else pb.classList.remove('show');}}
   fitArena();layoutHand();anim();if(ONL.on&&ONL.role==='host')onlPush();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
   document.body.classList.toggle('ceremony',!!S.blast);
   const po=$('#potov');const showPot=S.potion&&!(pending&&!pending.req.potion);if(showPot){po.classList.add('show');setH(po,potionHTML());}else po.classList.remove('show');
@@ -1491,20 +1491,20 @@ function dailyResult(r){const X=S.daily,C=X.C,[k,n]=(C.goal||'win').split(/\s+/)
 // ---------- Puzzles ----------
 function pzNext(){const P=loadProf();return Math.min(PUZZLES.length,(P.pz||0)+1);}
 function puzzleLobby(){const MODEROW=MODEROW_FN(),P=loadProf(),solved=P.pz||0,sel=pickSel.pz||pzNext(),D=PUZZLES[sel-1];
-  const tiles=PUZZLES.map(z=>{const st=z.id<=solved?'done':z.id===solved+1?'next':'locked';return `<button class="pztile ${st}" data-a="pzpick" data-i="${z.id}" aria-pressed="${z.id===sel}" ${st==='locked'?'disabled':''}><b>${z.id}</b><span><b>${esc(z.title)}</b><span class="lbl">${st==='locked'?'🔒 Locked':esc(z.concept)}</span></span>${st==='done'?'<i class="pzok">✓</i>':''}</button>`;}).join('');
+  const tiles=PUZZLES.map(z=>{const st=z.id<=solved?'done':z.id===solved+1?'next':'locked';return `<button class="pztile ${st}" data-a="pzpick" data-i="${z.id}" aria-pressed="${z.id===sel}" ${st==='locked'?'disabled':''}><b>${z.id}</b><span><b>${esc(z.title)}</b><span class="lbl">${st==='locked'?'🔒 Locked':esc(z.level||'')}</span></span>${st==='done'?'<i class="pzok">✓</i>':''}</button>`;}).join('');
   return `${MODEROW}<div class="row"><h2>Puzzles <span class="lbl">${solved}/${PUZZLES.length} solved · solve one to unlock the next</span></h2><div class="pztiles">${tiles}</div></div>
-    ${D?`<div class="info"><p><b>${D.id}. ${esc(D.title)}</b> — ${esc(D.concept)}. <b>${PUZZLE_GOAL_TEXT(D.goal)}</b></p></div>`:''}
+    ${D?`<div class="info"><p><b>${D.id}. ${esc(D.title)}</b> · ${esc(D.level||'')}. <b>${PUZZLE_GOAL_TEXT(D.goal)}</b>${D.id<=solved?` <span class="lbl">The idea: ${esc(D.concept)}.</span>`:''}</p></div>`:''}
     <div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn" data-a="launch" style="font-size:1.15rem;padding:.7em 2.2em">Start puzzle ${sel}</button></div>`;}
 function puzzleLaunch(n){const D=PUZZLES[(n||1)-1];if(!D)return;pickSel.pz=D.id;begin(D.you.wiz,D.opp.wiz,{puzzle:D});}
 function puzzleIntro(D){const on=WIZ[D.opp.wiz].short,plays=D.oppPlays.map(id=>CARDS[id].n),deck=(D.you.deck||[]).slice(0,3).map(id=>CARDS[id].n);
-  openOv(`<h2>Puzzle ${D.id}: ${esc(D.title)}</h2><p class="lbl">${esc(D.concept)}</p><p class="pzgoal">🎯 ${PUZZLE_GOAL_TEXT(D.goal)}</p>
+  openOv(`<h2>Puzzle ${D.id}: ${esc(D.title)}</h2><p class="lbl">${esc(D.level||'')}</p><p class="pzgoal">🎯 ${PUZZLE_GOAL_TEXT(D.goal)}</p>
     <p><b>${esc(on)} will play:</b> ${plays.map(esc).join(', then ')}.</p>${deck.length?`<p><b>Your deck, top card first:</b> ${deck.map(esc).join(', ')}.</p>`:''}
     <p class="lbl">Everything in a puzzle plays out the same way every time.</p><div class="acts"><button class="btn" data-a="close">Let’s go</button><button class="btn alt" data-a="pzhint">Hint</button></div>`);}
 let PZEND=false;
 function puzzleCheck(ev,x){if(!S||!S.puzzle||PZEND)return;const r=puzzleJudge(S,ev,x);if(r)puzzleEnd(r);}
 function puzzleEnd(r){if(PZEND)return;PZEND=true;const D=PUZZLES[S.puzzle.id-1];gameId++;pending=null;thinking=false;render();
   const P=loadProf();if(r==='win'&&(P.pz||0)<D.id){P.pz=D.id;saveProf(P);}const nxt=PUZZLES[D.id];
-  setTimeout(()=>{SFX.play(r==='win'?'win':'lose');openOv(r==='win'?`<h2 style="font-size:2rem">Solved! ✓</h2><p>Puzzle ${D.id}, <b>${esc(D.title)}</b>: ${esc(D.concept)}.</p>${nxt?`<p>Unlocked: <b>${nxt.id}. ${esc(nxt.title)}</b></p>`:'<p><b>That was the last puzzle. Well done!</b></p>'}
+  setTimeout(()=>{SFX.play(r==='win'?'win':'lose');openOv(r==='win'?`<h2 style="font-size:2rem">Solved! ✓</h2><p>Puzzle ${D.id}, <b>${esc(D.title)}</b>.</p><p><b>The idea:</b> ${esc(D.concept)}.</p>${nxt?`<p>Unlocked: <b>${nxt.id}. ${esc(nxt.title)}</b></p>`:'<p><b>That was the last puzzle. Well done!</b></p>'}
       <div class="acts">${nxt?`<button class="btn" data-a="pzgo" data-i="${nxt.id}">Next puzzle</button>`:''}<button class="btn alt" data-a="pzgo" data-i="${D.id}">Play again</button><button class="btn alt" data-a="pzlist">All puzzles</button></div>`
      :`<h2 style="font-size:2rem">Not quite</h2><p>${PUZZLE_GOAL_TEXT(D.goal)} Try a different line.</p><p class="lbl">Hint: ${esc(D.hint)}</p>
       <div class="acts"><button class="btn" data-a="pzgo" data-i="${D.id}">Try again</button><button class="btn alt" data-a="pzlist">All puzzles</button><button class="btn alt" data-a="close">View board</button></div>`);},700);}

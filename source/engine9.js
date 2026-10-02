@@ -37,5 +37,5 @@ function puzzleJudge(S, ev, x) {
   }
   return null;
 }
-const PUZZLE_GOAL_TEXT = G => G.type === 'kill' ? (G.rounds === 1 ? 'Win this round.' : `Win within ${G.rounds} rounds.`) : G.type === 'survive' ? (G.rounds === 1 ? 'Survive this round.' : `Survive the next ${G.rounds} rounds.`)
-  : G.type === 'tier' ? `Reach Tier ${['', 'I', 'II', 'III'][G.n]} this round.` : G.type === 'blast' ? 'Win this battle’s Blast Score.' : '';
+const PUZZLE_GOAL_TEXT = G => G.type === 'kill' ? (G.rounds === 1 ? 'Win this turn.' : `Win within ${G.rounds} turns.`) : G.type === 'survive' ? (G.rounds === 1 ? 'Survive this turn.' : `Survive the next ${G.rounds} turns.`)
+  : G.type === 'tier' ? `Reach Tier ${['', 'I', 'II', 'III'][G.n]} this turn.` : G.type === 'blast' ? 'Win this battle’s Blast Score.' : '';

@@ -2,7 +2,7 @@
  {
   "id": 1,
   "title": "Seize the Moment",
-  "concept": "Initiative",
+  "concept": "Fireball’s Initiative bonus",
   "hint": "Some cards hit harder when you hold the Initiative.",
   "you": {
    "wiz": "derby",
@@ -51,11 +51,12 @@
    "essE",
    "diamond",
    "step"
-  ]
+  ],
+  "level": "Beginner"
  },
  {
   "id": 2,
-  "title": "Draw Your Weapon",
+  "title": "The Long Way Round",
   "concept": "Countering draws a card",
   "hint": "Fire beats Earth, and whoever counters draws a card. Next round’s Weather draws one more. Which order gets you Fireball II?",
   "you": {
@@ -108,16 +109,17 @@
    "essE",
    "diamond",
    "step"
-  ]
+  ],
+  "level": "Beginner"
  },
  {
   "id": 3,
-  "title": "Throwing Star",
-  "concept": "Shuriken goes first",
+  "title": "Under Fire",
+  "concept": "Shuriken resolves before everything else",
   "hint": "Eve holds the Initiative, so her Fireball will resolve before your card… unless your card doesn’t wait its turn.",
   "you": {
    "wiz": "omar",
-   "hp": 3,
+   "hp": 1,
    "mana": 1,
    "power": 1,
    "hand": [
@@ -162,12 +164,13 @@
    "essE",
    "diamond",
    "step"
-  ]
+  ],
+  "level": "Easy"
  },
  {
   "id": 4,
   "title": "Build to the Peak",
-  "concept": "Power overflow raises your Tier",
+  "concept": "Overflowing Power raises your Tier",
   "hint": "Power past the end of your track raises your Tier. Count carefully — and look at what Eve is about to reveal.",
   "you": {
    "wiz": "derby",
@@ -217,12 +220,13 @@
    "essE",
    "step",
    "dart"
-  ]
+  ],
+  "level": "Easy"
  },
  {
   "id": 5,
   "title": "Thin Ice",
-  "concept": "Clearing ICE before the Blast",
+  "concept": "ICE only hurts if it’s still in your hand at the Blast",
   "hint": "ICE only costs you at the Blast, and only if it’s still in your hand. Lapis lets you discard up to two cards.",
   "you": {
    "wiz": "derby",
@@ -273,11 +277,12 @@
    "essE",
    "diamond",
    "opal"
-  ]
+  ],
+  "level": "Intermediate"
  },
  {
   "id": 6,
-  "title": "Charge!",
+  "title": "One Last Push",
   "concept": "Ultimate timing",
   "hint": "Flaming Yardstick deals 2 damage and costs 6 mana. Which card gets you there with enough damage?",
   "you": {
@@ -327,13 +332,14 @@
    "essE",
    "diamond",
    "step"
-  ]
+  ],
+  "level": "Intermediate"
  },
  {
   "id": 7,
-  "title": "Take the Lead",
-  "concept": "Initiative before Crossfire",
-  "hint": "Crossfire does nothing without the Initiative. Get it first.",
+  "title": "On the Attack",
+  "concept": "Crossfire needs the Initiative",
+  "hint": "Some cards do nothing at all without the Initiative.",
   "you": {
    "wiz": "derby",
    "hp": 13,
@@ -342,8 +348,8 @@
    "hand": [
     "cross",
     "step",
-    "fb",
-    "dart"
+    "dart",
+    "pgem"
    ],
    "deck": [
     "sapph",
@@ -383,13 +389,14 @@
    "essW",
    "essE",
    "diamond",
-   "step"
-  ]
+   "opal"
+  ],
+  "level": "Advanced"
  },
  {
   "id": 8,
-  "title": "Here Be Dragons",
-  "concept": "Tier III overflow earns a Dragon",
+  "title": "Hidden Power",
+  "concept": "Overflowing Tier III earns a Dragon",
   "hint": "At Tier III, overflowing your Power earns you a Dragon. Storm Dragon deals 3 damage.",
   "you": {
    "wiz": "derby",
@@ -446,56 +453,56 @@
    "essE",
    "step",
    "dart"
-  ]
+  ],
+  "level": "Advanced"
  },
  {
   "id": 9,
-  "title": "Hot Potato",
-  "concept": "Fireball hands over the Initiative",
-  "hint": "Fireball’s bonus damage costs whoever plays it the Initiative. Who will resolve first next round?",
+  "title": "Kindling",
+  "level": "Expert",
+  "concept": "Flame resolves another Fire card from your hand",
+  "hint": "Read Flame carefully. The weakest card can be the strongest play.",
   "you": {
-   "wiz": "eve",
-   "hp": 4,
-   "mana": 1,
+   "wiz": "derby",
+   "hp": 13,
+   "mana": 2,
    "power": 1,
    "hand": [
-    "heart",
+    "flame",
+    "fb",
     "dart",
-    "fb"
+    "block"
+   ],
+   "deck": [
+    "step",
+    "sapph",
+    "pgem"
+   ]
+  },
+  "opp": {
+   "wiz": "eve",
+   "hp": 4,
+   "hand": [
+    "pgem",
+    "step",
+    "dart"
    ],
    "deck": [
     "step",
     "pgem",
-    "step",
     "dart"
    ]
   },
-  "opp": {
-   "wiz": "derby",
-   "hp": 13,
-   "hand": [
-    "fb",
-    "fb2",
-    "pgem"
-   ],
-   "deck": [
-    "step",
-    "dart",
-    "pgem"
-   ]
-  },
-  "youInit": false,
+  "youInit": true,
   "weather": [
-   "heat",
    "heat"
   ],
   "oppPlays": [
-   "fb",
-   "fb2"
+   "pgem"
   ],
   "goal": {
-   "type": "survive",
-   "rounds": 2
+   "type": "kill",
+   "rounds": 1
   },
   "cloud": [
    "essF",
@@ -508,7 +515,7 @@
  {
   "id": 10,
   "title": "Grand Finale",
-  "concept": "Putting it all together",
+  "concept": "Counter, Initiative and your Ultimate together",
   "hint": "Counter to draw your best card, hold the Initiative, and don’t forget your Ultimate.",
   "you": {
    "wiz": "derby",
@@ -565,6 +572,7 @@
    "essE",
    "diamond",
    "step"
-  ]
+  ],
+  "level": "Expert"
  }
 ]
