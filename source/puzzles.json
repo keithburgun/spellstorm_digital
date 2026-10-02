@@ -603,8 +603,8 @@
   "id": 10,
   "title": "Grand Finale",
   "level": "Expert",
-  "concept": "Flaming Yardstick refunds 2 mana when Derby’s health is odd — even if you have to hurt yourself to get there",
-  "hint": "Two Ultimates would do it, but you can’t afford two… unless something gives mana back. Read Flaming Yardstick again.",
+  "concept": "Meteorite’s free resolve does double duty: Step wins the Initiative, and the 1 damage makes Derby’s health odd so Flaming Yardstick refunds 2 mana",
+  "hint": "Two Ultimates would do it, but you can’t afford two… unless something gives mana back. And you’ll want the Initiative when it counts.",
   "you": {
    "wiz": "derby",
    "hp": 12,
@@ -640,7 +640,7 @@
     "block"
    ]
   },
-  "youInit": true,
+  "youInit": false,
   "weather": [
    "fearth",
    "fearth",
@@ -658,7 +658,7 @@
   "cloud": [
    "sapph",
    "step",
-   "lavabat",
+   "wave",
    "moon",
    "frost"
   ],
