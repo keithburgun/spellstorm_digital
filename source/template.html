@@ -694,7 +694,7 @@ function whereIs(u){if(S.pl[0].hand.some(c=>c.u===u))return $(`#hand [data-u="${
 //   arrived (drawn, dealt into the Storm Cloud): it slides in from the matching deck
 let SEEN=new Map(),ANIM_ON=false,TRANSIT=new Map();   // TRANSIT: cards that left the screen with nowhere visible to go yet
 function anim(){
-  if(!S)return;const now=new Map();
+  if(!S)return;if(RPLAY&&RPLAY.ff){SEEN=new Map();return;}const now=new Map();
   const grab=(sel,zone)=>{for(const e of document.querySelectorAll(sel)){const u=e.getAttribute('data-u');if(u)now.set(u,{e,zone,id:e.dataset.cid,r:e.getBoundingClientRect()});}};
   grab('#cloud .crow .card[data-u]','cloud');grab('#hand .card[data-u]','hand');grab('#arena .duel .card[data-u]','slot');
   const first=!ANIM_ON;ANIM_ON=true;
@@ -705,28 +705,29 @@ function anim(){
       const d=bulkOut&&o.zone==='cloud'?(k++)*170*sp:0;const go=()=>fly(o.id,o.r,dest,o.zone==='hand');d?setTimeout(go,d):go();}
     for(const [u,o] of TRANSIT){if(now.has(u))continue;const dest=whereIs(+u);                                // landed off-screen (pile, VOID, opponent)
       if(dest){fly(o.id,o.r,dest,o.zone==='hand');TRANSIT.delete(u);}else if(performance.now()-o.t>1500)TRANSIT.delete(u);}
-    const deal=first&&S.battle===0,cloudIn=came.filter(([,o])=>o.zone==='cloud'),bulkIn=deal||cloudIn.length>=3;let j=0;
+    let handIn=0;const deal=first&&S.battle===0,cloudIn=came.filter(([,o])=>o.zone==='cloud'),bulkIn=deal||cloudIn.length>=3;let j=0;
     const sdeck=$('#cloud .cfoot .chip'),mydeck=$('#me [data-a=pile][data-z=deck]');
     for(const [u,o] of came){const tr=TRANSIT.get(u);if(tr){TRANSIT.delete(u);glide(o.e,tr.r,o.r,460*sp);continue;}   // reappeared: travel from where it was last seen
       if(o.zone==='cloud'){const delay=deal?(250+j*190)*sp:bulkIn?(cloudOut.length*170+450+j*190)*sp:(cloudOut.length?300*sp:0);j++;slideIn(o.e,o.r,sdeck,delay);}
-      else if(o.zone==='hand')slideIn(o.e,o.r,mydeck,0);}
+      else if(o.zone==='hand'){const nb=$('#nb'),wait=nb&&nb.classList.contains('go')?1300*speed:0;slideIn(o.e,o.r,mydeck,wait+(handIn++)*150*sp,true);}}
     for(const [u,o] of now){const s=SEEN.get(u);if(!s)continue;
       if(s.zone!==o.zone)glide(o.e,s.r,o.r,460*sp);                                                        // changed zones: travel
-      else if(o.zone==='hand'&&(Math.abs(s.r.left-o.r.left)>3||Math.abs(s.r.top-o.r.top)>3)&&(gone.length||came.length))glide(o.e,s.r,o.r,220*sp);}}  // hand reflow
+      else if(o.zone==='hand'&&(Math.abs(s.r.left-o.r.left)>3||Math.abs(s.r.top-o.r.top)>3)&&(gone.length||came.length))o.e.animate([{transform:`translate(${s.r.left-o.r.left}px,${s.r.top-o.r.top}px)`},{transform:'translate(0,0)'}],{duration:220*sp,easing:'ease-out',composite:'add'});}}   // reflow ADDS to any flight in progress  // hand reflow
   SEEN=new Map([...now].map(([u,o])=>[u,{zone:o.zone,id:o.id,r:o.r}]));}
 // Counter: the countering card leans into the card it beat, which recoils (2 players); pulse + shake in multiplayer.
 function counterAnim(p){if(!S||RM())return;const t=S.pl.length>2?nextOppOf(S,p):1-p;
   const a=$(`#arena .duel [data-a=slot][data-p="${p}"]`),b=$(`#arena .duel [data-a=slot][data-p="${t}"]`);if(!a)return;
-  if(S.pl.length===2){const d=p===1?1:-1;
-    a.animate([{transform:'none'},{transform:`translateX(${d*24}px) rotate(${d*13}deg) scale(1.07)`,offset:.28},{transform:`translateX(${d*12}px) rotate(${d*6}deg) scale(1.03)`,offset:.5},{transform:'none'}],{duration:950,easing:'cubic-bezier(.3,.7,.3,1)'});
-    if(b)b.animate([{transform:'none'},{transform:'none',offset:.2},{transform:`translateX(${d*12}px) rotate(${-d*7}deg)`,offset:.38},{transform:'none'}],{duration:950,easing:'ease-out'});}
+  if(S.pl.length===2){const d=p===1?1:-1,w=a.getBoundingClientRect().width,L=Math.round(w*.32);   // scaled to the card's size, so it reads on phones too
+    a.animate([{transform:'none'},{transform:`translateX(${d*L}px) rotate(${d*18}deg) scale(1.12)`,offset:.25},{transform:`translateX(${d*L*.45}px) rotate(${d*8}deg) scale(1.05)`,offset:.5},{transform:'none'}],{duration:1100,easing:'cubic-bezier(.3,.7,.3,1)'});
+    if(b)b.animate([{transform:'none'},{transform:'none',offset:.18},{transform:`translateX(${d*L*.5}px) rotate(${-d*10}deg) scale(.95)`,offset:.34},{transform:'none'}],{duration:1100,easing:'ease-out'});}
   else{a.animate([{transform:'none'},{transform:'scale(1.14)',offset:.35},{transform:'none'}],{duration:700,easing:'ease-out'});
     if(b)b.animate([{transform:'none'},{transform:'translateX(-6px)',offset:.15},{transform:'translateX(5px)',offset:.35},{transform:'translateX(-3px)',offset:.55},{transform:'none'}],{duration:520,delay:150});}}
 function glide(el,from,to,ms){const dx=from.left-to.left,dy=from.top-to.top,s=from.width/Math.max(1,to.width);
   el.animate([{transform:`translate(${dx}px,${dy}px) scale(${s})`},{transform:'none'}],{duration:ms,easing:'cubic-bezier(.25,.8,.25,1)'});}
-function slideIn(el,r,src,delay){const sr=src&&src.getBoundingClientRect();
-  const from=sr?`translate(${sr.left+sr.width/2-(r.left+r.width/2)}px,${sr.top+sr.height/2-(r.top+r.height/2)}px) scale(.3)`:'translateY(40%) scale(.7)';
-  el.animate([{transform:from,opacity:0},{transform:'none',opacity:1}],{duration:460*Math.max(speed,.35),delay,fill:'backwards',easing:'cubic-bezier(.2,.8,.25,1)'});}
+function slideIn(el,r,src,delay,draw){const sr=src&&src.getBoundingClientRect();
+  const from=sr?`translate(${sr.left+sr.width/2-(r.left+r.width/2)}px,${sr.top+sr.height/2-(r.top+r.height/2)}px) scale(${draw?.5:.3})`:'translateY(60%) scale(.6)';
+  el.animate(draw?[{transform:from,opacity:.25},{transform:'translateY(-14px) scale(1.06)',opacity:1,offset:.7},{transform:'none',opacity:1}]:[{transform:from,opacity:0},{transform:'none',opacity:1}],
+    {duration:(draw?560:460)*Math.max(speed,.35),delay,fill:'backwards',easing:'cubic-bezier(.2,.8,.25,1)'});if(draw&&!(RPLAY&&RPLAY.ff))setTimeout(()=>SFX.play('card'),delay);}
 function fly(id,r,dest,quiet){if(!r||!id)return;SFX.play(quiet?'card':'gain');
   const g=document.createElement('div');g.className=`card ci-${id} ghost`;Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',zIndex:33,pointerEvents:'none',margin:0});
   document.body.appendChild(g);let dx=0,dy=-40,s=.6;
@@ -845,7 +846,7 @@ const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
  noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(sfxRand()*2-1)*Math.pow(1-i/n,2);
   const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
  seq(k,n,gap){for(let i=0;i<n;i++)setTimeout(()=>this.play(k),i*gap);},
- play(k){if(!this.ctx||this.vol()<=0)return;try{switch(k){
+ play(k){if(!this.ctx||this.vol()<=0||this.mute)return;try{switch(k){
   case 'card':this.noise(.07,.35,0,1500,7000);break;
   case 'reveal':this.noise(.22,.22,0,400,3000);this.tone(330,.18,'triangle',.07,.02,520);break;
   case 'counter':this.tone(880,.12,'triangle',.11);this.tone(1320,.2,'triangle',.09,.08);break;
@@ -1098,15 +1099,27 @@ function decAns(req,a){if(req.k==='play')return S.pl[0].hand.find(c=>c.u===a)||n
 function ansNote(req,v){try{if(req.k==='gain')return typeof v==='string'?`You took ${CARDS[v].n}.`:v>=0&&S.cloud[v]?`You gained ${CARDS[S.cloud[v].id].n}.`:'You skipped the gain.';
   if(req.k==='yn')return req.ult?(v?'You used your Ultimate!':'You saved your mana.'):`You chose ${v?'Yes':'No'}.`;if(req.k==='opt')return `You chose: ${String(req.opts[v]).replace(/\{([FEW])\}/g,(m,e)=>ELN[e])}.`;
   if(req.k==='pick')return v.length?`You chose ${v.map(c=>CARDS[c.id].n).join(', ')}.`:'';if(req.k==='player')return `You chose ${v===0?'yourself':WIZ[S.pl[v].wiz].short}.`;}catch(e){}return '';}
-function replayDecide(req,id){return new Promise(res=>setTimeout(async()=>{while(RPLAY&&RPLAY.paused&&id===gameId)await sleep(120);if(id!==gameId)return;
-  if(RPLAY.i>=RPLAY.d.length){replayDone(null);return;}const v=decAns(req,RPLAY.d[RPLAY.i++]);const n=req.k==='play'?'':ansNote(req,v);if(n)toast(n);res(v);},(req.k==='play'?700:900)*speed));}
-function rpBar(){const b=$('#rpbar');if(!RPLAY){b.classList.remove('show');return;}const sp=RPLAY.sp||1;
-  b.innerHTML=`<b>▶ Replay</b><span class="lbl">${esc(RNAME[RPLAY.h.me.wiz])} vs ${RPLAY.h.foes.map(f=>esc(f.name||RNAME[f.wiz])).join(', ')}</span>${[1,2,4].map(x=>`<button class="chip${sp===x?' on':''}" data-a="rpspeed" data-v="${x}">${x}×</button>`).join('')}<button class="chip" data-a="rppause">${RPLAY.paused?'▶ Play':'⏸ Pause'}</button><button class="chip" data-a="rpexit">Exit</button>`;b.classList.add('show');}
+function replayDecide(req,id){if(RPLAY&&RPLAY.hold&&RPLAY.i===0){RPLAY.hold=false;RPLAY.paused=true;rpBar();}   // start: pause on turn 1, after the opening deal
+  return new Promise(res=>setTimeout(async()=>{while(RPLAY&&RPLAY.paused&&id===gameId)await new Promise(r=>setTimeout(r,120));if(id!==gameId)return;
+  if(RPLAY.i>=RPLAY.d.length){replayDone(null);return;}const v=decAns(req,RPLAY.d[RPLAY.i++]);const n=req.k==='play'||RPLAY.ff?'':ansNote(req,v);if(n)toast(n);res(v);},(req.k==='play'?700:900)*speed));}
+function replayTurnDone(){if(!RPLAY)return;RPLAY.turn++;if(RPLAY.target!=null&&RPLAY.turn>=RPLAY.target)replayArrive();else rpBar();}
+function replayArrive(){RPLAY.target=null;if(RPLAY.ff){RPLAY.ff=false;speed=RPLAY.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}RPLAY.paused=!RPLAY.auto;render();rpBar();}
+function replayRestart(target){const h=RPLAY.h,from=RPLAY.from,sp0=RPLAY.speed0;begin(h.me.wiz,null,{replay:{h,from,target,speed0:sp0}});}
+function rpBar(){const b=$('#rpbar');if(!RPLAY){b.classList.remove('show');return;}const R=RPLAY,where=S?(R.done?'End of the match':S.battle<1||(R.hold&&R.i===0)?'Game start':`Battle ${S.battle} · round ${S.round||1}`):'';
+  b.innerHTML=`<b>▶ Replay</b><span class="lbl">${esc(where)}</span>
+    <button class="chip" data-a="rpctl" data-v="start" ${R.turn===0&&!R.ff?'disabled':''}>⏮ Start</button><button class="chip" data-a="rpctl" data-v="prev" ${R.turn===0&&!R.ff?'disabled':''}>◀ Previous</button>
+    <button class="chip${R.auto?' on':''}" data-a="rpctl" data-v="auto" ${R.done?'disabled':''}>${R.auto?'⏸ Pause':'▶ AutoPlay'}</button><button class="chip" data-a="rpctl" data-v="next" ${R.done?'disabled':''}>Next ▶</button>
+    <button class="chip" data-a="rpctl" data-v="end" ${R.done?'disabled':''}>End ⏭</button><button class="chip" data-a="rpexit">Exit</button>`;b.classList.add('show');}
+function replayCtl(v){const R=RPLAY;if(!R)return;
+  if(v==='auto'){R.auto=!R.auto;R.target=null;R.paused=!R.auto;speed=R.speed0;rpBar();return;}
+  if(v==='next'){R.auto=false;R.target=R.turn+1;R.paused=false;speed=R.speed0;rpBar();return;}
+  if(v==='start'){replayRestart(0);return;}
+  if(v==='prev'){replayRestart(Math.max(0,(R.done?R.turn:R.turn)-1));return;}
+  if(v==='end'){if(R.done)return;R.auto=false;R.target=Infinity;R.ff=true;R.paused=false;speed=0.0005;SFX.mute=true;rpBar();return;}}
 function watchReplay(h,from){if(!h||!h.rpx)return;closeOv();begin(h.me.wiz,null,{replay:{h,from}});}
-function replayDone(r){if(!RPLAY)return;const h=RPLAY.h;gameId++;pending=null;thinking=false;render();
-  setTimeout(()=>openOv(`<h2>Replay finished</h2><p>${h.won?'You won':'You lost'} this match ${({shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'})[h.why]||''}.</p>
-    <div class="acts"><button class="btn" data-a="rpagain">Watch again</button><button class="btn alt" data-a="rpexit">Done</button></div>`),500);}
-function replayExit(){const from=RPLAY&&RPLAY.from;if(RPLAY)speed=RPLAY.speed0;RPLAY=null;$('#rpbar').classList.remove('show');closeOv();showTitle();if(from==='hist'){statsTab='hist';statsSheet();}}
+function replayDone(r){if(!RPLAY)return;const h=RPLAY.h;gameId++;pending=null;thinking=false;if(RPLAY.ff){RPLAY.ff=false;speed=RPLAY.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}RPLAY.done=true;RPLAY.auto=false;RPLAY.paused=true;RPLAY.target=null;render();rpBar();
+  toast(`End of the replay: ${h.won?'you won':'you lost'} ${({shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'})[h.why]||''}.`);}
+function replayExit(){const from=RPLAY&&RPLAY.from;if(RPLAY)speed=RPLAY.speed0;SFX.mute=false;RPLAY=null;$('#rpbar').classList.remove('show');closeOv();showTitle();if(from==='hist'){statsTab='hist';statsSheet();}}
 function xtra(p){
   const P=S.pl[p],row=(k,n,m)=>`<span class="tokrow">${Array.from({length:m},(_,i)=>`<i class="tk ci-tk_${k} ${i<n?'':'off'}"></i>`).join('')}</span>`;let h='';
   if(P.rb)h=`<span data-k="energy" class="stat" title="Blast Tokens (his Blast Score)">Blast ${row('blast',P.blast,6)}</span><span class="rbult" title="Ultimate cards: one face-up, one face-down">${P.ultUp?`<button class="card ci-${P.ultUp.id}" data-a="rbup" data-p="${p}" aria-label="${esc(CARDS[P.ultUp.id].n)}"></button>`:''}${P.ultDown?'<i class="card back ci-back"></i>':''}</span>`;
@@ -1187,13 +1200,13 @@ function renderLog(){
 let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
-function fx(t,p){const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+function fx(t,p){if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
 const io={sim:false,
   log(m,c){logs.push({m,c});if(logs.length>400)logs.shift();renderLog();if((c==='big'||c==='shard')&&!(S&&S.blast))toast(m);},
-  render,pause:async ms=>{await sleep(ms);while(S&&S.replay&&RPLAY&&RPLAY.paused&&id===gameId)await sleep(120);},fx,
+  render,pause:async ms=>{await sleep(ms);while(S&&S.replay&&RPLAY&&RPLAY.paused&&id===gameId)await new Promise(r=>setTimeout(r,120));},fx,
   async decide(g,p,req){
     if(p!==0&&g.S.online)return onlRemoteDecide(g,p,req);
     if(p!==0){
@@ -1208,7 +1221,7 @@ function makeIO(id){return {sim:false,
   decide(g,p,req){if(id!==gameId)return new Promise(()=>{});if(p===0&&S.replay)return replayDecide(req,id);const pr=io.decide(g,p,req);
     if(p===0&&TR&&TR.rpx)return pr.then(v=>{TR.rpx.d.push(encAns(req,v));return v;});return pr;},
   checkpoint(){if(id===gameId&&!S.online&&!S.replay)saveGame();},
-  roundDone(){if(id===gameId){rpRound();puzzleCheck('round');}},
+  roundDone(){if(id===gameId){rpRound();puzzleCheck('round');if(S.replay)replayTurnDone();}},
   tut(st){if(id!==gameId)return new Promise(()=>{});return tutStage(st);},
   ack(k){if(id!==gameId)return new Promise(()=>{});if(S.replay)return sleep(1800);return new Promise(res=>{ACK={k,res};render();setTimeout(()=>{const b=document.querySelector('[data-a=ack]');if(b)b.focus();},60);});}};}
 let ACK=null;
@@ -1368,8 +1381,7 @@ document.addEventListener('click',e=>{
   if(a==='tipplay'){const c=S&&S.pl[0].hand.find(x=>x.u==b.dataset.u);closeOv();if(c&&pending&&pending.req.k==='play'){SFX.play('card');answer(c);}return;}
   if(a==='rpwatch'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rp){RPV={back:i<0?'end':'hist'};replayView(h,0);}return;}
   if(a==='rpplay'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rpx)watchReplay(h,i<0?'end':'hist');return;}
-  if(a==='rpspeed'){if(RPLAY){RPLAY.sp=+b.dataset.v;speed=1/RPLAY.sp;rpBar();}return;}
-  if(a==='rppause'){if(RPLAY){RPLAY.paused=!RPLAY.paused;rpBar();}return;}
+  if(a==='rpctl'){replayCtl(b.dataset.v);return;}
   if(a==='rpexit'){replayExit();return;}
   if(a==='rpagain'){const h=RPLAY&&RPLAY.h,from=RPLAY&&RPLAY.from;if(RPLAY)speed=RPLAY.speed0;RPLAY=null;if(h)watchReplay(h,from);return;}
   if(a==='rpstep'){if(RPV&&RPV.h)replayView(RPV.h,RPV.i+(+b.dataset.v));return;}
@@ -1741,7 +1753,8 @@ async function begin(w,opp,o={}){
   const id=++gameId;teardown();$('#start').style.display='none';$('#title').style.display='none';logs=[];FX={};pending=null;
   SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];LASTSP=null;TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];if(TR&&TR.rpx&&o.resume.rng!=null)seedRandomState(o.resume.rng);}
-  else if(o.replay){const X=o.replay.h.rpx;S=JSON.parse(X.s0);S.replay=true;S.tips=false;TR=null;RPLAY={d:X.d,i:0,h:o.replay.h,paused:false,from:o.replay.from,speed0:speed};seedRandom(X.seed);}
+  else if(o.replay){const X=o.replay.h.rpx,tg=o.replay.target||0,sp0=o.replay.speed0!=null?o.replay.speed0:speed;S=JSON.parse(X.s0);S.replay=true;S.tips=false;TR=null;
+    RPLAY={d:X.d,i:0,h:o.replay.h,from:o.replay.from,speed0:sp0,turn:0,auto:false,done:false,target:tg>0?tg:null,ff:tg>0,paused:false,hold:!(tg>0)};speed=RPLAY.ff?0.0005:sp0;SFX.mute=RPLAY.ff;seedRandom(X.seed);}
   else{if(o.puzzle){PZEND=false;seedRandom(1000+o.puzzle.id);S=puzzleState(o.puzzle);}else if(o.daily){seedRandom(o.daily.seed);const C=o.daily.C,cpu=dailyCpu(C);S=C.opponent==='robot'?newStateRB(w,cpu.diff||'medium'):newState(w,opp);if(cpu.rank)S.aiProf={1:{rank:cpu.rank,pers:cpu.pers}};applyRules(S,C.rules);S.daily=o.daily;unseedRandom();}else if(o.online){S=newState(w,opp);S.online=true;S.diff='normal';}else if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff==='cheater'?'expert':OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff==='cheater'?'expert':OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked||o.puzzle)S.diff='normal';if(S.diff==='cheater'){if(S.pl.length===2&&!o.tour&&!o.daily&&!o.ranked&&!S.rbMode&&!S.pl[1].rb){S.cheater=true;}S.diff='expert';}if(o.daily){const cpu=dailyCpu(o.daily.C);S.diff=cpu.rank?'normal':(cpu.diff||'normal');}S.tips=!!(OPT.tips&&!o.ranked&&!o.tour&&!o.online&&!o.tutorial&&!o.puzzle);if(OPT.long&&!o.tutorial&&!o.ranked&&!o.daily&&!o.puzzle){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.cheater?'cheater':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;TR.daily=!!o.daily;if(o.online||o.puzzle)TR=null;}
   if(TR&&!o.resume&&!S.online&&!S.tutorial&&!S.puzzle&&!S.replay){const seed=Math.floor(Math.random()*4294967295);seedRandom(seed);TR.rpx={seed,s0:JSON.stringify(S),d:[]};}
   G=new Game(S,makeIO(id));renderLog();render();if(S.replay)rpBar();
