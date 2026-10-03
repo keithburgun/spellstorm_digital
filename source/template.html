@@ -560,6 +560,14 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
 body.rm *{animation:none!important;transition:none!important}
+.cwheel{display:none!important}
+@media (orientation:landscape){#arena .duel .card,#arena .duel .slot{width:calc(var(--cw)*1.18)!important;height:calc(var(--cw)*1.18*1.4)!important}}
+.stats .pn{display:inline!important}
+.sico .cost{padding-top:2px;font-size:.78rem}
+.smana .num,.spow .num{font-size:1.38rem}
+.spow .tierb{width:24px;height:24px}
+.initb{display:inline-grid!important;place-items:center;width:20px;height:20px;padding:0!important;border-radius:50%;background:var(--panel)!important;border:2px solid #f4c430!important;box-shadow:0 0 0 1px rgba(0,0,0,.15),0 0 6px rgba(244,196,48,.75);font-size:0!important;gap:0!important;flex:none}
+.initb .tk,.initb svg{width:14px!important;height:14px!important;margin:0!important}
 /* ===== player panel pass (both players; all layouts unless noted) ===== */
 #me.pp,#opp.pp{padding-top:4px;padding-bottom:4px;row-gap:3px}
 #me .por,#opp .por{width:56px;height:56px}
@@ -594,8 +602,10 @@ body.rm *{animation:none!important;transition:none!important}
   #cloud{padding-left:4px;padding-right:4px}
   #cloud .crow{gap:4px!important}
   #cloud .crow .card{--cw:calc((100vw - 34px) / 5)!important}
-  #arena{--cw:min(24vw,108px);min-height:0}
+  #arena{--cw:min(28vw,124px);min-height:0}
   .cwheel{display:none!important}
+  #cloud .cfoot{flex-wrap:wrap!important;justify-content:center;gap:4px!important;row-gap:4px!important}
+  #cloud .cfoot .chip{font-size:.7rem;padding:2px 7px}
 }
 #mv{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:visible}.mvcard{position:fixed;margin:0!important;transform-origin:0 0;transition:none!important;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.35)}
 </style>
@@ -674,17 +684,19 @@ function panel(p){
   const backs='';const an=k=>bump(p,k);
   const tools=p?`<div class="tools"><button class="chip" data-a="menu">Menu</button></div>`:`<div class="tools"><button class="chip logbtn" data-a="log">Log</button></div>`;
   return `<span class="porw"><button class="por ci-wz_${P.wiz}" data-a="wiz" data-p="${p}" aria-label="View ${esc(W.n)}’s wizard card"></button>${P.rb?'':`<span class="hc ci-back${an('hand')}" title="${P.hand.length} cards in hand" aria-label="${P.hand.length} cards in hand">${P.hand.length}</span>`}</span>
-  <div class="pinfo"><div class="pname" data-k="init">${name}${S.init===p?`<span class="initb${on('initIn')&&FX.initInP===p?' initin':''}" style="animation-delay:-${Math.max(0,performance.now()-(FX.initIn||0)+900)}ms">${IC.bolt}Initiative</span>`:(on('initOut')&&FX.initOutP===p?`<span class="initb initout" style="animation-delay:-${Math.max(0,performance.now()-(FX.initOut||0)+500)}ms">${IC.bolt}Initiative</span>`:'')}</div>
+  <div class="pinfo"><div class="pname" data-k="init">${name}${S.init===p?`<span class="initb${on('initIn')&&FX.initInP===p?' initin':''}" title="Has the Initiative" aria-label="Has the Initiative" style="animation-delay:-${Math.max(0,performance.now()-(FX.initIn||0)+900)}ms">${IC.bolt}</span>`:(on('initOut')&&FX.initOutP===p?`<span class="initb initout" title="Has the Initiative" aria-label="Has the Initiative" style="animation-delay:-${Math.max(0,performance.now()-(FX.initOut||0)+500)}ms">${IC.bolt}</span>`:'')}</div>
   <div class="stats">
    <span data-k="mana" class="stat smana${an('mana')}" title="Mana ${P.mana}. ${esc(W.un)} costs ${W.cost} mana."><span class="sico">${IC.mana}<b class="cost">${W.cost}</b></span><b class="num">${P.mana}</b></span>
-   <span data-k="power" class="stat spow${an('power')}" title="Tier ${ROM[P.tier]} · Power ${P.power} of 6"><span class="sico">${IC.power}</span><i class="tierb ci-tier${Math.max(1,Math.min(3,P.tier))}" role="img" aria-label="Tier ${ROM[P.tier]}"></i><b class="num">${P.power}</b><small class="pn">/6</small></span>
+   <span data-k="power" class="stat spow${an('power')}" title="Tier ${ROM[P.tier]} · Power ${P.power} — reaching 7 raises your Tier"><i class="tierb ci-tier${Math.max(1,Math.min(3,P.tier))}" role="img" aria-label="Tier ${ROM[P.tier]}"></i><b class="num">${P.power}</b><small class="pn">/7</small></span>
   </div>
   ${xtra(p)}<div class="piles">${backs}<button class="chip" data-a="pile" data-z="deck" data-p="${p}">Deck ${P.deck.length}</button><button class="chip" data-a="pile" data-z="discard" data-p="${p}">Discard ${P.discard.length}</button></div></div><div class="goals">${hearts(P,an('hp'))}<span data-k="shards" class="goal${an('shards')}" title="Storm Shards — first to ${S.win||8} wins">${IC.shard}<b>${P.shards}</b><small>/${S.win||8}</small></span></div>${tools}`;
 }
 function fitHearts(){for(const g of document.querySelectorAll('#me .goals,#opp .goals')){const row=g.querySelector('.hearts.one');if(!row)continue;const hs=[...row.children];hs.forEach(h=>h.style.marginLeft='');if(hs.length<2)continue;
-    const bar=row.parentElement,num=bar.querySelector('b'),others=[...g.children].filter(c=>c!==bar).reduce((a,c)=>a+c.getBoundingClientRect().width,0),cs=getComputedStyle(g);
-    const avail=g.clientWidth-(parseFloat(cs.paddingLeft)||0)-(parseFloat(cs.paddingRight)||0)-others-(num?num.getBoundingClientRect().width:0)-(parseFloat(cs.columnGap)||8)*2-6;
-    const w=hs[0].getBoundingClientRect().width,need=hs.length*w;if(need<=avail)continue;const m=Math.min(w*.75,(need-avail)/(hs.length-1));hs.forEach((h,i)=>{if(i)h.style.marginLeft=(-m)+'px';});}}
+    const bar=row.parentElement,num=bar.querySelector('b'),shard=g.querySelector('[data-k=shards]'),pr=g.closest('.pp').getBoundingClientRect();
+    const pad=parseFloat(getComputedStyle(g.closest('.pp')).paddingRight)||8,limit=pr.right-pad-(shard?shard.getBoundingClientRect().width:0)-14,rl=row.getBoundingClientRect().left,numW=num?num.getBoundingClientRect().width+6:0;   // room up to the panel edge, less the Shards counter
+    const avail=limit-rl-numW,w=hs[0].getBoundingClientRect().width,need=hs.length*w;if(need<=avail)continue;
+    const m=Math.min(w*.85,(need-avail)/(hs.length-1)+.5);hs.forEach((h,i)=>{if(i)h.style.marginLeft=(-m)+'px';});}}
+addEventListener('resize',()=>requestAnimationFrame(fitHearts));
 function hearts(P,cls=''){
   const cap=P.wiz==='bunny'?Math.max(P.max,P.hp):P.max, cols=Math.min(10,cap);
   const h=Array.from({length:cap},(_,i)=>`<i class="tk ci-tk_hp hrt ${i>=P.hp?'empty':(i>=P.max?'over':'')}"></i>`).join('');
@@ -956,7 +968,7 @@ const ARR='<svg viewBox="0 0 32 16" aria-hidden="true"><path d="M2 8h24M20 2l7 6
 function ffaTable(sd){
   const al=[...S.pl.keys()].filter(q=>!S.pl[q].out),nw=performance.now(),nm=q=>q?esc(WIZ[S.pl[q].wiz].short):'You';
   if(S.team){const lt=q=>(FX.ctr||[]).find(x=>x.p===q&&nw<x.until+1800),cl=q=>{const c=S.rev&&S.rev[q];return c?ELC[CARDS[c.id].el]:'var(--bolt)';};
-    return `<div class="ffa"><div class="duel multi"><span class="cwheel ci-cwheel" role="img" aria-label="Fire beats Earth, Earth beats Water, Water beats Fire"></span>${al.map(q=>{const L=lt(q),ally=S.team[q]===S.team[0];return `<div class="side${ally&&q?' allyside':''}"><span class="lbl">${nm(q)}</span>${sd(q)}<span class="ccap${L?' lit':''}" style="--ac:${cl(q)}">${L?'<b>COUNTER!</b> ':''}→ ${nm(nextOppOf(S,q))}</span></div>`;}).join('')}</div></div>`;}
+    return `<div class="ffa"><div class="duel multi">${al.map(q=>{const L=lt(q),ally=S.team[q]===S.team[0];return `<div class="side${ally&&q?' allyside':''}"><span class="lbl">${nm(q)}</span>${sd(q)}<span class="ccap${L?' lit':''}" style="--ac:${cl(q)}">${L?'<b>COUNTER!</b> ':''}→ ${nm(nextOppOf(S,q))}</span></div>`;}).join('')}</div></div>`;}
   const lit=q=>(FX.ctr||[]).find(x=>x.p===q&&nw<x.until+1800);
   const col=q=>{const c=S.rev&&S.rev[q];return c?ELC[CARDS[c.id].el]:'var(--bolt)';};
   let h='';al.forEach((q,i)=>{const nx=al[(i+1)%al.length],L=lit(q);
@@ -964,7 +976,7 @@ function ffaTable(sd){
     if(i<al.length-1)h+=`<span class="carr${L?' lit':''}" style="--ac:${col(q)}" title="${nm(q)} ${q?'counters':'counter'} ${nm(nx)} if the element beats it" aria-label="${nm(q)} ${q?'counters':'counter'} ${nm(nx)}">${ARR}${L?'<b>COUNTER!</b>':''}</span>`;});
   const last=al[al.length-1],first=al[0],L=lit(last);
   const wrap=`<div class="cwrap${L?' lit':''}" style="--ac:${col(last)}" aria-label="${nm(last)} ${last?'counters':'counter'} ${nm(first)}"><span class="cwl"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M8 3L2 8l6 5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cwt">${L?'<b>COUNTER!</b> ':''}${nm(last)} → ${nm(first)}</span></div>`;
-  return `<div class="ffa"><div class="duel multi"><span class="cwheel ci-cwheel" role="img" aria-label="Fire beats Earth, Earth beats Water, Water beats Fire" title="Fire beats Earth · Earth beats Water · Water beats Fire"></span>${h}</div>${wrap}</div>`;}
+  return `<div class="ffa"><div class="duel multi">${h}</div>${wrap}</div>`;}
 function seatsHTML(){let h='';for(let q=1;q<S.pl.length;q++){const P=S.pl[q],W=WIZ[P.wiz];
   const ally=S.team&&S.team[q]===S.team[0];
   h+=`<button class="seat${P.out?' out':''}${ally?' ally':''}${S.resolving===q?' resolving':''}" id="seat${q}" data-a="seat" data-p="${q}" aria-label="${esc(W.n)}: ${P.hp} health, ${P.shards} shards, ${P.hand.length} cards">
@@ -1224,7 +1236,7 @@ function arenaHTML(){
   const pot=S.potionShow?`<div class="side"><span class="lbl">Potion</span><div class="potion ci-pot_${S.potionShow}" role="img" aria-label="${esc(POTIONS[S.potionShow].n)}"></div></div>`:'';
   return `${pot}<div class="wx"><div class="rnd ${last?'last':''}">${rnd}${last?'<small>(Last round!)</small>':''}</div>${wx}</div>
    ${S.pl.length>2?ffaTable(sd)
-   :`<div class="duel"><div class="side"><span class="lbl">${esc(WIZ[S.pl[1].wiz].short)}</span>${sd(1)}</div><span class="cwheel ci-cwheel" role="img" aria-label="Fire beats Earth, Earth beats Water, Water beats Fire" title="Fire beats Earth · Earth beats Water · Water beats Fire"></span><div class="side"><span class="lbl">You</span>${sd(0)}</div></div>`}`;
+   :`<div class="duel"><div class="side"><span class="lbl">${esc(WIZ[S.pl[1].wiz].short)}</span>${sd(1)}</div><div class="side"><span class="lbl">You</span>${sd(0)}</div></div>`}`;
 }
 function handHTML(){
   const pl=pending&&pending.req.k==='play';
