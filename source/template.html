@@ -560,6 +560,43 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
 body.rm *{animation:none!important;transition:none!important}
+/* ===== player panel pass (both players; all layouts unless noted) ===== */
+#me.pp,#opp.pp{padding-top:4px;padding-bottom:4px;row-gap:3px}
+#me .por,#opp .por{width:56px;height:56px}
+#me .porw,#opp .porw{margin-right:10px}
+#me.pp,#opp.pp{position:relative}
+#me .tools,#opp .tools{align-self:flex-start;margin-top:-1px}
+#me .piles .chip,#opp .piles .chip{font-size:.72rem;padding:1px 7px}
+.pname .tag.uname{font-size:.55rem;padding:0 4px;opacity:.85}
+.stats .stat.smana,.stats .stat.spow{gap:5px}
+.sico{position:relative;display:inline-grid;place-items:center;flex:none}
+.sico .tk{width:24px!important;height:24px!important;display:block}
+.sico .cost{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:.72rem;font-weight:700;line-height:1;text-shadow:0 0 2px #000,0 0 3px #000,0 1px 2px #000}
+.stats .num{font-family:'Corporata',sans-serif;font-size:1.25rem;font-weight:700;line-height:1}
+.stats .pn{font-family:'Corporata',sans-serif;font-size:.8rem;font-weight:400;color:var(--muted);margin-left:-3px}
+.tierb{display:inline-block;width:22px;height:22px;background-size:contain;background-repeat:no-repeat;background-position:center;flex:none}
+.stats{align-items:center}
+.hearts.one{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;align-items:center}
+.hearts.one .hrt{flex:none}
+#me .goals,#opp .goals{align-items:center;flex-wrap:nowrap}
+#me .goals .hpbar,#opp .goals .hpbar{display:flex;align-items:center;gap:6px;min-width:0;flex:1 1 auto}
+@media (orientation:portrait) and (max-width:760px){
+  #me .tools,#opp .tools{position:absolute;top:4px;right:6px;margin:0}
+  #me .pname,#opp .pname{padding-right:58px;flex-wrap:wrap;row-gap:1px;white-space:normal;min-width:0}
+  #me .pname .tag,#opp .pname .tag{font-size:.6rem;white-space:nowrap}
+  #me .pname .initb,#opp .pname .initb{font-size:.6rem;white-space:nowrap}
+  #me .por,#opp .por{width:52px;height:52px}
+  #me .goals,#opp .goals{padding-left:62px}
+  #me .pinfo,#opp .pinfo{display:flex;flex-wrap:wrap;align-items:center;column-gap:10px;row-gap:2px}
+  #me .pinfo .pname,#opp .pinfo .pname{flex-basis:100%}
+  #me .pinfo .piles,#opp .pinfo .piles{margin-left:auto;margin-right:0}
+  /* a bigger Storm Cloud, Weather and played cards */
+  #cloud{padding-left:4px;padding-right:4px}
+  #cloud .crow{gap:4px!important}
+  #cloud .crow .card{--cw:calc((100vw - 34px) / 5)!important}
+  #arena{--cw:min(24vw,108px);min-height:0}
+  .cwheel{display:none!important}
+}
 #mv{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:visible}.mvcard{position:fixed;margin:0!important;transform-origin:0 0;transition:none!important;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.35)}
 </style>
 </head>
@@ -588,7 +625,7 @@ body.rm *{animation:none!important;transition:none!important}
   <p class="fine">Duel CPU wizards in the storm.</p></div>
 <div id="start">
   <h1 class="slogo"><span class="ci-logo" role="img" aria-label="Spellstorm"></span></h1>
-  <p class="sub">Duel a CPU wizard in the storm. Win by collecting 8 Storm Shards or by bringing your opponent to 0 health.</p>
+  <p class="sub">Wizards do battle in this original magical tactical deckbuilder! Designed by Keith Burgun.</p>
   <div class="sel" id="picks"></div>
   <p class="fine">The CPU never looks at your hand or your face-down card.</p>
 </div>
@@ -633,21 +670,25 @@ function panel(p){
   const P=S.pl[p],W=WIZ[P.wiz];
   const pw=Array.from({length:6},(_,i)=>`<i class="pip ${i<P.power?'on':''}"></i>`).join('');
   const sh=Array.from({length:8},(_,i)=>`<i class="pip ${i<P.shards?'on':''}"></i>`).join('');
-  const name=p?(S.online&&p===1?`${W.n}<span class="tag">Online opponent</span>`:S.ranked&&p===1?`${W.n}<span class="tag">${esc(S.ranked.name)} · ${S.ranked.elo}</span>`:`${W.n}<span class="tag">CPU - ${S.cheater?"Cheater":DNAME[S.diff]||"Normal"}</span>`):`${W.n}<span class="tag">You</span>`;
+  const name=p?(S.online&&p===1?`${W.n}<span class="tag">Online opponent</span>`:S.ranked&&p===1?`${W.n}<span class="tag uname">${esc(S.ranked.name)} · ${S.ranked.elo}</span>`:`${W.n}<span class="tag">CPU - ${S.cheater?"Cheater":DNAME[S.diff]||"Normal"}</span>`):`${W.n}<span class="tag">You</span>`;
   const backs='';const an=k=>bump(p,k);
   const tools=p?`<div class="tools"><button class="chip" data-a="menu">Menu</button></div>`:`<div class="tools"><button class="chip logbtn" data-a="log">Log</button></div>`;
   return `<span class="porw"><button class="por ci-wz_${P.wiz}" data-a="wiz" data-p="${p}" aria-label="View ${esc(W.n)}’s wizard card"></button>${P.rb?'':`<span class="hc ci-back${an('hand')}" title="${P.hand.length} cards in hand" aria-label="${P.hand.length} cards in hand">${P.hand.length}</span>`}</span>
   <div class="pinfo"><div class="pname" data-k="init">${name}${S.init===p?`<span class="initb${on('initIn')&&FX.initInP===p?' initin':''}" style="animation-delay:-${Math.max(0,performance.now()-(FX.initIn||0)+900)}ms">${IC.bolt}Initiative</span>`:(on('initOut')&&FX.initOutP===p?`<span class="initb initout" style="animation-delay:-${Math.max(0,performance.now()-(FX.initOut||0)+500)}ms">${IC.bolt}Initiative</span>`:'')}</div>
   <div class="stats">
-   <span data-k="mana" class="stat${an('mana')}" title="Mana — ${W.un} costs ${W.cost}">${IC.mana}${P.mana}<small>/${W.cost}</small></span>
-   <span data-k="power" class="stat${an('power')}" title="Tier and Power track">${IC.power}Tier ${ROM[P.tier]} <span class="pips">${pw}</span><small class="pn">${P.power}/6</small></span>
+   <span data-k="mana" class="stat smana${an('mana')}" title="Mana ${P.mana}. ${esc(W.un)} costs ${W.cost} mana."><span class="sico">${IC.mana}<b class="cost">${W.cost}</b></span><b class="num">${P.mana}</b></span>
+   <span data-k="power" class="stat spow${an('power')}" title="Tier ${ROM[P.tier]} · Power ${P.power} of 6"><span class="sico">${IC.power}</span><i class="tierb ci-tier${Math.max(1,Math.min(3,P.tier))}" role="img" aria-label="Tier ${ROM[P.tier]}"></i><b class="num">${P.power}</b><small class="pn">/6</small></span>
   </div>
   ${xtra(p)}<div class="piles">${backs}<button class="chip" data-a="pile" data-z="deck" data-p="${p}">Deck ${P.deck.length}</button><button class="chip" data-a="pile" data-z="discard" data-p="${p}">Discard ${P.discard.length}</button></div></div><div class="goals">${hearts(P,an('hp'))}<span data-k="shards" class="goal${an('shards')}" title="Storm Shards — first to ${S.win||8} wins">${IC.shard}<b>${P.shards}</b><small>/${S.win||8}</small></span></div>${tools}`;
 }
+function fitHearts(){for(const g of document.querySelectorAll('#me .goals,#opp .goals')){const row=g.querySelector('.hearts.one');if(!row)continue;const hs=[...row.children];hs.forEach(h=>h.style.marginLeft='');if(hs.length<2)continue;
+    const bar=row.parentElement,num=bar.querySelector('b'),others=[...g.children].filter(c=>c!==bar).reduce((a,c)=>a+c.getBoundingClientRect().width,0),cs=getComputedStyle(g);
+    const avail=g.clientWidth-(parseFloat(cs.paddingLeft)||0)-(parseFloat(cs.paddingRight)||0)-others-(num?num.getBoundingClientRect().width:0)-(parseFloat(cs.columnGap)||8)*2-6;
+    const w=hs[0].getBoundingClientRect().width,need=hs.length*w;if(need<=avail)continue;const m=Math.min(w*.75,(need-avail)/(hs.length-1));hs.forEach((h,i)=>{if(i)h.style.marginLeft=(-m)+'px';});}}
 function hearts(P,cls=''){
   const cap=P.wiz==='bunny'?Math.max(P.max,P.hp):P.max, cols=Math.min(10,cap);
   const h=Array.from({length:cap},(_,i)=>`<i class="tk ci-tk_hp hrt ${i>=P.hp?'empty':(i>=P.max?'over':'')}"></i>`).join('');
-  return `<span data-k="hp" class="goal hpbar${cls}" title="Health ${P.hp} of ${P.max}${P.wiz==='bunny'?' (can heal to 10)':''}" role="img" aria-label="Health ${P.hp} of ${P.max}"><span class="hearts" style="--cols:${cols}">${h}</span><b>${P.hp}</b></span>`;
+  return `<span data-k="hp" class="goal hpbar${cls}" title="Health ${P.hp} of ${P.max}${P.wiz==='bunny'?' (can heal to 10)':''}" role="img" aria-label="Health ${P.hp} of ${P.max}"><span class="hearts one">${h}</span><b>${P.hp}</b></span>`;
 }
 /* ---------- animation helpers ---------- */
 const RM=()=>OPT.motion==='reduced';
@@ -1218,7 +1259,7 @@ function render(){
   setH($('#cloud'),cloudHTML());setH($('#arena'),arenaHTML());setH($('#hand'),handHTML());setH($('#prompt'),promptHTML());
   const bl=$('#blast');if(S.blast){bl.classList.add('show');setH(bl,blastHTML());}else bl.classList.remove('show');
   {const pb=$('#pzbar');if(pb){if(S&&S.puzzle&&!PZEND){pb.textContent=`Puzzle ${S.puzzle.id} · ${PUZZLE_GOAL_TEXT(S.puzzle.goal)}${S.puzzle.goal.rounds>1?` · turn ${Math.min(S.puzzle.rounds+1,S.puzzle.goal.rounds)} of ${S.puzzle.goal.rounds}`:''}`;pb.classList.add('show');}else pb.classList.remove('show');}}
-  fitArena();layoutHand();anim();if(ONL.on&&ONL.role==='host')onlPush();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
+  fitHearts();fitArena();layoutHand();anim();if(ONL.on&&ONL.role==='host')onlPush();spawnFloats();fitPrompt();renderCoach();fitPanel($('#blast .bpanel'));fitPanel($('#potov .bpanel'));
   document.body.classList.toggle('ceremony',!!S.blast);
   const po=$('#potov');const showPot=S.potion&&!(pending&&!pending.req.potion);if(showPot){po.classList.add('show');setH(po,potionHTML());}else po.classList.remove('show');
 }
