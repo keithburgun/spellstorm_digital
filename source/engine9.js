@@ -2,6 +2,7 @@
 function seededRNG(seed, st) { st = st || { a: seed >>> 0 }; const f = () => { st.a = (st.a + 0x6D2B79F5) >>> 0; let t = st.a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; f.st = st; return f; }
 let _mathRandom = null;
 function seedRandom(seed) { if (!_mathRandom) _mathRandom = Math.random; Math.random = seededRNG(seed); }
+if (typeof window !== 'undefined' && !window._mathRandomReal) window._mathRandomReal = Math.random;   // a truly random source, for fresh seeds
 function seedRandomState(a) { if (!_mathRandom) _mathRandom = Math.random; Math.random = seededRNG(0, { a: a >>> 0 }); }   // continue a stream exactly where it was saved
 function rngState() { return _mathRandom && Math.random.st ? Math.random.st.a : null; }
 function unseedRandom() { if (_mathRandom) { Math.random = _mathRandom; _mathRandom = null; } }
