@@ -560,6 +560,23 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
 body.rm *{animation:none!important;transition:none!important}
+/* portraits: each wizard's own zoom and centring, so the face sits in the middle of the circle */
+.por.ci-wz_derby{background-size:300%!important; background-position:69.5% 29.6%}
+.por.ci-wz_eve{background-size:300%!important; background-position:71.0% 26.4%}
+.por.ci-wz_abragail{background-size:320%!important; background-position:19.5% 33.7%}
+.por.ci-wz_may{background-size:420%!important; background-position:51.3% 27.5%}
+.por.ci-wz_omar{background-size:300%!important; background-position:85.2% 25.1%}
+.por.ci-wz_bunny{background-size:280%!important; background-position:42.2% 27.8%}
+.por.ci-wz_oren{background-size:390%!important; background-position:50.7% 20.0%}
+.por.ci-wz_croh{background-size:300%!important; background-position:57.5% 24.4%}
+.por.ci-wz_robot{background-size:300%!important; background-position:54.5% 16.1%}
+/* Initiative on the portrait, opposite the hand count */
+.porw .initb{position:absolute;left:-7px;bottom:-5px;z-index:2;margin:0!important}
+/* Storm Cloud chips: [Deck] [VOID ICE ASH CURSE] [Dragons], one baseline */
+#cloud .cfoot{display:flex;align-items:center;justify-content:center;gap:14px!important;row-gap:5px!important;flex-wrap:wrap!important;overflow:visible!important}
+#cloud .cgrp{display:inline-flex;align-items:center;gap:4px;flex-wrap:nowrap}
+#cloud .cfoot .chip{display:inline-flex;align-items:center;box-sizing:border-box;height:1.9em;margin:0;line-height:1;font-family:inherit;vertical-align:middle}
+#cloud .cfoot .chip.drag{gap:0}
 .cwheel{display:none!important}
 @media (orientation:landscape){#arena .duel .card,#arena .duel .slot{width:calc(var(--cw)*1.18)!important;height:calc(var(--cw)*1.18*1.4)!important}}
 .stats .pn{display:inline!important}
@@ -604,7 +621,7 @@ body.rm *{animation:none!important;transition:none!important}
   #cloud .crow .card{--cw:calc((100vw - 34px) / 5)!important}
   #arena{--cw:min(28vw,124px);min-height:0}
   .cwheel{display:none!important}
-  #cloud .cfoot{flex-wrap:wrap!important;justify-content:center;gap:4px!important;row-gap:4px!important}
+  #cloud .cfoot{flex-wrap:wrap!important;justify-content:center;gap:12px!important;row-gap:5px!important}
   #cloud .cfoot .chip{font-size:.7rem;padding:2px 7px}
 }
 #mv{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:visible}.mvcard{position:fixed;margin:0!important;transform-origin:0 0;transition:none!important;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.35)}
@@ -683,8 +700,8 @@ function panel(p){
   const name=p?(S.online&&p===1?`${W.n}<span class="tag">Online opponent</span>`:S.ranked&&p===1?`${W.n}<span class="tag uname">${esc(S.ranked.name)} · ${S.ranked.elo}</span>`:`${W.n}<span class="tag">CPU - ${S.cheater?"Cheater":DNAME[S.diff]||"Normal"}</span>`):`${W.n}<span class="tag">You</span>`;
   const backs='';const an=k=>bump(p,k);
   const tools=p?`<div class="tools"><button class="chip" data-a="menu">Menu</button></div>`:`<div class="tools"><button class="chip logbtn" data-a="log">Log</button></div>`;
-  return `<span class="porw"><button class="por ci-wz_${P.wiz}" data-a="wiz" data-p="${p}" aria-label="View ${esc(W.n)}’s wizard card"></button>${P.rb?'':`<span class="hc ci-back${an('hand')}" title="${P.hand.length} cards in hand" aria-label="${P.hand.length} cards in hand">${P.hand.length}</span>`}</span>
-  <div class="pinfo"><div class="pname" data-k="init">${name}${S.init===p?`<span class="initb${on('initIn')&&FX.initInP===p?' initin':''}" title="Has the Initiative" aria-label="Has the Initiative" style="animation-delay:-${Math.max(0,performance.now()-(FX.initIn||0)+900)}ms">${IC.bolt}</span>`:(on('initOut')&&FX.initOutP===p?`<span class="initb initout" title="Has the Initiative" aria-label="Has the Initiative" style="animation-delay:-${Math.max(0,performance.now()-(FX.initOut||0)+500)}ms">${IC.bolt}</span>`:'')}</div>
+  return `<span class="porw">${S.init===p?`<span class="initb${on('initIn')&&FX.initInP===p?' initin':''}" title="Has the Initiative" aria-label="Has the Initiative" style="animation-delay:-${Math.max(0,performance.now()-(FX.initIn||0)+900)}ms">${IC.bolt}</span>`:(on('initOut')&&FX.initOutP===p?`<span class="initb initout" title="Has the Initiative" aria-label="Has the Initiative" style="animation-delay:-${Math.max(0,performance.now()-(FX.initOut||0)+500)}ms">${IC.bolt}</span>`:'')}<button class="por ci-wz_${P.wiz}" data-a="wiz" data-p="${p}" aria-label="View ${esc(W.n)}’s wizard card"></button>${P.rb?'':`<span class="hc ci-back${an('hand')}" title="${P.hand.length} cards in hand" aria-label="${P.hand.length} cards in hand">${P.hand.length}</span>`}</span>
+  <div class="pinfo"><div class="pname" data-k="init">${name}</div>
   <div class="stats">
    <span data-k="mana" class="stat smana${an('mana')}" title="Mana ${P.mana}. ${esc(W.un)} costs ${W.cost} mana."><span class="sico">${IC.mana}<b class="cost">${W.cost}</b></span><b class="num">${P.mana}</b></span>
    <span data-k="power" class="stat spow${an('power')}" title="Tier ${ROM[P.tier]} · Power ${P.power} — reaching 7 raises your Tier"><i class="tierb ci-tier${Math.max(1,Math.min(3,P.tier))}" role="img" aria-label="Tier ${ROM[P.tier]}"></i><b class="num">${P.power}</b><small class="pn">/7</small></span>
@@ -1218,9 +1235,9 @@ function cloudHTML(){
   const row=S.cloud.map((c,i)=>{if(!c)return '<div class="slot">empty</div>';let cls=g?(g.slots.includes(i)?'elig':'inel'):'';return card(c,cls,`data-a="cloud" data-i="${i}"`);}).join('');
   const top=S.dragons[S.dragons.length-1];
   return `<div class="lbl">Storm Cloud</div><div class="crow">${row}</div><div class="cfoot">
-   <span class="chip" title="Spellstorm Deck">Deck ${S.sdeck.length}</span><button class="chip" data-a="void">VOID ${S.void.length}</button>
-   <span class="chip">ICE ${S.special.ice}</span><span class="chip">ASH ${S.special.ash}</span><span class="chip">CURSE ${S.special.curse}</span>
-   ${top?`<button class="chip drag" data-a="dragon"><i class="card ci-${top.id}"></i>Dragons ${S.dragons.length}</button>`:'<span class="chip">Dragons 0</span>'}</div>`;
+   <span class="cgrp"><span class="chip" title="Spellstorm Deck">Deck ${S.sdeck.length}</span></span>
+   <span class="cgrp"><button class="chip" data-a="void">VOID ${S.void.length}</button><span class="chip">ICE ${S.special.ice}</span><span class="chip">ASH ${S.special.ash}</span><span class="chip">CURSE ${S.special.curse}</span></span>
+   <span class="cgrp">${top?`<button class="chip drag" data-a="dragon" title="See the top Dragon">Dragons ${S.dragons.length}</button>`:'<span class="chip">Dragons 0</span>'}</span></div>`;
 }
 function arenaHTML(){
   const w=S.wcur;
