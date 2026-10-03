@@ -753,13 +753,17 @@ function fitPrompt(){const el=$('#prompt');if(!el)return;const kids=[...el.query
   const base=kids.map(k=>parseFloat(getComputedStyle(k).fontSize));let s=1;
   while((el.scrollHeight>el.clientHeight+1||el.scrollWidth>el.clientWidth+1)&&s>0.55){s-=0.05;kids.forEach((k,i)=>k.style.fontSize=(base[i]*s).toFixed(1)+'px');}}
 function fitPanel(el){if(!el)return;el.style.zoom='';const H=el.parentElement.clientHeight-16;if(el.scrollHeight>H&&H>0)el.style.zoom=Math.max(.55,H/el.scrollHeight).toFixed(3);}
-function fitBox(A,stack){if(!A)return;const k=[...A.children];k.forEach(c=>c.style.zoom='');const avail=A.clientHeight;if(avail<30)return;
-  const hs=k.map(c=>c.getBoundingClientRect().height),gap=parseFloat(getComputedStyle(A).rowGap)||0;
+// Shrink a row/stack to fit its area. Measures LAYOUT size (offsetWidth/offsetHeight), which ignores transforms,
+// so a card that is mid-flip, mid-tilt or mid-flight can never inflate the measurement.
+function fitBox(A,stack){if(!A)return;const k=[...A.children].filter(c=>c.offsetParent!==null||c.offsetWidth);k.forEach(c=>c.style.zoom='');const avail=A.clientHeight;if(avail<30)return;
+  const cs=getComputedStyle(A),gap=parseFloat(cs.rowGap)||0,hs=k.map(c=>c.offsetHeight);
   const need=stack?hs.reduce((a,b)=>a+b,0)+gap*(k.length-1):Math.max(0,...hs);let z=1;if(need>avail+1)z=(avail-(stack?gap*(k.length-1):0))/(need-(stack?gap*(k.length-1):0));
-  if(!stack){const cg=parseFloat(getComputedStyle(A).columnGap)||0,ws=k.map(c=>Math.max(c.getBoundingClientRect().width,c.scrollWidth)),wneed=ws.reduce((a,b)=>a+b,0)+cg*(k.length-1),wav=A.clientWidth;
+  if(!stack){const cg=parseFloat(cs.columnGap)||0,ws=k.map(c=>c.offsetWidth),wneed=ws.reduce((a,b)=>a+b,0)+cg*(k.length-1),wav=A.clientWidth;
     if(wneed>wav+1)z=Math.min(z,(wav-cg*(k.length-1))/(wneed-cg*(k.length-1)));}
-  if(z<1)k.forEach(c=>c.style.zoom=Math.max(.4,z).toFixed(3));}
-function fitArena(){fitBox($('#arena'),false);fitBox($('#cloud'),true);}
+  if(z<1)k.forEach(c=>c.style.zoom=Math.max(.55,z).toFixed(3));}
+let FITT=null;
+function fitArena(){fitBox($('#arena'),false);fitBox($('#cloud'),true);clearTimeout(FITT);FITT=setTimeout(()=>{fitBox($('#arena'),false);fitBox($('#cloud'),true);},400);}   // and re-check once things settle
+if(window.ResizeObserver){const aro=new ResizeObserver(()=>requestAnimationFrame(()=>{fitBox($('#arena'),false);fitBox($('#cloud'),true);}));setTimeout(()=>{for(const id of ['arena','cloud']){const e=document.getElementById(id);if(e)aro.observe(e);}},0);}
 function layoutHand(){const H=$('#hand');const cs=[...H.querySelectorAll('.card')];if(!cs.length)return;cs.forEach(c=>c.style.removeProperty('--cw'));
   {const app=$('#app'),ar=app.getBoundingClientRect(),pb=parseFloat(getComputedStyle(app).paddingBottom)||0,top=H.getBoundingClientRect().top+4;const avail=ar.bottom-pb-top-4,ch=cs[0].getBoundingClientRect().height;
    if(ch>avail&&avail>30){const nw=Math.floor(avail/1.4);cs.forEach(c=>c.style.setProperty('--cw',nw+'px'));}}
