@@ -120,8 +120,8 @@ const BOTS = [{"name": "keith", "rank": 6, "pers": "C", "fav": ["oren", "eve", "
 const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
 // Mostly someone near your level; sometimes a rank or two away; occasionally a big mismatch. Never the same bot twice in a row.
 // side: +1 = look for a higher-rated opponent, -1 = lower, 0 = either. eloOf: a bot's current Elo against this player.
-function pickBot(elo, last, side, eloOf) {
-  const r0 = (elo - 700) / 100 + 1, roll = Math.random(), sgn = side || (Math.random() < .5 ? -1 : 1);
+function pickBot(elo, last, side, eloOf, boost) {
+  const r0 = (elo - 700) / 100 + 1 + (boost || 0), roll = Math.random(), sgn = side || (Math.random() < .5 ? -1 : 1);
   let off = roll < .7 ? gauss() * .8 : roll < .9 ? sgn * (1 + Math.random() * 1.5) : sgn * (2.5 + Math.random() * 2);
   if (side) off = side * Math.max(.35, Math.abs(off));                 // same distance spread, on the chosen side
   const target = Math.max(1, Math.min(10, r0 + off)), all = BOTS.filter(b => b.name !== last), E = eloOf || botBaseElo;
@@ -129,6 +129,8 @@ function pickBot(elo, last, side, eloOf) {
   const dmin = Math.min(...pool.map(b => Math.abs(b.rank - target))), near = pool.filter(b => Math.abs(b.rank - target) <= dmin + .5);
   return near[Math.floor(Math.random() * near.length)];
 }
-function botWizard(bot, me, roster) { const f = bot.fav.filter(w => w !== me); if (f.length) return f[Math.floor(Math.random() * f.length)];
-  const pool = roster.filter(w => w !== me); return pool[Math.floor(Math.random() * pool.length)]; }
+function botWizard(bot, me, roster, wt) {   // wt(w): how welcome this character is (variety: recent opponents weigh less, three in a row never)
+  const pickW = list => { const ws = list.map(w => wt ? wt(w) : 1), tot = ws.reduce((a, b) => a + b, 0); if (!tot) return null; let r = Math.random() * tot; for (let i = 0; i < list.length; i++) { r -= ws[i]; if (r <= 0) return list[i]; } return list[list.length - 1]; };
+  const f = bot.fav.filter(w => w !== me && (!wt || wt(w) >= .5)); if (f.length) return pickW(f) || f[0];
+  const pool = roster.filter(w => w !== me); return pickW(pool) || pool[Math.floor(Math.random() * pool.length)]; }
 function botBaseElo(bot) { return RANK_ELO(bot.rank) + bot.off; }

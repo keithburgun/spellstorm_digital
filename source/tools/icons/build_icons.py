@@ -5,7 +5,7 @@ src=open('/home/claude/engine.js').read()+open('/home/claude/engine2.js').read()
 def body(cid):
     m=re.search(r"\n  "+re.escape(cid)+r": \{([^\n]*(?:\n    [^\n]*)*)",src);return m.group(1) if m else ''
 # one clean picture of each icon type, cropped from the card art
-REP={'power':0,'mana':3,'gain':7,'draw':8,'ult':2,'disc':4,'init':16,'fire':11,'water':12,'earth':14}
+REP={'power':0,'mana':3,'gain':7,'draw':8,'ult':2,'disc':4,'init':16,'fire':11,'water':12,'earth':14,'wiz':5}
 pics={}
 for t,gi in REP.items():
     m=G[gi]['members'][len(G[gi]['members'])//2];b=m['box'];d=imgs[m['card']]
