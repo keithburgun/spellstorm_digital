@@ -560,6 +560,9 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
 body.rm *{animation:none!important;transition:none!important}
+/* Blast Score: the result line and the OK button have their space from the start, so the box never resizes */
+.bpanel .bres{min-height:calc(clamp(1.3rem,4.5vw,1.9rem) * 1.45);box-sizing:border-box}
+.bpanel .bok{min-height:2.6rem;margin-top:4px}
 /* portraits: each wizard's own zoom and centring, so the face sits in the middle of the circle */
 .por.ci-wz_derby{background-size:300%!important; background-position:69.5% 29.6%}
 .por.ci-wz_eve{background-size:300%!important; background-position:71.0% 26.4%}
@@ -846,7 +849,7 @@ function newBattle(n){const el=$('#nb');el.querySelector('.nbs').textContent=`Ba
 function blastHTML(){const B=S.blast,now=Date.now();
   const side=p=>{const cs=[...B.cards[p]].sort((a,b)=>(a.disc?blastRank(a.id):9)-(b.disc?blastRank(b.id):9)).map(e=>`<span class="bcw"><i class="card ${e.up?'ci-'+e.id:'back ci-back'}${e.up&&now-e.t<450?' fl':''}${e.gone?' gone':''}${e.up&&e.disc&&!e.gone?' discfx':''}" style="animation-delay:-${Math.max(0,now-e.t)}ms"></i>${e.fx&&now-e.ft<1700?`<span class="bfx" style="animation-delay:-${Math.max(0,now-e.ft)}ms">${e.fx.map(f=>`<b class="f-${f.k}">${esc(f.t)}</b>`).join('')}</span>`:''}</span>`).join('');
     return `<div class="bside${B.turn===p?' turn':''}${B.stage==='result'&&(B.winner===p||(B.winners&&B.winners.length===1&&B.winners[0]===p))?' won':''}"><div class="bname">${p?esc(WIZ[S.pl[p].wiz].n):'You'}</div><div class="bcards">${S.pl[p].rb?(B.score[p]>0?Array.from({length:B.score[p]},()=>tk('blast')).join(''):'<span class="lbl">No Blast Tokens</span>'):(cs||'<span class="lbl">No cards in hand</span>')}</div><div class="bscore">BLAST SCORE: <b class="${now-B.ts[p]<400?'pop':''}" style="animation-delay:-${Math.max(0,now-B.ts[p])}ms">${B.score[p]}</b></div></div>`;};
-  const okb=B.stage==='result'&&ACK&&ACK.k==='blast'?'<div class="acts"><button class="btn" data-a="ack" style="min-width:8em">OK</button></div>':'';
+  const okb=`<div class="acts bok">${B.stage==='result'&&ACK&&ACK.k==='blast'?'<button class="btn" data-a="ack" style="min-width:8em">OK</button>':'<button class="btn" style="min-width:8em;visibility:hidden" tabindex="-1" aria-hidden="true">OK</button>'}</div>`;   
   const res=B.stage==='result'?(B.winner<0?(S.pl.length>2&&B.winners?`Tied! ${B.winners.map(q=>q?esc(WIZ[S.pl[q].wiz].short):'You').join(', ')} each gain 1 ${tk('shard')}`:`Tied! Both gain 1 ${tk('shard')}`):`${B.winner===0?'You win':esc(WIZ[S.pl[B.winner].wiz].short)+' wins'} the Blast! +2 ${tk('shard')}${tk('shard')}`):(B.turn===null?'':`${B.turn?esc(WIZ[S.pl[B.turn].wiz].short)+'’s':'Your'} hand ${B.stage==='disc'?'— discard effects':'— counting'}`);
   return `<div class="bpanel">${B.stage!=='result'&&!S.blastSkip?'<button class="btn alt sm bskip" data-a="bskip">Skip</button>':''}<h2 class="btitle">BLAST SCORE</h2>${S.pl.length>2?`<div class="bsides">${[...[...S.pl.keys()].filter(q=>q&&!S.pl[q].out),0].map(side).join('')}</div>`:`${side(1)}<div class="bvs">vs</div>${side(0)}`}<div class="bres${B.stage==='result'?' big':''}">${res}</div>${okb}</div>`;}
 function potionHTML(){const X=S.potion,P=S.pl[X.p],who=X.p?esc(WIZ[P.wiz].short):'You',now=Date.now();
@@ -1376,7 +1379,7 @@ function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" sty
 <div class="acts">${S&&S.online||ONL.on?'<button class="btn alt" data-a="olexit">Leave online match</button>':'<button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button>'}<button class="btn alt" data-a="report">Report a problem</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
 const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v10c0 10-6 17-14 18-8-1-14-8-14-18z" fill="currentColor"/><path d="M18 12H8c0 9 5 14 11 15M46 12h10c0 9-5 14-11 15" fill="none" stroke="currentColor" stroke-width="4"/><rect x="28" y="36" width="8" height="10" fill="currentColor"/><rect x="19" y="46" width="26" height="8" rx="2" fill="currentColor"/></svg>';
 function gameReport(){const L=loadProf().hist||[],h=L[L.length-1];if(!h||Math.abs(h.t-Date.now())>60000||!S||S.online)return '';
-  const tiles=[['Rounds',h.rounds],['Length',fmtDur(h.dur)],['Damage dealt',h.st.dmg],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons',h.st.dragons],['Healing',h.st.heal]];
+  const tiles=[['Rounds',h.rounds],['Length',fmtDur(durOf(h))],['Damage dealt',h.st.dmg],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons',h.st.dragons],['Healing',h.st.heal]];
   return `<h2 style="font-size:1.1rem;margin-top:10px">Game Report</h2><div class="hstats">${tiles.map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>`;}
 // ---------- Report a problem ----------
 const REPORT_EMAIL='keithburgun@gmail.com';
@@ -1680,6 +1683,10 @@ const pairsWon=(P,d)=>{let n=0;for(const w of ROSTER)for(const o of ROSTER)if(w!
 /* ---------- per-game tracker ---------- */
 let TR=null;
 function newTR(me,opp,diff){return {t0:Date.now(),me,opp,diff,minHp:WIZ[me].hp,dmg:0,rd:{},maxRd:0,counters:0,ults:0,gains:0,give:0,voids:0,dragons:0,tier:1,unplayable:false,maxBlastWin:0,stitch:0,doom:0,research:0,traps:[],downloads:0,potionsMax:0,yardodd:false,bauble:false,heal:0};}
+let LASTBEAT=0;
+setInterval(()=>{const n=performance.now(),d=n-LASTBEAT;LASTBEAT=n;   // count only time the match is on screen and running
+  if(TR&&S&&!S.over&&!S.replay&&document.visibilityState==='visible'&&d>0&&d<5000)TR.play=(TR.play||0)+d;},1000);
+document.addEventListener('visibilitychange',()=>{LASTBEAT=performance.now();});
 function track(t,p,x){if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
   if(t==='dmg'){if(x.t===0)TR.minHp=Math.min(TR.minHp,S.pl[0].hp);if(p===0&&x.t===1){TR.dmg+=x.d;const k=S.battle+'-'+S.round;TR.rd[k]=(TR.rd[k]||0)+x.d;TR.maxRd=Math.max(TR.maxRd,TR.rd[k]);}return;}
   if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);rpBlast(x);return;}
@@ -1794,7 +1801,7 @@ function recordGame(r){
   {if(TR.daily&&S.daily)DAILYRES=dailyResult(r);else DAILYRES=null;
     const mode=S.daily?'Daily':S.ranked?'Ranked':TR.tour?'Tournament':TR.opp==='ffa'?'Free-for-All':TR.opp==='coop'?'Co-op':TR.opp==='2v2'?'Two-on-Two':TR.opp==='robot'?'vs Robot Boy':'Versus';
     const fin=q=>{const X=S.pl[q];return {wiz:X.wiz,hp:Math.max(0,X.hp),max:X.max,sh:X.shards,tier:X.tier,out:!!X.out,ally:!!(S.team&&q&&S.team[q]===S.team[0]),name:q===1&&S.ranked?S.ranked.name:null};};
-    const H={t:Date.now(),dur:Math.max(1,Math.round((Date.now()-(TR.t0||Date.now()))/1000)),mode,diff:S.ranked?null:DNAME[S.diff]||null,long:!!S.win,won,why:r.why,
+    const H={t:Date.now(),dur:Math.max(1,Math.round((TR.play!=null?TR.play:(Date.now()-(TR.t0||Date.now())))/1000)),act:TR.play!=null,mode,diff:S.ranked?null:DNAME[S.diff]||null,long:!!S.win,won,why:r.why,
       battles:S.battle,rounds:Math.max(1,(S.battle-1)*4+(S.round||1)),me:fin(0),foes:[...S.pl.keys()].filter(q=>q).map(fin),
       st:{dmg:TR.dmg,heal:TR.heal,counters:TR.counters,ults:TR.ults,gains:TR.gains,dragons:TR.dragons,voids:TR.voids,give:TR.give,mana:S.pl[0].mana},
       elo:RANKRES?{old:RANKRES.old,now:RANKRES.now,d:RANKRES.d,opp:RANKRES.opp}:null,tour:TOURRES?{kind:TOURRES.kind,n:TOURRES.n}:null};
@@ -1809,10 +1816,11 @@ function recordGame(r){
 let statsTab='rec',statsDiff='all';
 let HOPEN=-1,DAILYRES=null;
 const WHY={shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'};
-function fmtDur(s){const m=Math.floor(s/60);return m?`${m}m ${String(s%60).padStart(2,'0')}s`:`${s}s`;}
+function durOf(h){return h&&(h.act||h.dur<=Math.max(1,h.rounds||1)*600)?h.dur:null;}   // older records measured wall-clock time
+function fmtDur(s){if(s==null)return '—';const m=Math.floor(s/60);return m?`${m}m ${String(s%60).padStart(2,'0')}s`:`${s}s`;}
 function historyHTML(P){const L=(P.hist||[]).slice().reverse();
   if(!L.length)return '<p>No matches yet. Finished matches appear here (the tutorial and online matches aren’t recorded).</p>';
-  const last=L.slice(0,20),w=last.filter(h=>h.won).length,avg=Math.round(L.slice(0,20).reduce((a,h)=>a+h.dur,0)/Math.min(20,L.length));
+  const last=L.slice(0,20),w=last.filter(h=>h.won).length,valid=L.slice(0,20).map(durOf).filter(x=>x!=null),avg=valid.length?Math.round(valid.reduce((a,b)=>a+b,0)/valid.length):null;
   const cnt={};for(const h of L)cnt[h.me.wiz]=(cnt[h.me.wiz]||0)+1;const fav=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
   const who=f=>`${f.name?esc(f.name)+' ':''}${RNAME[f.wiz]||f.wiz}${f.ally?' (ally)':''}`;
   const row=(h,i)=>{const d=new Date(h.t),open=HOPEN===i;
@@ -1821,7 +1829,7 @@ function historyHTML(P){const L=(P.hist||[]).slice().reverse();
       <span class="hmain"><b>${h.mode}${h.long?' · Long':''}</b> <span class="lbl">${h.diff&&h.mode!=='Ranked'?h.diff+' · ':''}${d.toLocaleDateString(undefined,{month:'short',day:'numeric'})} ${d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}</span></span>
       <span class="hside">${h.elo?`<b class="${h.elo.d>=0?'rup':'rdn'}">${h.elo.d>=0?'+':''}${h.elo.d}</b>`:''}<span class="lbl">${h.battles} battle${h.battles>1?'s':''}</span></span></button>
       ${open?`<div class="hdet">
-        <p><b>${h.won?'Won':'Lost'} ${WHY[h.why]||''}</b> after ${h.battles} battle${h.battles>1?'s':''} (${h.rounds} rounds) in ${fmtDur(h.dur)}.${h.elo?` Elo ${h.elo.old} → ${h.elo.now} vs ${h.foes[0]&&h.foes[0].name?esc(h.foes[0].name):'opponent'} (${h.elo.opp}).`:''}${h.tour?` Tournament: ${h.tour.kind==='champ'?'champion!':h.tour.kind==='win'?h.tour.n+'/7 defeated':'run ended at '+h.tour.n+'/7'}.`:''}</p>
+        <p><b>${h.won?'Won':'Lost'} ${WHY[h.why]||''}</b> after ${h.battles} battle${h.battles>1?'s':''} (${h.rounds} rounds) in ${fmtDur(durOf(h))}.${h.elo?` Elo ${h.elo.old} → ${h.elo.now} vs ${h.foes[0]&&h.foes[0].name?esc(h.foes[0].name):'opponent'} (${h.elo.opp}).`:''}${h.tour?` Tournament: ${h.tour.kind==='champ'?'champion!':h.tour.kind==='win'?h.tour.n+'/7 defeated':'run ended at '+h.tour.n+'/7'}.`:''}</p>
         <table class="mx htab"><tr><th></th><th>Health</th><th>Shards</th><th>Tier</th></tr>
           <tr><td>You (${RNAME[h.me.wiz]})</td><td>${h.me.hp}/${h.me.max}</td><td>${h.me.sh}</td><td>${ROM[h.me.tier]||h.me.tier}</td></tr>
           ${h.foes.map(f=>`<tr><td>${who(f)}</td><td>${f.out?'eliminated':f.hp+'/'+f.max}</td><td>${f.sh}</td><td>${ROM[f.tier]||f.tier}</td></tr>`).join('')}</table>
