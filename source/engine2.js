@@ -29,12 +29,15 @@ Object.assign(CARDS, {
     const pick = await g.decide(p, { k: 'pick', q: 'Potion Gun: you may give a non-Wizard card from your hand to your opponent’s hand, gaining 2 of its Element.', items: it, min: 0, max: 1, cpu: x => { const j = x.find(c => CARDS[c.id].junk); return j ? [j] : []; } });
     for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c); const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },
   unstable: { n: 'Unstable Formula', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    await g.power(p, 1); await g.mana(p, 1); const P = g.S.pl[p]; const pairs = [], opts = [], dis = [];
+    await g.power(p, 1); await g.mana(p, 1);
+    // Elements belong to Oren: if someone else resolves this (e.g. through Buddy System), it works on Oren's Elements
+    const oi = g.S.pl[p].wiz === 'oren' ? p : g.S.pl.findIndex(x => x.wiz === 'oren' && !x.out), o = oi >= 0 ? oi : p, P = g.S.pl[o];
+    const pairs = [], opts = [], dis = [];
     for (const [b, a] of [['F', 'W'], ['F', 'E'], ['E', 'W'], ['E', 'F'], ['W', 'F'], ['W', 'E']]) { pairs.push([a, b]); opts.push(`{${b}} +2, {${a}} −2`); dis.push(P.chem[a] < 2 || P.chem[b] >= 6); }   // raise first, in the card's order; {X} = Element icon
     opts.push('No change'); dis.push(false);
-    const k = await g.decide(p, { k: 'opt', q: `Unstable Formula: lower one Element by 2 to raise another by 2. (Fire ${P.chem.F}, Earth ${P.chem.E}, Water ${P.chem.W})`, opts, dis, cpu: opts.length - 1 });
-    if (k < pairs.length) { const [a, b] = pairs[k]; P.chem[a] -= 2; P.chem[b] = Math.min(6, P.chem[b] + 2); g.log(`${g.nm(p)} shifted 2 ${ELN[a]} into ${ELN[b]}.`); }
-    if (g.S.rev.some(c => isEl(c, 'W'))) { P.chem.E = Math.min(6, P.chem.E + 1); g.log(`${g.nm(p)} ${p === 0 ? 'gain' : 'gains'} +1 Earth Element.`); } } },
+    const k = await g.decide(p, { k: 'opt', q: `Unstable Formula: lower one of ${o === p || o === 0 ? 'your' : g.nm(o) + '’s'} Elements by 2 to raise another by 2. (Fire ${P.chem.F}, Earth ${P.chem.E}, Water ${P.chem.W})`, opts, dis, cpu: opts.length - 1 });
+    if (k < pairs.length) { const [a, b] = pairs[k]; P.chem[a] -= 2; P.chem[b] = Math.min(6, P.chem[b] + 2); g.log(o === p ? `${g.nm(p)} shifted 2 ${ELN[a]} into ${ELN[b]}.` : `${g.nm(p)} shifted 2 of ${o === 0 ? 'your' : g.nm(o) + '’s'} ${ELN[a]} into ${ELN[b]}.`); }
+    if (g.S.rev.some(c => isEl(c, 'W'))) { P.chem.E = Math.min(6, P.chem.E + 1); g.log(`${g.nm(o)} ${o === 0 ? 'gain' : 'gains'} +1 Earth Element.`); } } },
   // Omar
   beetle: { n: 'Beetle Buster', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     const P = g.S.pl[p]; const fs = P.hand.filter(c => isEl(c, 'F')); if (!fs.length) return;
