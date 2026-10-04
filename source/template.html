@@ -560,6 +560,10 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
 body.rm *{animation:none!important;transition:none!important}
+/* the counter wheel lives in your empty card spot; your played card covers it */
+.slot.yours{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:6%;padding:6% 4%!important;box-sizing:border-box}
+.slot.yours .cwslot{display:block!important;width:86%;aspect-ratio:1;background-size:contain;background-repeat:no-repeat;background-position:center;flex:none}
+.slot.yours .slotlbl{font-size:.72rem;line-height:1}
 /* icon explanations on the zoomed card */
 .bigcard{position:relative}
 .ispot{position:absolute;margin:0;padding:0;border:0;border-radius:7px;background:transparent;cursor:help;z-index:2}
@@ -1267,7 +1271,7 @@ function arenaHTML(){
   const shop=S.phase==='regroup'||S.phase==='gain';const last=!shop&&S.battle&&S.round===4;const rnd=shop?'Regroup':S.battle?`Round ${S.round} of 4`:'Game start';
   const sd=p=>{const c=S.slot[p];const el=c&&CARDS[c.id].el;let cls='';
     if(c&&on('won')&&FX.wonP===p)cls+=' won';if(c&&S.resolving===p)cls+=' resolving';
-    if(!c)return `<div class="slot">${p?'Waiting':'Your card'}</div>`;
+    if(!c)return p?'<div class="slot">Waiting</div>':'<div class="slot yours"><i class="cwslot ci-cwheel" role="img" aria-label="Counter wheel" title="Counter wheel: Fire beats Earth, Earth beats Water, Water beats Fire"></i><span class="slotlbl">Your card</span></div>';
     if(p!==0&&!S.revealed)return `<i class="card back ci-back" data-key="bk${p}"></i>`;
     if(S.pl[p].rb&&S.rbMore&&S.rbMore[p]&&S.rbMore[p].length){const x=S.rbMore[p][S.rbMore[p].length-1];return `<span class="rbstack">${card(c,'rbjunk',`data-a="slot" data-p="${p}"`)}${card(x,cls,`data-a="rbx" data-u="${x.u}"`)}</span>`;}
     return card(c,(p!==0&&on('flip')?'flip':'')+cls,`data-a="slot" data-p="${p}" style="--elc:${ELC[el]};--bd:${FX.wonP===1?1:-1}"`);};
