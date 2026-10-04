@@ -1647,6 +1647,8 @@ function puzzleEnd(r){if(PZEND)return;PZEND=true;const D=PUZZLES[S.puzzle.id-1];
 
 const tourSaved=tm=>{if(!tm)return false;const P=loadProf(),sv=loadSave();return !!(P.tour&&sv&&sv.TR&&sv.TR.tour&&!(sv.S&&sv.S.over));};
 const rankSaved=()=>{const sv=loadSave();return !!(sv&&sv.S&&sv.S.ranked&&!sv.S.over);};
+// The game picks its layout from the screen automatically; the phone preview is only a desktop testing aid.
+const canPhonePreview=()=>!onlInApp()&&matchMedia('(pointer:fine)').matches&&Math.min(screen.width,screen.height)>=700;
 function selNeed(){const m=OPT.mode||'duel';return m==='ffa'?(OPT.np>2?OPT.np:4)-1:m==='coop'?(OPT.coopN||3)-1:m==='2v2'?3:1;}
 function launch(){
   const pool=ROSTER.filter(avail),pickR=a=>a[Math.floor(Math.random()*a.length)];
@@ -1869,7 +1871,7 @@ function optionsSheet(confirmReset){
   <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
   <h3>Animations</h3>${seg('motion',[['full','Full'],['reduced','Reduced']])}
-  <h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone view ${ph?'on':'off'}</button>
+  ${canPhonePreview()?`<h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone preview (for testing) ${ph?'on':'off'}</button>`:''}
   <h3>Progress</h3><button class="btn alt" data-a="report">Report a problem</button> <button class="btn alt" data-a="wipe1">Wipe all data</button>
   </div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
 }
