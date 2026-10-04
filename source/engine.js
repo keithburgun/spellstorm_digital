@@ -100,7 +100,7 @@ const CARDS = {
     const c = g.S.cloud[i]; g.S.cloud[i] = null; g.S.void.push(c); g.refill(i); g.log(`${g.nm(p)} voided ${CARDS[c.id].n} from the Storm Cloud.`); await g.mana(p, 3); },
     dfx: async (g, p) => { await g.damage(p, 1); await g.mana(p, 1); } },
   flame: { n: 'Flame', el: 'F', t: 1, v: 6, ult: 1, fx: async (g, p) => {
-    await g.dmg(p, 1); const fs = g.S.pl[p].hand.filter(c => isEl(c, 'F')); if (!fs.length) return;
+    await g.dmg(p, 1); const fs = g.S.pl[p].hand.filter(c => isEl(c, 'F') && !CARDS[c.id].junk); if (!fs.length) return;   // ICE / ASH / CURSE have nothing to resolve
     const [c] = await g.decide(p, { k: 'pick', q: 'Flame: resolve and discard a different Fire card from your hand.', items: fs, min: 1, max: 1, cpu: it => { const b = best(it.filter(c => !CARDS[c.id].junk)); if (b && CARDS[b.id].v >= 6) return [b]; const j = it.find(c => CARDS[c.id].junk); return [j || b]; } });
     await g.resolveFromHand(p, c); } },
   fb2: { n: 'Fireball II', el: 'F', t: 3, v: 14, fx: async (g, p) => { await g.dmg(p, 2); if (g.hasInit(p)) await g.dmg(p, 2); } },
