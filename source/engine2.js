@@ -54,7 +54,7 @@ Object.assign(CARDS, {
   beetle: { n: 'Beetle Buster', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     const P = g.S.pl[p]; const fs = P.hand.filter(c => isEl(c, 'F')); if (!fs.length) { if (ED2(g.S)) g.log('Beetle Buster: no Fire card to discard.'); return; }
     if (ED2(g.S)) {   // 2E: discard a Fire card; a chosen player takes 3 damage
-      const [c] = await g.decide(p, { k: 'pick', q: 'Beetle Buster: discard a Fire card. Then a chosen player takes 3 damage.', items: fs, min: 1, max: 1, cpu: x => [worst(x)] });
+      const [c] = await g.decide(p, { k: 'pick', q: 'Beetle Buster: discard a Fire card. If you did, a chosen player takes 3 damage.', items: fs, min: 1, max: 1, cpu: x => [worst(x)] });
       await g.discardFrom(p, c, 'hand'); const t = await g.chooseOpp(p, 'Beetle Buster: which player takes 3 damage?'); await g.damage(t, 3, p); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Beetle Buster: you may discard a Fire card from your hand to deal 2 damage.', items: fs, min: 0, max: 1, cpu: x => [worst(x)] });
     for (const c of pick) { await g.discardFrom(p, c, 'hand'); await g.dmg(p, 2); } } },
