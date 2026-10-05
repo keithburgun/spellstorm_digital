@@ -69,7 +69,10 @@ Object.assign(CARDS, {
     if (ED2(g.S)) { await g.draw(p, 1); for (const q of g.opps(p)) await g.randomDiscard(q, 2); if (didCounter(g, p)) await g.gainDoom(p); return; }   // 2E: draw; two random discards; DOOM if you countered
     for (const q of g.opps(p)) await g.randomDiscard(q, 1); await g.draw(p, 1); if (g.opps(p).some(q => g.S.pl[p].hand.length >= handSize(g.S, q) + 3)) await g.gainDoom(p); } },
   sinking: { n: 'Sinking Strike', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    await g.mana(p, 2); const x = g.S.pl[p].doom; if (x) await g.dmg(p, x); else g.log('No DOOM Tokens — Sinking Strike deals no damage.'); if (!g.S.special.curse) await g.gainDoom(p); } },
+    await g.mana(p, 2); const x = g.S.pl[p].doom;
+    if (ED2(g.S)) await g.dmg(p, x + 1);   // 2E: X + 1 damage
+    else if (x) await g.dmg(p, x); else g.log('No DOOM Tokens — Sinking Strike deals no damage.');
+    if (!g.S.special.curse) await g.gainDoom(p); } },
   // Abragail
   deepgems: { n: 'Deep Gems', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.draw(p, 1); await g.mana(p, 1); const S = g.S, P = S.pl[p];
