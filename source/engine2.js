@@ -4,6 +4,18 @@ const TRAPS = {
   dodge: { n: 'Dodge!', img: 'trap_dodge', trig: 'Reveal when an opponent deals damage to you.', eff: 'The first 2 damage you take this round is negated.' },
   ice: { n: 'Ice Bomb', img: 'trap_ice', trig: 'Reveal if you COUNTER with a Water card.', eff: 'Give an ICE, gain 1 mana, then you may use your Ultimate.' },
 };
+// ===== 2nd Edition Rebalance =====  S.ed === 2 → 2nd Edition rules; anything else (incl. undefined) → First Edition.
+const ED2 = S => !!(S && S.ed === 2);
+const WIZ2 = {
+  abragail: { hp: 14, start: 'R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.' },
+  eve: { hp: 12 },
+  omar: { ut: 'Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.' },
+  croh: { ut: 'If you have no DOOM Tokens, gain one. Then, for each DOOM Token, take a card from your discard into your hand or draw.' },
+};
+const JOURNAL2 = ['+1 mana', '+1 mana', '+1 power', '+1 power', 'You may VOID a card from your hand', 'Move an ICE, ASH or CURSE from your discard to another discard', 'Gain an Earth card', 'You may draw a Fire card from your discard to your hand'];
+function applyEdition(S, ed) { S.ed = ed; if (ed === 2) for (const P of S.pl) { const o = WIZ2[P.wiz]; if (o && o.hp) { P.max = o.hp; P.hp = o.hp; } } return S; }
+function wizInfo(w, ed) { return ed === 2 && WIZ2[w] ? Object.assign({}, WIZ[w], WIZ2[w]) : WIZ[w]; }
+const journalText = (S, k) => (ED2(S) ? JOURNAL2 : JOURNAL)[k];
 const JOURNAL = ['+1 mana', '+1 mana', '+1 power', '+1 power', 'You may VOID a card from your hand', 'Move an ICE, ASH or CURSE from your discard to another discard', 'Gain a card', 'Draw a card'];
 const POTIONS = {
   explo: { n: 'A Slight… Explosion', el: 'F', cost: 3, tox: 1, fx: async (g, p) => { await g.dmg(p, 1); const C = g.S.pl[p].chem; for (const k of 'FEW') C[k] = Math.min(6, C[k] + 1); } },
@@ -40,7 +52,10 @@ Object.assign(CARDS, {
     if (g.S.rev.some(c => isEl(c, 'W'))) { P.chem.E = Math.min(6, P.chem.E + 1); g.log(`${g.nm(o)} ${o === 0 ? 'gain' : 'gains'} +1 Earth Element.`); } } },
   // Omar
   beetle: { n: 'Beetle Buster', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    const P = g.S.pl[p]; const fs = P.hand.filter(c => isEl(c, 'F')); if (!fs.length) return;
+    const P = g.S.pl[p]; const fs = P.hand.filter(c => isEl(c, 'F')); if (!fs.length) { if (ED2(g.S)) g.log('Beetle Buster: no Fire card to discard.'); return; }
+    if (ED2(g.S)) {   // 2E: discard a Fire card; a chosen player takes 3 damage
+      const [c] = await g.decide(p, { k: 'pick', q: 'Beetle Buster: discard a Fire card. Then a chosen player takes 3 damage.', items: fs, min: 1, max: 1, cpu: x => [worst(x)] });
+      await g.discardFrom(p, c, 'hand'); const t = await g.chooseOpp(p, 'Beetle Buster: which player takes 3 damage?'); await g.damage(t, 3, p); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Beetle Buster: you may discard a Fire card from your hand to deal 2 damage.', items: fs, min: 0, max: 1, cpu: x => [worst(x)] });
     for (const c of pick) { await g.discardFrom(p, c, 'hand'); await g.dmg(p, 2); } } },
   shuriken: { n: 'Shuriken', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
@@ -72,10 +87,25 @@ Object.assign(CARDS, {
   // May
   starshot: { n: 'Star Shot', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     const P = g.S.pl[p];
+    if (ED2(g.S)) {   // 2E: gain the Initiative; discard a card and deal damage equal to its Tier; lose 1 Energy
+      g.gainInit(p);
+      if (P.hand.length) { const [c] = await g.decide(p, { k: 'pick', q: 'Star Shot: discard a card and deal damage equal to its Tier.', items: P.hand.slice(), min: 1, max: 1,
+          cpu: x => [x.slice().sort((a, b) => ((CARDS[b.id].t || 0) * 3 - CARDS[b.id].v * .4) - ((CARDS[a.id].t || 0) * 3 - CARDS[a.id].v * .4))[0]] });
+        const t = CARDS[c.id].t || 0; await g.discardFrom(p, c, 'hand'); if (t) await g.dmg(p, t); else g.log('Star Shot: that card has no Tier, so it deals no damage.'); }
+      if (P.energy) { P.energy--; g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} 1 Energy.`); } return; }
     if (P.hand.length) { const [c] = await g.decide(p, { k: 'pick', q: 'Star Shot: discard a card to deal 1 damage (2 if it’s Tier II).', items: P.hand.slice(), min: 1, max: 1, cpu: x => { const t2 = x.filter(c => CARDS[c.id].t === 2 && CARDS[c.id].v <= 8); return [t2[0] || cheapest(x, 1)[0]]; } });
       const t2 = CARDS[c.id].t === 2; await g.discardFrom(p, c, 'hand'); await g.dmg(p, t2 ? 2 : 1); }
     if (P.energy) await g.mana(p, P.energy); const lost = Math.min(2, P.energy); P.energy -= lost; if (lost) g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} ${lost} Energy.`); } },
   databreach: { n: 'Data Breach', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
+    if (ED2(g.S)) {   // 2E: lose 1 Energy; if you did, Power +2 and the chosen opponent reveals their hand and discards a card of your choice
+      const P = g.S.pl[p]; if (!P.energy) { g.log('Data Breach: no Energy to lose.'); return; }
+      P.energy--; g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} 1 Energy.`); await g.power(p, 2);
+      const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), O = g.S.pl[o];
+      if (O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } return; }
+      if (!O.hand.length) return;
+      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`);
+      const [c] = await g.decide(p, { k: 'pick', q: 'Data Breach: choose a card from your opponent’s hand for them to discard.', items: O.hand.slice(), min: 1, max: 1, cpu: x => [best(x.filter(c => !CARDS[c.id].junk)) || x[0]] });
+      await g.discardFrom(o, c, 'hand'); return; }
     const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), P = g.S.pl[p], O = g.S.pl[o]; const mx = Math.min(2, P.energy); let k = 0;
     if (mx) k = mx === 1 ? 1 : 1 + await g.decide(p, { k: 'opt', q: `Data Breach: lose 1 or 2 Energy to Power Up that many times. (You have ${P.energy}.)`, opts: ['Lose 1', 'Lose 2'], dis: [false, mx < 2], cpu: P.energy >= 3 ? 0 : 1 });   // the card says lose 1 or 2
     if (k) { P.energy -= k; await g.power(p, k); }
@@ -101,12 +131,12 @@ Object.assign(WIZ, {
     ult: async (g, p) => {
       const P = g.S.pl[p]; if (P.research.filter(Boolean).length >= 6) { g.log('All six Research Tokens are already placed.'); return; }
       const pref = [7, 6, 2, 0, 3, 1, 5, 4]; const cpu = pref.find(i => !P.research[i]);
-      const k = await g.decide(p, { k: 'opt', q: 'Level Up! Place a Research Token. Researched powers activate at the start of every battle.', opts: JOURNAL, dis: P.research.map(Boolean), cpu });
-      P.research[k] = 1; g.ev('research', p, P.research.filter(Boolean).length); g.log(`${g.nm(p)} researched: ${JOURNAL[k]}.`, 'big'); } },
+      const k = await g.decide(p, { k: 'opt', q: 'Level Up! Place a Research Token. Researched powers activate at the start of every battle.', opts: ED2(g.S) ? JOURNAL2 : JOURNAL, dis: P.research.map(Boolean), cpu });
+      P.research[k] = 1; g.ev('research', p, P.research.filter(Boolean).length); g.log(`${g.nm(p)} researched: ${journalText(g.S, k)}.`, 'big'); } },
   croh: { n: 'Croh Vosh', short: 'Croh', hp: 20, ini: 8, cost: 6, un: 'DOOOOOOOM!', els: ['F', 'W'], spells: ['undertow', 'sinking'],
     start: 'Accursed: can never heal. Whenever he would heal, he gives 1 CURSE instead.', ut: 'For each DOOM Token, take a card from your discard into your hand or draw. With no DOOM Tokens, gain one.',
     ult: async (g, p) => {
-      const P = g.S.pl[p]; if (!P.doom) { await g.gainDoom(p); return; }
+      const P = g.S.pl[p]; if (!P.doom) { await g.gainDoom(p); if (!ED2(g.S)) return; }
       for (let i = 0; i < P.doom; i++) {
         const can = P.discard.length > 0;
         const k = await g.decide(p, { k: 'opt', q: `DOOOOOOOM! (${i + 1} of ${P.doom}): take a card from your discard or draw?`, opts: ['Take from discard', 'Draw a card', 'Skip'], dis: [!can, false, false], cpu: can && goodInDiscard(P) ? 0 : 1 });
@@ -122,7 +152,8 @@ Object.assign(WIZ, {
       const fire = [...P.hand, ...P.deck, ...P.discard].filter(c => isEl(c, 'F') && !CARDS[c.id].junk).length, water = [...P.hand, ...P.deck, ...P.discard].filter(c => isEl(c, 'W') && !CARDS[c.id].junk).length;
       let want = P.hp <= 6 ? 'dodge' : (fire >= water ? 'mud' : 'ice'); if (P.trap && P.trap.id === want) want = ids.find(i => i !== want && i !== 'dodge') || 'dodge';
       const t = await g.decide(p, { k: 'opt', trap: 1, q: 'Set a Trap face-down. It replaces your current Trap.', opts: ids.map(i => `${TRAPS[i].n} — ${TRAPS[i].trig}`), dis, cpu: ids.indexOf(want) });
-      P.trap = { id: ids[t], used: false }; g.log(p === 0 ? `You set ${TRAPS[ids[t]].n} face-down.` : 'Omar sets a Trap face-down.', 'big'); } },
+      P.trap = { id: ids[t], used: false }; g.log(p === 0 ? `You set ${TRAPS[ids[t]].n} face-down.` : 'Omar sets a Trap face-down.', 'big');
+      if (ED2(g.S)) g.gainInit(p); } },
   bunny: { n: 'Bunny Wizard', short: 'Bunny', hp: 8, ini: 2, cost: 5, un: 'Cast a Magic Trick!', els: ['W', 'E'], spells: ['buddy', 'snowday'],
     start: 'Double Stitch: can heal up to 10 health. Triple Stitch: healing at 10 draws a card per point instead.', ut: 'Reveal a non-Wizard card from your hand. Resolve it twice and VOID it. All players heal 1.',
     ult: async (g, p) => {
@@ -193,12 +224,15 @@ Game.prototype.battle = async function () {
 };
 Game.prototype.battleStart = async function (p) {
   const S = this.S, P = S.pl[p]; if (P.wiz !== 'abragail') return;
-  this.log(`Did Her Research: ${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} 1 Power.`); await this.power(p, 1);
+  if (!ED2(S)) { this.log(`Did Her Research: ${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} 1 Power.`); await this.power(p, 1); }
+  else if (!this.hasInit(p)) { this.log(`R&D: ${this.nm(p)} ${p === 0 ? 'don’t' : 'doesn’t'} have the Initiative, so ${p === 0 ? 'you gain' : 'she gains'} 1 Power.`); await this.power(p, 1); }
   const R = P.research; if (!R.some(Boolean)) return;
   const m = (R[0] ? 1 : 0) + (R[1] ? 1 : 0), pw = (R[2] ? 1 : 0) + (R[3] ? 1 : 0);
   if (m) await this.mana(p, m); if (pw) await this.power(p, pw); if (m || pw) this.log(`Journal: ${m ? `+${m} mana ` : ''}${pw ? `+${pw} power` : ''}`.trim());
-  if (R[7]) await this.draw(p, 1);
-  if (R[6]) await this.gainCard(p);
+  if (R[7]) { if (!ED2(S)) await this.draw(p, 1);
+    else { const it = P.discard.filter(c => isEl(c, 'F') && !CARDS[c.id].junk); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may draw a Fire card from your discard to your hand.', items: it, min: 0, max: 1, cpu: x => [best(x)] });
+      for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'take' : 'takes'} ${CARDS[c.id].n} from the discard into hand.`); } } } }
+  if (R[6]) await this.gainCard(p, ED2(S) ? { el: 'E' } : {});
   if (R[4]) { const it = P.hand.filter(c => !CARDS[c.id].wiz); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may VOID a card from your hand.', items: it, min: 0, max: 1, cpu: x => x.filter(c => CARDS[c.id].junk).slice(0, 1) }); for (const c of pick) this.voidFrom(p, c, P.hand); } }
   if (R[5]) { const it = P.discard.filter(c => CARDS[c.id].junk); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may move an ICE, ASH or CURSE from your discard to your opponent’s discard.', items: it, min: 0, max: 1, cpu: x => [x[0]] });
     for (const c of pick) { const to = await this.chooseOpp(p, 'Journal: move it to which opponent?'); P.discard.splice(P.discard.indexOf(c), 1); S.pl[to].discard.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'move' : 'moves'} a ${CARDS[c.id].n} to ${this.nm(to, 1, 1)} discard.`); } } }
@@ -250,4 +284,4 @@ Game.prototype.afterPlay = async function () {
 };
 
 //EXPORTS
-if (typeof module !== 'undefined') module.exports = { CARDS, WIZ, WEATHER, WEATHER_TEXT, ELN, BEATS, Game, GameOver, newState, cpuDecide, choosePlay, SIM_IO, evalState, TRAPS, JOURNAL, POTIONS };
+if (typeof module !== 'undefined') module.exports = { ED2, WIZ2, JOURNAL2, applyEdition, wizInfo, journalText, CARDS, WIZ, WEATHER, WEATHER_TEXT, ELN, BEATS, Game, GameOver, newState, cpuDecide, choosePlay, SIM_IO, evalState, TRAPS, JOURNAL, POTIONS };
