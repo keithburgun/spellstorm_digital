@@ -64,13 +64,16 @@ function evalAI(S, p) {
 }
 
 // ---------- in-card decisions ----------
+// Storm Cloud card value adjustments learned from Expert self-play (offered-and-taken vs offered-and-passed win rates, noise-shrunk)
+const GAINADJ = {"spirit":4,"twin":4,"rapid":4,"reflect":4,"wave":3.9,"lapis":2.7,"moon":2.1,"amber":1.6,"sapph":1.6,"shatter":1.5,"essE":1.1,"leap":0.6,"ultw":0.5,"twopow":0.2,"essW":0.0,"blood":0.0,"sift":-0.0,"swamp":-0.0,"threepow":-0.1,"lavabat":-0.3,"frost":-0.6,"quake":-0.6,"diamond":-0.7,"iceflume":-0.7,"essF":-0.9,"lantern":-1.0,"shock":-1.0,"cross":-1.5,"meteor":-1.7,"ruby":-1.8,"flame":-2.0,"step":-2.7,"heart":-3.1,"fb":-3.5,"obsidian":-3.9,"manafont":-4};
 function cpuDecideX(g, p, req) {
   const S = g.S, d = diffOf(S, p);
   if (isAI(S, p) && req.k === 'gain' && req.slots.length && req.verb === 'Gain' && rankCfg(S, p)) return rankedGain(S, p, req, rankCfg(S, p));
   if (isAI(S, p) && req.k === 'gain' && req.slots.length && req.verb === 'Gain') {
     if (d === 'easy' && Math.random() < 0.6) return req.slots[Math.floor(Math.random() * req.slots.length)];
     const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
-    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle ? 0 : Math.random() * 1.2); };   // puzzles: no coin flips
+    const tuned = false;   // test 1 (data-tuned card values) was rejected by SPRT: no gain
+    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (tuned ? (GAINADJ[id] || 0) : 0) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle ? 0 : Math.random() * 1.2); };   // puzzles: no coin flips
     return req.slots.slice().sort((a, b) => val(b) - val(a))[0];
   }
   return cpuDecide(g, p, req);
@@ -138,12 +141,13 @@ async function aiChoosePlay(S0, p) {
 // ---------- should I use my Ultimate now, or save the mana? ----------
 async function ultDecide(S0, p, free) {
   const d = diffOf(S0, p), R = rankCfg(S0, p); if (R) { if (R.pers === 'D' || !R.ultSim) return true; } else if (d === 'easy' || d === 'normal') return true;
-  const W = WIZ[S0.pl[p].wiz], N = d === 'expert' ? 8 : 5; let yes = 0, no = 0;
+  const cand = d === 'expert';   // Expert v2: noiseless, slightly deeper Ultimate decision (SPRT non-regression pass, +9 Elo over 854 mirrored games)
+  const W = WIZ[S0.pl[p].wiz], N = d === 'expert' ? (cand ? 12 : 8) : 5; let yes = 0, no = 0;
   for (let k = 0; k < N; k++) {
     const base = structuredClone(S0); determinize(base, p); no += evalAI(base, p);
     const A = structuredClone(base); if (!free) A.pl[p].mana -= W.cost;
     const g = new Game(A, SIM_IO); try { await W.ult(g, p); } catch (e) { if (!(e instanceof GameOver)) throw e; }
     yes += evalAI(A, p);
   }
-  return yes / N + (Math.random() - 0.5) * 2 >= no / N;
+  return yes / N + (cand ? 0 : (Math.random() - 0.5) * 2) >= no / N;
 }
