@@ -6,11 +6,12 @@ const TRAPS = {
 };
 // ===== 2nd Edition Rebalance =====  S.ed === 2 → 2nd Edition rules; anything else (incl. undefined) → First Edition.
 const ED2 = S => !!(S && S.ed === 2);
+const didCounter = (g, p) => { const S = g.S, m = S.rev && S.rev[p], t = S.rev && S.rev[g.nextOpp(p)]; return !!(m && t && BEATS[CARDS[m.id].el] === CARDS[t.id].el); };   // p's revealed card beat the next opponent's
 const WIZ2 = {
   abragail: { hp: 14, start: 'R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.' },
   eve: { hp: 12 },
   omar: { ut: 'Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.' },
-  croh: { ut: 'If you have no DOOM Tokens, gain one. Then, for each DOOM Token, take a card from your discard into your hand or draw.' },
+  croh: { ut: 'Give a chosen opponent a CURSE. If you have at least 2 DOOM Tokens, draw your entire discard to your hand.' },
 };
 const JOURNAL2 = ['+1 mana', '+1 mana', '+1 power', '+1 power', 'You may VOID a card from your hand', 'Move an ICE, ASH or CURSE from your discard to another discard', 'Gain an Earth card', 'You may draw a Fire card from your discard to your hand'];
 function applyEdition(S, ed) { S.ed = ed; if (ed === 2) for (const P of S.pl) { const o = WIZ2[P.wiz]; if (o && o.hp) { P.max = o.hp; P.hp = o.hp; } } return S; }
@@ -65,6 +66,7 @@ Object.assign(CARDS, {
     else { const o = cands.length > 1 ? await g.decide(p, { k: 'player', q: 'Shuriken: cancel whose card?', opps: cands, cpu: cands.slice().sort((a, b) => CARDS[S.slot[b].id].v - CARDS[S.slot[a].id].v)[0] }) : cands[0], oc = S.slot[o]; S.cancel[o] = true; g.log(`Shuriken! ${CARDS[oc.id].n} is discarded without resolving.`, 'big'); await g.draw(o, 1); } } },
   // Croh
   undertow: { n: 'Undertow', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
+    if (ED2(g.S)) { for (const q of g.opps(p)) await g.randomDiscard(q, 2); if (didCounter(g, p)) await g.gainDoom(p); return; }   // 2E: two random discards; DOOM if you countered
     for (const q of g.opps(p)) await g.randomDiscard(q, 1); await g.draw(p, 1); if (g.opps(p).some(q => g.S.pl[p].hand.length >= handSize(g.S, q) + 3)) await g.gainDoom(p); } },
   sinking: { n: 'Sinking Strike', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.mana(p, 2); const x = g.S.pl[p].doom; if (x) await g.dmg(p, x); else g.log('No DOOM Tokens — Sinking Strike deals no damage.'); if (!g.S.special.curse) await g.gainDoom(p); } },
@@ -136,7 +138,13 @@ Object.assign(WIZ, {
   croh: { n: 'Croh Vosh', short: 'Croh', hp: 20, ini: 8, cost: 6, un: 'DOOOOOOOM!', els: ['F', 'W'], spells: ['undertow', 'sinking'],
     start: 'Accursed: can never heal. Whenever he would heal, he gives 1 CURSE instead.', ut: 'For each DOOM Token, take a card from your discard into your hand or draw. With no DOOM Tokens, gain one.',
     ult: async (g, p) => {
-      const P = g.S.pl[p]; if (!P.doom) { await g.gainDoom(p); if (!ED2(g.S)) return; }
+      const P = g.S.pl[p];
+      if (ED2(g.S)) {   // 2E: give a chosen opponent a CURSE; with at least 2 DOOM Tokens, draw your entire discard to your hand
+        const o = await g.chooseOpp(p, 'DOOOOOOOM!: give which opponent a CURSE?'); await g.gainSpecial(o, 'curse');
+        if (P.doom >= 2 && P.discard.length) { const n = P.discard.length; P.hand.push(...P.discard.splice(0)); g.log(`DOOOOOOOM! ${g.nm(p)} ${p === 0 ? 'draw' : 'draws'} ${p === 0 ? 'your' : 'his'} entire discard (${n} card${n === 1 ? '' : 's'}) into ${p === 0 ? 'your' : 'his'} hand.`, 'big'); }
+        else if (P.doom < 2) g.log(`DOOOOOOOM!: ${P.doom} DOOM Token${P.doom === 1 ? '' : 's'} — needs at least 2 to draw the discard.`);
+        return; }
+      if (!P.doom) { await g.gainDoom(p); return; }
       for (let i = 0; i < P.doom; i++) {
         const can = P.discard.length > 0;
         const k = await g.decide(p, { k: 'opt', q: `DOOOOOOOM! (${i + 1} of ${P.doom}): take a card from your discard or draw?`, opts: ['Take from discard', 'Draw a card', 'Skip'], dis: [!can, false, false], cpu: can && goodInDiscard(P) ? 0 : 1 });
