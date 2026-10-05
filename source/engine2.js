@@ -8,8 +8,9 @@ const TRAPS = {
 const ED2 = S => !!(S && S.ed === 2);
 const didCounter = (g, p) => { const S = g.S, m = S.rev && S.rev[p], t = S.rev && S.rev[g.nextOpp(p)]; return !!(m && t && BEATS[CARDS[m.id].el] === CARDS[t.id].el); };   // p's revealed card beat the next opponent's
 const WIZ2 = {
-  abragail: { hp: 14, start: 'R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.' },
+  abragail: { hp: 11, start: 'R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.' },
   eve: { hp: 12 },
+  bunny: { ut: 'Reveal a non-Wizard card from your hand. Resolve it twice and discard it. All players heal 1. Lose the Initiative.' },
   omar: { ut: 'Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.' },
   croh: { ut: 'Give a chosen opponent a CURSE. If you have at least 2 DOOM Tokens, draw your entire discard to your hand.' },
 };
@@ -172,9 +173,11 @@ Object.assign(WIZ, {
       if (it.length) {
         const [c] = await g.decide(p, { k: 'pick', q: 'Cast a Magic Trick! Choose a non-Wizard card from your hand to resolve twice, then VOID.', items: it, min: 1, max: 1, cpu: x => [best(x)] });
         P.hand.splice(P.hand.indexOf(c), 1); g.log(`${g.nm(p)} ${p === 0 ? 'cast' : 'casts'} ${CARDS[c.id].n} twice!`, 'big');
-        await g.resolve(p, c, 'copy'); await g.resolve(p, c, 'copy'); S.void.push(c);
+        await g.resolve(p, c, 'copy'); await g.resolve(p, c, 'copy');
+        if (ED2(S)) { P.discard.push(c); g.log(`${CARDS[c.id].n} goes to ${p === 0 ? 'your' : 'Bunny’s'} discard.`); } else S.void.push(c);   // 2E: discard instead of VOID
       }
-      for (const q of g.order()) await g.heal(q, 1); } },
+      for (const q of g.order()) await g.heal(q, 1);
+      if (ED2(S)) g.loseInit(p); } },   // 2E: lose the Initiative
   oren: { n: 'Oren Bark', short: 'Oren', hp: 16, ini: 6, cost: 5, un: 'Bottoms up, I guess!', els: ['F', 'E'], spells: ['potiongun', 'unstable'],
     start: 'Chemist: Fire, Earth and Water Elements start at 3 (max 6) and pay for potions.', ut: 'Shuffle the Potion Deck and drink potions one at a time, paying their Element cost. A third TOXIC ends it with an ASH, CURSE and ICE. Elements reset to 3 after.',
     ult: async (g, p) => {
