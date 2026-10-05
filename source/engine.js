@@ -22,8 +22,8 @@ const CARDS = {
     fx: async (g, p, x) => { await g.power(p, 1); await g.gainCard(p, { anyTier: 1, maxTier: 2, el: 'E' }); x.dest = 'void'; },
     dfx: async (g, p) => { await g.power(p, 1); } },
   // wizard spells
-  coffee: { n: 'Coffee Run', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => { await g.power(p, 2); const c = await g.gainCard(p); if (c && CARDS[c.id].el === 'E') g.gainInit(p); } },
-  charge: { n: 'Reckless Charge', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => { await g.mana(p, 2); await g.power(p, 1); await g.dmg(p, 1); await g.gainSpecial(p, 'ash'); if (g.hasInit(p)) await g.dmg(p, 1); } },
+  coffee: { n: 'Coffee Run', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => { const e2 = ED2(g.S); await g.power(p, e2 ? 1 : 2); const c = await g.gainCard(p); if (c && CARDS[c.id].el === 'E') { if (e2) await g.power(p, 1); g.gainInit(p); } } },   // 2E: +1 Power, +1 more only if you gained an Earth card
+  charge: { n: 'Reckless Charge', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => { const e2 = ED2(g.S); await g.mana(p, e2 ? 1 : 2); await g.power(p, 1); await g.dmg(p, 1); await g.gainSpecial(p, 'ash'); if (g.hasInit(p)) { if (e2) await g.mana(p, 1); await g.dmg(p, 1); } } },   // 2E: +1 Mana, +1 more only with the Initiative
   punch: { n: 'Face Punch', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     g.gainInit(p); const t = await g.askPlayer(p, 'Steal 1 mana from which player? They also discard a random card.', g.nextOpp(p));
     const T = g.S.pl[t]; const take = Math.min(1, T.mana); T.mana -= take; g.S.pl[p].mana += take;
