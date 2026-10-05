@@ -4,7 +4,7 @@ function mk(ed){const S=E.newState('croh','derby');E.applyEdition(S,ed);S.battle
 const ok=(t,c,x)=>console.log(`${c?'✓':'✗'} ${t}${x?'  — '+x:''}`);
 (async()=>{
  {const {S,g}=mk(2);S.pl[1].hand=['fb','dart','block','pgem'].map((id,i)=>({u:900+i,id}));S.rev=[{u:950,id:'undertow'},{u:951,id:'fb'}];const d=S.pl[0].doom,h=S.pl[0].hand.length;await E.CARDS.undertow.fx(g,0);
-  ok('Undertow, countered (Water beats Fire): Derby discards 2, Croh gains DOOM, no draw',S.pl[1].hand.length===2&&S.pl[0].doom===d+1&&S.pl[0].hand.length===h,`Derby hand 4 → ${S.pl[1].hand.length}, DOOM ${d} → ${S.pl[0].doom}, Croh hand ${h} → ${S.pl[0].hand.length}`);}
+  ok('Undertow, countered (Water beats Fire): Croh draws 1, Derby discards 2, Croh gains DOOM',S.pl[1].hand.length===2&&S.pl[0].doom===d+1&&S.pl[0].hand.length===h+1,`Derby hand 4 → ${S.pl[1].hand.length}, DOOM ${d} → ${S.pl[0].doom}, Croh hand ${h} → ${S.pl[0].hand.length}`);}
  {const {S,g}=mk(2);S.pl[1].hand=['fb','dart','block','pgem'].map((id,i)=>({u:900+i,id}));S.rev=[{u:950,id:'undertow'},{u:951,id:'pgem'}];const d=S.pl[0].doom;await E.CARDS.undertow.fx(g,0);
   ok('Undertow, not countered (Earth beats Water): no DOOM',S.pl[0].doom===d,`DOOM ${d} → ${S.pl[0].doom}`);}
  {const {S,g}=mk(2);S.pl[0].doom=2;S.pl[0].discard=['fb','dart','curse','block'].map((id,i)=>({u:960+i,id}));const h=S.pl[0].hand.length,c=S.pl[1].discard.filter(x=>x.id==='curse').length;await E.WIZ.croh.ult(g,0);

@@ -66,7 +66,7 @@ Object.assign(CARDS, {
     else { const o = cands.length > 1 ? await g.decide(p, { k: 'player', q: 'Shuriken: cancel whose card?', opps: cands, cpu: cands.slice().sort((a, b) => CARDS[S.slot[b].id].v - CARDS[S.slot[a].id].v)[0] }) : cands[0], oc = S.slot[o]; S.cancel[o] = true; g.log(`Shuriken! ${CARDS[oc.id].n} is discarded without resolving.`, 'big'); await g.draw(o, 1); } } },
   // Croh
   undertow: { n: 'Undertow', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    if (ED2(g.S)) { for (const q of g.opps(p)) await g.randomDiscard(q, 2); if (didCounter(g, p)) await g.gainDoom(p); return; }   // 2E: two random discards; DOOM if you countered
+    if (ED2(g.S)) { await g.draw(p, 1); for (const q of g.opps(p)) await g.randomDiscard(q, 2); if (didCounter(g, p)) await g.gainDoom(p); return; }   // 2E: draw; two random discards; DOOM if you countered
     for (const q of g.opps(p)) await g.randomDiscard(q, 1); await g.draw(p, 1); if (g.opps(p).some(q => g.S.pl[p].hand.length >= handSize(g.S, q) + 3)) await g.gainDoom(p); } },
   sinking: { n: 'Sinking Strike', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.mana(p, 2); const x = g.S.pl[p].doom; if (x) await g.dmg(p, x); else g.log('No DOOM Tokens — Sinking Strike deals no damage.'); if (!g.S.special.curse) await g.gainDoom(p); } },
