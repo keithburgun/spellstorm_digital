@@ -4,7 +4,7 @@ function mk(a,b,ed=2){const S=E.newState(a,b);E.applyEdition(S,ed);S.battle=1;S.
   return {S,g:new E.Game(S,io),L};}
 const show=(t,ok,x)=>console.log(`${ok?'✓':'✗'} ${t}${x?'  — '+x:''}`);
 (async()=>{
- for(const ed of [1,2]){const {S}=mk('abragail','eve',ed);show(`Ed ${ed}: Abragail ${S.pl[0].hp}/${S.pl[0].max}, Eve ${S.pl[1].hp}/${S.pl[1].max}`,ed===2?S.pl[0].max===11&&S.pl[1].max===12:S.pl[0].max===16&&S.pl[1].max===14);}
+ for(const ed of [1,2]){const {S}=mk('abragail','eve',ed);show(`Ed ${ed}: Abragail ${S.pl[0].hp}/${S.pl[0].max}, Eve ${S.pl[1].hp}/${S.pl[1].max}`,ed===2?S.pl[0].max===12&&S.pl[1].max===12:S.pl[0].max===16&&S.pl[1].max===14);}
  {const {S,g,L}=mk('omar','derby');S.pl[0].hand=[{u:901,id:'dart'}];const h=S.pl[1].hp;await E.CARDS.beetle.fx(g,0);show('Beetle Buster: discards a Fire card, chosen player takes 3',S.pl[1].hp===h-3&&!S.pl[0].hand.length,`Derby ${h} → ${S.pl[1].hp}`);}
  {const {S,g,L}=mk('may','derby');S.init=1;S.pl[0].energy=2;S.pl[0].mana=0;S.pl[0].hand=[{u:902,id:'cross'}];const h=S.pl[1].hp;await E.CARDS.starshot.fx(g,0);
    show('Star Shot: gains the Initiative, Tier II card deals 2, loses 1 Energy, no mana',S.init===0&&S.pl[1].hp===h-2&&S.pl[0].energy===1&&S.pl[0].mana===0,`init ${S.init}, Derby ${h} → ${S.pl[1].hp}, Energy 2 → ${S.pl[0].energy}, mana ${S.pl[0].mana}`);}

@@ -8,7 +8,7 @@ const TRAPS = {
 const ED2 = S => !!(S && S.ed === 2);
 const didCounter = (g, p) => { const S = g.S, m = S.rev && S.rev[p], t = S.rev && S.rev[g.nextOpp(p)]; return !!(m && t && BEATS[CARDS[m.id].el] === CARDS[t.id].el); };   // p's revealed card beat the next opponent's
 const WIZ2 = {
-  abragail: { hp: 11, start: 'R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.' },
+  abragail: { hp: 12, start: 'R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.' },
   eve: { hp: 12 },
   bunny: { ut: 'Reveal a non-Wizard card from your hand. Resolve it twice and discard it. All players heal 1. Lose the Initiative.' },
   omar: { ut: 'Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.' },
