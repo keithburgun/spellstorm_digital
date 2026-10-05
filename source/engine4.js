@@ -119,7 +119,7 @@ async function aiChoosePlay(S0, p) {
   if (hand.length <= 1) return hand[0] || null;
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
-  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, { hard: { n: 18, look: false, lateLook: true, mode: 'mix' }, expert: { n: 16, look: true, mode: 'br' } }[d], hand);
+  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, { hard: { n: 18, look: false, lateLook: true, mode: 'mix' }, expert: { n: 16, look: true, mode: 'mix' } }[d], hand);   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }

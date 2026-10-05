@@ -75,7 +75,7 @@ function softPickTE(scored, T, eps) {
 }
 async function aiChooseRanked(S0, p, R, hand) {
   if (Math.random() < R.rand) return hand[Math.floor(Math.random() * hand.length)];
-  if (R.all && R.pers !== 'E' && R.pers !== 'I') return aiChooseMatrix(S0, p, { n: R.n, look: R.look, lateLook: R.rank >= 7, mode: R.rank >= 9 ? 'br' : 'mix' }, hand);   // deep thinkers solve the reveal
+  if (R.all && R.pers !== 'E' && R.pers !== 'I') return aiChooseMatrix(S0, p, { n: R.n, look: R.look, lateLook: R.rank >= 7, mode: 'mix' }, hand);   // deep thinkers solve the reveal (mixed strategy: stronger than best response, see Expert v3)
   const reader = R.pers === 'E', n = R.n + (reader ? 6 : 0), all = R.all || reader, look = R.look;
   const uniq = [], seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }
   const scored = [];
