@@ -849,6 +849,8 @@ function anim0(){
 // so nothing can clip or cover it, and screen updates can't interrupt it. The real card waits hidden until the copy lands.
 function junkPile(id,u){if(!['ice','ash','curse'].includes(id)||!S)return null;if(S.pl.some(P=>[...P.hand,...P.deck,...P.discard].some(c=>c.u===u)))return null;
   return [...document.querySelectorAll('#cloud .cfoot .chip')].find(e=>e.textContent.trim().toUpperCase().startsWith(id.toUpperCase()))||null;}
+// Visual-only random numbers: animations must never draw from the game's (seeded) random numbers, or replays go out of sync.
+const VRND=(()=>{let a=(Date.now()^0x5bd1e995)>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};})();
 const isVoid=el=>!!(el&&el.matches&&el.matches('[data-a=void]'));
 // VOID: the card dematerialises where it stands, its particles drift off toward the VOID pile
 function voidFx(id,r,dest){if(!r||!id)return;const L=mvLayer(),sp=Math.max(speed,.35),dur=1000*sp;
@@ -858,8 +860,8 @@ function voidFx(id,r,dest){if(!r||!id)return;const L=mvLayer(),sp=Math.max(speed
     {duration:dur,easing:'ease-in',fill:'forwards'});an.onfinish=an.oncancel=()=>g.remove();
   try{g.animate([{clipPath:'inset(0 0 0 0)'},{clipPath:'inset(0 0 0 0)',offset:.35},{clipPath:'inset(100% 0 0 0)'}],{duration:dur,easing:'ease-in',fill:'forwards'});}catch(e){}
   const d=rectOf(dest),cx=r.left+r.width/2,cy=r.top+r.height/2;
-  for(let i=0;i<14;i++){const p=document.createElement('i');p.className='vpart';const px=r.left+Math.random()*r.width,py=r.top+r.height*(.25+Math.random()*.75);Object.assign(p.style,{left:px+'px',top:py+'px'});L.appendChild(p);
-    const tx=d?d.left+d.width/2-px:(Math.random()-.5)*80,ty=d?d.top+d.height/2-py:-60-Math.random()*60,delay=(.2+Math.random()*.4)*dur;
+  for(let i=0;i<14;i++){const p=document.createElement('i');p.className='vpart';const px=r.left+VRND()*r.width,py=r.top+r.height*(.25+VRND()*.75);Object.assign(p.style,{left:px+'px',top:py+'px'});L.appendChild(p);
+    const tx=d?d.left+d.width/2-px:(VRND()-.5)*80,ty=d?d.top+d.height/2-py:-60-VRND()*60,delay=(.2+VRND()*.4)*dur;
     const a2=p.animate([{transform:'translate(0,0) scale(1)',opacity:0},{transform:`translate(${tx*.15}px,${ty*.15-10}px) scale(1.2)`,opacity:1,offset:.2},{transform:`translate(${tx}px,${ty}px) scale(.3)`,opacity:0}],{duration:dur*.9,delay,easing:'cubic-bezier(.5,0,.8,.6)',fill:'both'});a2.onfinish=a2.oncancel=()=>p.remove();}
   if(dest)setTimeout(()=>dest.animate([{boxShadow:'0 0 0 0 rgba(150,90,255,.9)'},{boxShadow:'0 0 0 10px rgba(150,90,255,0)'}],{duration:600}),dur*.85);}
 function mvLayer(){let L=document.getElementById('mv');if(!L){L=document.createElement('div');L.id='mv';document.body.appendChild(L);}return L;}
@@ -1261,25 +1263,40 @@ function decAns(req,a){if(req.k==='play')return S.pl[0].hand.find(c=>c.u===a)||n
 function ansNote(req,v){try{if(req.k==='gain')return typeof v==='string'?`You took ${CARDS[v].n}.`:v>=0&&S.cloud[v]?`You gained ${CARDS[S.cloud[v].id].n}.`:'You skipped the gain.';
   if(req.k==='yn')return req.ult?(v?'You used your Ultimate!':'You saved your mana.'):`You chose ${v?'Yes':'No'}.`;if(req.k==='opt')return `You chose: ${String(req.opts[v]).replace(/\{([FEW])\}/g,(m,e)=>ELN[e])}.`;
   if(req.k==='pick')return v.length?`You chose ${v.map(c=>CARDS[c.id].n).join(', ')}.`:'';if(req.k==='player')return `You chose ${v===0?'yourself':WIZ[S.pl[v].wiz].short}.`;}catch(e){}return '';}
+function replayFits(req,a){if(req.k==='play')return a==null||S.pl[0].hand.some(c=>c.u===a);if(req.k==='pick')return Array.isArray(a)&&a.every(u=>(req.items||[]).some(c=>c.u===u));if(req.k==='yn')return typeof a==='boolean';return true;}
+function replayDesync(){if(!RPLAY||RPLAY.done)return;const R=RPLAY;gameId++;pending=null;thinking=false;R.desync={decision:R.i,turn:R.turn};
+  if(R.ff){R.ff=false;speed=R.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}R.done=true;R.auto=false;R.paused=true;R.target=null;render();rpBar();
+  if(R.exp)exportReady();else toast(`This replay went out of sync at decision ${R.i+1} (turn ${R.turn+1}), so it stops here. Please use Export match so Keith can look into it.`);}
 function replayDecide(req,id){if(RPLAY&&RPLAY.hold&&RPLAY.i===0){RPLAY.hold=false;RPLAY.paused=true;rpBar();}   // start: pause on turn 1, after the opening deal
   return new Promise(res=>setTimeout(async()=>{while(RPLAY&&RPLAY.paused&&id===gameId)await new Promise(r=>setTimeout(r,120));if(id!==gameId)return;
-  if(RPLAY.i>=RPLAY.d.length){replayDone(null);return;}const v=decAns(req,RPLAY.d[RPLAY.i++]);const n=req.k==='play'||RPLAY.ff?'':ansNote(req,v);if(n)toast(n);res(v);},(req.k==='play'?700:900)*speed));}
-function replayTurnDone(){if(!RPLAY)return;RPLAY.turn++;if(RPLAY.target!=null&&RPLAY.turn>=RPLAY.target)replayArrive();else rpBar();}
+  if(RPLAY.i>=RPLAY.d.length){replayDone(null);return;}if(!replayFits(req,RPLAY.d[RPLAY.i])){replayDesync();return;}const v=decAns(req,RPLAY.d[RPLAY.i++]);const n=req.k==='play'||RPLAY.ff?'':ansNote(req,v);if(n)toast(n);res(v);},(req.k==='play'?700:900)*speed));}
+function snapTurn(){const s=S;return{battle:s.battle,round:s.round,initiative:s.init,weather:s.wcur&&s.wcur.id||s.wcur||null,storm:s.cloud.map(c=>c?c.id:null),void:s.void.length,
+  players:s.pl.map(P=>({wizard:P.wiz,hp:P.hp,max:P.max,shards:P.shards,mana:P.mana,power:P.power,tier:P.tier,hand:P.hand.map(c=>c.id),deck:P.deck.length,discard:P.discard.map(c=>c.id),doom:P.doom||0,energy:P.energy||0}))};}
+function exportData(){const R=RPLAY,h=R.h,X=h.rpx;return{format:'spellstorm-match-v1',exported:new Date().toISOString(),version:(document.getElementById('ver')||{}).textContent||'',edition:(JSON.parse(X.s0).ed===2?'2E':'First Edition'),
+  mode:h.mode,you:h.me&&h.me.wiz,opponents:(h.opp||[]).map(x=>x.wiz||x),result:{won:h.won,how:h.why,battles:h.battles,rounds:h.rounds},desync:R.desync||null,
+  turns:R.exp?R.exp.snaps:[],log:R.exp?R.exp.log:[],replay:{seed:X.seed,start:X.s0,decisions:X.d,reseeds:X.rs||[]}};}
+let EXPORTTXT='';
+function exportReady(){const txt=JSON.stringify(exportData());EXPORTTXT=txt;const kb=Math.round(txt.length/1024),web=!!(window.claude&&claude.use);
+  openOv(`<h2>Match file ready</h2><p>A detailed record of this match (${kb} KB): every turn’s hands, decks and discards, the full log, and everything needed to replay it exactly.${RPLAY&&RPLAY.desync?` <b>Note:</b> the replay went out of sync at decision ${RPLAY.desync.decision+1}, which is useful to know.`:''}</p>
+  <div class="acts">${web?'<button class="btn" data-a="mexsend">Send to Keith</button>':''}<button class="btn${web?' alt':''}" data-a="mexcopy">Copy to clipboard</button><button class="btn alt" data-a="mexsave">Download file</button><button class="btn alt" data-a="close">Close</button></div>`);}
+function replayTurnDone(){if(!RPLAY)return;RPLAY.turn++;if(RPLAY.exp)RPLAY.exp.snaps.push(snapTurn());if(RPLAY.target!=null&&RPLAY.turn>=RPLAY.target)replayArrive();else rpBar();}
 function replayArrive(){RPLAY.target=null;if(RPLAY.ff){RPLAY.ff=false;speed=RPLAY.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}RPLAY.paused=!RPLAY.auto;render();rpBar();}
-function replayRestart(target){const h=RPLAY.h,from=RPLAY.from,sp0=RPLAY.speed0;begin(h.me.wiz,null,{replay:{h,from,target,speed0:sp0}});}
-function rpBar(){const b=$('#rpbar');if(!RPLAY){b.classList.remove('show');return;}const R=RPLAY,where=S?(R.done?'End of the match':S.battle<1||(R.hold&&R.i===0)?'Game start':`Battle ${S.battle} · round ${S.round||1}`):'';
+function replayRestart(target,exp){const h=RPLAY.h,from=RPLAY.from,sp0=RPLAY.speed0,view=RPLAY.view||0;begin(h.me.wiz,null,{replay:{h,from,target,speed0:sp0,exp,view}});}
+function rpBar(){const b=$('#rpbar');if(!RPLAY){b.classList.remove('show');return;}const R=RPLAY,where=S?(R.exp&&!R.done?'Preparing the match file…':R.done?(R.desync?'Out of sync — stopped':'End of the match'):S.battle<1||(R.hold&&R.i===0)?'Game start':`Battle ${S.battle} · round ${S.round||1}`):'';
   b.innerHTML=`<b>▶ Replay</b><span class="lbl">${esc(where)}</span>
     <button class="chip" data-a="rpctl" data-v="start" ${R.turn===0&&!R.ff?'disabled':''}>⏮ Start</button><button class="chip" data-a="rpctl" data-v="prev" ${R.turn===0&&!R.ff?'disabled':''}>◀ Previous</button>
     <button class="chip${R.auto?' on':''}" data-a="rpctl" data-v="auto" ${R.done?'disabled':''}>${R.auto?'⏸ Pause':'▶ AutoPlay'}</button><button class="chip" data-a="rpctl" data-v="next" ${R.done?'disabled':''}>Next ▶</button>
-    <button class="chip" data-a="rpctl" data-v="end" ${R.done?'disabled':''}>End ⏭</button><button class="chip" data-a="rpexit">Exit</button>`;b.classList.add('show');}
+    <button class="chip" data-a="rpctl" data-v="end" ${R.done?'disabled':''}>End ⏭</button>${S&&S.pl.length===2?`<button class="chip${R.view?' on':''}" data-a="rpctl" data-v="view" title="See the match from the other player’s side, including their hand">Switch player</button>`:''}<button class="chip" data-a="rpctl" data-v="export" title="Save a detailed log of this match to send to Keith">Export match</button><button class="chip" data-a="rpexit">Exit</button>`;b.classList.add('show');}
 function replayCtl(v){const R=RPLAY;if(!R)return;R.hold=false;   
   if(v==='auto'){R.auto=!R.auto;R.target=null;R.paused=!R.auto;speed=R.speed0;rpBar();return;}
-  if(v==='next'){R.auto=false;R.target=R.turn+1;R.paused=false;speed=R.speed0;rpBar();return;}
+  if(v==='next'){if(R.done)return;R.auto=false;R.target=R.turn+1;R.paused=false;R.ff=true;speed=0.0005;SFX.mute=true;rpBar();return;}   // instant: no animations between steps
+  if(v==='view'){R.view=R.view?0:1;SEEN=new Map();ANIM_ON=false;render();rpBar();return;}
+  if(v==='export'){replayRestart(Infinity,true);return;}
   if(v==='start'){replayRestart(0);return;}
   if(v==='prev'){replayRestart(Math.max(0,(R.done?R.turn:R.turn)-1));return;}
   if(v==='end'){if(R.done)return;R.auto=false;R.target=Infinity;R.ff=true;R.paused=false;speed=0.0005;SFX.mute=true;rpBar();return;}}
 function watchReplay(h,from){if(!h||!h.rpx)return;closeOv();begin(h.me.wiz,null,{replay:{h,from}});}
-function replayDone(r){if(!RPLAY)return;const h=RPLAY.h;gameId++;pending=null;thinking=false;if(RPLAY.ff){RPLAY.ff=false;speed=RPLAY.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}RPLAY.done=true;RPLAY.auto=false;RPLAY.paused=true;RPLAY.target=null;render();rpBar();
+function replayDone(r){if(!RPLAY)return;const h=RPLAY.h;gameId++;pending=null;thinking=false;if(RPLAY.ff){RPLAY.ff=false;speed=RPLAY.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}RPLAY.done=true;RPLAY.auto=false;RPLAY.paused=true;RPLAY.target=null;render();rpBar();if(RPLAY.exp){exportReady();return;}
   toast(`End of the replay: ${h.won?'you won':'you lost'} ${({shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'})[h.why]||''}.`);}
 function replayExit(){const from=RPLAY&&RPLAY.from;if(RPLAY)speed=RPLAY.speed0;SFX.mute=false;RPLAY=null;$('#rpbar').classList.remove('show');closeOv();showTitle();if(from==='hist'){statsTab='hist';statsSheet();}}
 function xtra(p){
@@ -1342,7 +1359,7 @@ function promptHTML(){
 }
 const curEd=()=>document.body.classList.contains('ed2')?2:1;
 function setEdClass(ed){document.body.classList.toggle('ed2',ed===2);}
-function render(){if(S)setEdClass(S.ed===2?2:1);
+function render(){if(S&&S.replay&&RPLAY&&RPLAY.view&&S.pl.length===2&&!render._m){const real=S;S=mirror(real);render._m=1;try{render();}finally{S=real;render._m=0;}return;}if(S)setEdClass(S.ed===2?2:1);
   if(!S)return;
   trackBumps();
   document.body.classList.toggle('shop',S.phase==='regroup'||S.phase==='gain');
@@ -1369,7 +1386,7 @@ function fx(t,p){if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)ret
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
 const io={sim:false,
-  log(m,c){logs.push({m,c});if(logs.length>400)logs.shift();renderLog();if((c==='big'||c==='shard')&&!(S&&S.blast))toast(m);},
+  log(m,c){logs.push({m,c});if(RPLAY&&RPLAY.exp)RPLAY.exp.log.push(m);if(logs.length>400)logs.shift();renderLog();if((c==='big'||c==='shard')&&!(S&&S.blast))toast(m);},
   render,pause:async ms=>{await sleep(ms);while(S&&S.replay&&RPLAY&&RPLAY.paused&&id===gameId)await new Promise(r=>setTimeout(r,120));},fx,
   async decide(g,p,req){
     if(p!==0&&g.S.online)return onlRemoteDecide(g,p,req);
@@ -1494,7 +1511,7 @@ function showEnd(r,fresh=[]){
   openOv(`${head}<p>${w===0?'You':esc(W.n)} won ${why} after ${S.battle} battle${S.battle>1?'s':''}.</p>
   <p class="lbl" style="text-align:left">Final: you ${S.pl[0].hp} health, ${S.pl[0].shards} shards; ${[...S.pl.keys()].filter(q=>q).map(q=>`${esc(WIZ[S.pl[q].wiz].short)} ${S.pl[q].out?'eliminated':S.pl[q].hp+' health'}, ${S.pl[q].shards} shards`).join('; ')}. ${S.ranked?'Ranked':(S.cheater?'Cheater':DNAME[S.diff])+' difficulty'}${T?', Tournament Mode':''}${S.win?', Long Match':''}${S.ranked?' (Ranked match)':''}.</p>
   ${gameReport()}${fresh.length?`<h2 style="font-size:1.1rem;margin-top:10px">Achievements unlocked</h2><div class="newach">${fresh.map(a=>`<button class="achb" data-a="achinfo" data-n="${esc(a.n)}" data-d="${esc(a.d)}" title="${esc(a.d)}">🏆 ${esc(a.n)}</button>`).join('')}</div><p class="achdesc lbl">Tap an achievement to see what it’s for.</p>`:''}
-  ${(()=>{const L=loadProf().hist||[],h=L[L.length-1];return !S.online&&h&&(h.rp||h.rpx)&&Math.abs(h.t-Date.now())<60000?`<div class="acts" style="margin-bottom:-4px">${h.rpx?'<button class="btn alt" data-a="rpplay" data-i="-1">▶ Watch replay</button>':''}${h.rp?'<button class="btn alt" data-a="rpwatch" data-i="-1">Round summary</button>':''}</div>`:'';})()}<div class="acts">${S.online?'<button class="btn" data-a="olexit">Back to title</button><button class="btn alt" data-a="close">View board</button>':RANKRES?'<button class="btn" data-a="rankagain">Play again</button><button class="btn alt" data-a="restart">Ranked lobby</button>':T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
+  ${(()=>{const L=loadProf().hist||[],h=L[L.length-1];return !S.online&&h&&(h.rp||h.rpx)&&Math.abs(h.t-Date.now())<60000?`<div class="acts" style="margin-bottom:-4px">${h.rpx?'<button class="btn alt" data-a="rpplay" data-i="-1">▶ Watch replay</button><button class="btn alt" data-a="rpexport" data-i="-1">Export match</button>':''}${h.rp?'<button class="btn alt" data-a="rpwatch" data-i="-1">Round summary</button>':''}</div>`:'';})()}<div class="acts">${S.online?'<button class="btn" data-a="olexit">Back to title</button><button class="btn alt" data-a="close">View board</button>':RANKRES?'<button class="btn" data-a="rankagain">Play again</button><button class="btn alt" data-a="restart">Ranked lobby</button>':T?'<button class="btn" data-a="restart">Continue</button>':'<button class="btn" data-a="again">Play again</button><button class="btn alt" data-a="restart">Choose wizards</button>'}<button class="btn alt" data-a="totitle">Title screen</button><button class="btn alt" data-a="close">View board</button></div>`);
 }
 
 // ---------- events ----------
@@ -1581,6 +1598,10 @@ document.addEventListener('click',e=>{
   if(a==='rpwatch'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rp){RPV={back:i<0?'end':'hist'};replayView(h,0);}return;}
   if(a==='rpplay'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rpx)watchReplay(h,i<0?'end':'hist');return;}
   if(a==='rpctl'){replayCtl(b.dataset.v);return;}
+  if(a==='mexcopy'){navigator.clipboard&&navigator.clipboard.writeText(EXPORTTXT).then(()=>toast('Match file copied — paste it into a message to Keith.'),()=>toast('Copy failed on this device; try Download file.'));return;}
+  if(a==='mexsave'){try{const u=URL.createObjectURL(new Blob([EXPORTTXT],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download=`spellstorm-match-${Date.now()}.json`;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Downloading the match file…');}catch(e){toast('Download isn’t available here; use Copy to clipboard.');}return;}
+  if(a==='mexsend'){(async()=>{try{const db=await claude.use('db');await db.collection('matchlogs').add({t:Date.now(),size:EXPORTTXT.length,data:EXPORTTXT.slice(0,900000)});toast('Sent to Keith. Thank you!');}catch(e){toast('Couldn’t send it; use Copy to clipboard instead.');}})();return;}
+  if(a==='rpexport'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rpx){closeOv();begin(h.me.wiz,null,{replay:{h,from:i<0?'end':'hist',target:Infinity,exp:true}});}return;}
   if(a==='rpexit'){replayExit();return;}
   if(a==='rpagain'){const h=RPLAY&&RPLAY.h,from=RPLAY&&RPLAY.from;if(RPLAY)speed=RPLAY.speed0;RPLAY=null;if(h)watchReplay(h,from);return;}
   if(a==='rpstep'){if(RPV&&RPV.h)replayView(RPV.h,RPV.i+(+b.dataset.v));return;}
@@ -1955,7 +1976,7 @@ function historyHTML(P){const L=(P.hist||[]).slice().reverse();
         <table class="mx htab"><tr><th></th><th>Health</th><th>Shards</th><th>Tier</th></tr>
           <tr><td>You (${RNAME[h.me.wiz]})</td><td>${h.me.hp}/${h.me.max}</td><td>${h.me.sh}</td><td>${ROM[h.me.tier]||h.me.tier}</td></tr>
           ${h.foes.map(f=>`<tr><td>${who(f)}</td><td>${f.out?'eliminated':f.hp+'/'+f.max}</td><td>${f.sh}</td><td>${ROM[f.tier]||f.tier}</td></tr>`).join('')}</table>
-        ${h.rp||h.rpx?`<div class="acts" style="justify-content:flex-start">${h.rpx?`<button class="btn alt" data-a="rpplay" data-i="${i}">▶ Watch replay</button>`:''}${h.rp?`<button class="btn alt" data-a="rpwatch" data-i="${i}">Round summary</button>`:''}</div>`:''}<div class="hstats">${[['Damage dealt',h.st.dmg],['Healing',h.st.heal],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons gained',h.st.dragons],['Cards voided',h.st.voids],['Junk given',h.st.give]].map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>
+        ${h.rp||h.rpx?`<div class="acts" style="justify-content:flex-start">${h.rpx?`<button class="btn alt" data-a="rpplay" data-i="${i}">▶ Watch replay</button><button class="btn alt" data-a="rpexport" data-i="${i}">Export match</button>`:''}${h.rp?`<button class="btn alt" data-a="rpwatch" data-i="${i}">Round summary</button>`:''}</div>`:''}<div class="hstats">${[['Damage dealt',h.st.dmg],['Healing',h.st.heal],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons gained',h.st.dragons],['Cards voided',h.st.voids],['Junk given',h.st.give]].map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>
       </div>`:''}</li>`;};
   return `<div class="kpis"><div class="kpi"><b>${w}–${last.length-w}</b><span>Last ${last.length} matches</span></div><div class="kpi"><b>${fmtDur(avg)}</b><span>Average length</span></div><div class="kpi"><b>${RNAME[fav]}</b><span>Most played</span></div><div class="kpi"><b>${L.length}</b><span>Matches saved</span></div></div>
     <ul class="hlist">${L.map(row).join('')}</ul>`;}
@@ -2003,7 +2024,7 @@ async function begin(w,opp,o={}){
   SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];LASTSP=null;LASTJ=null;LASTVOID=null;TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];if(TR&&TR.rpx){TR.rpx.resumed=true;}}
   else if(o.replay){const X=o.replay.h.rpx,tg=o.replay.target||0,sp0=o.replay.speed0!=null?o.replay.speed0:speed;S=JSON.parse(X.s0);S.replay=true;S.tips=false;TR=null;
-    RPLAY={d:X.d,i:0,h:o.replay.h,from:o.replay.from,speed0:sp0,turn:0,auto:false,done:false,target:tg>0?tg:null,ff:tg>0,paused:false,hold:!(tg>0)};speed=RPLAY.ff?0.0005:sp0;SFX.mute=RPLAY.ff;seedRandom(X.seed);}
+    RPLAY={d:X.d,i:0,h:o.replay.h,from:o.replay.from,speed0:sp0,turn:0,auto:false,done:false,target:tg>0?tg:null,ff:tg>0,paused:false,hold:!(tg>0),view:o.replay.view||0,exp:o.replay.exp?{snaps:[],log:[]}:null};speed=RPLAY.ff?0.0005:sp0;SFX.mute=RPLAY.ff;seedRandom(X.seed);}
   else{if(o.puzzle){PZEND=false;seedRandom(1000+o.puzzle.id);S=puzzleState(o.puzzle);}else if(o.daily){seedRandom(o.daily.seed);const C=o.daily.C,cpu=dailyCpu(C);S=C.opponent==='robot'?newStateRB(w,cpu.diff||'medium'):newState(w,opp);if(cpu.rank)S.aiProf={1:{rank:cpu.rank,pers:cpu.pers}};applyEdition(S,OPT.ed1?1:2);applyRules(S,C.rules);S.daily=o.daily;unseedRandom();}else if(o.online){S=newState(w,opp);S.online=true;S.diff='normal';}else if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf={1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff==='cheater'?'expert':OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff==='cheater'?'expert':OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked||o.puzzle)S.diff='normal';if(S.diff==='cheater'){if(S.pl.length===2&&!o.tour&&!o.daily&&!o.ranked&&!S.rbMode&&!S.pl[1].rb){S.cheater=true;}S.diff='expert';}if(o.daily){const cpu=dailyCpu(o.daily.C);S.diff=cpu.rank?'normal':(cpu.diff||'normal');}if(S.ed==null&&!o.puzzle)applyEdition(S,OPT.ed1?1:2);   // puzzles keep the rules they were built and verified with
   S.tips=!!(OPT.tips&&!o.ranked&&!o.tour&&!o.online&&!o.tutorial&&!o.puzzle);if(OPT.long&&!o.tutorial&&!o.ranked&&!o.daily&&!o.puzzle){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.cheater?'cheater':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;TR.daily=!!o.daily;if(o.online||o.puzzle)TR=null;}
   if(TR&&!o.resume&&!S.online&&!S.tutorial&&!S.puzzle&&!S.replay){const seed=Math.floor(Math.random()*4294967295);seedRandom(seed);TR.rpx={seed,s0:JSON.stringify(S),d:[]};}
