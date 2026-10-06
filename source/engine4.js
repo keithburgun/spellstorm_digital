@@ -114,11 +114,14 @@ async function simRound(base, p, myU, oid, lookahead) {
   if (SIMCAP) SIMCAP.end = simSnap(S, p);
   return 0.45 * now + 0.55 * evalAI(S, p);          // blend: this round's result + where the battle ends up
 }
+// Ladder spacing (measured with mirrored self-play): the chance each level plays a random card instead of its considered choice.
+const OFFSCRIPT = { normal: 0.50, hard: 0.25 };
 async function aiChoosePlay(S0, p) {
   const d = diffOf(S0, p), hand = S0.pl[p].hand.filter(c => !CARDS[c.id].junk);
   if (hand.length <= 1) return hand[0] || null;
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
+  { const off = (S0.aiOff && S0.aiOff[d] != null) ? S0.aiOff[d] : (OFFSCRIPT[d] || 0); if (off && Math.random() < off) return hand[Math.floor(Math.random() * hand.length)]; }   // ladder spacing: chance of an off-script (random) card
   if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
