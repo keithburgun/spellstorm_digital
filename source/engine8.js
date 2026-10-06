@@ -3,17 +3,19 @@
 // Ranks subdivide the Easy -> Expert spectrum: rand = chance of a random play, n = simulations per card,
 // all = consider every card you might play (vs one guess), look = simulate to the end of the battle,
 // T/eps = how loosely it picks among good options, plan = strategic plans, hardEval = Hard's evaluator, ultSim = judges Ultimates.
+// Every rank plays with Expert's method plus an off-script chance (a random card instead of its considered choice),
+// falling evenly from rank 1 (about Easy) to rank 10 (Expert): ~52 Elo per rank, measured with mirrored self-play.
 const RANKS = [
-  { rand: .70, n: 6, all: false, look: false, T: 10, eps: .25, plan: false, hardEval: false, ultSim: false },  // 1
-  { rand: .45, n: 8, all: false, look: false, T: 9, eps: .18, plan: false, hardEval: false, ultSim: false },   // 2
-  { rand: .25, n: 10, all: false, look: false, T: 8.5, eps: .14, plan: true, hardEval: false, ultSim: false }, // 3
-  { rand: .10, n: 14, all: false, look: false, T: 8, eps: .10, plan: true, hardEval: false, ultSim: false },   // 4 ~ Normal
-  { rand: 0, n: 18, all: false, look: false, T: 6, eps: .07, plan: true, hardEval: false, ultSim: false },     // 5
-  { rand: 0, n: 16, all: true, look: false, T: 4, eps: .05, plan: true, hardEval: true, ultSim: false },       // 6
-  { rand: 0, n: 22, all: true, look: false, T: 2.5, eps: .03, plan: true, hardEval: true, ultSim: true },      // 7 ~ Hard
-  { rand: 0, n: 26, all: true, look: false, T: 2.2, eps: .025, plan: true, hardEval: true, ultSim: true },     // 8
-  { rand: 0, n: 12, all: true, look: true, T: 2, eps: .02, plan: true, hardEval: true, ultSim: true },         // 9
-  { rand: 0, n: 18, all: true, look: true, T: 1.8, eps: .015, plan: true, hardEval: true, ultSim: true },      // 10 ~ Expert
+  { off: 0.80, plan: false, hardEval: false, ultSim: false },   // 1
+  { off: 0.71, plan: false, hardEval: false, ultSim: false },   // 2
+  { off: 0.62, plan: true, hardEval: false, ultSim: false },   // 3
+  { off: 0.53, plan: true, hardEval: false, ultSim: false },   // 4
+  { off: 0.44, plan: true, hardEval: true, ultSim: false },   // 5
+  { off: 0.36, plan: true, hardEval: true, ultSim: true },   // 6
+  { off: 0.27, plan: true, hardEval: true, ultSim: true },   // 7
+  { off: 0.18, plan: true, hardEval: true, ultSim: true },   // 8
+  { off: 0.09, plan: true, hardEval: true, ultSim: true },   // 9
+  { off: 0.00, plan: true, hardEval: true, ultSim: true },   // 10
 ];
 const PERSONALITIES = {
   A: 'Aggressor: values the damage it deals; buys Fire.',
@@ -62,7 +64,7 @@ function persCard(S, p, t, id) {
   }
 }
 function rankedGain(S, p, req, R) {
-  if (Math.random() < R.rand * .8) return req.slots[Math.floor(Math.random() * req.slots.length)];
+  if (Math.random() < (R.off || 0) * .8) return req.slots[Math.floor(Math.random() * req.slots.length)];
   const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
   const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (R.plan ? planCardBonus(S, p, id) : 0) + (R.hardEval && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + persCard(S, p, R.pers, id) + Math.random() * 1.2; };
   return req.slots.slice().sort((a, b) => val(b) - val(a))[0];
@@ -74,7 +76,11 @@ function softPickTE(scored, T, eps) {
   let r = Math.random() * tot; for (let i = 0; i < scored.length; i++) { r -= w[i]; if (r <= 0) return scored[i].c; } return scored[scored.length - 1].c;
 }
 async function aiChooseRanked(S0, p, R, hand) {
-  if (Math.random() < R.rand) return hand[Math.floor(Math.random() * hand.length)];
+  if (Math.random() < R.off) return hand[Math.floor(Math.random() * hand.length)];
+  return aiChooseMatrix(S0, p, { n: 18, look: false, lateLook: true, mode: 'mix' }, hand);   // Expert's method
+}
+async function aiChooseRankedOld(S0, p, R, hand) {   // (previous per-rank recipes, kept for reference)
+  if (Math.random() < (R.rand || 0)) return hand[Math.floor(Math.random() * hand.length)];
   if (R.all && R.pers !== 'E' && R.pers !== 'I') return aiChooseMatrix(S0, p, { n: R.n, look: R.look, lateLook: R.rank >= 7, mode: 'mix' }, hand);   // deep thinkers solve the reveal (mixed strategy: stronger than best response, see Expert v3)
   const reader = R.pers === 'E', n = R.n + (reader ? 6 : 0), all = R.all || reader, look = R.look;
   const uniq = [], seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }
@@ -95,12 +101,12 @@ async function aiChooseRanked(S0, p, R, hand) {
   return softPickTE(scored, R.T * (gam ? 2.5 : 1), R.eps + (gam ? .1 : 0));
 }
 // ---------- Elo ----------
-const RANK_ELO = r => 700 + 100 * (r - 1);                          // Rank 1 = 700 ... Rank 10 = 1600 (spacing measured: ~100 Elo per rank)
+const RANK_STEP = 52, RANK_ELO = r => 900 + RANK_STEP * (r - 3);   // measured spacing ~52 Elo per rank; rank 3 = 900 (a new player's starting rating)
 function eloExpected(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 400)); }
 function eloDelta(me, opp, score, games) { const K = games < 15 ? 40 : 24; return Math.round(K * (score - eloExpected(me, opp))); }
 // Matchmaking: a rank near your rating, sometimes above, sometimes below.
 function matchRank(elo) { const g = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
-  const target = elo + g() * 110; return Math.max(1, Math.min(10, Math.round((target - 700) / 100) + 1)); }
+  const target = elo + g() * 57; return Math.max(1, Math.min(10, Math.round((target - RANK_ELO(1)) / RANK_STEP) + 1)); }
 const PERS_WIZ = { A: ['derby', 'omar', 'may'], B: ['abragail', 'derby', 'oren'], C: ['eve', 'bunny', 'croh'], D: ['may', 'oren', 'derby'], F: ['abragail', 'bunny'], G: ['bunny', 'abragail', 'croh'], H: ['omar', 'eve', 'derby'], J: ['abragail', 'oren', 'may'] };
 function pickOppWizard(pers, me, roster) { const pref = (PERS_WIZ[pers] || []).filter(w => w !== me); const pool = roster.filter(w => w !== me);
   return pref.length && Math.random() < .6 ? pref[Math.floor(Math.random() * pref.length)] : pool[Math.floor(Math.random() * pool.length)]; }
@@ -121,7 +127,7 @@ const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v)
 // Mostly someone near your level; sometimes a rank or two away; occasionally a big mismatch. Never the same bot twice in a row.
 // side: +1 = look for a higher-rated opponent, -1 = lower, 0 = either. eloOf: a bot's current Elo against this player.
 function pickBot(elo, last, side, eloOf, boost) {
-  const r0 = (elo - 700) / 100 + 1 + (boost || 0), roll = Math.random(), sgn = side || (Math.random() < .5 ? -1 : 1);
+  const r0 = (elo - RANK_ELO(1)) / RANK_STEP + 1 + (boost || 0), roll = Math.random(), sgn = side || (Math.random() < .5 ? -1 : 1);
   let off = roll < .7 ? gauss() * .8 : roll < .9 ? sgn * (1 + Math.random() * 1.5) : sgn * (2.5 + Math.random() * 2);
   if (side) off = side * Math.max(.35, Math.abs(off));                 // same distance spread, on the chosen side
   const target = Math.max(1, Math.min(10, r0 + off)), all = BOTS.filter(b => b.name !== last), E = eloOf || botBaseElo;

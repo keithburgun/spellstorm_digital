@@ -1663,7 +1663,8 @@ document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='ed
 // ---------- Ranked (single-player Elo) ----------
 // Ranked keeps one Elo per character plus one for Random; history, bot drift and streak records are shared.
 const RKEYS=()=>[...ROSTER,'random'];
-function RKX(P){if(!P.rkx){P.rkx={};const old=P.rk;if(old&&old.g){const c={};for(const h of old.hist||[])c[h.me]=(c[h.me]||0)+1;const k=Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||'random';
+function RKX(P){if(P.rkx&&!P.rkS2){for(const k in P.rkx){const K=P.rkx[k];if(K&&typeof K.elo==='number'){K.elo=Math.round(900+(K.elo-900)*.52);K.peak=Math.round(900+((K.peak||K.elo)-900)*.52);}}if(P.rk&&P.rk.bots)for(const b in P.rk.bots)P.rk.bots[b]=Math.round(P.rk.bots[b]*.52);P.rkS2=1;}   // one-time rescale to the measured 52-Elo-per-rank scale
+  if(!P.rkx){P.rkx={};const old=P.rk;if(old&&old.g){const c={};for(const h of old.hist||[])c[h.me]=(c[h.me]||0)+1;const k=Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||'random';
     P.rkx[k]={elo:old.elo,g:old.g,w:old.w,peak:old.peak,streak:old.streak};}}return P.rkx;}
 const RK=(P,key)=>{const shared=Object.assign({hist:[],best:0,giant:false,bots:{}},P.rk||{});if(!key)return shared;
   return Object.assign(shared,{elo:900,g:0,w:0,peak:900,streak:0},(RKX(P)[key])||{});};
@@ -1684,7 +1685,7 @@ function rankedLobby(){const P=loadProf(),key=rkKey(),R=RK(P,key);
 function applyRanked(P,rk,me,won,delta){const key=rk.key||me,X=RKX(P),K=X[key]=Object.assign({elo:900,g:0,w:0,peak:900,streak:0},X[key]||{}),R=P.rk=Object.assign({hist:[],best:0,giant:false,bots:{}},P.rk||{});
   const old=K.elo;K.elo=Math.max(100,K.elo+delta);K.g++;
   if(won){K.w++;K.streak++;R.best=Math.max(R.best||0,K.streak);if(rk.elo-old>=150)R.giant=true;}else K.streak=0;K.peak=Math.max(K.peak,K.elo);
-  R.bots=R.bots||{};R.bots[rk.name]=Math.max(-150,Math.min(150,(R.bots[rk.name]||0)-Math.round(delta/2)));
+  R.bots=R.bots||{};R.bots[rk.name]=Math.max(-78,Math.min(78,(R.bots[rk.name]||0)-Math.round(delta/2)));
   R.hist.push({name:rk.name,opp:rk.elo,me,key,won,d:delta,t:Date.now(),side:Math.sign(rk.elo-old)||1});if(R.hist.length>30)R.hist=R.hist.slice(-30);return {old,now:K.elo};}
 function rankedLaunch(){let P=loadProf();
   const sv=loadSave();if(sv&&sv.S.ranked&&!sv.S.over){const R=RK(P,sv.S.ranked.key||sv.S.pl[0].wiz),d=eloDelta(R.elo,sv.S.ranked.elo,0,R.g);applyRanked(P,sv.S.ranked,sv.S.pl[0].wiz,false,d);saveProf(P);clearSave();toast(`Your abandoned ranked match counted as a loss (${d}).`);P=loadProf();}
