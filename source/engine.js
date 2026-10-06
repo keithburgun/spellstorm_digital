@@ -478,7 +478,8 @@ function evalState(S, p) { if (S.over) return S.over.winner === p ? 1e4 : -1e4; 
 function cpuDecide(g, p, req) {
   const S = g.S, P = S.pl[p];
   switch (req.k) {
-    case 'yn': return typeof req.cpu === 'function' ? req.cpu() : req.cpu !== false;
+    case 'yn': if (req.ult && S.noUltSim) return false;   // two-turn search: simulated futures don't gamble on Ultimates
+      return typeof req.cpu === 'function' ? req.cpu() : req.cpu !== false;
     case 'player': return req.cpu;
     case 'opt': { let k = req.cpu; if (req.dis && req.dis[k]) k = req.dis.findIndex(x => !x); return k; }
     case 'pick': {

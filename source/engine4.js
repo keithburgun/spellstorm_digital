@@ -123,10 +123,12 @@ function rmValue(V) {   // value of a small simultaneous game (regret matching, 
 async function simDepth2(base, p, myU, oid) {
   const S1 = await simRound(base, p, myU, oid, false, true), now = evalAI(S1, p);
   if (S1.over) return now;
+  if (base.noUltD2) S1.noUltSim = true;
   const root = await nextTurnRoot(S1); if (!root || root.over) return now;
   const nx = nextOppOf(root, p), mine = [], seen = {}; for (const c of root.pl[p].hand) if (!CARDS[c.id].junk && !seen[c.id]) { seen[c.id] = 1; mine.push(c); }
   const theirs = [...new Set(root.pl[nx].hand.filter(c => !CARDS[c.id].junk).map(c => c.id))];
   if (!mine.length || !theirs.length) return now;
+  if (base.noUltD2) root.noUltSim = true;
   const V = []; for (const c of mine) { const row = []; for (const j of theirs) row.push(await simRound(root, p, c.u, j, false)); V.push(row); }
   return 0.35 * now + 0.65 * rmValue(V);
 }
@@ -156,7 +158,7 @@ async function aiChoosePlay(S0, p) {
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   { const off = (S0.aiOff && S0.aiOff[d] != null) ? S0.aiOff[d] : (OFFSCRIPT[d] || 0); if (off && Math.random() < off) return hand[Math.floor(Math.random() * hand.length)]; }   // ladder spacing: chance of an off-script (random) card
-  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, d === 'expert' && S0.aiVer && S0.aiVer[p] === 'c' ? { n: 10, look: false, lateLook: true, mode: 'mix', depth2: true } : { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
+  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, d === 'expert' && S0.aiVer && S0.aiVer[p] === 'c' && S0.pl[p].wiz !== 'oren' ? { n: 10, look: false, lateLook: true, mode: 'mix', depth2: true } : { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }

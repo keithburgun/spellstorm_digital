@@ -8,7 +8,7 @@ async function matrixAnalyze(S0, p, cfg, uniq, cap) {
   const look = cfg.look || (cfg.lateLook && S0.round >= 3), n = look && !cfg.look ? Math.max(8, Math.round(cfg.n * .5)) : cfg.n;
   const M = new Map(), avail = {};
   for (let k = 0; k < n; k++) {
-    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p); if (S0.aiVer && S0.aiVer[p] === 'c') base.rollPol = 2;
+    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p); if (S0.aiVer && S0.aiVer[p] === 'c') { base.rollPol = 2; }   // (test 11b, no Ultimates in two-turn futures: worse, rejected)
     const ids = [...new Set(base.pl[nx].hand.filter(x => !CARDS[x.id].junk).map(x => x.id))], js = ids.length ? ids : ['_'];
     for (const j of js) avail[j] = (avail[j] || 0) + 1;
     for (const c of uniq) for (const j of js) {

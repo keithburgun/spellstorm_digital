@@ -1168,7 +1168,8 @@ function evalState(S, p) { if (S.over) return S.over.winner === p ? 1e4 : -1e4; 
 function cpuDecide(g, p, req) {
   const S = g.S, P = S.pl[p];
   switch (req.k) {
-    case 'yn': return typeof req.cpu === 'function' ? req.cpu() : req.cpu !== false;
+    case 'yn': if (req.ult && S.noUltSim) return false;   // two-turn search: simulated futures don't gamble on Ultimates
+      return typeof req.cpu === 'function' ? req.cpu() : req.cpu !== false;
     case 'player': return req.cpu;
     case 'opt': { let k = req.cpu; if (req.dis && req.dis[k]) k = req.dis.findIndex(x => !x); return k; }
     case 'pick': {
@@ -1832,10 +1833,12 @@ function rmValue(V) {   // value of a small simultaneous game (regret matching, 
 async function simDepth2(base, p, myU, oid) {
   const S1 = await simRound(base, p, myU, oid, false, true), now = evalAI(S1, p);
   if (S1.over) return now;
+  if (base.noUltD2) S1.noUltSim = true;
   const root = await nextTurnRoot(S1); if (!root || root.over) return now;
   const nx = nextOppOf(root, p), mine = [], seen = {}; for (const c of root.pl[p].hand) if (!CARDS[c.id].junk && !seen[c.id]) { seen[c.id] = 1; mine.push(c); }
   const theirs = [...new Set(root.pl[nx].hand.filter(c => !CARDS[c.id].junk).map(c => c.id))];
   if (!mine.length || !theirs.length) return now;
+  if (base.noUltD2) root.noUltSim = true;
   const V = []; for (const c of mine) { const row = []; for (const j of theirs) row.push(await simRound(root, p, c.u, j, false)); V.push(row); }
   return 0.35 * now + 0.65 * rmValue(V);
 }
@@ -1865,7 +1868,7 @@ async function aiChoosePlay(S0, p) {
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   { const off = (S0.aiOff && S0.aiOff[d] != null) ? S0.aiOff[d] : (OFFSCRIPT[d] || 0); if (off && Math.random() < off) return hand[Math.floor(Math.random() * hand.length)]; }   // ladder spacing: chance of an off-script (random) card
-  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, d === 'expert' && S0.aiVer && S0.aiVer[p] === 'c' ? { n: 10, look: false, lateLook: true, mode: 'mix', depth2: true } : { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
+  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, d === 'expert' && S0.aiVer && S0.aiVer[p] === 'c' && S0.pl[p].wiz !== 'oren' ? { n: 10, look: false, lateLook: true, mode: 'mix', depth2: true } : { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }
@@ -2275,7 +2278,7 @@ async function matrixAnalyze(S0, p, cfg, uniq, cap) {
   const look = cfg.look || (cfg.lateLook && S0.round >= 3), n = look && !cfg.look ? Math.max(8, Math.round(cfg.n * .5)) : cfg.n;
   const M = new Map(), avail = {};
   for (let k = 0; k < n; k++) {
-    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p); if (S0.aiVer && S0.aiVer[p] === 'c') base.rollPol = 2;
+    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p); if (S0.aiVer && S0.aiVer[p] === 'c') { base.rollPol = 2; }   // (test 11b, no Ultimates in two-turn futures: worse, rejected)
     const ids = [...new Set(base.pl[nx].hand.filter(x => !CARDS[x.id].junk).map(x => x.id))], js = ids.length ? ids : ['_'];
     for (const j of js) avail[j] = (avail[j] || 0) + 1;
     for (const c of uniq) for (const j of js) {
