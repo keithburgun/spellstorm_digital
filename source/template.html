@@ -366,6 +366,7 @@ body.ceremony #prompt.ask{position:relative;z-index:36}
 .pimg{width:var(--pw);aspect-ratio:420/608;border-radius:8px;background-size:cover;box-shadow:var(--shadow)}.pimg.fl{animation:flip .45s ease-out}
 .pcard.unpaid .pimg{filter:grayscale(.8) brightness(.7)}
 .ptag{font-size:.72rem;font-weight:700;padding:1px 6px;border-radius:999px;background:var(--panel2)}.ptag.ok{color:#1f9a57}.ptag.no{color:var(--hp)}
+.ptwice{display:block;margin-top:2px;font-size:.8rem;font-weight:900;color:var(--accent);text-align:center}
 .pres{margin-top:8px;font-size:.95rem}.pres p{margin:.2em 0}.pres .bad{color:var(--hp);font-weight:700}
 @media (orientation:landscape) and (max-height:600px){.ppanel{--pw:min(9vw,15vh);display:block}.psub{display:none}}
 /* version stamp */
@@ -905,7 +906,7 @@ function blastHTML(){const B=S.blast,now=Date.now();
 function potionHTML(){const X=S.potion,P=S.pl[X.p],who=X.p?esc(WIZ[P.wiz].short):'You',now=Date.now();
   const els=['F','E','W'].map(k=>`<span class="pel">${tk('chem'+k)}<b>${X.chem[k]}</b></span>`).join('');
   const tox=Array.from({length:3},(_,i)=>`<i class="ptx${i<X.tox?' on':''}">☠</i>`).join('');
-  const cards=X.drawn.map(d=>{const D=POTIONS[d.id];return `<div class="pcard${d.paid===false?' unpaid':''}"><div class="pimg ci-pot_${d.id}${now-d.t<500?' fl':''}" style="animation-delay:-${Math.max(0,now-d.t)}ms"></div><span class="ptag ${d.paid===null?'':d.paid?'ok':'no'}">${d.paid===null?'…':d.paid?`Paid ${D.cost} ${ELN[D.el]}${d.twice?' — twice!':''}`:`Needs ${D.cost} ${ELN[D.el]}`}</span></div>`;}).join('')||'<span class="lbl">Shuffling the Potion Deck…</span>';
+  const cards=X.drawn.map(d=>{const D=POTIONS[d.id];return `<div class="pcard${d.paid===false?' unpaid':''}"><div class="pimg ci-pot_${d.id}${now-d.t<500?' fl':''}" style="animation-delay:-${Math.max(0,now-d.t)}ms"></div><span class="ptag ${d.paid===null?'':d.paid?'ok':'no'}">${d.paid===null?'…':d.paid?`Paid ${D.cost} ${ELN[D.el]}`:`Needs ${D.cost} ${ELN[D.el]}`}</span>${d.twice&&d.paid?'<span class="ptwice" title="This potion’s effect happens twice">×2!</span>':''}</div>`;}).join('')||'<span class="lbl">Shuffling the Potion Deck…</span>';
   const res=X.stage==='done'?`<div class="pres">${X.bust?'<p class="bad">Third TOXIC — the Ultimate ends with an ASH, CURSE and ICE.</p>':''}<p><b>${X.p?esc(WIZ[P.wiz].short):'You'}:</b> ${esc(fmtDelta(X.result[X.p]))}</p>${X.result.map((L,q)=>q!==X.p&&L&&L.length?`<p><b>${q?esc(WIZ[S.pl[q].wiz].short):'You'}:</b> ${esc(fmtDelta(L))}</p>`:'').join('')}</div>`:'';
   const ask=X.stage==='done'&&ACK&&ACK.k==='potion'?'<div class="acts"><button class="btn" data-a="ack" style="min-width:8em">OK</button></div>':pending&&pending.req.potion?`<div class="acts"><button class="btn" data-a="ans" data-v="1">Drink another</button><button class="btn alt" data-a="ans" data-v="0">Stop here</button></div>`:(X.stage==='done'?'':`<p class="lbl">${X.p?who+' is deciding…':''}</p>`);
   return `<div class="bpanel ppanel"><h2 class="btitle">BOTTOMS UP, I GUESS!</h2><p class="psub">${who} ${X.p?'drinks':'drink'} from the Potion Deck. Each potion costs its Element; a third TOXIC ends it badly.</p>
