@@ -5,7 +5,7 @@ function mk(ed,me='derby',op='eve'){const S=E.newState(me,op);E.applyEdition(S,e
 const ok=(t,c,x)=>console.log(`${c?'✓':'✗'} ${t}${x?'  — '+x:''}`);const cnt=(P,id)=>[...P.hand,...P.deck,...P.discard].filter(c=>c.id===id).length;
 (async()=>{
  {const {S,g}=mk(2);S.rev=[{u:1,id:'lantern'},{u:2,id:'block'}];const pw=S.pl[0].power,m=S.pl[0].mana,h0=S.pl[0].hp,h1=S.pl[1].hp,c0=cnt(S.pl[0],'curse'),c1=cnt(S.pl[1],'curse');const x={how:'play'};await E.CARDS.lantern.fx(g,0,x);
-  ok('Lantern: +1 Power +1 Mana; Water revealed → everyone takes 1 and gains a CURSE; not VOIDed',S.pl[0].power===pw+1&&S.pl[0].mana===m+1&&S.pl[0].hp===h0-1&&S.pl[1].hp===h1-1&&cnt(S.pl[0],'curse')===c0+1&&cnt(S.pl[1],'curse')===c1+1&&x.dest!=='void');}
+  ok('Lantern: +2 Mana; Water revealed → everyone takes 1 and gains a CURSE; not VOIDed',S.pl[0].power===pw&&S.pl[0].mana===m+2&&S.pl[0].hp===h0-1&&S.pl[1].hp===h1-1&&cnt(S.pl[0],'curse')===c0+1&&cnt(S.pl[1],'curse')===c1+1&&x.dest!=='void');}
  for(const ini of [0,1]){const {S,g}=mk(2);S.init=ini;const h=S.pl[1].hp,a=cnt(S.pl[0],'ash'),hand=S.pl[0].hand.length;const x={how:'play'};await E.CARDS.rapid.fx(g,0,x);
   ok(`Rapid Fire ${ini===0?'with':'without'} the Initiative`,ini===0?(S.pl[1].hp===h-2&&cnt(S.pl[0],'ash')===a+1&&x.dest==='hand'&&S.pl[0].hand.length===hand):(S.pl[1].hp===h&&x.dest!=='hand'&&S.pl[0].hand.length===hand),ini===0?'2 damage, +ASH, back to hand, no draw':'nothing, no draw');}
  {const {S,g}=mk(2);S.init=1;S.pl[0].hand=[{u:5,id:'pgem'}];S.pl[0].discard=[{u:6,id:'curse'}];const v=S.void.length;await E.CARDS.leap.fx(g,0);ok('Leap: gains the Initiative, VOIDs a card even with no Fire revealed',S.init===0&&S.void.length===v+1);}

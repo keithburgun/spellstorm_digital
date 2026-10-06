@@ -97,7 +97,7 @@ const CARDS = {
   obsidian: { n: 'Obsidian', el: 'F', t: 2, v: 6, fx: async (g, p) => {
     await g.damage(p, 1); const P = g.S.pl[p]; if (P.mana >= 2) { P.mana -= 2; g.log(`${g.nm(p)} lost 2 mana.`); await g.offerUlt(p, true); } else g.log(`${g.nm(p)} didn't have 2 mana to lose.`); } },
   lantern: { n: 'Lantern', el: 'F', t: 1, v: 6, fx: async (g, p, x) => {
-    if (ED2(g.S)) { await g.power(p, 1); await g.mana(p, 1); if (g.S.rev.some(c => isEl(c, 'W'))) { g.log('The Lantern flares!'); for (const q of g.order()) { await g.damage(q, 1, p); await g.gainSpecial(q, 'curse'); } } return; }   // 2E
+    if (ED2(g.S)) { await g.mana(p, 2); if (g.S.rev.some(c => isEl(c, 'W'))) { g.log('The Lantern flares!'); for (const q of g.order()) { await g.damage(q, 1, p); await g.gainSpecial(q, 'curse'); } } return; }   // 2E
     await g.mana(p, 2); if (isEl(g.S.rev[g.next(p)], 'W')) { x.dest = 'void'; g.log('The Lantern goes out.'); await g.gainSpecial(p, 'curse'); await g.damage(p, 1); } } },
   heart: { n: 'Heart Gem', el: 'F', t: 1, v: 6, disc: 1, ult: 1, fx: async (g, p) => { await g.heal(p, 3); await g.gainSpecial(p, 'curse'); }, dfx: async (g, p) => { await g.damage(p, 1); } },
   manafont: { n: 'Mana Font', el: 'F', t: 1, v: 5, disc: 1, fx: async (g, p) => {
