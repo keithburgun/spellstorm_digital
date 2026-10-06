@@ -66,15 +66,15 @@ const fmtDelta = L => L.length ? L.map(x => x.t).join(', ') : 'no change';
 function handBlast(P) { return P.hand.filter(c => !CARDS[c.id].disc).length - P.hand.filter(c => c.id === 'ice').length; }
 function evalHard(S, p) {
   if (S.over) return S.over.winner === p ? 1e4 : -1e4;
-  const op = strongestOpp(S, p);
-  let v = scoreP(S, p) - scoreP(S, op);
+  const w = (S.evw && S.evw[p]) || EVW0, op = strongestOpp(S, p);
+  let v = scoreP(S, p, w) - scoreP(S, op, w);
   const d = handBlast(S.pl[p]) - handBlast(S.pl[op]);
-  const wt = S.round >= 3 ? 1 : 0.45;
-  v += wt * (d > 0 ? 14 : d < 0 ? -14 : 0);
+  const wt = S.round >= 3 ? 1 : w.blastE;
+  v += wt * (d > 0 ? w.blast : d < 0 ? -w.blast : 0);
   for (const [i, s] of [[p, 1], [op, -1]]) {
     const P = S.pl[i];
-    const W8 = S.win || 8; if (P.shards >= W8 - 3) v += s * (P.shards - (W8 - 4)) * 9;   // closing in on the win
-    if (P.hp <= 5) v -= s * (6 - P.hp) * 7;
+    const W8 = S.win || 8; if (P.shards >= W8 - 3) v += s * (P.shards - (W8 - 4)) * w.close;   // closing in on the win
+    if (P.hp <= 5) v -= s * (6 - P.hp) * w.low2;
   }
   return v;
 }

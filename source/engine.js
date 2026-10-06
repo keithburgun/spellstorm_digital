@@ -460,15 +460,17 @@ class Game {
 
 // ---------- CPU ----------
 function cardVal(id, P) { const d = CARDS[id]; return d.v + (WIZ[P.wiz].els.includes(d.el) ? 2 : 0); }
-function scoreP(S, i) {
+// Evaluation weights (tunable by SPSA self-play). EVW0 = the hand-set defaults; a player may carry its own set in S.evw[p].
+const EVW0 = { shard: 14, hp: 4, low: 6, mana: 1.6, manaX: 0.4, tier: 16, power: 2.4, hand: 3, deck: 0.35, junk: 4, junkH: 2, init: 3, doom: 5, energy: 2, research: 7, trap: 4, chem: 0.4, blast: 14, blastE: 0.45, close: 9, low2: 7 };
+function scoreP(S, i, w = EVW0) {
   const P = S.pl[i], W = WIZ[P.wiz];
-  let s = P.shards * 14 + P.hp * 4 + (P.hp <= 5 ? -(6 - P.hp) * 6 : 0);
-  s += Math.min(P.mana, W.cost) * 1.6 + Math.max(0, P.mana - W.cost) * 0.4;
-  s += (P.tier - 1) * 16 + P.power * 2.4 + P.hand.length * 3;
+  let s = P.shards * w.shard + P.hp * w.hp + (P.hp <= 5 ? -(6 - P.hp) * w.low : 0);
+  s += Math.min(P.mana, W.cost) * w.mana + Math.max(0, P.mana - W.cost) * w.manaX;
+  s += (P.tier - 1) * w.tier + P.power * w.power + P.hand.length * w.hand;
   let dv = 0, junk = 0; for (const c of [...P.hand, ...P.deck, ...P.discard]) { const d = CARDS[c.id]; if (d.junk) junk++; else dv += d.v; }
-  s += dv * 0.35 - junk * 4 - P.hand.filter(c => CARDS[c.id].junk).length * 2;
-  if (S.init === i) s += 3;
-  s += P.doom * 5 + P.energy * 2 + P.research.filter(Boolean).length * 7 + (P.trap && !P.trap.used ? 4 : 0) + (P.wiz === 'oren' ? (P.chem.F + P.chem.E + P.chem.W) * 0.4 : 0);
+  s += dv * w.deck - junk * w.junk - P.hand.filter(c => CARDS[c.id].junk).length * w.junkH;
+  if (S.init === i) s += w.init;
+  s += P.doom * w.doom + P.energy * w.energy + P.research.filter(Boolean).length * w.research + (P.trap && !P.trap.used ? w.trap : 0) + (P.wiz === 'oren' ? (P.chem.F + P.chem.E + P.chem.W) * w.chem : 0);
   return s;
 }
 function evalState(S, p) { if (S.over) return S.over.winner === p ? 1e4 : -1e4; return scoreP(S, p) - scoreP(S, 1 - p); }
