@@ -814,7 +814,11 @@ function whereIs(u){if(S.pl[0].hand.some(c=>c.u===u))return $(`#hand [data-u="${
 //   left the screen (discard pile, VOID, an opponent's hand): a ghost flies there, shrinking and fading
 //   arrived (drawn, dealt into the Storm Cloud): it slides in from the matching deck
 let SEEN=new Map(),ANIM_ON=false,TRANSIT=new Map();   // TRANSIT: cards that left the screen with nowhere visible to go yet
-function anim(){
+const ANIMSTAT={flights:0,counters:0,anims:0,errors:[]};
+function animErr(where,e){ANIMSTAT.errors.push(`${where}: ${e&&e.message||e}`);if(ANIMSTAT.errors.length>8)ANIMSTAT.errors.shift();}
+function animDiag(){return{motion:OPT.motion||'full',reducedMotion:RM(),replayMode:!!RPLAY,fastForward:!!(RPLAY&&RPLAY.ff),speed,soundMuted:!!SFX.mute,waapi:typeof Element.prototype.animate,layer:!!document.getElementById('mv'),...ANIMSTAT,errors:ANIMSTAT.errors.slice()};}
+function anim(){try{ANIMSTAT.anims++;anim0();}catch(e){animErr('director',e);}}
+function anim0(){
   if(!S)return;if(RPLAY&&RPLAY.ff){SEEN=new Map();SHEETR.clear();return;}const now=new Map();
   const grab=(sel,zone)=>{for(const e of document.querySelectorAll(sel)){const u=e.getAttribute('data-u')||e.getAttribute('data-key');if(u)now.set(u,{e,zone,id:e.classList.contains('back')?'back':e.dataset.cid,r:e.getBoundingClientRect()});}};
   grab('#cloud .crow .card[data-u]','cloud');grab('#hand .card[data-u]','hand');grab('#arena .duel .card[data-u]','slot');grab('#arena .duel .card.back[data-key]','back');
@@ -861,7 +865,8 @@ function voidFx(id,r,dest){if(!r||!id)return;const L=mvLayer(),sp=Math.max(speed
 function mvLayer(){let L=document.getElementById('mv');if(!L){L=document.createElement('div');L.id='mv';document.body.appendChild(L);}return L;}
 const rectOf=el=>el?el.getBoundingClientRect():null;
 const smallAt=(r,w)=>r?{left:r.left+r.width/2-w*.3,top:r.top+r.height/2-w*.42,width:w*.6,height:w*.84}:null;
-function flyCard(id,a,b,o={}){if(!a||!b||!id)return 0;const sp=Math.max(speed,.35),dur=(o.dur||520)*sp,delay=o.delay||0;
+function flyCard(id,a,b,o={}){try{return flyCard0(id,a,b,o);}catch(e){animErr('flight',e);return 0;}}
+function flyCard0(id,a,b,o={}){if(!a||!b||!id)return 0;ANIMSTAT.flights++;const sp=Math.max(speed,.35),dur=(o.dur||520)*sp,delay=o.delay||0;
   const g=document.createElement('div');g.className=`card ci-${id} mvcard`;Object.assign(g.style,{left:a.left+'px',top:a.top+'px',width:a.width+'px',height:a.height+'px'});mvLayer().appendChild(g);
   const dx=b.left-a.left,dy=b.top-a.top,sx=b.width/Math.max(1,a.width),sy=b.height/Math.max(1,a.height),kf=[{transform:'translate(0,0) scale(1,1)',opacity:o.o0??1}];
   if(o.lift)kf.push({transform:`translate(${dx*.5}px,${dy*.5-Math.min(60,Math.abs(dy)*.15+18)}px) scale(${(1+sx)/2*1.08},${(1+sy)/2*1.08})`,opacity:1,offset:.5});
@@ -872,7 +877,8 @@ let SHEETR=new Map();
 function captureSheet(v){const want=new Set((Array.isArray(v)?v:[v]).filter(x=>x&&typeof x==='object'&&x.u!=null).map(x=>String(x.u)));if(!want.size)return;   // only the cards actually chosen
   for(const e of document.querySelectorAll('#ov .card[data-u]')){const u=e.getAttribute('data-u');if(!want.has(u))continue;const r=e.getBoundingClientRect();if(r.width)SHEETR.set(u,{r,id:e.dataset.cid});}}
 // Counter: the countering card leans into the card it beat, which recoils (2 players); pulse + shake in multiplayer.
-function counterAnim(p){if(!S||RM())return;const t=S.pl.length>2?nextOppOf(S,p):1-p;
+function counterAnim(p){try{counterAnim0(p);}catch(e){animErr('counter',e);}}
+function counterAnim0(p){if(!S||RM())return;ANIMSTAT.counters++;const t=S.pl.length>2?nextOppOf(S,p):1-p;
   const a=$(`#arena .duel [data-a=slot][data-p="${p}"]`),b=$(`#arena .duel [data-a=slot][data-p="${t}"]`);if(!a)return;
   if(S.pl.length===2){const d=p===1?1:-1,w=a.getBoundingClientRect().width,L=Math.round(w*.32);   // scaled to the card's size, so it reads on phones too
     a.animate([{transform:'none'},{transform:`translateX(${d*L}px) rotate(${d*18}deg) scale(1.12)`,offset:.25},{transform:`translateX(${d*L*.45}px) rotate(${d*8}deg) scale(1.05)`,offset:.5},{transform:'none'}],{duration:1100,easing:'cubic-bezier(.3,.7,.3,1)'});
@@ -1463,7 +1469,7 @@ function reportSheet(){openOv(`<h2>Report a problem</h2><p>What went wrong? A se
   <textarea id="rptxt" class="rptxt" rows="5" placeholder="e.g. Shuriken cancelled the wrong card in round 3"></textarea>
   <label class="longm"><input type="checkbox" id="rpdet" checked> Include game details (version, mode, the last 40 log lines and a snapshot of the game)</label>
   <p class="lbl" id="rpmsg"></p><div class="acts"><button class="btn" data-a="reportsend">Send report</button><button class="btn alt" data-a="close">Cancel</button></div>`);setTimeout(()=>{const x=$('#rptxt');if(x)x.focus();},60);}
-function reportText(note,det){const v=(document.getElementById('ver')||{}).textContent||'';let s=`SPELLSTORM PROBLEM REPORT\nWhen: ${new Date().toString()}\nVersion: ${v}\nDevice: ${navigator.userAgent}\nScreen: ${innerWidth}x${innerHeight}\n\nDescription:\n${note||'(none)'}\n`;
+function reportText(note,det){const v=(document.getElementById('ver')||{}).textContent||'';let s=`SPELLSTORM PROBLEM REPORT\nWhen: ${new Date().toString()}\nVersion: ${v}\nDevice: ${navigator.userAgent}\nScreen: ${innerWidth}x${innerHeight}\n\nDescription:\n${note||'(none)'}\n\nAnimation health: ${JSON.stringify(animDiag())}`;
   if(det&&S){s+=`\nMode: ${S.ranked?'Ranked':S.online?'Online':S.mode||'Versus'}${S.win?' (Long Match)':''} | Players: ${S.pl.map(P=>WIZ[P.wiz].short+(P.out?' (out)':'')).join(', ')}\nBattle ${S.battle}, round ${S.round}, phase ${S.phase} | Weather: ${S.wcur||'-'}\n`;
     s+=`Status: ${S.pl.map(P=>`${WIZ[P.wiz].short} hp ${P.hp}/${P.max} shards ${P.shards} tier ${P.tier} power ${P.power} mana ${P.mana} hand [${P.hand.map(c=>c.id).join(',')}]`).join(' || ')}\n`;
     s+=`\nLast log lines:\n${logs.slice(-40).map(l=>'  '+l.m).join('\n')}\n`;
@@ -2012,7 +2018,7 @@ async function begin(w,opp,o={}){
 }
 function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&&!S.pl[q].out&&(!S.team||S.team[q]!==S.team[0]))??1,wasTour=TR&&TR.tour;
   const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();}
-function teardown(){unseedRandom();if(RPLAY){speed=RPLAY.speed0;RPLAY=null;}SFX.mute=false;{const rb=document.getElementById('rpbar');if(rb)rb.classList.remove('show');}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
+function teardown(){unseedRandom();speed=OPT.speed||1;if(RPLAY){speed=RPLAY.speed0;RPLAY=null;}SFX.mute=false;{const rb=document.getElementById('rpbar');if(rb)rb.classList.remove('show');}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
 function showTitle(){setEdClass(OPT.ed1?1:2);gameId++;teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
