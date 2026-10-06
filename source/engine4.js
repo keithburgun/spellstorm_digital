@@ -73,7 +73,7 @@ function cpuDecideX(g, p, req) {
     if (d === 'easy' && Math.random() < 0.6) return req.slots[Math.floor(Math.random() * req.slots.length)];
     const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
     const tuned = false;   // test 1 (data-tuned card values) was rejected by SPRT: no gain
-    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (tuned ? (GAINADJ[id] || 0) : 0) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle ? 0 : Math.random() * 1.2); };   // puzzles: no coin flips
+    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (tuned ? (GAINADJ[id] || 0) : 0) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle || (S.aiVer && S.aiVer[p] === 'c' && d === 'expert') ? 0 : Math.random() * 1.2); };   // A/B test 9: Expert's public Storm Cloud choices without random noise   // puzzles: no coin flips
     return req.slots.slice().sort((a, b) => val(b) - val(a))[0];
   }
   return cpuDecide(g, p, req);
@@ -92,6 +92,10 @@ function softPick(scored, d) {
 // quick policy used inside Expert's look-ahead
 function fastPlay(S, p) {
   const h = S.pl[p].hand.filter(c => !CARDS[c.id].junk); if (!h.length) return null;
+  if (S.rollPol === 2 && false) {   // test 8 (counter-aware rollout player): neutral, +2 Elo over 455 games — parked
+    const oh = S.pl[nextOppOf(S, p)].hand.filter(c => !CARDS[c.id].junk), n = oh.length || 1;
+    return h.map(c => { const el = CARDS[c.id].el, beat = oh.filter(o => BEATS[el] === CARDS[o.id].el).length / n, lose = oh.filter(o => BEATS[CARDS[o.id].el] === el).length / n;
+      return { c, v: CARDS[c.id].v * .6 + 6 * beat - 6 * lose + planCardBonus(S, p, c.id) + Math.random() * 3 }; }).sort((a, b) => b.v - a.v)[0].c; }
   const oe = domEl(S.pl[nextOppOf(S, p)]);
   return h.map(c => ({ c, v: CARDS[c.id].v + (BEATS[CARDS[c.id].el] === oe ? 3 : 0) + planCardBonus(S, p, c.id) + Math.random() * 4 })).sort((a, b) => b.v - a.v)[0].c;
 }
