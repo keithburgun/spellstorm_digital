@@ -73,7 +73,7 @@ function cpuDecideX(g, p, req) {
     if (d === 'easy' && Math.random() < 0.6) return req.slots[Math.floor(Math.random() * req.slots.length)];
     const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
     const tuned = false;   // test 1 (data-tuned card values) was rejected by SPRT: no gain
-    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (tuned ? (GAINADJ[id] || 0) : 0) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle || (S.aiVer && S.aiVer[p] === 'c' && d === 'expert') ? 0 : Math.random() * 1.2); };   // A/B test 9: Expert's public Storm Cloud choices without random noise   // puzzles: no coin flips
+    const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (tuned ? (GAINADJ[id] || 0) : 0) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle ? 0 : Math.random() * 1.2); };   // (test 9, noiseless Storm Cloud choices: inconclusive, parked)   // puzzles: no coin flips
     return req.slots.slice().sort((a, b) => val(b) - val(a))[0];
   }
   return cpuDecide(g, p, req);
@@ -101,9 +101,38 @@ function fastPlay(S, p) {
 }
 const ROLL_IO = { sim: true, decide: (g, p, req) => Promise.resolve(req.k === 'play' ? fastPlay(g.S, p) : cpuDecideX(g, p, req)), log() { }, render() { }, pause() { return Promise.resolve(); } };
 
+// ---------- two-turn search: the value of the NEXT turn's simultaneous choice ----------
+class PauseAt { constructor(S) { this.S = S; } }
+const PAUSE_IO = { sim: true, decide: (g, p, req) => { if (req.k === 'play') throw new PauseAt(g.S); return Promise.resolve(cpuDecideX(g, p, req)); }, log() { }, render() { }, pause() { return Promise.resolve(); } };
+async function nextTurnRoot(S1) {   // play the next turn's Weather and draws, stop at its 'choose a card' moment
+  if (S1.over || S1.round >= 4) return null;
+  const S = structuredClone(S1), g = new Game(S, PAUSE_IO);
+  try { await g.round(S.round + 1); } catch (e) { if (e instanceof PauseAt) return e.S; if (e instanceof GameOver) return null; throw e; }
+  return null;
+}
+function rmValue(V) {   // value of a small simultaneous game (regret matching, average strategies)
+  const R = V.length, C = V[0].length, rx = Array(R).fill(0), ry = Array(C).fill(0), sx = Array(R).fill(0), sy = Array(C).fill(0);
+  const st = r => { const q = r.map(v => Math.max(0, v)), t = q.reduce((a, b) => a + b, 0); return t > 0 ? q.map(v => v / t) : r.map(() => 1 / r.length); };
+  for (let it = 0; it < 150; it++) { const x = st(rx), y = st(ry);
+    const ux = V.map(row => row.reduce((a, v, j) => a + y[j] * v, 0)), vx = x.reduce((a, xi, i) => a + xi * ux[i], 0);
+    const uy = Array.from({ length: C }, (_, j) => -V.reduce((a, row, i) => a + x[i] * row[j], 0)), vy = y.reduce((a, yj, j) => a + yj * uy[j], 0);
+    for (let i = 0; i < R; i++) { rx[i] += ux[i] - vx; sx[i] += x[i]; } for (let j = 0; j < C; j++) { ry[j] += uy[j] - vy; sy[j] += y[j]; } }
+  const tx = sx.reduce((a, b) => a + b, 0), ty = sy.reduce((a, b) => a + b, 0);
+  return V.reduce((a, row, i) => a + (sx[i] / tx) * row.reduce((b, v, j) => b + (sy[j] / ty) * v, 0), 0);
+}
+async function simDepth2(base, p, myU, oid) {
+  const S1 = await simRound(base, p, myU, oid, false, true), now = evalAI(S1, p);
+  if (S1.over) return now;
+  const root = await nextTurnRoot(S1); if (!root || root.over) return now;
+  const nx = nextOppOf(root, p), mine = [], seen = {}; for (const c of root.pl[p].hand) if (!CARDS[c.id].junk && !seen[c.id]) { seen[c.id] = 1; mine.push(c); }
+  const theirs = [...new Set(root.pl[nx].hand.filter(c => !CARDS[c.id].junk).map(c => c.id))];
+  if (!mine.length || !theirs.length) return now;
+  const V = []; for (const c of mine) { const row = []; for (const j of theirs) row.push(await simRound(root, p, c.u, j, false)); V.push(row); }
+  return 0.35 * now + 0.65 * rmValue(V);
+}
 let SIMCAP = null;   // Expert Tips reads the simulated outcomes through this (no effect on play)
 function simSnap(S, p) { const P = S.pl[p], O = S.pl[nextOppOf(S, p)]; return { hp: P.hp, ohp: O.hp, pw: (P.tier - 1) * 7 + P.power, tier: P.tier, mana: P.mana, sh: P.shards, osh: O.shards, hb: handBlast(P), ohb: handBlast(O), won: S.over && S.over.winner === p ? 1 : 0, lost: S.over && S.over.winner !== p ? 1 : 0 }; }
-async function simRound(base, p, myU, oid, lookahead) {
+async function simRound(base, p, myU, oid, lookahead, retState) {
   const S = structuredClone(base), nx = nextOppOf(S, p), me = S.pl[p], op = S.pl[nx];
   const mc = me.hand.find(x => x.u === myU); me.hand.splice(me.hand.indexOf(mc), 1); S.slot[p] = mc;
   if (oid) { const oc = op.hand.find(x => x.id === oid); op.hand.splice(op.hand.indexOf(oc), 1); S.slot[nx] = oc; }
@@ -112,6 +141,7 @@ async function simRound(base, p, myU, oid, lookahead) {
   try {
     await g.afterPlay();
   } catch (e) { if (!(e instanceof GameOver)) throw e; }
+  if (retState) return S;
   const now = evalAI(S, p); if (SIMCAP) SIMCAP.round = simSnap(S, p);
   if (!lookahead || S.over) return now;
   try { for (let r = S.round + 1; r <= 4; r++) await g.round(r); await g.regroup(); } catch (e) { if (!(e instanceof GameOver)) throw e; }
@@ -126,7 +156,7 @@ async function aiChoosePlay(S0, p) {
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   { const off = (S0.aiOff && S0.aiOff[d] != null) ? S0.aiOff[d] : (OFFSCRIPT[d] || 0); if (off && Math.random() < off) return hand[Math.floor(Math.random() * hand.length)]; }   // ladder spacing: chance of an off-script (random) card
-  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
+  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, d === 'expert' && S0.aiVer && S0.aiVer[p] === 'c' ? { n: 10, look: false, lateLook: true, mode: 'mix', depth2: true } : { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }

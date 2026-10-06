@@ -12,7 +12,7 @@ const WIZ2 = {
   eve: { hp: 12 },
   bunny: { ut: 'Reveal a non-Wizard card from your hand. Resolve it twice and discard it. All players heal 1. Lose the Initiative.' },
   omar: { ut: 'Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.' },
-  croh: { ut: 'Give a chosen opponent a CURSE. If you have at least 2 DOOM Tokens, draw your entire discard to your hand.' },
+  croh: { ut: 'Give a chosen opponent a CURSE. You may draw up to one card from your discard for each DOOM Token you have.' },
 };
 const JOURNAL2 = ['+1 mana', '+1 mana', '+1 power', '+1 power', 'You may VOID a card from your hand', 'Move an ICE, ASH or CURSE from your discard to another discard', 'Gain an Earth card', 'You may draw a Fire card from your discard to your hand'];
 function applyEdition(S, ed) { S.ed = ed; if (ed === 2) for (const P of S.pl) { const o = WIZ2[P.wiz]; if (o && o.hp) { P.max = o.hp; P.hp = o.hp; } } return S; }
@@ -145,8 +145,12 @@ Object.assign(WIZ, {
       const P = g.S.pl[p];
       if (ED2(g.S)) {   // 2E: give a chosen opponent a CURSE; with at least 2 DOOM Tokens, draw your entire discard to your hand
         const o = await g.chooseOpp(p, 'DOOOOOOOM!: give which opponent a CURSE?'); await g.gainSpecial(o, 'curse');
-        if (P.doom >= 2 && P.discard.length) { const n = P.discard.length; P.hand.push(...P.discard.splice(0)); g.log(`DOOOOOOOM! ${g.nm(p)} ${p === 0 ? 'draw' : 'draws'} ${p === 0 ? 'your' : 'his'} entire discard (${n} card${n === 1 ? '' : 's'}) into ${p === 0 ? 'your' : 'his'} hand.`, 'big'); }
-        else if (P.doom < 2) g.log(`DOOOOOOOM!: ${P.doom} DOOM Token${P.doom === 1 ? '' : 's'} — needs at least 2 to draw the discard.`);
+        const n = Math.min(P.doom || 0, P.discard.length);   // 2E (latest): up to one card from the discard per DOOM Token
+        if (n) { const pick = await g.decide(p, { k: 'pick', q: `DOOOOOOOM! You may draw up to ${n} card${n === 1 ? '' : 's'} from your discard (one per DOOM Token).`, items: P.discard.slice(), min: 0, max: n,
+            cpu: x => x.filter(c => !CARDS[c.id].junk).sort((a, b) => CARDS[b.id].v - CARDS[a.id].v).slice(0, n) });
+          for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); }
+          if (pick.length) g.log(`DOOOOOOOM! ${g.nm(p)} ${p === 0 ? 'draw' : 'draws'} ${pick.length} card${pick.length === 1 ? '' : 's'} from the discard: ${pick.map(c => CARDS[c.id].n).join(', ')}.`, 'big'); }
+        else if (!P.doom) g.log('DOOOOOOOM!: no DOOM Tokens, so no cards from the discard.');
         return; }
       if (!P.doom) { await g.gainDoom(p); return; }
       for (let i = 0; i < P.doom; i++) {
@@ -171,7 +175,7 @@ Object.assign(WIZ, {
     ult: async (g, p) => {
       const S = g.S, P = S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz && !CARDS[c.id].junk);
       if (it.length) {
-        const [c] = await g.decide(p, { k: 'pick', q: 'Cast a Magic Trick! Choose a non-Wizard card from your hand to resolve twice, then VOID.', items: it, min: 1, max: 1, cpu: x => [best(x)] });
+        const [c] = await g.decide(p, { k: 'pick', q: `Cast a Magic Trick! Choose a non-Wizard card from your hand to resolve twice, then ${ED2(S) ? 'discard it' : 'VOID it'}.`, items: it, min: 1, max: 1, cpu: x => [best(x)] });
         P.hand.splice(P.hand.indexOf(c), 1); g.log(`${g.nm(p)} ${p === 0 ? 'cast' : 'casts'} ${CARDS[c.id].n} twice!`, 'big');
         await g.resolve(p, c, 'copy'); await g.resolve(p, c, 'copy');
         if (ED2(S)) { P.discard.push(c); g.log(`${CARDS[c.id].n} goes to ${p === 0 ? 'your' : 'Bunny’s'} discard.`); } else S.void.push(c);   // 2E: discard instead of VOID

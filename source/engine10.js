@@ -13,7 +13,7 @@ async function matrixAnalyze(S0, p, cfg, uniq, cap) {
     for (const j of js) avail[j] = (avail[j] || 0) + 1;
     for (const c of uniq) for (const j of js) {
       if (cap) SIMCAP = {};
-      const v = await simRound(base, p, c.u, j === '_' ? null : j, look);
+      const v = cfg.depth2 && S0.round < 4 && j !== '_' ? await simDepth2(base, p, c.u, j) : await simRound(base, p, c.u, j === '_' ? null : j, look);
       if (cap) { const key = c.id + '|' + j, r = cap[key] = cap[key] || { n: 0, round: {}, end: {} };
         for (const [w, snap] of [['round', SIMCAP.round], ['end', SIMCAP.end || SIMCAP.round]]) if (snap) for (const f in snap) r[w][f] = (r[w][f] || 0) + snap[f];
         r.n++; SIMCAP = null; }
@@ -43,6 +43,7 @@ async function aiChooseMatrix(S0, p, cfg, hand) {
     const near = uniq.filter((c, i) => best - A.ev[i] <= span * .04); return near[Math.floor(Math.random() * near.length)];
   }
   let mix = A.mix.slice(); const top = Math.max(...mix);
+  // (test 10, lighter pruning: neutral)
   mix = mix.map(v => v < Math.max(.06, top * .15) ? 0 : v); const mt = mix.reduce((a, b) => a + b, 0) || 1;
   let r = Math.random() * mt; for (let i = 0; i < uniq.length; i++) { r -= mix[i]; if (r <= 0) return uniq[i]; } return uniq[mix.indexOf(Math.max(...mix))];
 }
