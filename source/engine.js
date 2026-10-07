@@ -61,7 +61,12 @@ const CARDS = {
     if (i < 0) return; const c = g.S.cloud[i]; g.S.cloud[i] = null; g.refill(i);
     g.log(`${g.nm(p)} resolved ${CARDS[c.id].n} from the Storm Cloud.`); await g.resolve(p, c, 'cloud'); g.S.void.push(c); }, dfx: async (g, p) => { await g.damage(p, 1); } },
   blood: { n: 'Bloodstone', el: 'E', t: 1, v: 5, disc: 1, fx: async (g, p) => {
-    await g.mana(p, 1); await g.damage(p, 1); await g.voidOneHandOrDiscard(p, 'Bloodstone: you may VOID a card from your hand or discard pile.'); }, dfx: async (g, p) => { await g.mana(p, 1); } },
+    if (ED2(g.S)) {   // 2E: you may take 1 or 2 damage, then draw that many cards
+      const P = g.S.pl[p], safe = Math.max(0, P.hp - 1), opts = ['Take 1 damage, draw 1', 'Take 2 damage, draw 2', 'Neither'], dis = [safe < 1, safe < 2, false];
+      const k = await g.decide(p, { k: 'opt', q: 'Bloodstone: you may take 1 or 2 damage, then draw that many cards.', opts, dis, cpu: P.hp >= 7 ? (dis[1] ? 0 : 1) : P.hp >= 4 ? (dis[0] ? 2 : 0) : 2 });
+      if (k < 2) { const n = k + 1; await g.damage(p, n); if (!g.S.over) await g.draw(p, n); } return; }
+    await g.mana(p, 1); await g.damage(p, 1); await g.voidOneHandOrDiscard(p, 'Bloodstone: you may VOID a card from your hand or discard pile.'); },
+    dfx: async (g, p) => { if (ED2(g.S)) { await g.damage(p, 1); return; } await g.mana(p, 1); } },   // 2E discard effect: take 1 damage
   quake: { n: 'Quake', el: 'E', t: 1, v: 7, disc: 1, fx: async (g, p) => { for (const o of g.opps(p)) { g.losePower(o, 2); await g.gainSpecial(o, 'ash'); } await g.gainCard(p); }, dfx: async (g, p) => { await g.power(p, 1); } },
   threepow: { n: 'Three Power', el: 'E', t: 2, v: 10, disc: 1, fx: async (g, p) => { await g.power(p, 2); await g.gainCard(p); if (g.S.rev.some(c => isEl(c, 'W'))) await g.power(p, 1); }, dfx: async (g, p) => { await g.power(p, 2); } },
   // fire

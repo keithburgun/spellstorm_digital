@@ -1667,7 +1667,8 @@ function edHelp(){const ch=(who,items)=>`<h3>${who}</h3><ul class="edl">${items.
      ['Shockwave: Chosen player loses 2 Power, discards a random card, loses the Initiative and takes 1 damage.','Shockwave: Chosen player takes 1 damage, loses 2 Power and 2 Mana, and takes 1 damage.'],
      ['Amber: +1 Power, then you must gain a card twice. Discard effect: +1 Power.','Amber: You may gain a card up to two times, but only Earth cards. Discard effect: +1 Power.'],
      ['Ruby: Discard the top 3 cards of your deck. Deal 1 damage per Fire card discarded, OR you may VOID one of them.','Ruby: Discard the top 3 cards of your deck. Deal 1 damage per Fire card discarded.'],
-     ['Arctite: Draw 2 cards. Heal 2 and give an ICE.','Arctite: Draw 2 cards. Opponents discard 2 random cards.']])}
+     ['Arctite: Draw 2 cards. Heal 2 and give an ICE.','Arctite: Draw 2 cards. Opponents discard 2 random cards.'],
+     ['Bloodstone: +1 Mana, take 1 damage, and you may VOID a card from your hand or discard. Discard effect: +1 Mana.','Bloodstone: You may take 1 or 2 damage, then draw that many cards. Discard effect: take 1 damage.']])}
   </div><div class="acts"><button class="btn" data-a="close">Close</button></div>`);}
 function drawSelect(){setEdClass(OPT.ed1?1:2);
   const mode=OPT.mode||'duel',np=mode==='duel'?2:mode==='ffa'?(OPT.np>2?OPT.np:4):mode==='coop'?(OPT.coopN||3):4,MPs=mode!=='duel';pickSel.opps=pickSel.opps||[];
