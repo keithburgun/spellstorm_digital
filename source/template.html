@@ -561,6 +561,12 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
 body.rm *{animation:none!important;transition:none!important}
+.olinvite{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:4px 0 10px}.olinvite p{flex-basis:100%;margin:0}
+.olslots{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}@media (max-width:520px){.olslots{grid-template-columns:1fr}}
+.olslot{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--panel2);border:2px solid transparent}.olslot.rdy{border-color:#1f9a57}
+.olslot .por{width:48px;height:48px;flex:none;border-radius:50%}.olslot .por.dim{opacity:.3;filter:grayscale(1)}.olslot div{display:flex;flex-direction:column;min-width:0}
+.olslot .olrdy{font-size:.8rem;font-weight:700}.olslot.rdy .olrdy{color:#1f9a57}
+.lobbybanner{margin:0 auto 10px;max-width:520px;padding:10px 14px;border-radius:14px;background:var(--panel);box-shadow:0 2px 10px rgba(0,0,0,.12);text-align:center}.lobbybanner .btn{margin-left:8px}
 .libed{display:inline-flex;margin:0 auto 8px}
 .qlink{background:none;border:0;padding:0;margin:0;font-family:inherit;cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px}.qlink:hover{text-decoration-style:solid}
 .edwrap{max-width:680px;margin:0 auto;text-align:left}.edwrap h3{margin:.9em 0 .3em}
@@ -681,7 +687,7 @@ body.rm *{animation:none!important;transition:none!important}
 <div id="potov" aria-live="polite"></div>
 <div id="nb" aria-hidden="true"><div class="nbt">NEW BATTLE!</div><div class="nbs"></div></div>
 <div id="title"><div class="hero ci-hero2" aria-hidden="true"></div><div class="tlogo ci-logo" role="img" aria-label="Spellstorm"></div>
-  <nav class="tmenu" aria-label="Main menu"><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_online" id="onlbtn">Play Online</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
+  <div id="lobbybanner" class="lobbybanner" hidden></div><nav class="tmenu" aria-label="Main menu"><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_online" id="onlbtn">Play Online</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
   <p class="fine">Duel CPU wizards in the storm.</p></div>
 <div id="start">
   <h1 class="slogo"><span class="ci-logo" role="img" aria-label="Spellstorm"></span></h1>
@@ -1088,35 +1094,42 @@ async function onlConnect(code){
   return {kind:'local',presence:p=>{for(const k in p){if(p[k]===null)delete mine[k];else mine[k]=p[k];}send(false);return Promise.resolve();},onPeers:fn=>{pfn=fn;fn(list());},
     write:s=>{try{localStorage.setItem('ss-online-'+code,JSON.stringify(s));}catch(e){}bc.postMessage({t:'s',s});return Promise.resolve();},
     watch:fn=>{wfn=fn;try{const v=localStorage.getItem('ss-online-'+code);if(v)fn(JSON.parse(v));}catch(e){}},leave:()=>{bc.postMessage({t:'bye',from:me});bc.close();}};}
-function onlLeave(){try{ONL.net&&ONL.net.leave();}catch(e){}ONL=onlFresh();$('#onlbar').classList.remove('show');}
+function onlLeave(){if(ONL.role==='host')lobbyAnnounce(null);try{ONL.net&&ONL.net.leave();}catch(e){}ONL=onlFresh();$('#onlbar').classList.remove('show');}
 // ----- lobby -----
-function onlWizTiles(){return `<div class="tiles">${ROSTER.map(w=>`<button class="tile" data-a="olwiz" data-w="${w}" aria-pressed="${pickSel.me===w}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${WIZ[w].hp} health</span></button>`).join('')}</div>`;}
+function onlEd(){return ONL.role==='guest'&&ONL.host&&ONL.host.ed?ONL.host.ed:(OPT.ed1?1:2);}   // a match uses the HOST's edition
+function onlWizTiles(){const ed=onlEd();return `<div class="tiles">${ROSTER.map(w=>`<button class="tile" data-a="olwiz" data-w="${w}" aria-pressed="${pickSel.me===w}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${wizInfo(w,ed).hp} health</span></button>`).join('')}</div>`;}
 function onlMenu(pre){openOv(`<h2>Play a friend online</h2><p>A simple 1-vs-1 match against someone with access to this Spellstorm page. Online matches aren’t recorded in your stats.</p>
   <h3>Your wizard</h3>${onlWizTiles()}
   <div class="olgrid"><div><h3>Host a game</h3><p class="lbl">You get a code to send your friend. Hosting needs edit or Contributor access to this page.</p><button class="btn" data-a="olhost">Host a game</button></div>
   <div><h3>Join a game</h3><p class="lbl">Enter the code your friend sent you.</p><input id="olcode" class="olin" maxlength="6" placeholder="code" value="${esc(pre||'')}" autocomplete="off"> <button class="btn" data-a="oljoin">Join</button></div></div>
   <div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);$('#sheet').classList.add('wide');}
-function onlLobby(msg){if(ONL.started)return;const me=ONL.role==='host',g=ONL.guest,h=ONL.host;
-  const body=me?`<p>Send your friend this code (and the Spellstorm link):</p><div class="olcodebig">${ONL.code.toUpperCase()}</div><p class="lbl" style="word-break:break-all">${ONL_URL}#join=${ONL.code}</p>
-     <p>${g?`<b>Opponent connected</b>, playing ${RNAME[g.wiz]||'?'}.`:'Waiting for your opponent to join…'}</p><div class="acts"><button class="btn alt" data-a="olcancel">Cancel</button><button class="btn" data-a="olstart" ${g&&g.wiz?'':'disabled'}>Start the match</button></div>`
-    :`<p>Joined game <b>${ONL.code.toUpperCase()}</b> as ${RNAME[pickSel.me]}.</p><p>${h?'Connected to the host. Waiting for them to start…':'Looking for the host…'}</p><div class="acts"><button class="btn alt" data-a="olcancel">Leave</button></div>`;
-  openOv(`<h2>Online match</h2>${msg?`<p class="olerr">${esc(msg)}</p>`:''}${body}`);}
+function onlLink(){return `${ONL_URL}#join=${ONL.code}`;}
+function onlLobby(msg){if(ONL.started)return;const host=ONL.role==='host',opp=host?ONL.guest:ONL.host,both=ONL.ready&&opp&&opp.ready&&opp.wiz;
+  const slot=(lab,w,ready,here)=>`<div class="olslot${ready?' rdy':''}"><i class="por ci-wz_${w||'derby'}${w&&here?'':' dim'}"></i><div><b>${lab}</b><span>${here?(w?RNAME[w]:'Choosing…'):(host?'Waiting for your friend…':'Connecting to the host…')}</span><span class="olrdy">${here?(ready?'Ready ✓':'Not ready'):''}</span></div></div>`;
+  const invite=host?`<div class="olinvite"><button class="btn" data-a="olcopy">Copy invite link</button><span class="lbl">or have them enter the code <b>${ONL.code.toUpperCase()}</b></span>
+     <p class="lbl">Your friend needs to be signed in to Claude, with access to this page (use Share to invite them). Opening your link joins this game; otherwise they’ll see your game waiting when they open Spellstorm.</p></div>`:'';
+  openOv(`<h2>Online match</h2>${msg?`<p class="olerr">${esc(msg)}</p>`:''}${invite}
+   <p class="lbl">Rules: ${onlEd()===2?'2nd Edition Rebalance':'First Edition Balance'}${host?' (set by your setup option)':' (the host’s choice)'}</p>
+   <div class="olslots">${slot('You',pickSel.me,ONL.ready,true)}${slot(host?'Opponent':'Host',opp&&opp.wiz,opp&&opp.ready,!!opp)}</div>
+   ${ONL.ready?`<p class="lbl">${both?'Both players are ready — starting…':'You’re ready. Waiting for your opponent…'}</p>`:`<h3>Choose your wizard</h3>${onlWizTiles()}`}
+   <div class="acts"><button class="btn alt" data-a="olcancel">Leave</button><button class="btn" data-a="olready" ${both?'disabled':''}>${ONL.ready?'Not ready':'Ready'}</button></div>`);$('#sheet').classList.add('wide');}
+function onlMaybeStart(){if(ONL.role!=='host'||ONL.started||ONL.starting)return;const g=ONL.guest;if(ONL.ready&&g&&g.ready&&g.wiz){ONL.starting=true;setTimeout(()=>{ONL.starting=false;const g2=ONL.guest;if(ONL.ready&&g2&&g2.ready&&g2.wiz&&!ONL.started)onlStart();},900);}}
 async function onlHost(){const code=onlCode();ONL=onlFresh();Object.assign(ONL,{on:true,role:'host',code});
   try{ONL.net=await onlConnect(code);await ONL.net.write({status:'lobby',code});}
   catch(e){const m=e&&e.message||'';onlLeave();onlMenu();$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(/permit|denied|not_/.test(m)||!m?'Couldn’t create the game. Hosting needs edit or Contributor access to this page; ask the page owner to host, or to give you access.':m)}</p>`);return;}
-  ONL.net.presence({role:'host',wiz:pickSel.me});
-  ONL.net.onPeers(ps=>{const prev=ONL.guest;ONL.guest=ps.find(x=>x.role==='guest')||null;if(!ONL.started)onlLobby();else{onlBar();if(!prev&&ONL.guest)onlPush(true);}onlCheckAns();});
+  ONL.net.presence({role:'host',wiz:pickSel.me,ready:false,ed:OPT.ed1?1:2});lobbyAnnounce(code);
+  ONL.net.onPeers(ps=>{const prev=ONL.guest;ONL.guest=ps.find(x=>x.role==='guest')||null;if(!ONL.started){onlLobby();onlMaybeStart();}else{onlBar();if(!prev&&ONL.guest)onlPush(true);}onlCheckAns();});
   onlLobby();}
 async function onlJoin(code){code=(code||'').trim().toLowerCase();if(!/^[a-z0-9]{6}$/.test(code)){toast('Enter the 6-character code.');return;}
   ONL=onlFresh();Object.assign(ONL,{on:true,role:'guest',code});
   try{ONL.net=await onlConnect(code);}catch(e){onlLeave();onlMenu(code);$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(e.message)}</p>`);return;}
-  ONL.net.presence({role:'guest',wiz:pickSel.me,ans:null});
+  ONL.net.presence({role:'guest',wiz:pickSel.me,ready:false,ans:null});
   ONL.net.onPeers(ps=>{ONL.host=ps.find(x=>x.role==='host')||null;if(!ONL.started)onlLobby();else onlBar();});
   ONL.net.watch(st=>onlGuestState(st));onlLobby();}
 function onlBar(){const b=$('#onlbar');if(!ONL.on||!ONL.started){b.classList.remove('show');return;}const other=ONL.role==='host'?ONL.guest:ONL.host;
   b.textContent=other?'':'Your opponent disconnected. Waiting for them to come back…';b.classList.toggle('show',!other&&!(S&&S.over));}
 // ----- host side -----
-function onlStart(){const g=ONL.guest;if(!g||!g.wiz)return;closeOv();ONL.started=true;begin(pickSel.me,g.wiz,{online:true});}
+function onlStart(){const g=ONL.guest;if(!g||!g.wiz)return;closeOv();ONL.started=true;lobbyAnnounce(null);begin(pickSel.me,g.wiz,{online:true});}
 function onlRemoteDecide(g,p,req){return new Promise(res=>{const id=++ONL.reqId;ONL.pendingRemote={id,req,res};thinking=true;render();onlPush(true);onlCheckAns();});}
 function onlCheckAns(){const R=ONL.pendingRemote,a=ONL.guest&&ONL.guest.ans;if(!R||!a||a.id!==R.id)return;ONL.pendingRemote=null;thinking=false;R.res(onlDecode(R.req,a.v));onlPush(true);}
 function onlDecode(req,v){if(req.k==='play')return S.pl[1].hand.find(c=>c.u===v)||null;
@@ -1587,10 +1600,13 @@ document.addEventListener('click',e=>{
   if(a==='mmcancel'){MM=null;closeOv();return;}
   if(a==='rankagain'){closeOv();rankedLaunch();return;}
   if(a==='t_online'){onlMenu();return;}
-  if(a==='olwiz'){pickSel.me=b.dataset.w;document.querySelectorAll('#sheet [data-a=olwiz]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.w===pickSel.me));if(ONL.on&&ONL.net)ONL.net.presence({wiz:pickSel.me});return;}
+  if(a==='olwiz'){if(ONL.ready)return;pickSel.me=b.dataset.w;document.querySelectorAll('#sheet [data-a=olwiz]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.w===pickSel.me));if(ONL.on&&ONL.net){ONL.net.presence({wiz:pickSel.me});if(!ONL.started)onlLobby();}return;}
   if(a==='olhost'){onlHost();return;}
   if(a==='oljoin'){onlJoin(($('#olcode')||{}).value);return;}
   if(a==='olstart'){onlStart();return;}
+  if(a==='olready'){ONL.ready=!ONL.ready;if(ONL.net)ONL.net.presence({ready:ONL.ready,wiz:pickSel.me});onlLobby();onlMaybeStart();return;}
+  if(a==='olcopy'){const l=onlLink();(navigator.clipboard?navigator.clipboard.writeText(l):Promise.reject()).then(()=>toast('Invite link copied — send it to your friend.'),()=>{prompt('Copy this invite link:',l);});return;}
+  if(a==='oljoinlobby'){closeOv();onlJoin(b.dataset.code);return;}
   if(a==='olcancel'){onlLeave();closeOv();return;}
   if(a==='olexit'){onlLeave();closeOv();showTitle();return;}
   if(a==='hrow'){const i=+b.dataset.i;HOPEN=HOPEN===i?-1:i;statsSheet();return;}
@@ -2050,7 +2066,17 @@ const APP_VERSION='__APP_VERSION__';
 function setVer(v){const e=document.getElementById('ver');if(e)e.textContent=v;}
 {const q=new URLSearchParams(location.search).get('v');setVer(q?'v'+q:APP_VERSION);}
 document.documentElement.style.setProperty('--scene','url('+IMG.scene+')');
-setTimeout(()=>{const m=(location.hash||'').match(/join=([a-z0-9]{6})/i);if(m&&!onlInApp())onlMenu(m[1].toLowerCase());},400);
+function onlCodeFromLink(){for(const s of [location.hash,location.search,document.referrer]){const m=String(s||'').match(/join=([a-z0-9]{6})/i);if(m)return m[1].toLowerCase();}return null;}
+setTimeout(()=>{const c=onlCodeFromLink();if(c&&!onlInApp()&&!ONL.on)onlJoin(c);},600);   // opening an invite link joins that game
+// The shared lobby: every open copy of the game hears who is hosting, so a friend sees your game even if the link's code doesn't come through.
+let LOBBY=null,LOBBYHOSTS=[];
+async function lobbyInit(){if(onlInApp()||!(window.claude&&claude.use))return;try{const r=await claude.use('room');if(!r)return;LOBBY=r;
+  r.onPeers(ch=>{LOBBYHOSTS=ch.peers.filter(x=>!x.isMe&&x.presence&&typeof x.presence.hosting==='string').map(x=>({code:x.presence.hosting,by:x.by}));lobbyBanner();});}catch(e){}}
+function lobbyAnnounce(code){if(LOBBY)LOBBY.presence({hosting:code||null}).catch(()=>{});}
+async function lobbyBanner(){const el=document.getElementById('lobbybanner');if(!el)return;const h=ONL.on?null:LOBBYHOSTS[0];if(!h){el.hidden=true;return;}
+  let name='A friend';try{const u=await claude.use('user');if(u&&h.by){const ps=await u.profiles([h.by]);name=(ps&&ps[h.by]&&ps[h.by].name)||name;}}catch(e){}
+  el.innerHTML=`<b>${esc(name)}</b> is waiting for an opponent in Spellstorm. <button class="btn sm" data-a="oljoinlobby" data-code="${esc(h.code)}">Join</button>`;el.hidden=false;}
+setTimeout(lobbyInit,800);
 applyOpt();showTitle();
 </script>
 </body>
