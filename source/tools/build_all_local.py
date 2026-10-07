@@ -37,6 +37,14 @@ itch=app.replace("onlInApp=()=>!!window.Capacitor||/[?&]v=/.test(location.search
 assert 'onlInApp=()=>true;' in itch
 itch=itch.replace('</body>','<script>try{setVer("itch "+'+repr(stamp.replace('web ',''))+');}catch(e){}</script>\n</body>',1)
 import os,zipfile
+# (4) standalone web WITH online play: peer-to-peer (PeerJS embedded), invite links read from the page's own address
+peerjs=open('p2p/node_modules/peerjs/dist/peerjs.min.js').read()
+onl=app.replace("onlInApp=()=>!!window.Capacitor||/[?&]v=/.test(location.search);","onlInApp=()=>false;",1)
+assert 'onlInApp=()=>false;' in onl
+onl=onl.replace('</head>','<script>window.SS_P2P=true;</script><script>'+peerjs+'</script>\n</head>',1)
+onl=onl.replace('</body>','<script>try{setVer("web "+'+repr(stamp.replace('web ',''))+');}catch(e){}</script>\n</body>',1)
+os.makedirs('pkg_online',exist_ok=True);open('pkg_online/index.html','w').write(onl)
+with zipfile.ZipFile('/mnt/user-data/outputs/spellstorm-web-online.zip','w',zipfile.ZIP_DEFLATED,compresslevel=9) as z: z.write('pkg_online/index.html','index.html')
 os.makedirs('pkg_itch',exist_ok=True);open('pkg_itch/index.html','w').write(itch)
 with zipfile.ZipFile('/mnt/user-data/outputs/spellstorm-itch.zip','w',zipfile.ZIP_DEFLATED,compresslevel=9) as z: z.write('pkg_itch/index.html','index.html')
 for n,s in [('web',web),('app',app)]:

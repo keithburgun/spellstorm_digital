@@ -1080,7 +1080,28 @@ const onlFresh=()=>({on:false,role:null,code:null,net:null,guest:null,host:null,
 let ONL=onlFresh();
 const onlInApp=()=>!!window.Capacitor||/[?&]v=/.test(location.search);
 function onlCode(){const a='abcdefghjkmnpqrstuvwxyz23456789';return Array.from({length:6},()=>a[Math.floor(Math.random()*a.length)]).join('');}
-async function onlConnect(code){
+// Standalone web builds (itch.io / your own site): peer-to-peer via PeerJS (WebRTC). The host takes a PeerJS id made from the game code;
+// the guest connects to it. Same interface as the claude.ai transport: presence / onPeers / write / watch / leave.
+function onlP2P(code,role){return new Promise((resolve,reject)=>{
+  const cfg=Object.assign({debug:0},window.SS_PEER_CFG||{}),id='spellstorm-'+code;let done=false;
+  const peer=role==='host'?new Peer(id,cfg):new Peer(cfg);const conns=new Set(),mine={},others=new Map();let pfn=null,wfn=null,last=null;
+  const list=()=>[...others.values()],sendAll=m=>{for(const c of conns)if(c.open){try{c.send(m);}catch(e){}}};
+  const fail=msg=>{if(!done){done=true;try{peer.destroy();}catch(e){}reject(new Error(msg));}};
+  const hook=c=>{conns.add(c);
+    c.on('open',()=>{try{c.send({t:'p',p:mine});if(role==='host'&&last)c.send({t:'s',s:last});}catch(e){}});
+    c.on('data',m=>{if(!m||typeof m!=='object')return;if(m.t==='p'){others.set(c.peer,m.p||{});pfn&&pfn(list());}else if(m.t==='s'&&role==='guest'){last=m.s;wfn&&wfn(m.s);}else if(m.t==='bye'){others.delete(c.peer);pfn&&pfn(list());}});
+    c.on('close',()=>{conns.delete(c);others.delete(c.peer);pfn&&pfn(list());});c.on('error',()=>{});};
+  const api={kind:'p2p',presence:p=>{for(const k in p){if(p[k]===null)delete mine[k];else mine[k]=p[k];}sendAll({t:'p',p:mine});return Promise.resolve();},
+    onPeers:fn=>{pfn=fn;fn(list());},write:s=>{last=s;sendAll({t:'s',s});return Promise.resolve();},watch:fn=>{wfn=fn;if(last)fn(last);},
+    leave:()=>{sendAll({t:'bye'});setTimeout(()=>{try{peer.destroy();}catch(e){}},250);}};
+  peer.on('error',e=>{const ty=e&&e.type;fail(ty==='unavailable-id'?'That game code is already in use. Please try hosting again.':ty==='peer-unavailable'?'Couldn’t find that game. Check the code, and make sure your friend is still hosting.':/network|server-error|socket-error|socket-closed/.test(ty||'')?'Couldn’t reach the matchmaking service. Check your internet connection and try again.':'Couldn’t connect ('+(ty||'unknown error')+'). Please try again.');});
+  if(role==='host'){peer.on('open',()=>{if(!done){done=true;resolve(api);}});peer.on('connection',c=>hook(c));}
+  else peer.on('open',()=>{const c=peer.connect(id,{reliable:true});hook(c);const to=setTimeout(()=>fail('Couldn’t reach the host. Check the code, and make sure your friend is still hosting.'),15000);
+    c.on('open',()=>{clearTimeout(to);if(!done){done=true;resolve(api);}});});
+  setTimeout(()=>fail('Couldn’t reach the matchmaking service. Check your internet connection and try again.'),20000);
+});}
+async function onlConnect(code,role){
+  if(window.SS_P2P&&window.Peer)return onlP2P(code,role);
   if(window.claude&&claude.use){let room=null,db=null;
     try{const r=await claude.use('room');db=await claude.use('db');if(r)room=await r.join('ss-'+code);}catch(e){room=null;}
     if(!room||!db)throw new Error('Online play isn’t available in this view. Make sure you’re signed in to Claude and opening Spellstorm from its claude.ai link.');
@@ -1098,16 +1119,16 @@ function onlLeave(){if(ONL.role==='host')lobbyAnnounce(null);try{ONL.net&&ONL.ne
 // ----- lobby -----
 function onlEd(){return ONL.role==='guest'&&ONL.host&&ONL.host.ed?ONL.host.ed:(OPT.ed1?1:2);}   // a match uses the HOST's edition
 function onlWizTiles(){const ed=onlEd();return `<div class="tiles">${ROSTER.map(w=>`<button class="tile" data-a="olwiz" data-w="${w}" aria-pressed="${pickSel.me===w}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${wizInfo(w,ed).hp} health</span></button>`).join('')}</div>`;}
-function onlMenu(pre){openOv(`<h2>Play a friend online</h2><p>A simple 1-vs-1 match against someone with access to this Spellstorm page. Online matches aren’t recorded in your stats.</p>
+function onlMenu(pre){openOv(`<h2>Play a friend online</h2><p>A simple 1-vs-1 match against ${window.SS_P2P?'a friend':'someone with access to this Spellstorm page'}. Online matches aren’t recorded in your stats.</p>
   <h3>Your wizard</h3>${onlWizTiles()}
-  <div class="olgrid"><div><h3>Host a game</h3><p class="lbl">You get a code to send your friend. Hosting needs edit or Contributor access to this page.</p><button class="btn" data-a="olhost">Host a game</button></div>
+  <div class="olgrid"><div><h3>Host a game</h3><p class="lbl">You get a link and a code to send your friend.${window.SS_P2P?'':' Hosting needs edit or Contributor access to this page.'}</p><button class="btn" data-a="olhost">Host a game</button></div>
   <div><h3>Join a game</h3><p class="lbl">Enter the code your friend sent you.</p><input id="olcode" class="olin" maxlength="6" placeholder="code" value="${esc(pre||'')}" autocomplete="off"> <button class="btn" data-a="oljoin">Join</button></div></div>
   <div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);$('#sheet').classList.add('wide');}
-function onlLink(){return `${ONL_URL}#join=${ONL.code}`;}
+function onlLink(){return window.SS_P2P?`${location.href.split('#')[0]}#join=${ONL.code}`:`${ONL_URL}#join=${ONL.code}`;}
 function onlLobby(msg){if(ONL.started)return;const host=ONL.role==='host',opp=host?ONL.guest:ONL.host,both=ONL.ready&&opp&&opp.ready&&opp.wiz;
   const slot=(lab,w,ready,here)=>`<div class="olslot${ready?' rdy':''}"><i class="por ci-wz_${w||'derby'}${w&&here?'':' dim'}"></i><div><b>${lab}</b><span>${here?(w?RNAME[w]:'Choosing…'):(host?'Waiting for your friend…':'Connecting to the host…')}</span><span class="olrdy">${here?(ready?'Ready ✓':'Not ready'):''}</span></div></div>`;
   const invite=host?`<div class="olinvite"><button class="btn" data-a="olcopy">Copy invite link</button><span class="lbl">or have them enter the code <b>${ONL.code.toUpperCase()}</b></span>
-     <p class="lbl">Your friend needs to be signed in to Claude, with access to this page (use Share to invite them). Opening your link joins this game; otherwise they’ll see your game waiting when they open Spellstorm.</p></div>`:'';
+     <p class="lbl">${window.SS_P2P?'Send your friend the link: opening it joins this game. (Or they can choose Join a game and enter the code.)':'Your friend needs to be signed in to Claude, with access to this page (use Share to invite them). Opening your link joins this game; otherwise they’ll see your game waiting when they open Spellstorm.'}</p></div>`:'';
   openOv(`<h2>Online match</h2>${msg?`<p class="olerr">${esc(msg)}</p>`:''}${invite}
    <p class="lbl">Rules: ${onlEd()===2?'2nd Edition Rebalance':'First Edition Balance'}${host?' (set by your setup option)':' (the host’s choice)'}</p>
    <div class="olslots">${slot('You',pickSel.me,ONL.ready,true)}${slot(host?'Opponent':'Host',opp&&opp.wiz,opp&&opp.ready,!!opp)}</div>
@@ -1115,14 +1136,14 @@ function onlLobby(msg){if(ONL.started)return;const host=ONL.role==='host',opp=ho
    <div class="acts"><button class="btn alt" data-a="olcancel">Leave</button><button class="btn" data-a="olready" ${both?'disabled':''}>${ONL.ready?'Not ready':'Ready'}</button></div>`);$('#sheet').classList.add('wide');}
 function onlMaybeStart(){if(ONL.role!=='host'||ONL.started||ONL.starting)return;const g=ONL.guest;if(ONL.ready&&g&&g.ready&&g.wiz){ONL.starting=true;setTimeout(()=>{ONL.starting=false;const g2=ONL.guest;if(ONL.ready&&g2&&g2.ready&&g2.wiz&&!ONL.started)onlStart();},900);}}
 async function onlHost(){const code=onlCode();ONL=onlFresh();Object.assign(ONL,{on:true,role:'host',code});
-  try{ONL.net=await onlConnect(code);await ONL.net.write({status:'lobby',code});}
-  catch(e){const m=e&&e.message||'';onlLeave();onlMenu();$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(/permit|denied|not_/.test(m)||!m?'Couldn’t create the game. Hosting needs edit or Contributor access to this page; ask the page owner to host, or to give you access.':m)}</p>`);return;}
+  try{ONL.net=await onlConnect(code,'host');await ONL.net.write({status:'lobby',code});}
+  catch(e){const m=e&&e.message||'';onlLeave();onlMenu();$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(window.SS_P2P?m:/permit|denied|not_/.test(m)||!m?'Couldn’t create the game. Hosting needs edit or Contributor access to this page; ask the page owner to host, or to give you access.':m)}</p>`);return;}
   ONL.net.presence({role:'host',wiz:pickSel.me,ready:false,ed:OPT.ed1?1:2});lobbyAnnounce(code);
   ONL.net.onPeers(ps=>{const prev=ONL.guest;ONL.guest=ps.find(x=>x.role==='guest')||null;if(!ONL.started){onlLobby();onlMaybeStart();}else{onlBar();if(!prev&&ONL.guest)onlPush(true);}onlCheckAns();});
   onlLobby();}
 async function onlJoin(code){code=(code||'').trim().toLowerCase();if(!/^[a-z0-9]{6}$/.test(code)){toast('Enter the 6-character code.');return;}
   ONL=onlFresh();Object.assign(ONL,{on:true,role:'guest',code});
-  try{ONL.net=await onlConnect(code);}catch(e){onlLeave();onlMenu(code);$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(e.message)}</p>`);return;}
+  try{ONL.net=await onlConnect(code,'guest');}catch(e){onlLeave();onlMenu(code);$('#sheet').insertAdjacentHTML('afterbegin',`<p class="olerr">${esc(e.message)}</p>`);return;}
   ONL.net.presence({role:'guest',wiz:pickSel.me,ready:false,ans:null});
   ONL.net.onPeers(ps=>{ONL.host=ps.find(x=>x.role==='host')||null;if(!ONL.started)onlLobby();else onlBar();});
   ONL.net.watch(st=>onlGuestState(st));onlLobby();}
