@@ -561,6 +561,8 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
 #toast{transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease!important;transform:translate(-50%,calc(-50% - 46px)) scale(1)!important}
 #toast.show{transform:translate(-50%,-50%) scale(1)!important}
 body.rm *{animation:none!important;transition:none!important}
+.acctform{display:grid;gap:10px;max-width:360px;margin:8px auto}.acctform label{display:grid;gap:4px;font-weight:700;font-size:.9rem}
+.acctform input{font:inherit;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--panel);color:inherit}.acok{color:#1f9a57;font-weight:700}
 .olinvite{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:4px 0 10px}.olinvite p{flex-basis:100%;margin:0}
 .olslots{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}@media (max-width:520px){.olslots{grid-template-columns:1fr}}
 .olslot{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--panel2);border:2px solid transparent}.olslot.rdy{border-color:#1f9a57}
@@ -1575,6 +1577,13 @@ document.addEventListener('click',e=>{
   if(a==='trap'){const T=S.pl[+b.dataset.p].trap;if(T)openOv(`<div class="bigcard ci-${TRAPS[T.id].img}"></div><p style="text-align:center">${T.used?'Used — inactive until the next Hidden Movement.':'Armed. '+esc(TRAPS[T.id].trig)}</p><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
   if(a==='t_play'){$('#title').style.display='none';showStart();return;}
   if(a==='t_opts'){optionsSheet();return;}
+  if(a==='acct'){acctSheet();return;}
+  if(a==='acctgo'||a==='acctnew'){acctSubmit(a==='acctnew');return;}
+  if(a==='acctforgot'){acctForgot();return;}
+  if(a==='syncnow'){SYNC.run().then(()=>toast(SYNC.S.err||'Your progress is synced.'));return;}
+  if(a==='acctout'){openOv(`<h2>Sign out?</h2><p>Your progress stays safe in your account. This device goes back to a fresh guest profile, and signing in again brings everything back.</p><div class="acts"><button class="btn" data-a="acctout2">Sign out</button><button class="btn alt" data-a="t_opts">Cancel</button></div>`);return;}
+  if(a==='acctout2'){b.disabled=true;b.textContent='Signing out…';SYNC.signOut().then(()=>{optionsSheet();toast('Signed out.');});return;}
+  if(a==='newpw'){acctNewPw();return;}
   if(a==='t_stats'){statsTab='rec';statsSheet();return;}
   if(a==='t_exit'){exitGame();return;}
   if(a==='totitle'){closeOv();if(ONL.on)onlLeave();showTitle();return;}
@@ -1594,7 +1603,7 @@ document.addEventListener('click',e=>{
   if(a==='ack'){const k=ACK;ACK=null;if(k){k.res();render();}return;}
   if(a==='openopt'){if(pending&&pending.req.k==='opt')optSheet(pending.req);return;}
   if(a==='exittour'){const T=loadProf().tour;openOv(`<h2>Exit tournament?</h2><p>This ends your tournament run (${T?T.wins:0}/7 as ${T?RNAME[T.me]:''}). You can start a new one any time.</p><div class="acts"><button class="btn" data-a="abandon2" style="background:var(--hp)">Exit tournament</button><button class="btn alt" data-a="close">Keep going</button></div>`);return;}
-  if(a==='wipe1'){openOv(`<h2>Wipe all data?</h2><p>This permanently erases your stats, all achievements, tournament trophies, any tournament in progress, and your settings on this device.</p><div class="acts"><button class="btn" data-a="wipe2" style="background:var(--hp)">Wipe everything</button><button class="btn alt" data-a="t_opts">Cancel</button></div>`);return;}
+  if(a==='wipe1'){openOv(`<h2>Wipe all data?</h2><p>This permanently erases your stats, all achievements, tournament trophies, any tournament in progress, and your settings on this device.${SYNC.S.ses?' <b>You’re signed in, so this also erases the progress saved in your account.</b>':''}</p><div class="acts"><button class="btn" data-a="wipe2" style="background:var(--hp)">Wipe everything</button><button class="btn alt" data-a="t_opts">Cancel</button></div>`);return;}
   if(a==='wipe2'){try{localStorage.removeItem(PKEY);localStorage.removeItem(OKEY);}catch(e){}OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};applyOpt();pickSel={me:'derby',opp:'eve'};rnd={me:false,opp:false};closeOv();toast('All data wiped');if($('#start').style.display!=='none')drawSelect();return;}
   if(a==='t_cont'){const sv=loadSave();if(sv)begin(null,null,{resume:sv});return;}
   if(a==='tutstart'){closeOv();begin('derby','eve',{tutorial:true,diff:'easy'});return;}
@@ -1850,11 +1859,112 @@ function launch(){
 /* ---------- options & profile ---------- */
 const PKEY='spellstorm.profile.v1',OKEY='spellstorm.options.v1';
 let OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};try{Object.assign(OPT,JSON.parse(localStorage.getItem(OKEY)||'{}'));}catch(e){}
-function saveOpt(){try{localStorage.setItem(OKEY,JSON.stringify(OPT));}catch(e){}}
+function saveOpt(){try{localStorage.setItem(OKEY,JSON.stringify(OPT));const m=JSON.parse(localStorage.getItem('spellstorm.sync.v1')||'{}');m.omt=Date.now();localStorage.setItem('spellstorm.sync.v1',JSON.stringify(m));}catch(e){}try{SYNC.dirty();}catch(e){}}
 function applyOpt(){document.body.classList.toggle('rm',OPT.motion==='reduced');speed=OPT.speed;document.body.classList.toggle('cb',OPT.cb==='on');const r=document.documentElement;if(OPT.theme==='auto')delete r.dataset.theme;else r.dataset.theme=OPT.theme;}
 function blankProf(){return {ffa:{g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},tour:null,tbest:{},trophy:{},v:1,games:0,wins:0,streak:0,best:0,hstreak:0,hbest:0,rec:{normal:{},hard:{}},tot:{dmg:0,heal:0,counters:0,ults:0,shards:0},by:{shards:0,health:0},ach:{}};}
 function loadProf(){try{const p=JSON.parse(localStorage.getItem(PKEY)||'null');if(p&&p.v===1)return Object.assign(blankProf(),p);}catch(e){}return blankProf();}
-function saveProf(p){try{localStorage.setItem(PKEY,JSON.stringify(p));}catch(e){}}
+function saveProf(p){try{p.mt=Date.now();localStorage.setItem(PKEY,JSON.stringify(p));}catch(e){}SYNC.dirty();}
+// ===================== Account + cross-device sync (Supabase) =====================
+// The profile (stats, history without replays, Ranked, achievements, trophies, puzzles, Dailies) and most options sync to one private row per account.
+// Conflicts (two devices changed things offline) resolve by a three-way merge against the last synced copy, so nothing earned is lost.
+const SUPA=Object.assign({url:'https://bdncsprakdvvmfnxxlqr.supabase.co',key:'sb_publishable_y_mJp1WbutYXVPPKbrl1lQ_4vpZ5GqN'},window.SS_SUPA_CFG||{});
+const AKEY='spellstorm.auth.v1',YKEY='spellstorm.sync.v1',OPT_LOCAL=['vol','phone','mt'];
+const SYNC=(()=>{
+  const S={on:!!window.SS_SYNC,ses:null,state:'idle',last:0,err:'',timer:null,chain:Promise.resolve(),quiet:false};
+  try{S.ses=JSON.parse(localStorage.getItem(AKEY)||'null');}catch(e){}
+  const meta=()=>{try{return JSON.parse(localStorage.getItem(YKEY)||'null')||{};}catch(e){return {};}};
+  const setMeta=m=>{try{localStorage.setItem(YKEY,JSON.stringify(m));}catch(e){}};
+  const keep=s=>{S.ses=s;try{s?localStorage.setItem(AKEY,JSON.stringify(s)):localStorage.removeItem(AKEY);}catch(e){}};
+  // ---- HTTP ----
+  async function call(path,o={}){const h={apikey:SUPA.key,'Content-Type':'application/json'};if(o.tok)h.Authorization='Bearer '+o.tok;if(o.prefer)h.Prefer=o.prefer;
+    const ac=typeof AbortController!=='undefined'?new AbortController():null,to=setTimeout(()=>ac&&ac.abort(),15000);let r;
+    try{r=await fetch(SUPA.url+path,{method:o.method||'GET',headers:h,body:o.body===undefined?undefined:JSON.stringify(o.body),signal:ac&&ac.signal});}
+    catch(e){throw {status:0,msg:'Couldn’t reach the sync service. Check your internet connection.'};}finally{clearTimeout(to);}
+    let j=null;try{const tx=await r.text();j=tx?JSON.parse(tx):null;}catch(e){}
+    if(!r.ok)throw {status:r.status,code:j&&(j.error_code||j.code),msg:j&&(j.msg||j.error_description||j.message||j.error)||('Error '+r.status)};return j;}
+  const friendly=e=>({invalid_credentials:'Wrong email or password.',user_already_exists:'An account with that email already exists. Try signing in.',weak_password:'Passwords need at least 6 characters.',
+    email_address_invalid:'That email address doesn’t look right.',validation_failed:/email/i.test(e.msg||'')?'That email address doesn’t look right.':(e.msg||'Please check what you entered.'),
+    email_not_confirmed:'Please confirm your email address first (check your inbox), then sign in.',over_email_send_rate_limit:'Too many emails sent. Please wait a few minutes and try again.',
+    over_request_rate_limit:'Too many attempts. Please wait a minute and try again.',signup_disabled:'New accounts are turned off at the moment.'})[e.code]||e.msg||'Something went wrong. Please try again.';
+  const sesFrom=j=>({at:j.access_token,rt:j.refresh_token,exp:(j.expires_at?j.expires_at*1000:Date.now()+(j.expires_in||3600)*1000),uid:j.user&&j.user.id,email:j.user&&j.user.email});
+  async function token(force){if(!S.ses)throw {status:401,msg:'Not signed in.'};
+    if(force||Date.now()>S.ses.exp-60000){try{const j=await call('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:S.ses.rt}});keep(sesFrom(j));}
+      catch(e){if(e.status&&e.status<500&&e.status!==429){keep(null);S.state='out';render();throw {status:401,msg:'Your sign-in expired. Please sign in again.'};}throw e;}}
+    return S.ses.at;}
+  async function rest(path,o={}){try{return await call(path,Object.assign({},o,{tok:await token()}));}catch(e){if(e.status===401&&S.ses){return await call(path,Object.assign({},o,{tok:await token(true)}));}throw e;}}
+  // ---- data shape ----
+  const stripHist=a=>(a||[]).map(h=>{const c=Object.assign({},h);delete c.rp;delete c.rpx;return c;});
+  const forCloud=p=>{const c=JSON.parse(JSON.stringify(p));c.hist=stripHist(c.hist);return c;};
+  const optCloud=()=>{const o={};for(const k in OPT)if(!OPT_LOCAL.includes(k))o[k]=OPT[k];return o;};
+  const isBlank=p=>!(p.games||(p.hist&&p.hist.length)||Object.keys(p.ach||{}).length||p.pz||Object.keys(p.daily||{}).length||Object.keys(p.rkx||{}).length||(p.ffa&&p.ffa.g)||p.tour);
+  // ---- three-way merge ----
+  const stab=v=>v===undefined?'u':JSON.stringify(v,(k,x)=>x&&typeof x==='object'&&!Array.isArray(x)?Object.keys(x).sort().reduce((o,kk)=>(o[kk]=x[kk],o),{}):x);
+  const same=(a,b)=>stab(a)===stab(b);
+  const MAXK=new Set(['best','hbest','peak','pz','mt','tbest']),NEWK=new Set(['streak','hstreak','elo','ws','v','rkS2']),ATOM=new Set(['tour','oppSeq','sel','bots','trophy','daily']),CAP={hist:150};
+  function merge(b,l,c,newerLocal,key,parent){
+    if(same(l,c))return l;if(same(l,b))return c;if(same(c,b))return l;
+    if(l===undefined)return c;if(c===undefined)return l;
+    if(ATOM.has(parent))return newerLocal?l:c;                       // each Daily / trophy / bot entry is kept whole
+    if(ATOM.has(key)&&key!=='trophy'&&key!=='daily')return newerLocal?l:c;
+    if(Array.isArray(l)&&Array.isArray(c)){
+      if([...l,...c].every(x=>x&&typeof x==='object'&&typeof x.t==='number')){   // match histories: union, newest last
+        const m=new Map();for(const x of c)m.set(x.t+'|'+(x.name||x.opp||''),x);for(const x of l)m.set(x.t+'|'+(x.name||x.opp||''),x);
+        const u=[...m.values()].sort((a,z)=>a.t-z.t);const cap=CAP[key]||Math.max(l.length,c.length,30);return u.slice(-cap);}
+      return newerLocal?l:c;}
+    if(l&&c&&typeof l==='object'&&typeof c==='object'){const o={},bb=b&&typeof b==='object'?b:{};
+      for(const k of new Set([...Object.keys(l),...Object.keys(c)])){const v=merge(bb[k],l[k],c[k],newerLocal,k,key);if(v!==undefined)o[k]=v;}return o;}
+    if(typeof l==='number'&&typeof c==='number'){
+      if(parent==='ach')return Math.min(l,c);                          // achievement: earliest unlock time
+      if(MAXK.has(key)||parent==='tbest')return Math.max(l,c);
+      if(NEWK.has(key))return newerLocal?l:c;
+      const bn=typeof b==='number'?b:0;if(l>=bn&&c>=bn)return bn+(l-bn)+(c-bn);   // counters: both devices' additions count
+      return newerLocal?l:c;}
+    if(typeof l==='boolean'&&typeof c==='boolean')return l||c;
+    return newerLocal?l:c;}
+  const mergeDoc=(b,l,c)=>({p:merge(b.p,l.p,c.p,(l.p.mt||0)>=(c.p.mt||0),'',''),o:merge(b.o,l.o,c.o,(l.o&&l.o._mt||0)>=(c.o&&c.o._mt||0),'','')});
+  // ---- apply to this device (keeps local replays) ----
+  function applyLocal(doc){const cur=loadProf(),rp=new Map((cur.hist||[]).map(h=>[h.t+'|'+(h.name||h.opp||''),h]));
+    const p=Object.assign(blankProf(),JSON.parse(JSON.stringify(doc.p)));p.hist=(p.hist||[]).map(h=>{const o=rp.get(h.t+'|'+(h.name||h.opp||''));return o&&(o.rp||o.rpx)?Object.assign({},h,{rp:o.rp,rpx:o.rpx}):h;});
+    try{localStorage.setItem(PKEY,JSON.stringify(p));}catch(e){}
+    const o=doc.o||{};let ch=false;for(const k in o)if(!OPT_LOCAL.includes(k)&&!same(OPT[k],o[k])){OPT[k]=o[k];ch=true;}
+    if(ch){try{localStorage.setItem(OKEY,JSON.stringify(OPT));}catch(e){}try{applyOpt();}catch(e){}}}
+  // ---- one sync pass ----
+  async function pass(){
+    if(!S.ses)return;const uid=S.ses.uid,q=`/rest/v1/saves?select=data,updated_at&user_id=eq.${uid}`;
+    for(let attempt=0;attempt<4;attempt++){
+      const snapP=loadProf(),local={p:forCloud(snapP),o:Object.assign(optCloud(),{_mt:(meta().omt||0)})},m=meta(),base=m.uid===uid&&m.base?m.base:null;
+      const rows=await rest(q);let doc,conflict=false;
+      if(!rows.length){doc=local;
+        try{await rest('/rest/v1/saves',{method:'POST',prefer:'return=representation',body:{user_id:uid,data:doc,updated_at:new Date().toISOString()}});}catch(e){if(e.status===409)continue;throw e;}}
+      else{const cloud=rows[0].data||{p:blankProf(),o:{}};cloud.p=Object.assign(blankProf(),cloud.p||{});cloud.o=cloud.o||{};
+        if(!base&&isBlank(snapP))doc=cloud;
+        else{doc=mergeDoc(base||{p:blankProf(),o:{}},local,cloud);if(!base&&!isBlank(cloud.p))S.combined=true;}
+        if(!same(doc,cloud)){const r=await rest(`/rest/v1/saves?user_id=eq.${uid}&updated_at=eq.${encodeURIComponent(rows[0].updated_at)}`,{method:'PATCH',prefer:'return=representation',body:{data:doc,updated_at:new Date().toISOString()}});
+          if(!r||!r.length){conflict=true;}}}
+      if(conflict)continue;                                             // another device saved in between: merge again
+      const now=loadProf();
+      if(same(forCloud(now),forCloud(snapP)))applyLocal(doc);            // nothing changed here meanwhile
+      else{const re=merge(forCloud(snapP),forCloud(now),doc.p,true,'','');applyLocal({p:re,o:doc.o});S.again=true;}   // keep what happened during the sync
+      setMeta({uid,base:doc,omt:meta().omt||0});S.last=Date.now();S.err='';return;}
+    throw {msg:'Couldn’t save your progress because another device kept changing it. It will retry.'};}
+  function render(){const el=document.getElementById('acctst');if(el)el.textContent=status();const b=document.getElementById('acctbox');if(b&&b.dataset.st!==S.state+(S.ses?1:0)){b.outerHTML=box();}}
+  function status(){if(!S.ses)return '';if(S.state==='busy')return 'Syncing…';if(S.err)return S.err;if(!S.last)return 'Not synced yet';const s=Math.round((Date.now()-S.last)/1000);return s<60?'Synced just now':s<3600?`Synced ${Math.round(s/60)} min ago`:'Synced '+new Date(S.last).toLocaleString();}
+  function run(){if(!S.on||!S.ses)return S.chain;S.chain=S.chain.then(async()=>{S.state='busy';S.again=false;render();
+      try{await pass();if(S.combined){S.combined=false;S.wasCombined=true;toast('This device’s progress was combined with your account.');}}catch(e){S.err=e.msg||'Sync failed. It will retry.';}
+      S.state='idle';render();if(S.again)dirty();}).catch(()=>{});return S.chain;}
+  function dirty(){if(!S.on||!S.ses||S.quiet)return;clearTimeout(S.timer);S.timer=setTimeout(run,2500);}
+  function box(){if(!S.on)return '';return S.ses?`<div id="acctbox" data-st="${S.state}1"><h3>Account</h3><p>Signed in as <b>${esc(S.ses.email||'')}</b> · <span id="acctst" class="lbl">${esc(status())}</span></p><button class="btn alt" data-a="syncnow">Sync now</button> <button class="btn alt" data-a="acctout">Sign out</button></div>`
+      :`<div id="acctbox" data-st="${S.state}0"><h3>Account</h3><p class="lbl">Sign in to keep your progress in sync on all your devices.</p><button class="btn" data-a="acct">Sign in or create an account</button></div>`;}
+  async function signIn(email,pw,create){const j=await call(create?'/auth/v1/signup':'/auth/v1/token?grant_type=password',{method:'POST',body:{email:email.trim(),password:pw}}).catch(e=>{throw {msg:friendly(e)};});
+    if(!j||!j.access_token){if(create)throw {msg:'Account created. Check your email to confirm it, then sign in.',ok:1};throw {msg:'Couldn’t sign in. Please try again.'};}
+    keep(sesFrom(j));S.err='';S.last=0;await run();return S.ses;}
+  async function signOut(){await run();try{await call('/auth/v1/logout',{method:'POST',tok:S.ses&&S.ses.at});}catch(e){}keep(null);setMeta({});
+    try{localStorage.removeItem(PKEY);}catch(e){}S.last=0;S.err='';S.state='idle';}
+  async function recoverMail(email){await call('/auth/v1/recover',{method:'POST',body:{email:email.trim()}}).catch(e=>{throw {msg:friendly(e)};});}
+  async function setPassword(pw){await rest('/auth/v1/user',{method:'PUT',body:{password:pw}}).catch(e=>{throw {msg:friendly(e)};});}
+  return {S,run,dirty,box,render,status,signIn,signOut,recoverMail,setPassword,keep,sesFrom,merge,mergeDoc,forCloud};
+})();
+
 const cell=(P,d,me,op)=>((P.rec[d]||{})[me]||{})[op]||[0,0];
 const DIFFS=['easy','normal','medium','hard','expert','cheater','ranked'];
 const DNAME={easy:'Easy',normal:'Normal',medium:'Medium',hard:'Hard',expert:'Expert',cheater:'Cheater',ranked:'Ranked'};
@@ -2042,6 +2152,25 @@ function statsSheet(){
   }
   openOv(`<h2>Stats</h2>${tabs}${body}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);$('#sheet').classList.add('wide');
 }
+function acctSheet(msg,ok){openOv(`<h2>Your Spellstorm account</h2><p class="lbl">Sign in on each device to keep your stats, history, Ranked ratings, achievements and settings in sync. Replays stay on the device that played them.</p>
+  <div class="acctform"><label>Email<input id="acem" type="email" autocomplete="email" inputmode="email" value="${esc(acctSheet.em||'')}"></label><label>Password<input id="acpw" type="password" autocomplete="current-password" minlength="6"></label>
+  ${msg?`<p class="${ok?'acok':'olerr'}" role="alert">${esc(msg)}</p>`:''}</div>
+  <div class="acts"><button class="btn" data-a="acctgo">Sign in</button><button class="btn alt" data-a="acctnew">Create account</button></div>
+  <p style="text-align:center"><button class="lbl qlink" data-a="acctforgot">Forgot your password?</button> · <button class="lbl qlink" data-a="t_opts">Back</button></p>`);
+  setTimeout(()=>{const e=document.getElementById(acctSheet.em?'acpw':'acem');e&&e.focus();},50);}
+function acctBusy(on){document.querySelectorAll('#sheet .acts .btn').forEach(x=>x.disabled=on);}
+function acctSubmit(create){const em=(document.getElementById('acem')||{}).value||'',pw=(document.getElementById('acpw')||{}).value||'';acctSheet.em=em;
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.trim()))return acctSheet('Please enter your email address.');if(pw.length<6)return acctSheet('Passwords need at least 6 characters.');
+  acctBusy(true);SYNC.signIn(em,pw,create).then(()=>{optionsSheet();const c=SYNC.S.wasCombined;SYNC.S.wasCombined=false;toast(c?'Signed in — this device’s progress was combined with your account.':create?'Account created — your progress now syncs.':'Signed in — your progress now syncs.');}).catch(e=>acctSheet(e.msg,e.ok));}
+function acctForgot(){const em=((document.getElementById('acem')||{}).value||acctSheet.em||'').trim();acctSheet.em=em;if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))return acctSheet('Enter your email address above, then tap “Forgot your password?” again.');
+  acctBusy(true);SYNC.recoverMail(em).then(()=>acctSheet('If that email has an account, a password-reset link is on its way.',1)).catch(e=>acctSheet(e.msg));}
+// A password-reset link opens the game with a one-time sign-in in the address: ask for a new password.
+function acctRecovery(){const h=location.hash||'';if(!/type=recovery/.test(h)||!/access_token=/.test(h))return;const q=new URLSearchParams(h.slice(1));
+  try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+  SYNC.keep(SYNC.sesFrom({access_token:q.get('access_token'),refresh_token:q.get('refresh_token'),expires_in:+q.get('expires_in')||3600,user:{id:JSON.parse(atob(q.get('access_token').split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).sub,email:''}}));
+  openOv(`<h2>Choose a new password</h2><div class="acctform"><label>New password<input id="acpw" type="password" autocomplete="new-password" minlength="6"></label></div><div class="acts"><button class="btn" data-a="newpw">Save password</button></div>`);}
+function acctNewPw(){const pw=(document.getElementById('acpw')||{}).value||'';if(pw.length<6){toast('Passwords need at least 6 characters.');return;}
+  SYNC.setPassword(pw).then(()=>{closeOv();toast('Password changed. You’re signed in.');SYNC.run();}).catch(e=>toast(e.msg));}
 function optionsSheet(confirmReset){
   const seg=(k,vals)=>`<span class="seg">${vals.map(([v,l])=>`<button data-a="opt" data-k="${k}" data-v="${v}" aria-pressed="${String(OPT[k])===String(v)}">${l}</button>`).join('')}</span>`;
   const ph=$('#app').classList.contains('phone');
@@ -2053,6 +2182,7 @@ function optionsSheet(confirmReset){
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
   <h3>Animations</h3>${seg('motion',[['full','Full'],['reduced','Reduced']])}
   ${canPhonePreview()?`<h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone preview (for testing) ${ph?'on':'off'}</button>`:''}
+  ${SYNC.box()}
   <h3>Progress</h3><button class="btn alt" data-a="report">Report a problem</button> <button class="btn alt" data-a="wipe1">Wipe all data</button>
   </div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
 }
@@ -2099,6 +2229,7 @@ async function lobbyBanner(){const el=document.getElementById('lobbybanner');if(
   let name='A friend';try{const u=await claude.use('user');if(u&&h.by){const ps=await u.profiles([h.by]);name=(ps&&ps[h.by]&&ps[h.by].name)||name;}}catch(e){}
   el.innerHTML=`<b>${esc(name)}</b> is waiting for an opponent in Spellstorm. <button class="btn sm" data-a="oljoinlobby" data-code="${esc(h.code)}">Join</button>`;el.hidden=false;}
 setTimeout(lobbyInit,800);
+if(window.SS_SYNC){setTimeout(()=>{try{acctRecovery();}catch(e){}SYNC.run();},900);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')SYNC.run();else if(Date.now()-SYNC.S.last>60000)SYNC.run();});setInterval(()=>SYNC.render(),20000);}
 applyOpt();showTitle();
 </script>
 </body>

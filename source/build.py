@@ -44,8 +44,23 @@ app = page.replace('__APP_VERSION__', '')                       # the apps fill 
 app = re.sub(r'<link rel="preconnect"[^>]*>\s*', '', app)
 app = re.sub(r'<link href="https://fonts.googleapis.com[^>]*>', f'<style>{fonts}</style>', app)
 app = app.replace('</body>', rd('native_hooks.html') + '\n</body>', 1)
+app = app.replace('</head>', '<script>window.SS_SYNC=true;</script>\n</head>', 1)   # account sync: apps, itch.io and your own site (not claude.ai)
 assert 'fonts.googleapis' not in app and 'exitApp' in app
 wr('../www/index.html', app)
 
-wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,CARDS,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard,BOTS,pickBot,botWizard,puzzleState,puzzleJudge,seedRandom,unseedRandom,MXMODE};\n')
+# ---- web packages for itch.io / your own website (both: fonts embedded, nothing loaded from the internet, account sync on) ----
+import zipfile
+def webpkg(page, label, zipname):
+    page = page.replace('</body>', '<script>try{setVer(' + json.dumps(label + ' ' + now.strftime('%Y-%m-%d %H:%M ') + now.tzname()) + ');}catch(e){}</script>\n</body>', 1)
+    os.makedirs(os.path.join(H, 'dist'), exist_ok=True)
+    with zipfile.ZipFile(os.path.join(H, 'dist', zipname), 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z: z.writestr('index.html', page)
+    return page
+DETECT = "const onlInApp=()=>!!window.Capacitor||/[?&]v=/.test(location.search);"
+assert DETECT in app
+itch = webpkg(app.replace(DETECT, "const onlInApp=()=>true;   /* offline web package: no online play */", 1), 'itch', 'spellstorm-itch.zip')
+online = app.replace(DETECT, "const onlInApp=()=>false;", 1).replace('</head>', '<script>window.SS_P2P=true;</script><script>' + rd('vendor/peerjs.min.js') + '</script>\n</head>', 1)
+online = webpkg(online, 'web', 'spellstorm-web-online.zip')
+print(f'zip  dist/spellstorm-itch.zip, dist/spellstorm-web-online.zip')
+
+wr('tests/eng_all.js', engine + '\nmodule.exports={WIZ,CARDS,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard,BOTS,pickBot,botWizard,puzzleState,puzzleJudge,seedRandom,unseedRandom,MXMODE,matrixAnalyze,planScores,PLANS,botBaseElo,applyEdition,wizInfo,WIZ2,JOURNAL2,ED2,determinize,evalAI,SIM_IO,ROLL_IO,cardVal,EVW0,simDepth2};\n')
 print(f'web  dist/spellstorm.html  {len(web)/1e6:.2f} MB\napp  ../www/index.html      {len(app)/1e6:.2f} MB\ntest tests/eng_all.js')
