@@ -1,7 +1,7 @@
 name: Build Spellstorm
 
-# Builds the Android APK and the Windows .exe side by side, then publishes both
-# as a GitHub Release. Runs on every change to main (except README edits),
+# Builds the Android APK and the Windows .exe side by side, publishes both as a
+# GitHub Release, and uploads Android, Windows and the browser version to itch.io. Runs on every change to main (except README edits),
 # or by hand from Actions → Build Spellstorm → Run workflow.
 on:
   push:
@@ -100,3 +100,49 @@ jobs:
             --repo "${{ github.repository }}" --target "${{ github.sha }}" --latest \
             --title "Spellstorm 1.0.${{ github.run_number }}" \
             --notes "Built from commit ${{ github.sha }}. Download **Spellstorm.apk** for Android or **Spellstorm.exe** for Windows."
+
+  itch:
+    name: Upload to itch.io
+    needs: [android, windows]
+    runs-on: ubuntu-latest
+    env:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}   # itch.io API key (repo secret)
+      ITCH_GAME: ${{ vars.ITCH_GAME }}                # e.g. keithburgun/spellstorm (repo variable)
+      VERSION: 1.0.${{ github.run_number }}
+    steps:
+      - name: Check the itch.io settings
+        id: cfg
+        run: |
+          if [ -z "$BUTLER_API_KEY" ] || [ -z "$ITCH_GAME" ]; then
+            echo "::warning::itch.io upload skipped: add the BUTLER_API_KEY secret and the ITCH_GAME variable in the repo settings."
+            echo "go=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.cfg.outputs.go == 'yes'
+      - uses: actions/download-artifact@v4
+        if: steps.cfg.outputs.go == 'yes'
+        with:
+          path: out
+          merge-multiple: true
+      - name: Build the browser version from the same source as the apps
+        if: steps.cfg.outputs.go == 'yes'
+        run: |
+          cp www/index.html /tmp/www-committed.html
+          python3 source/build.py
+          # The apps were built from www/index.html; only upload a browser version made from that same source.
+          if cmp -s www/index.html /tmp/www-committed.html; then echo "html=yes" >> "$GITHUB_ENV"
+          else echo "::warning::source/ doesn't match www/index.html (rebuild before releasing). Skipping the browser upload so all three stay in step."; echo "html=no" >> "$GITHUB_ENV"; fi
+      - name: Install butler (itch.io's upload tool)
+        if: steps.cfg.outputs.go == 'yes'
+        run: |
+          curl -sSL -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip -d butler && chmod +x butler/butler && ./butler/butler -V
+      - name: Upload Android, Windows and browser builds
+        if: steps.cfg.outputs.go == 'yes'
+        run: |
+          ./butler/butler push out/Spellstorm.apk "$ITCH_GAME:android" --userversion "$VERSION"
+          ./butler/butler push out/Spellstorm.exe "$ITCH_GAME:windows" --userversion "$VERSION"
+          if [ "$html" = yes ]; then ./butler/butler push source/dist/spellstorm-web-online.zip "$ITCH_GAME:html5" --userversion "$VERSION"; fi
+          ./butler/butler status "$ITCH_GAME"
