@@ -6,7 +6,7 @@ name: Build Spellstorm
 on:
   push:
     branches: [main]
-    paths-ignore: ['**.md', 'source/**']
+    paths-ignore: ['**.md', 'source/**', '.gitignore', '.github/scripts/**', '.github/workflows/itch.yml']
   workflow_dispatch:
 
 concurrency:
@@ -134,15 +134,8 @@ jobs:
           # The apps were built from www/index.html; only upload a browser version made from that same source.
           if cmp -s www/index.html /tmp/www-committed.html; then echo "html=yes" >> "$GITHUB_ENV"
           else echo "::warning::source/ doesn't match www/index.html (rebuild before releasing). Skipping the browser upload so all three stay in step."; echo "html=no" >> "$GITHUB_ENV"; fi
-      - name: Install butler (itch.io's upload tool)
-        if: steps.cfg.outputs.go == 'yes'
-        run: |
-          curl -sSL -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
-          unzip -q butler.zip -d butler && chmod +x butler/butler && ./butler/butler -V
       - name: Upload Android, Windows and browser builds
         if: steps.cfg.outputs.go == 'yes'
         run: |
-          ./butler/butler push out/Spellstorm.apk "$ITCH_GAME:android" --userversion "$VERSION"
-          ./butler/butler push out/Spellstorm.exe "$ITCH_GAME:windows" --userversion "$VERSION"
-          if [ "$html" = yes ]; then ./butler/butler push source/dist/spellstorm-web-online.zip "$ITCH_GAME:html5" --userversion "$VERSION"; fi
-          ./butler/butler status "$ITCH_GAME"
+          HTML=""; if [ "$html" = yes ]; then HTML=source/dist/spellstorm-web-online.zip; fi
+          bash .github/scripts/itch_upload.sh out/Spellstorm.apk out/Spellstorm.exe "$HTML" "$VERSION"

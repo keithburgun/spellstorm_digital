@@ -1,0 +1,43 @@
+name: Upload to itch.io
+
+# Re-uploads the latest GitHub release (Android + Windows) and the browser version to itch.io,
+# without rebuilding the apps. Run it from Actions → Upload to itch.io → Run workflow.
+on:
+  workflow_dispatch:
+
+jobs:
+  itch:
+    name: Upload latest release to itch.io
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      ITCH_GAME: ${{ vars.ITCH_GAME }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check the itch.io settings
+        run: |
+          if [ -z "$BUTLER_API_KEY" ] || [ -z "$ITCH_GAME" ]; then echo "::error::Add the BUTLER_API_KEY secret and the ITCH_GAME variable in this repo's settings."; exit 1; fi
+      - name: Find the latest release
+        run: |
+          TAG=$(gh release view --repo "${{ github.repository }}" --json tagName --jq .tagName)
+          SHA=$(gh api "repos/${{ github.repository }}/commits/$TAG" --jq .sha)
+          echo "TAG=$TAG" >> "$GITHUB_ENV"; echo "SHA=$SHA" >> "$GITHUB_ENV"; echo "VERSION=${TAG#v}" >> "$GITHUB_ENV"
+          echo "Latest release: $TAG ($SHA)"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SHA }}
+      - name: Download the release's apps
+        run: gh release download "$TAG" --repo "${{ github.repository }}" --dir out --pattern 'Spellstorm.*'
+      - name: Build the browser version from the release's source
+        run: |
+          cp www/index.html /tmp/www-committed.html
+          python3 source/build.py
+          if cmp -s www/index.html /tmp/www-committed.html; then echo "html=yes" >> "$GITHUB_ENV"
+          else echo "::warning::source/ doesn't match the release's www/index.html; skipping the browser upload."; echo "html=no" >> "$GITHUB_ENV"; fi
+      - name: Upload to itch.io
+        run: |
+          HTML=""; if [ "$html" = yes ]; then HTML=source/dist/spellstorm-web-online.zip; fi
+          # the standalone workflow file may not exist in older releases' checkouts: use the copy from this workflow's own commit
+          bash <(gh api "repos/${{ github.repository }}/contents/.github/scripts/itch_upload.sh?ref=${{ github.sha }}" --jq .content | base64 -d) out/Spellstorm.apk out/Spellstorm.exe "$HTML" "$VERSION"
