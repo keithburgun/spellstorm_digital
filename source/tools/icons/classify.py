@@ -29,4 +29,4 @@ for f in found:
     t=best[1];stats[t]=stats.get(t,0)+1
     spots.setdefault(f['card'],[]).append([round(x0/W*100,1),round(y0/H*100,1),round((x1-x0)/W*100,1),round((y1-y0)/H*100,1),t])
 print('icons placed by type:',dict(sorted(stats.items(),key=lambda x:-x[1])),'| cards with icons:',len(spots))
-json.dump(spots,open('/home/claude/icon_spots_s.json','w'))
+json.dump(spots,open('icon_spots_s.json','w'))

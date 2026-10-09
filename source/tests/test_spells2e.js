@@ -12,10 +12,17 @@ const ok=(t,c,x)=>console.log(`${c?'✓':'✗'} ${t}${x?'  — '+x:''}`);const c
  {const {S,g}=mk(2);S.pl[0].hand=[{u:7,id:'block'},{u:8,id:'dart'}];const m=S.pl[0].mana;await E.CARDS.manafont.fx(g,0);ok('Mana Font: discards a Water card from hand → +3 Mana',S.pl[0].mana===m+3&&!S.pl[0].hand.some(c=>c.id==='block'));
   const h=S.pl[0].hp,m2=S.pl[0].mana;await E.CARDS.manafont.dfx(g,0);ok('Mana Font discard effect: +1 Mana, no damage',S.pl[0].mana===m2+1&&S.pl[0].hp===h);}
  {const {S,g}=mk(2);S.pl[1].power=3;S.pl[1].mana=3;S.init=1;const h=S.pl[1].hp,hand=S.pl[1].hand.length;await E.CARDS.shock.fx(g,0);
-  ok('Shockwave: 2 damage total, −2 Power, −2 Mana; no discard, Initiative kept',S.pl[1].hp===h-2&&S.pl[1].power===1&&S.pl[1].mana===1&&S.pl[1].hand.length===hand&&S.init===1);}
+  ok('Shockwave: 1 damage, −2 Power, −2 Mana; no discard, Initiative kept',S.pl[1].hp===h-1&&S.pl[1].power===1&&S.pl[1].mana===1&&S.pl[1].hand.length===hand&&S.init===1);}
  {const {S,g}=mk(2);S.pl[0].tier=3;S.cloud=[{u:20,id:'twopow'},{u:21,id:'fb'},{u:22,id:'sift'},null,null];const pw=S.pl[0].power,before=S.pl[0].discard.length+S.pl[0].hand.length;await E.CARDS.amber.fx(g,0);
   const got=[...S.pl[0].discard,...S.pl[0].hand].filter(c=>c.u>=20&&c.u<=22).map(c=>E.CARDS[c.id].el);ok('Amber: no Power; gains up to 2 cards, Earth only',S.pl[0].power===pw&&got.length===2&&got.every(e=>e==='E'),'gained: '+got.join(','));}
  {const {S,g}=mk(2);S.pl[0].deck=['fb','dart','block'].map((id,i)=>({u:30+i,id}));const h=S.pl[1].hp;await E.CARDS.ruby.fx(g,0);ok('Ruby: 2 Fire cards among the top 3 → 2 damage, no VOID option',S.pl[1].hp===h-2);}
  {const {S,g}=mk(2);S.pl[1].hand=['fb','dart','block','pgem'].map((id,i)=>({u:40+i,id}));const h=S.pl[0].hp,ice=cnt(S.pl[1],'ice');await E.CARDS.arctite.fx(g,0);ok('Arctite: draw 2, opponent discards 2; no heal, no ICE',S.pl[1].hand.length===2&&cnt(S.pl[1],'ice')===ice);}
  {const {S,g}=mk(1);S.rev=[{u:1,id:'lantern'},{u:2,id:'block'}];const m=S.pl[0].mana;const x={how:'play'};await E.CARDS.lantern.fx(g,0,x);ok('First Edition Lantern unchanged: +2 Mana, VOIDed by a clockwise Water',S.pl[0].mana===m+2&&x.dest==='void');}
+
+ for(const [give,label,dmg,el] of [['fb','a Fire card (Fireball)',2,'F'],['block','a Water card (Block)',0,'W'],['curse','a CURSE (counts as Fire)',2,'F']]){
+  const {S,g}=mk(2,'oren','eve');S.pl[0].hand=[{u:61,id:give}];const h=S.pl[1].hp,c0=S.pl[0].chem[el],oh=S.pl[1].hand.length;await E.CARDS.potiongun.fx(g,0);
+  ok(`Potion Gun giving ${label}: opponent gets it, +2 ${el} Element, ${dmg} damage`,S.pl[1].hand.length===oh+1&&S.pl[1].hand.some(c=>c.u===61)&&S.pl[0].chem[el]===Math.min(6,c0+2)&&S.pl[1].hp===h-dmg,`damage ${h-S.pl[1].hp}, ${el} ${c0} → ${S.pl[0].chem[el]}`);}
+ {const {S,g}=mk(2,'oren','eve');S.pl[0].hand=[];const h=S.pl[1].hp;await E.CARDS.potiongun.fx(g,0);ok('Potion Gun with no card to give: nothing happens (no base damage)',S.pl[1].hp===h);}
+ {const {S,g}=mk(1,'oren','eve');S.pl[0].hand=[];const h=S.pl[1].hp;await E.CARDS.potiongun.fx(g,0);ok('First Edition Potion Gun unchanged: still deals 1',S.pl[1].hp===h-1);}
+ for(const ed of [2,1]){const S=E.newState('oren','eve');E.applyEdition(S,ed);ok(`Oren's health in ${ed===2?'2nd':'First'} Edition`,S.pl[0].max===(ed===2?13:16),`${S.pl[0].max}`);}
 })();

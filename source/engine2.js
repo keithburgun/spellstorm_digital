@@ -10,6 +10,7 @@ const didCounter = (g, p) => { const S = g.S, m = S.rev && S.rev[p], t = S.rev &
 const WIZ2 = {
   abragail: { hp: 12, start: 'R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.' },
   eve: { hp: 12 },
+  oren: { hp: 13 },
   bunny: { ut: 'Reveal a non-Wizard card from your hand. Resolve it twice and discard it. All players heal 1. Lose the Initiative.' },
   omar: { ut: 'Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.' },
   croh: { ut: 'Give a chosen opponent a CURSE. You may draw up to one card from your discard for each DOOM Token you have.' },
@@ -39,6 +40,14 @@ const goodInDiscard = P => P.discard.some(c => CARDS[c.id].v >= 7);
 Object.assign(CARDS, {
   // Oren
   potiongun: { n: 'Potion Gun', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
+    if (ED2(g.S)) {   // 2E: give a non-Wizard card from your hand to an opponent's hand; gain 2 of its Element; if it was Fire, deal 2 damage
+      const P = g.S.pl[p], it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) { g.log('Potion Gun: no non-Wizard card to give.'); return; }
+      const [c] = await g.decide(p, { k: 'pick', q: 'Potion Gun: give a non-Wizard card from your hand to an opponent. Gain 2 of its Element; if it’s Fire, deal 2 damage.', items: it, min: 1, max: 1,
+        cpu: x => { const sc = c => (CARDS[c.id].junk ? 8 : 0) + (isEl(c, 'F') ? 5 : 0) - CARDS[c.id].v * .5; return [x.slice().sort((a, b) => sc(b) - sc(a))[0]]; } });
+      const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1);
+      if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c);
+      const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`);
+      if (el === 'F') await g.dmg(p, 2); return; }
     await g.dmg(p, 1); const P = g.S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) return;
     const pick = await g.decide(p, { k: 'pick', q: 'Potion Gun: you may give a non-Wizard card from your hand to your opponent’s hand, gaining 2 of its Element.', items: it, min: 0, max: 1, cpu: x => { const j = x.find(c => CARDS[c.id].junk); return j ? [j] : []; } });
     for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c); const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },

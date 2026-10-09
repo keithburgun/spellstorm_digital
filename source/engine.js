@@ -92,8 +92,8 @@ const CARDS = {
     if (k === 0) await g.dmg(p, n);
     else if (k === 1) { const [c] = await g.decide(p, { k: 'pick', q: 'Ruby: choose a card to VOID.', items: vo, min: 1, max: 1, cpu: x => [worst(x)] }); g.voidFrom(p, c, P.discard); } } },
   shock: { n: 'Shockwave', el: 'F', t: 2, v: 9, fx: async (g, p) => {
-    if (ED2(g.S)) { const t = await g.askPlayer(p, 'Shockwave: choose a player. They take 1 damage, lose 2 Power and 2 Mana, and take 1 more damage.', g.nextOpp(p)), T = g.S.pl[t];   // 2E
-      await g.damage(t, 1, p); g.losePower(t, 2); const m = Math.min(2, T.mana || 0); if (m) { T.mana -= m; g.log(`${g.nm(t)} ${t === 0 ? 'lose' : 'loses'} ${m} mana.`); } await g.damage(t, 1, p); return; }
+    if (ED2(g.S)) { const t = await g.askPlayer(p, 'Shockwave: choose a player. They take 1 damage and lose 2 Power and 2 Mana.', g.nextOpp(p)), T = g.S.pl[t];   // 2E
+      await g.damage(t, 1, p); g.losePower(t, 2); const m = Math.min(2, T.mana || 0); if (m) { T.mana -= m; g.log(`${g.nm(t)} ${t === 0 ? 'lose' : 'loses'} ${m} mana.`); } return; }   // 2E (fixed): 1 damage total
     const t = await g.askPlayer(p, 'Shockwave: choose a player. They lose 2 Power, discard a random card, lose Initiative and take 1 damage.', g.nextOpp(p));
     g.losePower(t, 2); await g.randomDiscard(t, 1); g.loseInit(t); await g.damage(t, 1, p); } },
   rapid: { n: 'Rapid Fire', el: 'F', t: 2, v: 10, fx: async (g, p, x) => {

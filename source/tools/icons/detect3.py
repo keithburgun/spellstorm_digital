@@ -1,7 +1,7 @@
 import json,base64,io,numpy as np
 from PIL import Image, ImageDraw
 from scipy import ndimage as ndi
-imgs=json.load(open('/home/claude/imgs.json'))
+imgs=json.load(open('../../imgs.json'))
 SKIP=('tk_','wz_','w_','tier','derby_','scene','cover','logo','back','cwheel')
 cards=[k for k in imgs if not k.startswith(SKIP) and not k.startswith('rb_')]
 def load(k): d=imgs[k]; return np.asarray(Image.open(io.BytesIO(base64.b64decode(d.split(',',1)[1]))).convert('RGB')).astype(np.int16)

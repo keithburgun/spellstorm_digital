@@ -1,7 +1,7 @@
 import json,base64,io,numpy as np
 from PIL import Image
 from scipy.signal import fftconvolve
-imgs=json.load(open('/home/claude/imgs.json'));G=json.load(open('groups3.json'))
+imgs=json.load(open('../../imgs.json'));G=json.load(open('groups3.json'))
 SKIP=('tk_','wz_','w_','tier','derby_','scene','cover','logo','back','cwheel','rb_')
 cards=[k for k in imgs if not k.startswith(SKIP)]
 def load(k): d=imgs[k]; return np.asarray(Image.open(io.BytesIO(base64.b64decode(d.split(',',1)[1]))).convert('RGB')).astype(np.float32)/255
@@ -50,4 +50,4 @@ for k in cards:
     for s,t,x0,y0_,x1,y1 in keep:
         stats[t]=stats.get(t,0)+1;spots.setdefault(k,[]).append([round(x0/W*100,1),round(y0_/H*100,1),round((x1-x0)/W*100,1),round((y1-y0_)/H*100,1),t])
 print('icons placed by type:',dict(sorted(stats.items(),key=lambda x:-x[1])),'| cards with icons:',len(spots),'| total',sum(stats.values()))
-json.dump(spots,open('/home/claude/icon_spots_t.json','w'))
+json.dump(spots,open('icon_spots_t.json','w'))

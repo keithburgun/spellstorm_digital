@@ -10,3 +10,6 @@ The icons on cards are painted into the card art, so their positions are found a
 
 Corner spots (element top-left, discard-effect marker top-right, Tier badge / wizard emblem bottom-right)
 are fixed positions in `iconSpots()` in the template.
+
+Run from this folder, in order: `python3 classify.py && python3 tmatch.py && python3 merge_spots.py && python3 build_icons.py && python3 embed.py`
+(classify.py runs the detector itself). Then rebuild with `python3 ../../build.py`.

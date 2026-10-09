@@ -1,7 +1,7 @@
 import json,base64,io,re
 from PIL import Image
-imgs=json.load(open('/home/claude/imgs.json'));S=json.load(open('/home/claude/icon_spots.json'));G=json.load(open('groups3.json'))
-src=open('/home/claude/engine.js').read()+open('/home/claude/engine2.js').read()
+imgs=json.load(open('../../imgs.json'));S=json.load(open('icon_spots.json'));G=json.load(open('groups3.json'))
+src=open('../../engine.js').read()+open('../../engine2.js').read()
 def body(cid):
     m=re.search(r"\n  "+re.escape(cid)+r": \{([^\n]*(?:\n    [^\n]*)*)",src);return m.group(1) if m else ''
 # one clean picture of each icon type, cropped from the card art
@@ -23,5 +23,5 @@ for cid in set(S)|{k for k in imgs if not k.startswith(('tk_','wz_','w_','tier',
     order=['power','mana','gain','draw','init','ult','disc','fire','water','earth'];u=[t for t in order if t in ts]
     if u:leg[cid]=u
 out={'spots':S,'leg':leg,'pics':pics}
-s=json.dumps(out,separators=(',',':'));open('/home/claude/icondata.json','w').write(s)
+s=json.dumps(out,separators=(',',':'));open('icondata.json','w').write(s)
 print('spots on',len(S),'cards | legends',len(leg),'| pictures',len(pics),'| data',round(len(s)/1024),'KB')
