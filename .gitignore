@@ -7,3 +7,4 @@ source/tests/cr_*.png
 source/tests/pz_lines.json
 source/tests/eng_all.js
 source/dist/
+__pycache__/
