@@ -51,7 +51,8 @@ wr('../www/index.html', app)
 # ---- web packages for itch.io / your own website (both: fonts embedded, nothing loaded from the internet, account sync on) ----
 import zipfile
 def webpkg(page, label, zipname):
-    page = page.replace('</body>', '<script>try{setVer(' + json.dumps(label + ' ' + now.strftime('%Y-%m-%d %H:%M ') + now.tzname()) + ');}catch(e){}</script>\n</body>', 1)
+    ver = os.environ.get('SPELLSTORM_VERSION')   # set by the release build: show the same version number as the apps
+    page = page.replace('</body>', '<script>try{setVer(' + json.dumps('v' + ver if ver else label + ' ' + now.strftime('%Y-%m-%d %H:%M ') + now.tzname()) + ');}catch(e){}</script>\n</body>', 1)
     os.makedirs(os.path.join(H, 'dist'), exist_ok=True)
     with zipfile.ZipFile(os.path.join(H, 'dist', zipname), 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z: z.writestr('index.html', page)
     return page

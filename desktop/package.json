@@ -16,6 +16,6 @@
     "files": ["main.js", "icon.ico", "app/**/*"],
     "directories": { "output": "dist" },
     "win": { "target": [{ "target": "portable", "arch": ["x64"] }], "icon": "icon.ico" },
-    "portable": { "artifactName": "Spellstorm.exe" }
+    "portable": { "artifactName": "Spellstorm-${version}.exe" }
   }
 }

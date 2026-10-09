@@ -44,11 +44,11 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
-      - run: cp android/app/build/outputs/apk/debug/app-debug.apk Spellstorm.apk
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk Spellstorm-1.0.${{ github.run_number }}.apk
       - uses: actions/upload-artifact@v4
         with:
           name: Spellstorm-APK
-          path: Spellstorm.apk
+          path: Spellstorm-1.0.${{ github.run_number }}.apk
 
   windows:
     name: Windows EXE
@@ -78,7 +78,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: Spellstorm-Windows
-          path: desktop/dist/Spellstorm.exe
+          path: desktop/dist/Spellstorm-1.0.${{ github.run_number }}.exe
 
   release:
     name: Publish release
@@ -96,10 +96,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           ls -la out
-          gh release create "v1.0.${{ github.run_number }}" out/Spellstorm.apk out/Spellstorm.exe \
+          gh release create "v1.0.${{ github.run_number }}" out/Spellstorm-1.0.${{ github.run_number }}.apk out/Spellstorm-1.0.${{ github.run_number }}.exe \
             --repo "${{ github.repository }}" --target "${{ github.sha }}" --latest \
             --title "Spellstorm 1.0.${{ github.run_number }}" \
-            --notes "Built from commit ${{ github.sha }}. Download **Spellstorm.apk** for Android or **Spellstorm.exe** for Windows."
+            --notes "Built from commit ${{ github.sha }}. Download **Spellstorm-1.0.${{ github.run_number }}.apk** for Android or **Spellstorm-1.0.${{ github.run_number }}.exe** for Windows."
 
   itch:
     name: Upload to itch.io
@@ -130,7 +130,7 @@ jobs:
         if: steps.cfg.outputs.go == 'yes'
         run: |
           cp www/index.html /tmp/www-committed.html
-          python3 source/build.py
+          SPELLSTORM_VERSION="$VERSION" python3 source/build.py
           # The apps were built from www/index.html; only upload a browser version made from that same source.
           if cmp -s www/index.html /tmp/www-committed.html; then echo "html=yes" >> "$GITHUB_ENV"
           else echo "::warning::source/ doesn't match www/index.html (rebuild before releasing). Skipping the browser upload so all three stay in step."; echo "html=no" >> "$GITHUB_ENV"; fi
@@ -138,4 +138,4 @@ jobs:
         if: steps.cfg.outputs.go == 'yes'
         run: |
           HTML=""; if [ "$html" = yes ]; then HTML=source/dist/spellstorm-web-online.zip; fi
-          bash .github/scripts/itch_upload.sh out/Spellstorm.apk out/Spellstorm.exe "$HTML" "$VERSION"
+          bash .github/scripts/itch_upload.sh "out/Spellstorm-$VERSION.apk" "out/Spellstorm-$VERSION.exe" "$HTML" "$VERSION"

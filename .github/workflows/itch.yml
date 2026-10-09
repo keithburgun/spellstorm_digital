@@ -29,15 +29,15 @@ jobs:
         with:
           ref: ${{ env.SHA }}
       - name: Download the release's apps
-        run: gh release download "$TAG" --repo "${{ github.repository }}" --dir out --pattern 'Spellstorm.*'
+        run: gh release download "$TAG" --repo "${{ github.repository }}" --dir out --pattern 'Spellstorm*'
       - name: Build the browser version from the release's source
         run: |
           cp www/index.html /tmp/www-committed.html
-          python3 source/build.py
+          SPELLSTORM_VERSION="$VERSION" python3 source/build.py
           if cmp -s www/index.html /tmp/www-committed.html; then echo "html=yes" >> "$GITHUB_ENV"
           else echo "::warning::source/ doesn't match the release's www/index.html; skipping the browser upload."; echo "html=no" >> "$GITHUB_ENV"; fi
       - name: Upload to itch.io
         run: |
           HTML=""; if [ "$html" = yes ]; then HTML=source/dist/spellstorm-web-online.zip; fi
           # the standalone workflow file may not exist in older releases' checkouts: use the copy from this workflow's own commit
-          bash <(gh api "repos/${{ github.repository }}/contents/.github/scripts/itch_upload.sh?ref=${{ github.sha }}" --jq .content | base64 -d) out/Spellstorm.apk out/Spellstorm.exe "$HTML" "$VERSION"
+          bash <(gh api "repos/${{ github.repository }}/contents/.github/scripts/itch_upload.sh?ref=${{ github.sha }}" --jq .content | base64 -d) "$(ls out/Spellstorm*.apk | head -1)" "$(ls out/Spellstorm*.exe | head -1)" "$HTML" "$VERSION"
