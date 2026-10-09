@@ -1,6 +1,6 @@
 name: Upload to itch.io
 
-# Re-uploads the latest GitHub release (Android + Windows) and the browser version to itch.io,
+# Re-uploads the latest GitHub release (Android, Windows, Linux) and the browser version to itch.io,
 # without rebuilding the apps. Run it from Actions → Upload to itch.io → Run workflow.
 on:
   workflow_dispatch:
@@ -40,4 +40,4 @@ jobs:
         run: |
           HTML=""; if [ "$html" = yes ]; then HTML=source/dist/spellstorm-web-online.zip; fi
           # the standalone workflow file may not exist in older releases' checkouts: use the copy from this workflow's own commit
-          bash <(gh api "repos/${{ github.repository }}/contents/.github/scripts/itch_upload.sh?ref=${{ github.sha }}" --jq .content | base64 -d) "$(ls out/Spellstorm*.apk | head -1)" "$(ls out/Spellstorm*.exe | head -1)" "$HTML" "$VERSION"
+          bash <(gh api "repos/${{ github.repository }}/contents/.github/scripts/itch_upload.sh?ref=${{ github.sha }}" --jq .content | base64 -d) "$(ls out/Spellstorm*.apk | head -1)" "$(ls out/Spellstorm*.exe | head -1)" "$HTML" "$VERSION" "$(ls out/Spellstorm*.AppImage 2>/dev/null | head -1)"

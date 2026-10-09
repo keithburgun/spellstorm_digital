@@ -666,6 +666,24 @@ body.rm *{animation:none!important;transition:none!important}
   #cloud .cfoot .chip{font-size:.7rem;padding:2px 7px}
 }
 #mv{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:visible}.mvcard{position:fixed;margin:0!important;transform-origin:0 0;transition:none!important;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+/* ---------- controller / keyboard navigation (pad.js) ---------- */
+body.pad,body.pad *{cursor:none!important}
+body.pad :focus-visible:not(.padf){outline:none!important}
+body.pad .padf{outline:3px solid #fff!important;outline-offset:3px;box-shadow:0 0 0 7px #2fc8ff,0 0 26px 8px rgba(47,200,255,.7)!important;z-index:5}
+body.pad #hand .card.padf{translate:0 -16px;z-index:60!important}
+body.pad #cloud .card.padf{translate:0 -6px}
+body.pad .tbtn.padf{border-color:#fff;background:rgba(40,24,74,.85)}
+body.pad label.padf{border-radius:6px;outline-offset:1px;box-shadow:0 0 0 4px #2fc8ff,0 0 14px 4px rgba(47,200,255,.6)!important}
+#padhint{position:fixed;right:10px;bottom:8px;z-index:90;display:none;gap:14px;align-items:center;padding:5px 14px;border-radius:999px;background:rgba(18,11,32,.82);color:#fff;font-size:13px;font-weight:700;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+#padhint.show{display:flex}
+#padhint.idle{opacity:.38;transition:opacity .6s}
+body.pad #start{padding-bottom:64px}
+@media (max-height:520px){#padhint{font-size:11px;gap:9px;padding:3px 10px;bottom:4px;right:6px}#padhint .pg{min-width:16px;height:16px;font-size:9px}}
+#padhint .ph{display:inline-flex;align-items:center;gap:5px}
+#padhint .pg{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 4px;border-radius:999px;background:#3a3150;color:#fff;font-size:11px;line-height:1;box-shadow:inset 0 -2px 0 rgba(0,0,0,.35)}
+#padhint .pg.xbox.pg-a{background:#3fa34d}#padhint .pg.xbox.pg-b{background:#d0403a}#padhint .pg.xbox.pg-x{background:#2f6fd6}#padhint .pg.xbox.pg-y{background:#d9a514;color:#1a1200}
+#padhint .pg.ps.pg-a{color:#8fb3ff}#padhint .pg.ps.pg-b{color:#ff8a8a}#padhint .pg.ps.pg-x{color:#ff9be6}#padhint .pg.ps.pg-y{color:#6fe0c4}
+#padhint .pg.pg-lb,#padhint .pg.pg-rb{border-radius:6px;font-size:10px}
 </style>
 </head>
 <body>
@@ -684,6 +702,7 @@ body.rm *{animation:none!important;transition:none!important}
 <div id="onlbar" role="status"></div>
 <div id="pzbar" role="status"></div>
 <div id="rpbar" role="toolbar" aria-label="Replay controls"></div>
+<div id="padhint" aria-hidden="true"></div>
 <div id="coach" role="dialog" aria-live="polite"></div>
 <div id="blast" aria-live="polite"></div>
 <div id="potov" aria-live="polite"></div>
@@ -1016,7 +1035,7 @@ const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
  noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(sfxRand()*2-1)*Math.pow(1-i/n,2);
   const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
  // how long each sound rings (seconds): a sound can't start again while it is still playing
- DUR:{card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
+ DUR:{card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,nav:.035,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
  seq(k,n,gap){const g=Math.max(gap,((this.DUR[k]||.25)*1000)+30);for(let i=0;i<n;i++)setTimeout(()=>this.play(k),i*g);},
  play(k){if(!this.ctx||this.vol()<=0||this.mute)return;const now=performance.now();if((this.busy[k]||0)>now)return;this.busy[k]=now+(this.DUR[k]||.25)*1000;try{switch(k){
   case 'card':this.noise(.07,.35,0,1500,7000);break;
@@ -1031,6 +1050,7 @@ const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
   case 'curse':this.tone(110,.75,'sawtooth',.055,0,82);this.tone(155.6,.75,'sawtooth',.045,0,116);this.tone(233,.55,'triangle',.03,.12,165);this.noise(.65,.06,0,60,420);break;   // low, dissonant, sinking
   case 'gain':this.noise(.12,.16,0,2500,9000);this.tone(740,.12,'sine',.05,.04);break;
   case 'tick':this.tone(1200,.05,'square',.035);break;
+  case 'nav':this.tone(1500,.03,'sine',.022);break;   // controller highlight moves
   case 'newbattle':this.noise(.5,.16,0,300,4000);this.tone(220,.5,'sawtooth',.045,0,440);break;
   case 'ult':this.tone(440,.35,'sawtooth',.05,0,880);this.tone(660,.35,'triangle',.05,.05,1320);break;
   case 'win':[523,659,784,1047].forEach((f,i)=>this.tone(f,.26,'triangle',.09,i*.11));break;
@@ -1680,7 +1700,7 @@ document.addEventListener('click',e=>{
   if(a==='launch'){launch();return;}
 });
 function inLobby(){return !!(ONL.on&&!ONL.started&&document.querySelector('#sheet .olslots'));}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#ov').classList.contains('show')&&!inLobby()&&!(pending&&pending.req.k==='pick'&&false))closeOv();});
+// Escape (and the controller's B button) is handled by the controller module (pad.js): it closes sheets, goes back, or opens the menu.
 
 // ---------- game lifecycle ----------
 let gameId=0;
@@ -2182,6 +2202,7 @@ function optionsSheet(confirmReset){
   <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
   <h3>Animations</h3>${seg('motion',[['full','Full'],['reduced','Reduced']])}
+  <h3>Controller</h3><p class="lbl ctlhelp" style="text-align:left">Plug in or pair a controller (Xbox, PlayStation, Steam Deck, Android handhelds) and press any button. <b>D-pad or left stick</b> move · <b>A</b> select or play a card · <b>B</b> back · <b>Y</b> look at a card · <b>X</b> Expert tip · <b>LB/RB</b> switch tabs, or rounds in a replay · <b>Start</b> menu · <b>View</b> battle log · <b>right stick</b> scroll. On a keyboard: arrow keys, Enter and Esc.</p>
   ${canPhonePreview()?`<h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone preview (for testing) ${ph?'on':'off'}</button>`:''}
   ${SYNC.box()}
   <h3>Progress</h3><button class="btn alt" data-a="report">Report a problem</button> <button class="btn alt" data-a="wipe1">Wipe all data</button>
@@ -2232,6 +2253,9 @@ async function lobbyBanner(){const el=document.getElementById('lobbybanner');if(
 setTimeout(lobbyInit,800);
 if(window.SS_SYNC){setTimeout(()=>{try{acctRecovery();}catch(e){}SYNC.run();},900);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')SYNC.run();else if(Date.now()-SYNC.S.last>60000)SYNC.run();});setInterval(()=>SYNC.render(),20000);}
 applyOpt();showTitle();
+</script>
+<script>
+/*PAD*/
 </script>
 </body>
 </html>

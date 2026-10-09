@@ -3,7 +3,7 @@
   "productName": "Spellstorm",
   "version": "1.0.0",
   "description": "Spellstorm vs CPU",
-  "author": "Spellstorm",
+  "author": "Keith Burgun",
   "main": "main.js",
   "private": true,
   "devDependencies": {
@@ -13,9 +13,46 @@
   "build": {
     "appId": "com.spellstorm.game",
     "productName": "Spellstorm",
-    "files": ["main.js", "icon.ico", "app/**/*"],
-    "directories": { "output": "dist" },
-    "win": { "target": [{ "target": "portable", "arch": ["x64"] }], "icon": "icon.ico" },
-    "portable": { "artifactName": "Spellstorm-${version}.exe" }
+    "files": [
+      "main.js",
+      "icon.ico",
+      "icon.png",
+      "app/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico"
+    },
+    "portable": {
+      "artifactName": "Spellstorm-${version}.exe"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.png",
+      "category": "Game",
+      "executableName": "spellstorm",
+      "synopsis": "Wizards do battle in a magical tactical deckbuilder"
+    },
+    "appImage": {
+      "artifactName": "Spellstorm-${version}.AppImage"
+    },
+    "publish": null
   }
 }

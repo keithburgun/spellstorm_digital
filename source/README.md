@@ -21,6 +21,7 @@ Everything needed to build and test the game. The playable result is one self-co
 | `template.html` | The interface: layout, styles, animation, sound, menus, stats, achievements, tutorial, saving |
 | `imgs.json` | All card art and graphics as embedded images |
 | `corporata.css`, `fonts/` | Fonts (Corporata is embedded; Atkinson Hyperlegible is the fallback for missing glyphs) |
+| `pad.js` | Controller and keyboard play: the highlight, D-pad navigation, button actions, on-screen button prompts (Android controllers arrive through `branding/java/MainActivity.java`) |
 | `native_hooks.html` | Android-only additions (real Exit button, Back button, app version) |
 | `build.py` | Assembles everything into the final files |
 | `tests/` | Automated tests (see below) |
@@ -58,6 +59,14 @@ Browser tests (layout at ten screen sizes, no overlaps or cut-off cards) use Pyt
 
     pip install playwright && playwright install chromium
     python3 tests/crowd.py
+
+Controller tests play whole matches with a simulated controller only (D-pad + buttons, no mouse). Serve the app build first
+(`cd ../www && python3 -m http.server 8124`), then:
+
+    python3 tests/pw_pad_matches.py duel,tour,ranked,daily,ffa,coop,2v2,puzzle 1280x800,740x416
+    python3 tests/pw_pad_matches.py duel 740x416 native      # the Android app's input path (MainActivity → SSPAD.nat)
+
+Each line should end `over … fails 0` with no errors.
 
 ## Building the apps yourself (optional)
 

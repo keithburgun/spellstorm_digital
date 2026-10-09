@@ -2,12 +2,18 @@
 const { app, BrowserWindow, Menu, shell } = require('electron');
 const path = require('path');
 
+// Sounds can start from a controller press (browsers only count mouse/keyboard as "the player did something").
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+// Steam Deck (Game Mode) and Steam Big Picture: start fullscreen. Anywhere else: --fullscreen does the same.
+const FULLSCREEN = process.env.SteamDeck === '1' || process.env.SteamTenfoot === '1' || process.argv.includes('--fullscreen');
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1366, height: 820, minWidth: 900, minHeight: 600,
     backgroundColor: '#120b20',
     title: 'Spellstorm',
-    icon: path.join(__dirname, 'icon.ico'),
+    icon: path.join(__dirname, process.platform === 'win32' ? 'icon.ico' : 'icon.png'),
+    fullscreen: FULLSCREEN,
     autoHideMenuBar: true,
     show: false,
     webPreferences: { contextIsolation: true, sandbox: true }
