@@ -684,6 +684,7 @@ body.pad #start{padding-bottom:64px}
 #padhint .pg.xbox.pg-a{background:#3fa34d}#padhint .pg.xbox.pg-b{background:#d0403a}#padhint .pg.xbox.pg-x{background:#2f6fd6}#padhint .pg.xbox.pg-y{background:#d9a514;color:#1a1200}
 #padhint .pg.ps.pg-a{color:#8fb3ff}#padhint .pg.ps.pg-b{color:#ff8a8a}#padhint .pg.ps.pg-x{color:#ff9be6}#padhint .pg.ps.pg-y{color:#6fe0c4}
 #padhint .pg.pg-lb,#padhint .pg.pg-rb{border-radius:6px;font-size:10px}
+#padhint .pg.key{border-radius:5px;background:#f3eefc;color:#1d1530;min-width:22px;padding:0 6px;font-size:10px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)}
 </style>
 </head>
 <body>
@@ -2202,7 +2203,7 @@ function optionsSheet(confirmReset){
   <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
   <h3>Animations</h3>${seg('motion',[['full','Full'],['reduced','Reduced']])}
-  <h3>Controller</h3><p class="lbl ctlhelp" style="text-align:left">Plug in or pair a controller (Xbox, PlayStation, Steam Deck, Android handhelds) and press any button. <b>D-pad or left stick</b> move · <b>A</b> select or play a card · <b>B</b> back · <b>Y</b> look at a card · <b>X</b> Expert tip · <b>LB/RB</b> switch tabs, or rounds in a replay · <b>Start</b> menu · <b>View</b> battle log · <b>right stick</b> scroll. On a keyboard: arrow keys, Enter and Esc.</p>
+  <h3>Controller</h3><p class="lbl ctlhelp" style="text-align:left">Plug in or pair a controller (Xbox, PlayStation, Steam Deck, Android handhelds) and press any button. <b>D-pad or left stick</b> move · <b>A</b> select or play a card · <b>B</b> back · <b>Y</b> look at a card · <b>X</b> Expert tip · <b>LB/RB</b> switch tabs, or rounds in a replay · <b>Start</b> menu · <b>View</b> battle log · <b>right stick</b> scroll. On a keyboard: <b>arrow keys</b> move · <b>Enter</b> select · <b>Esc</b> back or menu · <b>Space</b> look at a card · <b>T</b> Expert tip · <b>Q/E</b> switch tabs or replay rounds · <b>L</b> battle log · <b>Page Up/Down</b> also switch tabs. The on-screen prompts switch to whichever you used last.</p>
   ${canPhonePreview()?`<h3>Layout preview</h3><button class="btn ${ph?'':'alt'}" data-a="optphone">Phone preview (for testing) ${ph?'on':'off'}</button>`:''}
   ${SYNC.box()}
   <h3>Progress</h3><button class="btn alt" data-a="report">Report a problem</button> <button class="btn alt" data-a="wipe1">Wipe all data</button>

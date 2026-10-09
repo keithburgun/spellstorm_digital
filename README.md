@@ -22,7 +22,9 @@ Every version plays with a controller: the Steam Deck's own controls, Xbox and P
 and Android handhelds' built-in controls. Press any button and a highlight appears; D-pad or left stick moves it,
 **A** selects or plays a card, **B** goes back, **Y** looks at a card, **X** asks for an Expert tip, **LB/RB** switch tabs
 (or rounds in a replay), **Start** opens the menu, **View/Select** opens the battle log, the right stick scrolls.
-Touching the screen or moving the mouse hides the highlight again. The keyboard works too (arrow keys, Enter, Esc).
+Touching the screen or moving the mouse hides the highlight again. The keyboard works too: arrow keys move, Enter selects, Esc goes back or opens the menu, Space looks at a card,
+T asks for a tip, Q/E switch tabs (or replay rounds), L opens the log. The on-screen prompts switch between
+keyboard keys, Xbox and PlayStation symbols to match whatever you pressed last.
 The same list is in the game under **Options → Controller**.
 
 ## Steam Deck

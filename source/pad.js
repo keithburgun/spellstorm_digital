@@ -8,9 +8,11 @@ const q=s=>document.querySelector(s);
 const SEL='[data-a],button,input,select,textarea,a[href],[tabindex]:not([tabindex="-1"])';
 const IDX={A:0,B:1,X:2,Y:3,LB:4,RB:5,LT:6,RT:7,SELECT:8,START:9,UP:12,DOWN:13,LEFT:14,RIGHT:15};
 const DIRS=new Set(['U','D','L','R']);
-let coachSig='',endCache=null,on=false,cur=null,sidPrev='',reqPrev=null,glyph='xbox',glyphFixed=false,lastUp=0,hintSig='';
+let coachSig='',endCache=null,on=false,cur=null,sidPrev='',reqPrev=null,glyph='xbox',padGlyph='xbox',natGlyph='xbox',lastUp=0,hintSig='';
 const mem={},prev={},rep={};
 const nat={used:false,kb:[],hb:[],ax:[0,0,0,0]};
+const padActive={};   // which controllers had something held last frame (so the prompts follow the one you just used)
+const padKind=id=>/054c|sony|playstation|dualsense|dualshock|wireless controller/i.test(id||'')?'ps':'xbox';
 
 const shown=el=>!!el&&getComputedStyle(el).display!=='none';
 const ovOn=()=>q('#ov').classList.contains('show');
@@ -129,6 +131,7 @@ function page(d){const s=scroller();if(s)s.scrollBy({top:d*s.clientHeight*.8,beh
 function lookY(){const z=cur&&cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom');if(z){z.click();return;}
   if(cur&&cur.matches('#hand .card,#cloud .card,.card[data-a]')){cur.click();return;}
   const k=q('#sheet [data-a=ikey]');if(ovOn()&&k&&ok(k,q('#sheet'))){k.click();return;}}
+function lookable(){return !!(cur&&(cur.matches('#hand .card,#cloud .card,.card[data-a]')||(cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom'))));}
 function tipX(){if(ovOn())return;const t=[...document.querySelectorAll('[data-a=tip]')].find(e=>ok(e,document.body));if(t)t.click();}
 function startBtn(){if(ovOn()){back();return;}const t=q('#title');if(shown(t)){const L=cands(t);if(L[0])L[0].click();return;}
   const s=q('#start');if(shown(s)){const b=q('#start [data-a=launch]');if(b&&!b.disabled)b.click();return;}if(S)menu();}
@@ -136,7 +139,8 @@ function selBtn(){if(S&&!ovOn()&&!shown(q('#title'))&&!shown(q('#start')))act('l
 
 function wake(){if(on)return;on=true;document.body.classList.add('pad');try{SFX.init();}catch(e){}if(cur&&cur.isConnected)cur.classList.add('padf');}
 function sleep(){if(!on)return;on=false;document.body.classList.remove('pad');if(cur)cur.classList.remove('padf');hint();}
-function press(k){const was=on,had=!!(cur&&cur.isConnected);wake();upkeep();
+function press(k,src){const g=src==='kb'?'kb':(nat.used?natGlyph:padGlyph);if(g!==glyph){glyph=g;hintSig='';}   // prompts switch to whatever you last pressed
+  const was=on,had=!!(cur&&cur.isConnected);wake();upkeep();
   if(!was&&(DIRS.has(k)||k==='A')){if(!had)setCur(restore(sidPrev,scopeEl(),cands(scopeEl())));hint();return;}   // the first touch only shows where the highlight is
   switch(k){case 'U':move(0,-1);break;case 'D':move(0,1);break;case 'L':move(-1,0);break;case 'R':move(1,0);break;
     case 'A':activate(cur);break;case 'B':back();break;case 'X':tipX();break;case 'Y':lookY();break;
@@ -145,7 +149,8 @@ function press(k){const was=on,had=!!(cur&&cur.isConnected);wake();upkeep();
   setTimeout(()=>{upkeep();hint();},0);}
 
 /* ---------- on-screen button prompts ---------- */
-const GL={xbox:{A:'A',B:'B',X:'X',Y:'Y',LB:'LB',RB:'RB',SEL:'⧉',START:'☰'},ps:{A:'✕',B:'○',X:'□',Y:'△',LB:'L1',RB:'R1',SEL:'⧉',START:'☰'}};
+const GL={xbox:{A:'A',B:'B',X:'X',Y:'Y',LB:'LB',RB:'RB',SEL:'⧉',START:'☰'},ps:{A:'✕',B:'○',X:'□',Y:'△',LB:'L1',RB:'R1',SEL:'⧉',START:'☰'},
+  kb:{A:'Enter',B:'Esc',X:'T',Y:'Space',LB:'Q',RB:'E',SEL:'L',START:'Enter'}};
 function hint(){const el=q('#padhint');if(!el)return;if(!on){el.classList.remove('show');hintSig='';return;}
   const sc=scopeEl(),game=sc===document.body,items=[];let aL='Select';
   if(cur){if(cur.matches('#hand .card'))aL=canPlay(cur)?'Play':'Look';
@@ -153,18 +158,18 @@ function hint(){const el=q('#padhint');if(!el)return;if(!on){el.classList.remove
     else if(cur.matches('label'))aL=cur.querySelector('input[type=checkbox],input[type=radio]')?'Toggle':'Type';
     else if(cur.matches('input[type=range]'))aL='';
     else if(cur.matches('input,textarea'))aL='Type';}
-  if(cur&&cur.matches('input[type=range]'))items.push(['','◀ ▶ Adjust']);
+  if(cur&&cur.matches('input[type=range]'))items.push(['',glyph==='kb'?'← → Adjust':'◀ ▶ Adjust']);
   if(aL)items.push(['A',aL]);
   if(cur&&aL!=='Look'&&(cur.matches('#hand .card,#cloud .card')||(cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom'))))items.push(['Y','Look']);
-  if(ovOn()&&q('#sheet [data-a=ikey]'))items.push(['Y',q('#sheet [data-a=ikey]').textContent.trim()]);
+  if(glyph!=='kb'&&ovOn()&&q('#sheet [data-a=ikey]'))items.push(['Y',q('#sheet [data-a=ikey]').textContent.trim()]);
   if(game&&[...document.querySelectorAll('[data-a=tip]')].some(e=>ok(e,document.body)))items.push(['X','Tip']);
   const tabsOn=['libtab','stab','setmode','libed'].some(a=>[...sc.querySelectorAll(`[data-a="${a}"]`)].filter(e=>ok(e,sc)).length>1);
   if(sc.id==='rpbar')items.push(['LB','RB','Round']);
   else if(tabsOn)items.push(['LB','RB','Tabs']);
   if(sc.id==='rpbar')items.push(['B','Exit replay']);
-  else if(ovOn())items.push(['B','Back']);else if(sc.id==='start')items.push(['B','Back'],['START','Start']);else if(game&&S){items.push(['B',S.over&&endCache&&endCache.S===S?'Results':'Menu'],['SEL','Log']);}
+  else if(ovOn())items.push(['B','Back']);else if(sc.id==='start'){items.push(['B','Back']);if(glyph!=='kb')items.push(['START','Start']);}else if(game&&S){items.push(['B',S.over&&endCache&&endCache.S===S?'Results':'Menu'],['SEL','Log']);}
   const G=GL[glyph],sig=glyph+JSON.stringify(items);if(sig===hintSig){el.classList.add('show');return;}hintSig=sig;el.classList.remove('idle');clearTimeout(hint.t);hint.t=setTimeout(()=>el.classList.add('idle'),5000);   // fades back after a few seconds so it doesn't cover the table
-  el.innerHTML=items.map(it=>{const lab=it[it.length-1],bs=it.slice(0,-1).filter(Boolean);return `<span class="ph">${bs.map(b=>`<b class="pg pg-${b.toLowerCase()} ${glyph}">${G[b]||b}</b>`).join('')}${lab}</span>`;}).join('');
+  el.innerHTML=items.map(it=>{const lab=it[it.length-1],bs=it.slice(0,-1).filter(Boolean);return `<span class="ph">${bs.map(b=>`<b class="pg pg-${b.toLowerCase()} ${glyph}${glyph==='kb'?' key':''}">${G[b]||b}</b>`).join('')}${lab}</span>`;}).join('');
   el.classList.add('show');}
 
 /* ---------- input sources ---------- */
@@ -174,7 +179,8 @@ function readPad(){
   for(const g of gs){if(!g||!g.connected)continue;any=true;
     g.buttons.forEach((x,i)=>{if(x&&(x.pressed||x.value>.5))b[i]=true;});
     g.axes.forEach((v,i)=>{if(i<4&&Math.abs(v)>Math.abs(ax[i]))ax[i]=v;});
-    if(!glyphFixed)glyph=/054c|playstation|dualsense|dualshock|wireless controller/i.test(g.id)?'ps':'xbox';}
+    const act=g.buttons.some(x=>x&&(x.pressed||x.value>.5))||g.axes.slice(0,2).some(v=>Math.abs(v)>.55);
+    if(act&&!padActive[g.index])padGlyph=padKind(g.id);padActive[g.index]=act;}
   return any?{b,ax}:null;}
 let tick=0;
 function frame(t){requestAnimationFrame(frame);const s=readPad();
@@ -189,11 +195,17 @@ function frame(t){requestAnimationFrame(frame);const s=readPad();
 requestAnimationFrame(frame);
 
 document.addEventListener('keydown',e=>{
+  if(e.ctrlKey||e.altKey||e.metaKey)return;
   const t=e.target,typing=t&&t.matches&&t.matches('input:not([type=range]):not([type=checkbox]):not([type=radio]),textarea,select');
+  const go=k=>{e.preventDefault();e.stopPropagation();press(k,'kb');};
   const K={ArrowUp:'U',ArrowDown:'D',ArrowLeft:'L',ArrowRight:'R'}[e.key];
-  if(K){if(typing&&(K==='L'||K==='R'))return;e.preventDefault();e.stopPropagation();press(K);return;}
-  if(e.key==='Enter'||e.key===' '){if(typing||!on||!cur)return;e.preventDefault();e.stopPropagation();press('A');return;}
-  if(e.key==='Escape'){if(typing){t.blur();return;}e.preventDefault();e.stopPropagation();press('B');return;}
+  if(K){if(typing&&(K==='L'||K==='R'))return;go(K);return;}
+  if(e.key==='Escape'){if(typing){t.blur();return;}go('B');return;}
+  if(typing)return;
+  if(e.key==='Enter'){if(!on||!cur)return;go('A');return;}
+  if(e.key===' '){if(!on||!cur)return;go(lookable()?'Y':'A');return;}   // Space looks at a card, otherwise presses the highlighted button
+  const L={q:'LB',e:'RB',PageUp:'LB',PageDown:'RB',t:'X',l:'SEL'}[e.key.length===1?e.key.toLowerCase():e.key];
+  if(L){go(L);return;}
 },true);
 document.addEventListener('pointermove',e=>{if(on&&Math.abs(e.movementX)+Math.abs(e.movementY)>3)sleep();},{passive:true});
 document.addEventListener('pointerdown',()=>sleep(),true);
@@ -202,9 +214,10 @@ document.addEventListener('wheel',()=>sleep(),{passive:true});
 window.SSPAD={
   nat(k,d){nat.used=true;const i=IDX[k];if(i!=null)nat.kb[i]=!!d;},
   natAxes(lx,ly,rx,ry,hx,hy){nat.used=true;nat.ax=[+lx||0,+ly||0,+rx||0,+ry||0];nat.hb[14]=hx<-.5;nat.hb[15]=hx>.5;nat.hb[12]=hy<-.5;nat.hb[13]=hy>.5;},
-  natName(n){glyphFixed=true;glyph=/sony|playstation|dualsense|dualshock|wireless controller/i.test(n||'')?'ps':'xbox';},
+  natName(n){natGlyph=padKind(n);},
   state(){return {on,cur:cur&&cur.isConnected?key(cur):null,label:cur?((cur.getAttribute('aria-label')||cur.textContent||'').trim().slice(0,40)):'',scope:sidPrev,hint:(q('#padhint')||{}).textContent||''};},
   press,
+  glyph(){return glyph;},
   why(sel){const t=[...document.querySelectorAll(sel)].find(e=>e.getBoundingClientRect().width>3);if(!t)return 'no target';const sc=scopeEl(),r=t.getBoundingClientRect(),cs=getComputedStyle(t);return {scope:scopeId(sc),inScope:sc.contains(t),ok:ok(t,sc),inC:cands(sc).includes(t),dis:t.disabled,vis:cs.visibility,op:cs.opacity,r:[r.left,r.top,r.width,r.height].map(Math.round),cur:cur&&key(cur),curR:cur&&[...Object.values(cur.getBoundingClientRect().toJSON())].map(Math.round)};},
   debug(){const sc=scopeEl();return cands(sc).map(e=>{const r=e.getBoundingClientRect();return key(e).replace(/\|+/g,'|')+' @'+Math.round(r.left)+','+Math.round(r.top)+' '+Math.round(r.width)+'x'+Math.round(r.height);});},
 };
