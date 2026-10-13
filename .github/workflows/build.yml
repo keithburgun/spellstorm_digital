@@ -13,9 +13,34 @@ concurrency:
   group: build-spellstorm
   cancel-in-progress: true
 
+permissions:
+  contents: write   # the build jobs upload their files straight to the (draft) release
+
+env:
+  VERSION: 1.0.${{ github.run_number }}
+  TAG: v1.0.${{ github.run_number }}
+  GH_TOKEN: ${{ github.token }}
+  MAIN: ${{ github.ref == 'refs/heads/main' }}
+
+# Files go straight into a draft GitHub release (no Actions "artifacts", which have a storage quota);
+# when all three apps are in, the release is published and the same files go to itch.io.
 jobs:
+  start:
+    name: Start the release
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create a draft release
+        run: |
+          gh release delete "$TAG" --repo "${{ github.repository }}" --yes 2>/dev/null || true
+          gh release create "$TAG" --repo "${{ github.repository }}" --target "${{ github.sha }}" --draft \
+            --title "Spellstorm $VERSION" \
+            --notes "Built from commit ${{ github.sha }}. Download **Spellstorm-$VERSION.apk** for Android, **Spellstorm-$VERSION.exe** for Windows, or **Spellstorm-$VERSION.AppImage** for Linux and Steam Deck."
+
   android:
     name: Android APK
+    needs: [start]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,14 +73,14 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
       - run: cp android/app/build/outputs/apk/debug/app-debug.apk Spellstorm-1.0.${{ github.run_number }}.apk
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Spellstorm-APK
-          path: Spellstorm-1.0.${{ github.run_number }}.apk
-          retention-days: 2   # only needed until the release/itch jobs pick it up; keeps the storage quota free
+      - name: Add it to the release
+        if: env.MAIN == 'true'
+        run: gh release upload "$TAG" "Spellstorm-$VERSION.apk" --repo "${{ github.repository }}" --clobber
 
   windows:
     name: Windows EXE
+    needs: [start]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: windows-latest
     defaults:
       run:
@@ -79,14 +104,14 @@ jobs:
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
         run: npx electron-builder --win portable --x64 --publish never
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Spellstorm-Windows
-          path: desktop/dist/Spellstorm-1.0.${{ github.run_number }}.exe
-          retention-days: 2   # only needed until the release/itch jobs pick it up; keeps the storage quota free
+      - name: Add it to the release
+        if: env.MAIN == 'true'
+        run: gh release upload "$TAG" "desktop/dist/Spellstorm-$VERSION.exe" --repo "${{ github.repository }}" --clobber
 
   linux:
     name: Linux AppImage (Steam Deck)
+    needs: [start]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -105,43 +130,27 @@ jobs:
       - name: Build Spellstorm.AppImage
         working-directory: desktop
         run: npx electron-builder --linux AppImage --x64 --publish never
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Spellstorm-Linux
-          path: desktop/dist/Spellstorm-1.0.${{ github.run_number }}.AppImage
-          retention-days: 2   # only needed until the release/itch jobs pick it up; keeps the storage quota free
+      - name: Add it to the release
+        if: env.MAIN == 'true'
+        run: gh release upload "$TAG" "desktop/dist/Spellstorm-$VERSION.AppImage" --repo "${{ github.repository }}" --clobber
 
   release:
     name: Publish release
     if: github.ref == 'refs/heads/main'
     needs: [android, windows, linux]
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: out
-          merge-multiple: true
-      - name: Create the release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          ls -la out
-          gh release create "v1.0.${{ github.run_number }}" out/Spellstorm-1.0.${{ github.run_number }}.apk out/Spellstorm-1.0.${{ github.run_number }}.exe out/Spellstorm-1.0.${{ github.run_number }}.AppImage \
-            --repo "${{ github.repository }}" --target "${{ github.sha }}" --latest \
-            --title "Spellstorm 1.0.${{ github.run_number }}" \
-            --notes "Built from commit ${{ github.sha }}. Download **Spellstorm-1.0.${{ github.run_number }}.apk** for Android, **Spellstorm-1.0.${{ github.run_number }}.exe** for Windows, or **Spellstorm-1.0.${{ github.run_number }}.AppImage** for Linux and Steam Deck."
+      - name: Publish the release
+        run: gh release edit "$TAG" --repo "${{ github.repository }}" --draft=false --latest
 
   itch:
     name: Upload to itch.io
     if: github.ref == 'refs/heads/main'
-    needs: [android, windows, linux]
+    needs: [release]
     runs-on: ubuntu-latest
     env:
       BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}   # itch.io API key (repo secret)
       ITCH_GAME: ${{ vars.ITCH_GAME }}                # e.g. keithburgun/spellstorm (repo variable)
-      VERSION: 1.0.${{ github.run_number }}
     steps:
       - name: Check the itch.io settings
         id: cfg
@@ -154,11 +163,9 @@ jobs:
           fi
       - uses: actions/checkout@v4
         if: steps.cfg.outputs.go == 'yes'
-      - uses: actions/download-artifact@v4
+      - name: Download the release's apps
         if: steps.cfg.outputs.go == 'yes'
-        with:
-          path: out
-          merge-multiple: true
+        run: gh release download "$TAG" --repo "${{ github.repository }}" --dir out --pattern 'Spellstorm-*'
       - name: Build the browser version from the same source as the apps
         if: steps.cfg.outputs.go == 'yes'
         run: |
