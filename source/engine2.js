@@ -102,19 +102,22 @@ Object.assign(CARDS, {
   // May
   starshot: { n: 'Star Shot', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     const P = g.S.pl[p];
-    if (ED2(g.S)) {   // 2E: gain the Initiative; discard a card and deal damage equal to its Tier; lose 1 Energy
-      g.gainInit(p);
-      if (P.hand.length) { const [c] = await g.decide(p, { k: 'pick', q: 'Star Shot: discard a card and deal damage equal to its Tier.', items: P.hand.slice(), min: 1, max: 1,
-          cpu: x => [x.slice().sort((a, b) => ((CARDS[b.id].t || 0) * 3 - CARDS[b.id].v * .4) - ((CARDS[a.id].t || 0) * 3 - CARDS[a.id].v * .4))[0]] });
-        const t = CARDS[c.id].t || 0; await g.discardFrom(p, c, 'hand'); if (t) await g.dmg(p, t); else g.log('Star Shot: that card has no Tier, so it deals no damage.'); }
-      if (P.energy) { P.energy--; g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} 1 Energy.`); } return; }
+    if (ED2(g.S)) {   // 2E: deal 1 damage; you may lose 2 Energy to resolve a different Fire card from your hand
+      await g.dmg(p, 1);
+      const fs = P.hand.filter(c => isEl(c, 'F') && !CARDS[c.id].junk);   // ICE / ASH / CURSE have nothing to resolve
+      if (P.energy < 2 || !fs.length) return;
+      const pick = await g.decide(p, { k: 'pick', q: 'Star Shot: you may lose 2 Energy Tokens to resolve a different Fire card from your hand.', items: fs, min: 0, max: 1,
+        cpu: it => { const b = best(it); return b && CARDS[b.id].v >= (P.energy >= 3 ? 6 : 8) ? [b] : []; } });
+      if (!pick.length) return;
+      P.energy -= 2; g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} 2 Energy.`); await g.resolveFromHand(p, pick[0]); return; }
     if (P.hand.length) { const [c] = await g.decide(p, { k: 'pick', q: 'Star Shot: discard a card to deal 1 damage (2 if it’s Tier II).', items: P.hand.slice(), min: 1, max: 1, cpu: x => { const t2 = x.filter(c => CARDS[c.id].t === 2 && CARDS[c.id].v <= 8); return [t2[0] || cheapest(x, 1)[0]]; } });
       const t2 = CARDS[c.id].t === 2; await g.discardFrom(p, c, 'hand'); await g.dmg(p, t2 ? 2 : 1); }
     if (P.energy) await g.mana(p, P.energy); const lost = Math.min(2, P.energy); P.energy -= lost; if (lost) g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} ${lost} Energy.`); } },
   databreach: { n: 'Data Breach', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    if (ED2(g.S)) {   // 2E: lose 1 Energy; if you did, Power +2 and the chosen opponent reveals their hand and discards a card of your choice
-      const P = g.S.pl[p]; if (!P.energy) { g.log('Data Breach: no Energy to lose.'); return; }
-      P.energy--; g.log(`${g.nm(p)} ${p === 0 ? 'lose' : 'loses'} 1 Energy.`); await g.power(p, 2);
+    if (ED2(g.S)) {   // 2E: if anyone revealed Water, gain an Energy Token (max 3); Power Up twice; the chosen opponent reveals their hand and discards a card of your choice
+      const P = g.S.pl[p];
+      if (g.S.rev.some(c => isEl(c, 'W'))) { if (P.energy < 3) { P.energy++; g.log(`Water was revealed: ${g.nm(p)} ${p === 0 ? 'gain' : 'gains'} an Energy Token.`); } else g.log('Water was revealed, but May already has 3 Energy Tokens.'); }
+      await g.power(p, 2);
       const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), O = g.S.pl[o];
       if (O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } return; }
       if (!O.hand.length) return;
