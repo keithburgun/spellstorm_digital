@@ -37,7 +37,7 @@ class Pad:
 
 STATE="""()=>{const ov=document.getElementById('ov').classList.contains('show'),sh=document.getElementById('sheet');let r=null;try{r=pending&&pending.req}catch(e){}
  const has=s=>!!document.querySelector(s);return {ov,again:ov&&has('#sheet [data-a=again],#sheet [data-a=restart],#sheet [data-a=pzgo]'),tog:ov&&has('#sheet [data-a=tog]'),
- k:r&&r.k,min:r&&r.min,over:!!(S&&S.over),prompt:[...document.querySelectorAll('#prompt [data-a]:not([disabled]):not([data-a=tip]),#coach [data-a]')].filter(e=>e.getBoundingClientRect().width>3).map(e=>e.dataset.a),
+ k:r&&r.k,min:r&&r.min,over:!!(S&&S.over),prompt:[...document.querySelectorAll('#prompt [data-a]:not([disabled]):not([data-a=tip]):not([data-a=totitle]),#coach [data-a]')].filter(e=>e.getBoundingClientRect().width>3).map(e=>e.dataset.a),
  modal:[...document.querySelectorAll('#blast.show [data-a],#potov.show [data-a]')].map(e=>e.dataset.a),sheetA:ov?[...sh.querySelectorAll('[data-a]:not([disabled])')].map(e=>e.dataset.a):[]}}"""
 async def play_match(pg,P,log=print,maxsteps=1500,shots=None):
     """Play one whole match with the controller only. Returns (result, steps, failures).
@@ -70,6 +70,8 @@ async def play_match(pg,P,log=print,maxsteps=1500,shots=None):
             fails.append((s,getattr(P,'why',None)));miss=0
             if shots:await pg.screenshot(path=f'{shots}/fail{len(fails)}.png')
             if len(fails)>5:return 'stuck',steps,fails
+    fails.append(('timeout state',await pg.evaluate(STATE),await P.st(),await pg.evaluate("S&&{over:S.over,battle:S.battle,round:S.round,out:S.pl.map(p=>p.out),prompt:document.getElementById('prompt').innerText.slice(0,120)}")))
+    if shots:await pg.screenshot(path=f'{shots}/timeout.png')
     return 'timeout',steps,fails
 
 NB={'A':'A','B':'B','X':'X','Y':'Y','LB':'LB','RB':'RB','LT':'LT','RT':'RT','SEL':'SELECT','START':'START','U':'UP','D':'DOWN','L':'LEFT','R':'RIGHT'}

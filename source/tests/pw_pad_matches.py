@@ -20,7 +20,7 @@ async def one(b,mode,vw,vh):
         await P.press('START');await pg.wait_for_timeout(1500)
         if (await pg.evaluate(STATE))['ov']:await pg.wait_for_timeout(3000)   # e.g. Ranked matchmaking
     await pg.evaluate("speed=0.15")
-    r=await play_match(pg,P,log=lambda *a:None)
+    r=await play_match(pg,P,log=lambda *a:None,shots='/tmp/claude-0/sp')
     print(f'{mode:7s} {vw}x{vh}{" native" if NATIVE else ""}',r[0],r[1],'fails',len(r[2]),'errs',errs[:2],flush=True)
     for f in r[2][:2]:print('   ',str(f)[:600])
     await pg.close()

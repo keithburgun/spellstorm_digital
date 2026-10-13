@@ -20,6 +20,7 @@ Everything needed to build and test the game. The playable result is one self-co
 | `daily_challenges.txt` | The Daily Challenges, one block per day (format explained at the top of the file) |
 | `template.html` | The interface: layout, styles, animation, sound, menus, stats, achievements, tutorial, saving |
 | `imgs.json` | All card art and graphics as embedded images |
+| `manual.json` | The printed rulebook, one WebP image per page (shown under Menu → Rulebook). Rebuild it from a new PDF with `python3 tools/manual.py Spellstorm_Rulebook.pdf` |
 | `corporata.css`, `fonts/` | Fonts (Corporata is embedded; Atkinson Hyperlegible is the fallback for missing glyphs) |
 | `pad.js` | Controller and keyboard play: the highlight, D-pad navigation, button actions, on-screen button prompts (Android controllers arrive through `branding/java/MainActivity.java`) |
 | `native_hooks.html` | Android-only additions (real Exit button, Back button, app version) |

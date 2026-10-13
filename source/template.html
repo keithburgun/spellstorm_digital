@@ -666,6 +666,18 @@ body.rm *{animation:none!important;transition:none!important}
   #cloud .cfoot .chip{font-size:.7rem;padding:2px 7px}
 }
 #mv{position:fixed;inset:0;pointer-events:none;z-index:85;overflow:visible}.mvcard{position:fixed;margin:0!important;transform-origin:0 0;transition:none!important;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+/* ---------- rulebook viewer ---------- */
+#sheet.mansheet{max-width:min(96vw,940px)}
+.manual h2{margin-bottom:4px}
+.mannav{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 10px}
+.mannav .btn{min-width:56px;font-size:1.5rem;line-height:1;padding:6px 14px}
+.manwrap{overflow:auto;-webkit-overflow-scrolling:touch;border-radius:10px}
+.manpage{display:block;width:100%;max-width:900px;height:auto;margin:0 auto;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.25);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:zoom-in}
+.manwrap.zoom{max-height:72vh}
+.manwrap.zoom .manpage{width:900px;max-width:none;touch-action:pan-x pan-y;cursor:zoom-out}
+.manhint{margin:4px 0 0;font-size:.8rem}
+@media (min-width:900px){.manhint{display:none}}
+.manlink{font-size:.92rem}
 /* ---------- controller / keyboard navigation (pad.js) ---------- */
 body.pad,body.pad *{cursor:none!important}
 body.pad :focus-visible:not(.padf){outline:none!important}
@@ -722,6 +734,7 @@ body.pad #start{padding-bottom:64px}
 </script>
 <script>
 const IMG = /*IMGS*/;
+const MANUAL = /*MANUAL*/;   // the printed rulebook, one WebP per page (source/manual.json, made by tools/manual.py)
 (function(){let c='';for(const k in IMG)c+=k.endsWith('_2e')?`body.ed2 .ci-${k.slice(0,-3)}{background-image:url(${IMG[k]})}`:`.ci-${k}{background-image:url(${IMG[k]})}`;const s=document.createElement('style');s.textContent=c;document.head.appendChild(s);})();
 const $=s=>document.querySelector(s);
 const ROM=['','I','II','III','IV'];
@@ -1522,7 +1535,7 @@ function showPile(p,z){
 function showList(t,list){openOv(`<h2>${esc(t)}</h2>${list.length?`<div class="grid">${list.map((c,i)=>card(c,'',`data-a="zoomc" data-u="${c.u}"`)).join('')}</div>`:'<p>Empty.</p>'}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
   showList.cur=list;}
 function wizCard(w){const W=WIZ[w];openOv(`<div class="bigwiz ci-wz_${w}" role="img" aria-label="${esc(W.n)}"></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
-function rules(){openOv(`<div class="rules"><h2>How a game goes</h2>
+function rules(){openOv(`<div class="rules"><h2>How a game goes</h2><p class="manlink">This is the short version. <button class="qlink" data-a="manual" data-from="rules">Read the full rulebook</button></p>
 <p>Each battle has four rounds. Every round a Weather card flips and affects both wizards, then you each play one card face-down. Cards reveal together; if your card’s element counters theirs (Fire beats Earth, Earth beats Water, Water beats Fire) you draw a card. Cards then resolve, Initiative holder first.</p>
 <h3>Regroup</h3><p>After four rounds, cards with discard effects in your hand trigger, then the rest of your hand is your Blast Score. Higher score gains 2 Storm Shards; a tie gives each 1. ICE discarded here is −1 Blast Score. Then each wizard gains a Storm Cloud card at or below their Tier and draws up to 3.</p>
 <h3>Resources</h3><p>Mana pays for your Ultimate, offered whenever you resolve a card with the Ultimate icon. Power fills a 6-step track; overflowing raises your Tier (I to III), and at Tier III it lets you take a Dragon.</p>
@@ -1531,8 +1544,19 @@ function rules(){openOv(`<div class="rules"><h2>How a game goes</h2>
 <h3>Ranked</h3><p>Play an endless stream of opponents near your rating, each with a username, an Elo and a secret playing style. Your Elo rises when you win and falls when you lose; beating a higher-rated opponent earns more. Resigning or abandoning a Ranked match counts as a loss.</p>
 <h3>Long Match</h3><p>An optional setting: every wizard has 50% more health (rounded), and you need 12 Storm Shards to win instead of 8.</p>
 <h3>Co-op vs Robot Boy and Two-on-Two</h3><p>You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next <i>opponent</i> clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.</p></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
+/* ---------- the full rulebook: page images with ‹ › (also swipe, LB/RB, arrow keys, Q/E) ---------- */
+function manual(from,pg){const n=MANUAL.length;if(!n)return;const i=Math.max(0,Math.min(n-1,pg==null?(+OPT.manP||0):pg));OPT.manP=i;saveOpt();
+  const nav=`<div class="mannav"><button class="btn alt" data-a="manpg" data-v="-1" aria-label="Previous page" ${i?'':'disabled'}>‹</button><span class="lbl">Page ${i+1} of ${n}</span><button class="btn alt" data-a="manpg" data-v="1" aria-label="Next page" ${i<n-1?'':'disabled'}>›</button></div>`;
+  const keep=$('#ov').classList.contains('show')&&$('#sheet .manual');
+  if(from)OVBACK=from==='rules'?rules:from==='menu'?menu:null;else if(keep)OVBACK=manual.back||null;
+  manual.back=OVBACK;
+  openOv(`<div class="manual"><h2>Spellstorm Rulebook</h2>${nav}<div class="manwrap${manual.zoom?' zoom':''}"><img class="manpage" data-a="manzoom" src="${MANUAL[i]}" alt="Rulebook page ${i+1} of ${n}" draggable="false"></div><p class="lbl manhint">${manual.zoom?'Tap the page to fit it to the screen.':'Tap the page to zoom in.'}</p>${nav}</div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
+  OVBACK=manual.back;$('#sheet').classList.add('wide','mansheet');$('#sheet').scrollTop=0;}
+function manTurn(d){const sh=$('#sheet .manual');if(!sh)return false;const i=(+OPT.manP||0)+d;if(i<0||i>=MANUAL.length)return true;manual(null,i);return true;}
+{let sx=null,sy=0;document.addEventListener('pointerdown',e=>{if(e.target.closest&&e.target.closest('.manpage')){sx=e.clientX;sy=e.clientY;}else sx=null;},true);
+ document.addEventListener('pointerup',e=>{if(sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(!manual.zoom&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){manual.swiped=performance.now()+400;manTurn(dx<0?1:-1);}},true);}   // swipe to turn pages
 function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
-<p>Layout</p><div class="acts" style="justify-content:flex-start"><button class="btn ${$('#app').classList.contains('phone')?'':'alt'}" data-a="phone">Phone view ${$('#app').classList.contains('phone')?'on':'off'}</button><button class="btn alt" data-a="rules">Rules</button></div>
+<p>Layout</p><div class="acts" style="justify-content:flex-start"><button class="btn ${$('#app').classList.contains('phone')?'':'alt'}" data-a="phone">Phone view ${$('#app').classList.contains('phone')?'on':'off'}</button><button class="btn alt" data-a="rules">Rules</button><button class="btn alt" data-a="manual" data-from="menu">Rulebook</button></div>
 <div class="acts">${S&&S.online||ONL.on?'<button class="btn alt" data-a="olexit">Leave online match</button>':'<button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button>'}<button class="btn alt" data-a="report">Report a problem</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
 const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v10c0 10-6 17-14 18-8-1-14-8-14-18z" fill="currentColor"/><path d="M18 12H8c0 9 5 14 11 15M46 12h10c0 9-5 14-11 15" fill="none" stroke="currentColor" stroke-width="4"/><rect x="28" y="36" width="8" height="10" fill="currentColor"/><rect x="19" y="46" width="26" height="8" rx="2" fill="currentColor"/></svg>';
 function gameReport(){const L=loadProf().hist||[],h=L[L.length-1];if(!h||Math.abs(h.t-Date.now())>60000||!S||S.online)return '';
@@ -1687,6 +1711,9 @@ document.addEventListener('click',e=>{
   if(a==='ikey'){const sh=$('#sheet');const on=!sh.classList.contains('keyon');sh.classList.toggle('keyon',on);b.textContent=on?'Back to card':'Icon Key';return;}
   if(a==='ispot'){const on=!b.classList.contains('on');document.querySelectorAll('.ispot.on').forEach(e=>e.classList.remove('on'));b.classList.toggle('on',on);return;}
   if(a==='rules'){rules();return;}
+  if(a==='manual'){manual(b.dataset.from);return;}
+  if(a==='manpg'){manTurn(+b.dataset.v);return;}
+  if(a==='manzoom'){if(performance.now()<(manual.swiped||0))return;manual.zoom=!manual.zoom;manual(null,+OPT.manP||0);return;}
   if(a==='menu'){menu();return;}
   if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
   if(a==='phone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));menu();return;}
@@ -1890,7 +1917,7 @@ function saveProf(p){try{p.mt=Date.now();localStorage.setItem(PKEY,JSON.stringif
 // The profile (stats, history without replays, Ranked, achievements, trophies, puzzles, Dailies) and most options sync to one private row per account.
 // Conflicts (two devices changed things offline) resolve by a three-way merge against the last synced copy, so nothing earned is lost.
 const SUPA=Object.assign({url:'https://bdncsprakdvvmfnxxlqr.supabase.co',key:'sb_publishable_y_mJp1WbutYXVPPKbrl1lQ_4vpZ5GqN'},window.SS_SUPA_CFG||{});
-const AKEY='spellstorm.auth.v1',YKEY='spellstorm.sync.v1',OPT_LOCAL=['vol','phone','mt'];
+const AKEY='spellstorm.auth.v1',YKEY='spellstorm.sync.v1',OPT_LOCAL=['vol','phone','mt','manP'];
 const SYNC=(()=>{
   const S={on:!!window.SS_SYNC,ses:null,state:'idle',last:0,err:'',timer:null,chain:Promise.resolve(),quiet:false};
   try{S.ses=JSON.parse(localStorage.getItem(AKEY)||'null');}catch(e){}

@@ -80,7 +80,10 @@ function forReq(r){const L=cands(document.body),f=s=>L.find(e=>e.matches(s));let
   else{if(cur&&cur.closest('#prompt'))return;t=f('#prompt [data-a]');}
   if(t)setCur(t);}
 
-function move(dx,dy){const sc=scopeEl(),L=cands(sc);if(!L.length)return;
+function move(dx,dy){{const zw=ovOn()&&q('#sheet .manwrap.zoom');if(zw){zw.scrollBy({left:dx*220,top:dy*220,behavior:'smooth'});return;}}   // zoomed rulebook page: the D-pad pans around it
+  if(dx&&typeof manTurn==='function'&&manTurn(dx))return;   // in the rulebook, left/right turn the page
+  if(dy&&q('#sheet .manual')&&ovOn()){const sh=q('#sheet');const before=sh.scrollTop;sh.scrollBy({top:dy*Math.round(sh.clientHeight*.45),behavior:'smooth'});if(dy<0?before>2:before+sh.clientHeight<sh.scrollHeight-2)return;}   // up/down scroll the page; at the ends they move on to the buttons
+  const sc=scopeEl(),L=cands(sc);if(!L.length)return;
   if(!cur||!L.includes(cur)){setCur(restore(scopeId(sc),sc,L));return;}
   if(dx&&cur.matches('input[type=range]')){const st=+cur.step||1,v=Math.max(+cur.min||0,Math.min(+cur.max||100,+cur.value+dx*st));if(v!==+cur.value){cur.value=v;cur.dispatchEvent(new Event('input',{bubbles:true}));cur.dispatchEvent(new Event('change',{bubbles:true}));}return;}
   const a=cur.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=1e12;
@@ -122,13 +125,14 @@ function tabs(d){const sc=scopeEl();
     const n=g[(i+d+g.length)%g.length],k=key(n);n.click();
     requestAnimationFrame(()=>{const L=cands(scopeEl()),m=L.find(e=>key(e)===k);if(m)setCur(m);});return true;}
   return false;}
+function manTurn(d){return ovOn()&&typeof window.manTurn==='function'?window.manTurn(d):false;}
 function rpStep(d){if(ovOn()||typeof RPLAY==='undefined'||!RPLAY)return false;const b=q(`#rpbar [data-v=${d<0?'prev':'next'}]`);if(b&&!b.disabled)b.click();return true;}
 function scroller(){let e=cur;while(e&&e!==document.body&&e!==document.documentElement){const cs=getComputedStyle(e);if(/(auto|scroll)/.test(cs.overflowY)&&e.scrollHeight>e.clientHeight+2)return e;e=e.parentElement;}
   if(ovOn()){for(const s of ['#sheet','#ov']){const x=q(s);if(x&&x.scrollHeight>x.clientHeight+2)return x;}}
   if(scopeEl()===document.body){const l=q('#logwrap .log')||q('#logwrap');if(l&&shown(q('#logwrap'))&&l.scrollHeight>l.clientHeight+2)return l;}
   return document.scrollingElement;}
 function page(d){const s=scroller();if(s)s.scrollBy({top:d*s.clientHeight*.8,behavior:'smooth'});}
-function lookY(){const z=cur&&cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom');if(z){z.click();return;}
+function lookY(){{const z=ovOn()&&q('#sheet .manpage');if(z){z.click();return;}}const z=cur&&cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom');if(z){z.click();return;}
   if(cur&&cur.matches('#hand .card,#cloud .card,.card[data-a]')){cur.click();return;}
   const k=q('#sheet [data-a=ikey]');if(ovOn()&&k&&ok(k,q('#sheet'))){k.click();return;}}
 function lookable(){return !!(cur&&(cur.matches('#hand .card,#cloud .card,.card[data-a]')||(cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom'))));}
@@ -141,10 +145,10 @@ function wake(){if(on)return;on=true;document.body.classList.add('pad');try{SFX.
 function sleep(){if(!on)return;on=false;document.body.classList.remove('pad');if(cur)cur.classList.remove('padf');hint();}
 function press(k,src){const g=src==='kb'?'kb':(nat.used?natGlyph:padGlyph);if(g!==glyph){glyph=g;hintSig='';}   // prompts switch to whatever you last pressed
   const was=on,had=!!(cur&&cur.isConnected);wake();upkeep();
-  if(!was&&(DIRS.has(k)||k==='A')){if(!had)setCur(restore(sidPrev,scopeEl(),cands(scopeEl())));hint();return;}   // the first touch only shows where the highlight is
+  if(!was&&(DIRS.has(k)||k==='A')&&!(ovOn()&&q('#sheet .manual')&&k!=='A')){if(!had)setCur(restore(sidPrev,scopeEl(),cands(scopeEl())));hint();return;}   // the first touch only shows where the highlight is
   switch(k){case 'U':move(0,-1);break;case 'D':move(0,1);break;case 'L':move(-1,0);break;case 'R':move(1,0);break;
     case 'A':activate(cur);break;case 'B':back();break;case 'X':tipX();break;case 'Y':lookY();break;
-    case 'LB':if(!rpStep(-1)&&!tabs(-1))page(-1);break;case 'RB':if(!rpStep(1)&&!tabs(1))page(1);break;case 'LT':page(-1);break;case 'RT':page(1);break;
+    case 'LB':if(!manTurn(-1)&&!rpStep(-1)&&!tabs(-1))page(-1);break;case 'RB':if(!manTurn(1)&&!rpStep(1)&&!tabs(1))page(1);break;case 'LT':page(-1);break;case 'RT':page(1);break;
     case 'START':startBtn();break;case 'SEL':selBtn();break;}
   setTimeout(()=>{upkeep();hint();},0);}
 
@@ -164,7 +168,9 @@ function hint(){const el=q('#padhint');if(!el)return;if(!on){el.classList.remove
   if(glyph!=='kb'&&ovOn()&&q('#sheet [data-a=ikey]'))items.push(['Y',q('#sheet [data-a=ikey]').textContent.trim()]);
   if(game&&[...document.querySelectorAll('[data-a=tip]')].some(e=>ok(e,document.body)))items.push(['X','Tip']);
   const tabsOn=['libtab','stab','setmode','libed'].some(a=>[...sc.querySelectorAll(`[data-a="${a}"]`)].filter(e=>ok(e,sc)).length>1);
-  if(sc.id==='rpbar')items.push(['LB','RB','Round']);
+  if(ovOn()&&q('#sheet .manual'))items.push(['LB','RB','Page']);
+  if(ovOn()&&q('#sheet .manual'))items.push(['Y',q('#sheet .manwrap.zoom')?'Fit page':'Zoom']);
+  else if(sc.id==='rpbar')items.push(['LB','RB','Round']);
   else if(tabsOn)items.push(['LB','RB','Tabs']);
   if(sc.id==='rpbar')items.push(['B','Exit replay']);
   else if(ovOn())items.push(['B','Back']);else if(sc.id==='start'){items.push(['B','Back']);if(glyph!=='kb')items.push(['START','Start']);}else if(game&&S){items.push(['B',S.over&&endCache&&endCache.S===S?'Results':'Menu'],['SEL','Log']);}
