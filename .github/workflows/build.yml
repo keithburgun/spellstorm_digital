@@ -52,6 +52,7 @@ jobs:
         with:
           name: Spellstorm-APK
           path: Spellstorm-1.0.${{ github.run_number }}.apk
+          retention-days: 2   # only needed until the release/itch jobs pick it up; keeps the storage quota free
 
   windows:
     name: Windows EXE
@@ -82,6 +83,7 @@ jobs:
         with:
           name: Spellstorm-Windows
           path: desktop/dist/Spellstorm-1.0.${{ github.run_number }}.exe
+          retention-days: 2   # only needed until the release/itch jobs pick it up; keeps the storage quota free
 
   linux:
     name: Linux AppImage (Steam Deck)
@@ -107,6 +109,7 @@ jobs:
         with:
           name: Spellstorm-Linux
           path: desktop/dist/Spellstorm-1.0.${{ github.run_number }}.AppImage
+          retention-days: 2   # only needed until the release/itch jobs pick it up; keeps the storage quota free
 
   release:
     name: Publish release
