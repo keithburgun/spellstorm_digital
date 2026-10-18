@@ -33,7 +33,7 @@ function createWindow() {
 }
 
 // ---------- in-app updates ----------
-// Windows: the portable .exe downloads the new one next to itself, starts it and closes; the new version tidies up older ones.
+// Windows: the portable .exe is replaced in place (same file name, so shortcuts keep working), restarted, and the old copy deleted.
 // Linux / Steam Deck: the AppImage is replaced in place (same file name, so a Steam shortcut keeps working) and restarted.
 const ALLOWED = process.env.SPELLSTORM_UPDATE_TEST_PREFIX || 'https://github.com/keithburgun/spellstorm_digital/releases/download/';   // (the variable is only for automated tests)
 const updKind = () => process.platform === 'win32' && process.env.PORTABLE_EXECUTABLE_FILE ? 'win' : process.platform === 'linux' && process.env.APPIMAGE ? 'linux' : null;
@@ -63,12 +63,16 @@ ipcMain.handle('upd:go', async (e, url) => {
   if (typeof url !== 'string' || !url.startsWith(ALLOWED) || !url.endsWith(kind === 'win' ? '.exe' : '.AppImage')) throw new Error('That isn’t a Spellstorm update.');
   const send = p => { if (!e.sender.isDestroyed()) e.sender.send('upd:progress', p); };
   if (kind === 'win') {
-    const dir = process.env.PORTABLE_EXECUTABLE_DIR || path.dirname(process.env.PORTABLE_EXECUTABLE_FILE);
-    const target = path.join(dir, path.basename(new URL(url).pathname)), part = target + '.download';
+    // Replace the running .exe in place (Windows lets a running program be renamed, not overwritten), so the player's
+    // shortcuts keep working. If that isn't allowed, fall back to saving the new version next to it under its own name.
+    const me = process.env.PORTABLE_EXECUTABLE_FILE, dir = path.dirname(me), part = me + '.download';
     await fetchTo(url, part, send);
-    if (path.resolve(target) === path.resolve(process.env.PORTABLE_EXECUTABLE_FILE)) throw new Error('You already have this version.');
-    try { fs.unlinkSync(target); } catch (err) {}
-    fs.renameSync(part, target);
+    let target = me;
+    try { try { fs.unlinkSync(me + '.old'); } catch (err) {} fs.renameSync(me, me + '.old'); fs.renameSync(part, me); }
+    catch (err) {
+      try { if (!fs.existsSync(me) && fs.existsSync(me + '.old')) fs.renameSync(me + '.old', me); } catch (e2) {}
+      target = path.join(dir, path.basename(new URL(url).pathname)); try { fs.unlinkSync(target); } catch (e3) {} fs.renameSync(part, target);
+    }
     app.releaseSingleInstanceLock();
     spawn(target, [], { detached: true, stdio: 'ignore', cwd: dir }).unref();
   } else {
@@ -82,16 +86,11 @@ ipcMain.handle('upd:go', async (e, url) => {
   setTimeout(() => app.quit(), 400);
   return true;
 });
-// After a Windows update: remove older Spellstorm-1.0.N.exe files next to this one (once the old copy has closed).
+// After a Windows update: remove the previous version (Spellstorm.exe.old) once it has closed.
 function tidyOldExes() {
-  const me = process.env.PORTABLE_EXECUTABLE_FILE, dir = process.env.PORTABLE_EXECUTABLE_DIR; if (!me || !dir) return;
-  const ver = s => s.split('.').map(Number), mine = ver(app.getVersion());
-  const older = v => { for (let i = 0; i < 3; i++) { if (v[i] !== mine[i]) return v[i] < mine[i]; } return false; };
+  const me = process.env.PORTABLE_EXECUTABLE_FILE; if (!me) return;
   let tries = 0;
-  const go = () => { let left = 0;
-    for (const f of fs.readdirSync(dir)) { const m = /^Spellstorm-(\d+\.\d+\.\d+)\.exe$/.exec(f);
-      if (m && older(ver(m[1])) && path.resolve(dir, f) !== path.resolve(me)) { try { fs.unlinkSync(path.join(dir, f)); } catch (err) { left++; } } }
-    if (left && ++tries < 5) setTimeout(go, 4000); };
+  const go = () => { const old = me + '.old'; if (!fs.existsSync(old)) return; try { fs.unlinkSync(old); } catch (err) { if (++tries < 6) setTimeout(go, 4000); } };
   setTimeout(go, 4000);
 }
 

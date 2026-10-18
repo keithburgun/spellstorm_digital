@@ -20,8 +20,8 @@ Each release is numbered (Spellstorm 1.0.N, and every file name has the number i
 
 The Android, Windows and Linux apps have **Options → Updates → Check for updates**, and check quietly about once a day.
 They read the latest release on this repository's Releases page, so **this repository must stay public** for updates to work.
-Android downloads the new APK and opens the system installer; Windows downloads the new .exe next to the old one and switches to it
-(older Spellstorm .exe files in that folder are then removed); Linux/Steam Deck replaces the AppImage in place, so a Steam shortcut keeps working.
+Android downloads the new APK and opens the system installer; Windows and Linux/Steam Deck replace the .exe / AppImage in place
+(same file name, so desktop and Steam shortcuts keep working) and restart. The in-game version label always shows the real version.
 
 ## Android signing key
 
