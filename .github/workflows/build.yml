@@ -60,19 +60,31 @@ jobs:
           # controller support: our MainActivity forwards game-controller input to the game
           test -f android/app/src/main/java/com/spellstorm/game/MainActivity.java
           cp branding/java/MainActivity.java android/app/src/main/java/com/spellstorm/game/MainActivity.java
+          # in-app updates: our UpdaterPlugin downloads the new APK and opens Android's installer
+          cp branding/java/UpdaterPlugin.java android/app/src/main/java/com/spellstorm/game/UpdaterPlugin.java
+          sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />#' android/app/src/main/AndroidManifest.xml
+          grep -q REQUEST_INSTALL_PACKAGES android/app/src/main/AndroidManifest.xml
           sed -i "s/versionCode 1$/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" android/app/build.gradle
           grep -E "versionCode|versionName" android/app/build.gradle
           npx cap sync android
-      - name: Use the project's signing key (so new builds install over old ones)
-        run: |
-          mkdir -p ~/.android
-          cp branding/debug.keystore ~/.android/debug.keystore
-      - name: Build the APK
+      - name: Build the APK (release build)
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
-      - run: cp android/app/build/outputs/apk/debug/app-debug.apk Spellstorm-1.0.${{ github.run_number }}.apk
+          ./gradlew assembleRelease --no-daemon
+      - name: Sign it with Spellstorm's key (kept in the repo's secrets, never in the code)
+        env:
+          ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE" ] || [ -z "$ANDROID_KEYSTORE_PASSWORD" ]; then
+            echo "::error title=Android signing key missing::Add the ANDROID_KEYSTORE and ANDROID_KEYSTORE_PASSWORD secrets (Settings → Secrets and variables → Actions)."; exit 1; fi
+          echo "$ANDROID_KEYSTORE" | base64 -d > "$RUNNER_TEMP/spellstorm.jks"
+          BT="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          "$BT/zipalign" -p -f 4 android/app/build/outputs/apk/release/app-release-unsigned.apk "$RUNNER_TEMP/aligned.apk"
+          "$BT/apksigner" sign --ks "$RUNNER_TEMP/spellstorm.jks" --ks-pass env:ANDROID_KEYSTORE_PASSWORD --ks-key-alias spellstorm --out "Spellstorm-$VERSION.apk" "$RUNNER_TEMP/aligned.apk"
+          "$BT/apksigner" verify --print-certs "Spellstorm-$VERSION.apk" | head -3
+          rm -f "$RUNNER_TEMP/spellstorm.jks"
       - name: Add it to the release
         if: env.MAIN == 'true'
         run: gh release upload "$TAG" "Spellstorm-$VERSION.apk" --repo "${{ github.repository }}" --clobber

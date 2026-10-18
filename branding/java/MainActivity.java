@@ -1,5 +1,6 @@
 package com.spellstorm.game;
 
+import android.os.Bundle;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -18,6 +19,12 @@ public class MainActivity extends BridgeActivity {
     private final float[] axes = new float[6];
     private boolean ltDown = false, rtDown = false;
     private int namedDevice = Integer.MIN_VALUE;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        registerPlugin(UpdaterPlugin.class);   // in-app updates (see UpdaterPlugin.java)
+        super.onCreate(savedInstanceState);
+    }
 
     private static boolean isController(InputDevice d, int eventSource) {
         int s = d != null ? d.getSources() : eventSource;

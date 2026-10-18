@@ -15,6 +15,7 @@
     "productName": "Spellstorm",
     "files": [
       "main.js",
+      "preload.js",
       "icon.ico",
       "icon.png",
       "app/**/*"
