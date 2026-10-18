@@ -16,6 +16,19 @@ Open the **Releases** page of this repo (right-hand sidebar → Releases). The n
 
 Each release is numbered (Spellstorm 1.0.N, and every file name has the number in it) so you can tell versions apart.
 
+## Updates inside the apps
+
+The Android, Windows and Linux apps have **Options → Updates → Check for updates**, and check quietly about once a day.
+They read the latest release on this repository's Releases page, so **this repository must stay public** for updates to work.
+Android downloads the new APK and opens the system installer; Windows downloads the new .exe next to the old one and switches to it
+(older Spellstorm .exe files in that folder are then removed); Linux/Steam Deck replaces the AppImage in place, so a Steam shortcut keeps working.
+
+## Android signing key
+
+Android only installs an update over an existing app if both are signed with the same key. The key lives only in the repository's
+**Actions secrets** (`ANDROID_KEYSTORE`, base64 of the keystore, and `ANDROID_KEYSTORE_PASSWORD`; alias `spellstorm`), never in the code.
+Keep the backup copy (`spellstorm-release.jks` and its password) somewhere safe: if it's lost, players have to uninstall and reinstall once.
+
 ## Controllers
 
 Every version plays with a controller: the Steam Deck's own controls, Xbox and PlayStation controllers,
@@ -56,8 +69,8 @@ Usually the only file that changes is `www/index.html` (the game itself). You ca
 | `www/index.html` | The whole game (engine, UI, card art, fonts) in one file |
 | `package.json`, `capacitor.config.json` | Android app setup (Capacitor) |
 | `branding/res/` | Android icons, splash screens and theme colors |
-| `branding/debug.keystore` | Signing key, so new APKs install over old ones. Keep it in the repo. |
 | `branding/java/MainActivity.java` | Android: passes controller buttons and sticks to the game |
+| `branding/java/UpdaterPlugin.java` | Android: in-app updates (downloads the new APK from the latest release and opens Android's installer) |
 | `desktop/` | Windows and Linux app setup (Electron): window, icon, F11 fullscreen, fullscreen on Steam Deck |
 | `.github/workflows/build.yml` | The build script |
 
