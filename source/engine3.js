@@ -66,7 +66,7 @@ const fmtDelta = L => L.length ? L.map(x => x.t).join(', ') : 'no change';
 function handBlast(P) { return P.hand.filter(c => !CARDS[c.id].disc).length - P.hand.filter(c => c.id === 'ice').length; }
 function evalHard(S, p) {
   if (S.over) return S.over.winner === p ? 1e4 : -1e4;
-  const w = (S.evw && S.evw[p]) || EVW0, op = strongestOpp(S, p);
+  const w = (S.evw && S.evw[p]) || (THREAT_W.noLow && threatOn(S, p) ? EVW_NOLOW : EVW0), op = strongestOpp(S, p);
   let v = scoreP(S, p, w) - scoreP(S, op, w);
   const d = handBlast(S.pl[p]) - handBlast(S.pl[op]);
   const wt = S.round >= 3 ? 1 : w.blastE;

@@ -27,7 +27,9 @@ function planScores(S, p) {
   };
 }
 function updatePlan(g, p) {
-  const S = g.S; S.plan = S.plan || {}; const sc = planScores(S, p), cur = S.plan[p];
+  const S = g.S; S.plan = S.plan || {};
+  if (diffOf(S, p) === 'expert' && !rankCfg(S, p) && threatOn(S, p) && THREAT_W.plan) { const best = threatPlan(S, p); if (best !== S.plan[p]) { S.plan[p] = best; if (!S.aiProf) g.log(`${g.nm(p)} now aims to ${PLANS[best]}.`, 'ini'); } return; }
+  const sc = planScores(S, p), cur = S.plan[p];
   for (const k in sc) sc[k] += Math.random() * 2.5;                       // a little randomness in the read
   let best = Object.keys(sc).sort((a, b) => sc[b] - sc[a])[0];
   if (cur && sc[cur] >= sc[best] - 1.5) best = cur;                        // don't flip-flop over small differences
@@ -60,7 +62,7 @@ function evalAI(S, p) {
   if (S.over) return S.over.winner === p ? 1e4 : -1e4;
   const R = rankCfg(S, p); if (R) return (R.hardEval ? evalHard(S, p) : evalState(S, p)) + (R.plan ? planBonus(S, p) : 0) + persBonus(S, p, R.pers);
   const d = diffOf(S, p);
-  return (d === 'hard' || d === 'expert' ? evalHard(S, p) : evalState(S, p)) + planBonus(S, p);
+  return (d === 'hard' || d === 'expert' ? evalHard(S, p) : evalState(S, p)) + planBonus(S, p) + (d === 'expert' && threatOn(S, p) ? threatEval(S, p) : 0);   // Expert: rounds-to-live and the race clock (engine11.js)
 }
 
 // ---------- in-card decisions ----------
@@ -158,7 +160,7 @@ async function aiChoosePlay(S0, p) {
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   { const off = (S0.aiOff && S0.aiOff[d] != null) ? S0.aiOff[d] : (OFFSCRIPT[d] || 0); if (off && Math.random() < off) return hand[Math.floor(Math.random() * hand.length)]; }   // ladder spacing: chance of an off-script (random) card
-  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, d === 'expert' && S0.aiVer && S0.aiVer[p] === 'c' && S0.pl[p].wiz !== 'oren' ? { n: 10, look: false, lateLook: true, mode: 'mix', depth2: true } : { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
+  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p,  { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }
