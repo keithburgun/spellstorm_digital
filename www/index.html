@@ -1716,6 +1716,7 @@ Game.prototype.battle = async function () {
   return _battleX.call(this);
 };
 Game.prototype.regroup = async function () {
+  if (!this.io.sim) await this.pause(1600);   // let the last round's effects play out on the board before the Blast screen covers it
   const S = this.S; S.phase = 'regroup'; this.log(`Regroup after battle ${S.battle}.`, 'head');
   S.wdisc.push(...S.wused); S.wused = []; S.wcur = null;
   const now = () => Date.now(); S.blastSkip = false; const bp = ms => S.blastSkip ? Promise.resolve() : this.pause(ms);
