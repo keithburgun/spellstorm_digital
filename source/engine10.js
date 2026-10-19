@@ -8,12 +8,12 @@ async function matrixAnalyze(S0, p, cfg, uniq, cap) {
   const look = cfg.look || (cfg.lateLook && S0.round >= 3), n = look && !cfg.look ? Math.max(8, Math.round(cfg.n * .5)) : cfg.n;
   const M = new Map(), avail = {};
   for (let k = 0; k < n; k++) {
-    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p);   // (test 11b, no Ultimates in two-turn futures: worse, rejected)
+    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p); const rs = playRolloutOn(S0, p) ? Math.floor(Math.random() * 2147483647) : 0;   // (test 11b, no Ultimates in two-turn futures: worse, rejected)
     const ids = [...new Set(base.pl[nx].hand.filter(x => !CARDS[x.id].junk).map(x => x.id))], js = ids.length ? ids : ['_'];
     for (const j of js) avail[j] = (avail[j] || 0) + 1;
     for (const c of uniq) for (const j of js) {
       if (cap) SIMCAP = {};
-      const v = cfg.depth2 && S0.round < 4 && j !== '_' ? await simDepth2(base, p, c.u, j) : await simRound(base, p, c.u, j === '_' ? null : j, look);
+      const v = playRolloutOn(S0, p) ? await simRoundRoll(base, p, c.u, j === '_' ? null : j, rs) : cfg.depth2 && S0.round < 4 && j !== '_' ? await simDepth2(base, p, c.u, j) : await simRound(base, p, c.u, j === '_' ? null : j, look);
       if (cap) { const key = c.id + '|' + j, r = cap[key] = cap[key] || { n: 0, round: {}, end: {} };
         for (const [w, snap] of [['round', SIMCAP.round], ['end', SIMCAP.end || SIMCAP.round]]) if (snap) for (const f in snap) r[w][f] = (r[w][f] || 0) + snap[f];
         r.n++; SIMCAP = null; }

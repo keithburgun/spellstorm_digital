@@ -1662,7 +1662,7 @@ const fmtDelta = L => L.length ? L.map(x => x.t).join(', ') : 'no change';
 function handBlast(P) { return P.hand.filter(c => !CARDS[c.id].disc).length - P.hand.filter(c => c.id === 'ice').length; }
 function evalHard(S, p) {
   if (S.over) return S.over.winner === p ? 1e4 : -1e4;
-  const w = (S.evw && S.evw[p]) || EVW0, op = strongestOpp(S, p);
+  const w = (S.evw && S.evw[p]) || (THREAT_W.noLow && threatOn(S, p) ? EVW_NOLOW : EVW0), op = strongestOpp(S, p);
   let v = scoreP(S, p, w) - scoreP(S, op, w);
   const d = handBlast(S.pl[p]) - handBlast(S.pl[op]);
   const wt = S.round >= 3 ? 1 : w.blastE;
@@ -1800,7 +1800,9 @@ function planScores(S, p) {
   };
 }
 function updatePlan(g, p) {
-  const S = g.S; S.plan = S.plan || {}; const sc = planScores(S, p), cur = S.plan[p];
+  const S = g.S; S.plan = S.plan || {};
+  if (diffOf(S, p) === 'expert' && !rankCfg(S, p) && threatOn(S, p) && THREAT_W.plan) { const best = threatPlan(S, p); if (best !== S.plan[p]) { S.plan[p] = best; if (!S.aiProf) g.log(`${g.nm(p)} now aims to ${PLANS[best]}.`, 'ini'); } return; }
+  const sc = planScores(S, p), cur = S.plan[p];
   for (const k in sc) sc[k] += Math.random() * 2.5;                       // a little randomness in the read
   let best = Object.keys(sc).sort((a, b) => sc[b] - sc[a])[0];
   if (cur && sc[cur] >= sc[best] - 1.5) best = cur;                        // don't flip-flop over small differences
@@ -1833,7 +1835,7 @@ function evalAI(S, p) {
   if (S.over) return S.over.winner === p ? 1e4 : -1e4;
   const R = rankCfg(S, p); if (R) return (R.hardEval ? evalHard(S, p) : evalState(S, p)) + (R.plan ? planBonus(S, p) : 0) + persBonus(S, p, R.pers);
   const d = diffOf(S, p);
-  return (d === 'hard' || d === 'expert' ? evalHard(S, p) : evalState(S, p)) + planBonus(S, p);
+  return (d === 'hard' || d === 'expert' ? evalHard(S, p) : evalState(S, p)) + planBonus(S, p) + (d === 'expert' && threatOn(S, p) ? threatEval(S, p) : 0);   // Expert: rounds-to-live and the race clock (engine11.js)
 }
 
 // ---------- in-card decisions ----------
@@ -1931,7 +1933,7 @@ async function aiChoosePlay(S0, p) {
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   { const off = (S0.aiOff && S0.aiOff[d] != null) ? S0.aiOff[d] : (OFFSCRIPT[d] || 0); if (off && Math.random() < off) return hand[Math.floor(Math.random() * hand.length)]; }   // ladder spacing: chance of an off-script (random) card
-  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p, d === 'expert' && S0.aiVer && S0.aiVer[p] === 'c' && S0.pl[p].wiz !== 'oren' ? { n: 10, look: false, lateLook: true, mode: 'mix', depth2: true } : { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
+  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p,  { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }
@@ -2341,12 +2343,12 @@ async function matrixAnalyze(S0, p, cfg, uniq, cap) {
   const look = cfg.look || (cfg.lateLook && S0.round >= 3), n = look && !cfg.look ? Math.max(8, Math.round(cfg.n * .5)) : cfg.n;
   const M = new Map(), avail = {};
   for (let k = 0; k < n; k++) {
-    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p); if (S0.aiVer && S0.aiVer[p] === 'c') { base.rollPol = 2; }   // (test 11b, no Ultimates in two-turn futures: worse, rejected)
+    const base = structuredClone(S0); determinize(base, p); const nx = nextOppOf(base, p); const rs = playRolloutOn(S0, p) ? Math.floor(Math.random() * 2147483647) : 0;   // (test 11b, no Ultimates in two-turn futures: worse, rejected)
     const ids = [...new Set(base.pl[nx].hand.filter(x => !CARDS[x.id].junk).map(x => x.id))], js = ids.length ? ids : ['_'];
     for (const j of js) avail[j] = (avail[j] || 0) + 1;
     for (const c of uniq) for (const j of js) {
       if (cap) SIMCAP = {};
-      const v = cfg.depth2 && S0.round < 4 && j !== '_' ? await simDepth2(base, p, c.u, j) : await simRound(base, p, c.u, j === '_' ? null : j, look);
+      const v = playRolloutOn(S0, p) ? await simRoundRoll(base, p, c.u, j === '_' ? null : j, rs) : cfg.depth2 && S0.round < 4 && j !== '_' ? await simDepth2(base, p, c.u, j) : await simRound(base, p, c.u, j === '_' ? null : j, look);
       if (cap) { const key = c.id + '|' + j, r = cap[key] = cap[key] || { n: 0, round: {}, end: {} };
         for (const [w, snap] of [['round', SIMCAP.round], ['end', SIMCAP.end || SIMCAP.round]]) if (snap) for (const f in snap) r[w][f] = (r[w][f] || 0) + snap[f];
         r.n++; SIMCAP = null; }
@@ -2380,6 +2382,159 @@ async function aiChooseMatrix(S0, p, cfg, hand) {
   mix = mix.map(v => v < Math.max(.06, top * .15) ? 0 : v); const mt = mix.reduce((a, b) => a + b, 0) || 1;
   let r = Math.random() * mt; for (let i = 0; i < uniq.length; i++) { r -= mix[i]; if (r <= 0) return uniq[i]; } return uniq[mix.indexOf(Math.max(...mix))];
 }
+
+// ---------- Threat model: "rounds to live", the race clock, and health as a fraction of max health ----------
+// STATUS (Oct 2026): OFF by default (THREAT_ON = false) — measured, no strength gain.
+//  A/B vs current Expert, mirrored pairs (tests/ab_threat.js): rounds-to-live + race eval −4 Elo (703 games); variants −22/−15;
+//  health-fraction eval −8 (516); full Texel refit with these features −14 (500); + race-clock plan choice 0 (1615); per-wizard subset −7 (763).
+//  But as a PREDICTOR of who wins, health as a fraction of max health is a big improvement (Texel held-out loss 0.578 → 0.566,
+//  tests/texel2_fit.py) while the rounds-to-live / race terms add nothing. Kept for future work (e.g. a learned evaluation).
+// Damage and healing rates come from measured averages: what each card deals to opponents / heals itself when played,
+// and each wizard's Ultimate per use and uses per round (tests: /tmp dmgtab.js, 400 games per edition).
+const THREAT = {"2":{"card":{"pgem":[0,0.08],"block":[0,0.25],"dart":[0.54,0],"charge":[1.59,0],"punch":[0.03,0],"essE":[0,0.04],"coffee":[0,0.05],"flame":[1.92,0.03],"fb":[2.02,0],"threepow":[0,0.08],"sapph":[0.02,0.75],"reflect":[0.89,0.78],"lavabat":[0,0],"cross":[1.59,0],"iceflume":[0,0],"dIce":[0,2.34],"twopow":[0,0.03],"ultw":[0,0],"diamond":[0.01,0.08],"amber":[0,0.13],"curriculum":[0,0.07],"essF":[1,0],"lantern":[0.34,0],"essW":[0,0],"frost":[0,0.77],"rapid":[1.31,0],"deepgems":[0.08,0.68],"obsidian":[0,-0.1],"opal":[0,0.03],"twin":[0.01,1.51],"dStorm":[3,0],"starshot":[1.4,-0.01],"swamp":[0.02,0],"ruby":[1.2,0.03],"shock":[0.99,0],"databreach":[0,0.03],"step":[0,0.39],"beetle":[2.76,0],"spirit":[0.06,0.1],"snowday":[0,1.7],"blood":[0,0.15],"buddy":[0,0.04],"shatter":[0,0.09],"quake":[0,0.05],"fb2":[3.2,0],"leap":[0.01,0.81],"arctite":[0.21,0],"unstable":[0,0.04],"potiongun":[1.44,0],"heart":[0.01,2.04],"moon":[0,3.11],"sift":[0,0.09],"undertow":[0.19,0],"riot":[1.3,0],"lapis":[0.01,0.67],"meteor":[0.67,0.24],"wave":[0.19,0],"shuriken":[0,0],"sinking":[1.39,0],"dEarth":[2,0],"manafont":[0,0],"dWind":[1.93,0.7],"dFire":[3.85,0]},"ult":{"eve":[0,0,0.15],"derby":[1.99,0,0.14],"abragail":[0,0,0.17],"may":[0.77,0.33,0.09],"omar":[0,0,0.17],"bunny":[0.51,1.24,0.14],"oren":[0.79,0.11,0.14],"croh":[0.1,0,0.14]}},"1":{"card":{"pgem":[0,0.07],"block":[0,0.25],"dart":[0.53,0],"amber":[0,0.04],"fb":[2.15,0],"charge":[1.59,0],"ultw":[0,0],"sift":[0,0.06],"lavabat":[0,0],"riot":[1.28,0],"rapid":[1.27,0],"sapph":[0.02,0.71],"essW":[0,0],"lantern":[0,0],"lapis":[0.02,0.55],"coffee":[0,0.04],"heart":[0.01,1.81],"ruby":[1.06,0],"swamp":[0.02,0],"threepow":[0,0.05],"punch":[0.02,0],"curriculum":[0,0.01],"quake":[0,0.02],"essE":[0,0.04],"deepgems":[0.03,0.5],"twopow":[0,0.05],"wave":[0.2,0],"spirit":[0.04,0.1],"shock":[1.04,0],"opal":[0,0.08],"dStorm":[2.98,0],"starshot":[1.07,0],"essF":[0.99,0],"meteor":[0.53,0.52],"shatter":[0,0.15],"frost":[0.02,0.65],"twin":[0.02,1.45],"shuriken":[0,0],"blood":[0,0.11],"flame":[1.96,0.07],"buddy":[0,0.02],"snowday":[-0.01,1.51],"leap":[0.02,0.77],"cross":[1.62,0],"potiongun":[0.99,0],"unstable":[0,0.03],"reflect":[0.78,0.73],"undertow":[0.03,0],"fb2":[3.11,0],"dFire":[4,0],"step":[0.01,0.27],"arctite":[0.01,1.64],"iceflume":[0,0],"manafont":[0,0],"dWind":[1.37,1.37],"dEarth":[1.93,0.07],"databreach":[0,0.07],"moon":[0,2.9],"beetle":[1.76,0],"obsidian":[0,-0.06],"sinking":[0.95,0],"dIce":[0,2.07],"diamond":[0,0.15]},"ult":{"eve":[0,0,0.16],"derby":[1.98,0,0.16],"abragail":[0,0,0.19],"may":[0.67,0.27,0.12],"omar":[0,0,0.18],"bunny":[0.53,1.18,0.16],"oren":[0.59,0.09,0.16],"croh":[0,0,0.13]}}};
+const THREAT_W = { dng: 0, race: 0, tau: 2.5, noLow: false, skipOren: false, hpF: 68, hpLin: 1, plan: false };   // hpF: value of full health as a FRACTION of max health (replaces hpLin × the flat per-point value)   // weights (tuned by A/B); noLow: drop the old fixed '5 health or less' penalties
+const EVW_NOLOW = Object.assign({}, EVW0, { low: 0, low2: 0 });
+let THREAT_ON = false;                                  // Expert uses this when on; the A/B harness turns it on per side with S.aiVer[p] === 'c'
+const threatOn = (S, p) => (THREAT_ON || !!(S.aiVer && S.aiVer[p] === 'c')) && !(THREAT_W.skipOren && S.pl[p].wiz === 'oren') && !(THREAT_W.only && !THREAT_W.only.includes(S.pl[p].wiz));
+function rateOf(S, q) {                                 // expected damage q deals per round, and q's own healing per round
+  const T = THREAT[ED2(S) ? 2 : 1], P = S.pl[q];
+  if (P.rb) return { d: 1.1, h: 0 };
+  const avg = L => { let d = 0, h = 0, n = 0; for (const c of L) { if (CARDS[c.id].junk) continue; const x = T.card[c.id]; n++; if (x) { d += x[0]; h += x[1]; } } return n ? { d: d / n, h: h / n, n } : null; };
+  const all = avg([...P.hand, ...P.deck, ...P.discard]) || { d: 0.6, h: 0.3 };   // the whole card pool (weighting the hand would reward hoarding damage cards)
+  let d = all.d, h = all.h;
+  const u = T.ult[P.wiz] || [0, 0, 0.14], ready = P.mana >= WIZ[P.wiz].cost;
+  const ur = ready ? Math.max(u[2], 0.35) : u[2];
+  d += u[0] * ur; h += u[1] * ur;
+  if (P.wiz === 'croh') h = 0;                            // Croh can't heal
+  return { d, h };
+}
+function roundsToKill(S, a, t) {                        // how many rounds a needs to bring t to 0 at the current pace
+  const A = rateOf(S, a), T = rateOf(S, t), P = S.pl[t];
+  const heal = P.hp < P.max || P.wiz === 'bunny' ? T.h : 0;
+  return P.hp / Math.max(0.25, A.d - 0.6 * heal);
+}
+function roundsToShards(S, p, op) {                     // how many rounds until p reaches the winning Storm Shards
+  const P = S.pl[p], W8 = S.win || 8, need = W8 - P.shards; if (need <= 0) return 0;
+  const left = Math.max(0, 4 - (S.round || 0)) + (S.phase === 'regroup' || S.phase === 'gain' ? 0 : 0.5);
+  const edge = handBlast(P) - handBlast(S.pl[op]), now = 1 + 0.8 * Math.tanh(edge / 2);   // expected shards from this battle's Blast
+  return left + Math.max(0, need - now) * 4;            // later battles: about 1 shard per battle (4 rounds) each
+}
+function threatEval(S, p) {
+  const op = strongestOpp(S, p), w = THREAT_W, A = S.pl[p], B = S.pl[op];
+  let v = w.hpF * (A.hp / A.max - B.hp / B.max) - w.hpLin * EVW0.hp * (A.hp - B.hp);   // health relative to the wizard's maximum (Bunny's 4/8 is as bad as Croh's 10/20)
+  if (!w.dng && !w.race) return v;
+  const ttlMe = roundsToKill(S, op, p), ttlOp = roundsToKill(S, p, op);
+  const myWin = Math.min(ttlOp, roundsToShards(S, p, op)), theirWin = Math.min(ttlMe, roundsToShards(S, op, p));
+  return v + w.dng * (Math.exp(-ttlOp / w.tau) - Math.exp(-ttlMe / w.tau)) + w.race * Math.tanh((theirWin - myWin) / 3);
+}
+function threatPlan(S, p) {                             // the race clock picks the plan: kill them, out-Blast them, or survive
+  const op = strongestOpp(S, p), ttlMe = roundsToKill(S, op, p), ttlOp = roundsToKill(S, p, op), sh = roundsToShards(S, p, op);
+  if (ttlMe < 3 && ttlMe < Math.min(ttlOp, sh)) return 'survive';
+  if (ttlOp < sh - 1) return 'damage';
+  if (S.battle <= 2 && S.pl[p].tier < 3 && sh > 8) return 'power';
+  return 'shards';
+}
+
+// ===== Spellstorm engine, part 12: Expert chooses Storm Cloud gains by playing the game out =====
+// For each card it could gain, Expert plays many fast games to the end from this exact moment (hidden cards re-dealt
+// at random each time, the same random futures for every option so the comparison is fair) and takes the card that wins most.
+const GAINRO = { on: true, k: 150 };   // k = play-outs per option. ON for Expert: +24 Elo over 1,577 mirrored games (95% CI +7…+42, SPRT accept)
+// (k = 48: +17 over 802 games; k = 300 vs 150: no further gain. Play-outs for the card played ('r'): worse and 5× slower.
+//  Play-outs for 'use my Ultimate?' ('u'): no gain. Both kept off.)
+const verHas = (S, p, f) => !!(S.aiVer && typeof S.aiVer[p] === 'string' && S.aiVer[p].includes(f));
+const gainRolloutOn = (S, p) => GAINRO.on || verHas(S, p, 'g') || verHas(S, p, 'G');
+async function rolloutGain(g0, p, req) {
+  const S0 = g0.S, seen = {}, opts = [];
+  for (const i of req.slots) { const id = S0.cloud[i] && S0.cloud[i].id; if (id && !seen[id]) { seen[id] = 1; opts.push(i); } }
+  if (opts.length <= 1) return null;
+  const prev = Math.random, seed0 = Math.floor(prev() * 2147483647), score = opts.map(() => 0);
+  try {
+    const K = verHas(S0, p, 'G') ? GAINRO.k * 2 : GAINRO.k;   // ('G' = A/B test of twice the play-outs)
+    for (let k = 0; k < K; k++) {
+      if (k % 10 === 9 && typeof window !== 'undefined') { Math.random = prev; await new Promise(r => setTimeout(r, 0)); }   // let the screen breathe on slower phones
+      Math.random = seededRNG(seed0 + k * 7919);
+      const base = structuredClone(S0); determinize(base, p);
+      const fut = seed0 + k * 7919 + 1;
+      for (let i = 0; i < opts.length; i++) {
+        Math.random = seededRNG(fut);                                // same future for every option
+        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i];
+        try {
+          const c = S.cloud[slot]; S.cloud[slot] = null; g.refill(slot); S.pl[p].hand.push(c);
+          const ord = g.order(), at = ord.indexOf(p);
+          for (const q of ord.slice(at + 1)) { if (S.pl[q].rb || S.pl[q].out) continue;
+            const j = cpuDecideX(g, q, { k: 'gain', slots: g.eligibleSlots(q), optional: 0, special: 1, verb: 'Gain' });
+            if (typeof j === 'string') await g.gainSpecial(q, j); else if (j != null && j >= 0) { const cc = S.cloud[j]; S.cloud[j] = null; g.refill(j); S.pl[q].hand.push(cc); } }
+          for (const q of ord) if (!S.pl[q].rb && !S.pl[q].out) await g.draw(q, 3 - S.pl[q].hand.length);
+          for (let b = 0; b < 15; b++) { await g.battle(); await g.regroup(); }
+        } catch (e) { if (!(e instanceof GameOver)) throw e; }
+        score[i] += S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
+      }
+    }
+  } finally { Math.random = prev; }
+  const best = Math.max(...score), top = opts.filter((_, i) => score[i] >= best - 0.5);
+  if (top.length === 1) return top[0];
+  const P = S0.pl[p]; return top.sort((a, b) => cardVal(S0.cloud[b].id, P) - cardVal(S0.cloud[a].id, P))[0];   // a tie: the usual card values decide
+}
+const _cpuDecideX12 = cpuDecideX;
+cpuDecideX = function (g, p, req) {
+  const S = g.S;
+  if (req.k === 'gain' && req.verb === 'Gain' && req.slots && req.slots.length > 1 && S.phase === 'gain' && g.io && !g.io.sim && isAI(S, p) && !rankCfg(S, p) && diffOf(S, p) === 'expert'
+      && gainRolloutOn(S, p) && S.pl.length === 2 && !S.puzzle)
+    return rolloutGain(g, p, req).then(i => i == null ? _cpuDecideX12(g, p, req) : i);
+  return _cpuDecideX12(g, p, req);
+};
+
+// ----- the same idea for the card Expert plays: each cell of its payoff table (my card × their card) is scored by
+// playing the whole game out instead of judging the position at the end of the battle. (A/B flag: S.aiVer[p] === 'r')
+const PLAYRO = { m: 4 };                                          // play-outs per table cell per sampled deal (same futures in every cell)
+async function simRoundRoll(base, p, myU, oid, seed) {
+  const prev = Math.random; let tot = 0;
+  try {
+    for (let t = 0; t < PLAYRO.m; t++) {
+      Math.random = seededRNG(seed + t * 104729);
+      const S = structuredClone(base), nx = nextOppOf(S, p), me = S.pl[p], op = S.pl[nx];
+      const mc = me.hand.find(x => x.u === myU); me.hand.splice(me.hand.indexOf(mc), 1); S.slot[p] = mc;
+      if (oid) { const oc = op.hand.find(x => x.id === oid); op.hand.splice(op.hand.indexOf(oc), 1); S.slot[nx] = oc; }
+      const g = new Game(S, ROLL_IO);
+      try { await g.afterPlay(); for (let r = S.round + 1; r <= 4; r++) await g.round(r); await g.regroup(); for (let b = 0; b < 15; b++) { await g.battle(); await g.regroup(); } }
+      catch (e) { if (!(e instanceof GameOver)) throw e; }
+      tot += S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
+    }
+  } finally { Math.random = prev; }
+  return tot / PLAYRO.m;
+}
+const playRolloutOn = (S, p) => verHas(S, p, 'r');
+
+// ----- and for "use my Ultimate now?": play the game out both ways (the rest of the current round is skipped in both, so the comparison stays fair)
+const ULTRO = { on: false, k: 80 };
+const ultRolloutOn = (S, p) => ULTRO.on || verHas(S, p, 'u');
+async function rolloutUlt(S0, p, free) {
+  const W = WIZ[S0.pl[p].wiz], prev = Math.random, seed0 = Math.floor(prev() * 2147483647); let yes = 0, no = 0;
+  try {
+    for (let k = 0; k < ULTRO.k; k++) {
+      Math.random = seededRNG(seed0 + k * 7919);
+      const base = structuredClone(S0); determinize(base, p); const fut = seed0 + k * 7919 + 1;
+      for (const use of [true, false]) {
+        Math.random = seededRNG(fut);
+        const S = structuredClone(base), g = new Game(S, ROLL_IO);
+        try {
+          if (use) { if (!free) S.pl[p].mana -= W.cost; await W.ult(g, p); }
+          for (const q of S.pl.keys()) { const c = S.slot[q]; if (c) S.pl[q].discard.push(c); }
+          S.slot = S.pl.map(() => null); S.revealed = false; S.resolving = null;
+          for (let r = (S.round || 0) + 1; r <= 4; r++) await g.round(r);
+          await g.regroup(); for (let b = 0; b < 15; b++) { await g.battle(); await g.regroup(); }
+        } catch (e) { if (!(e instanceof GameOver)) throw e; }
+        const v = S.over ? (S.over.winner === p ? 1 : 0) : 0.5; if (use) yes += v; else no += v;
+      }
+    }
+  } finally { Math.random = prev; }
+  return yes >= no;
+}
+const _ultDecide12 = ultDecide;
+ultDecide = async function (S0, p, free) {
+  if (isAI(S0, p) && !rankCfg(S0, p) && diffOf(S0, p) === 'expert' && ultRolloutOn(S0, p) && S0.pl.length === 2 && !S0.puzzle && S0.phase !== 'gain') return rolloutUlt(S0, p, free);
+  return _ultDecide12(S0, p, free);
+};
 
 const DAILY = [{"title": "Opening Spark", "you": "derby", "opponent": "eve", "cpu": "normal", "goal": "win", "note": "A classic rivalry to start the calendar. Derby’s Fire against Eve’s ICE."}, {"title": "Ice Age", "you": "omar", "opponent": "eve", "cpu": "hard", "goal": "win_health", "note": "Eve will bury you in ICE. Win by bringing her to 0 health anyway."}, {"title": "Head Start", "you": "bunny", "opponent": "croh", "cpu": "hard", "rules": "opp_shards 2", "goal": "win", "note": "Croh starts with 2 Storm Shards. Catch up and pass him."}, {"title": "Glass Cannon", "you": "derby", "opponent": "abragail", "cpu": "normal", "rules": "you_hp -5", "goal": "win", "note": "Derby starts with 5 less health. Strike first, strike hard."}, {"title": "The Long Game", "you": "abragail", "opponent": "oren", "cpu": "normal", "rules": "long", "goal": "win_shards", "note": "A Long Match where only Storm Shards will do."}, {"title": "Blitz", "you": "may", "opponent": "bunny", "cpu": "normal", "goal": "win_within 3", "note": "Win within three battles. No dawdling."}, {"title": "Robot Uprising", "you": "oren", "opponent": "robot", "cpu": "medium", "goal": "win", "note": "Robot Boy doesn’t think. He just keeps coming."}, {"title": "Untouchable", "you": "eve", "opponent": "derby", "cpu": "normal", "goal": "win_above 8", "note": "Win while keeping at least 8 health. Derby’s Fireballs say otherwise."}, {"title": "The Hexer", "you": "croh", "opponent": "eve", "cpu": "rank 6 / type C", "goal": "win", "note": "This opponent loves filling your deck with junk. Keep yours clean."}, {"title": "Mana Surge", "you": "derby", "opponent": "may", "cpu": "hard", "rules": "you_mana 5", "goal": "win", "note": "You start one mana short of Flaming Yardstick. Make it count."}, {"title": "Tier Two Tango", "you": "abragail", "opponent": "omar", "cpu": "hard", "rules": "you_tier 2, opp_tier 2", "goal": "win", "note": "Both wizards start at Tier II. Stronger cards from the very first gain."}, {"title": "Underdog", "you": "bunny", "opponent": "oren", "cpu": "expert", "rules": "you_hp +4", "goal": "win", "note": "Bunny against the Expert — with a little extra health to work with."}, {"title": "Health Race", "you": "omar", "opponent": "derby", "cpu": "hard", "goal": "win_health", "note": "Both of you can deal damage. Who drops first?"}, {"title": "Initiative Wars", "you": "eve", "opponent": "omar", "cpu": "rank 7 / type H", "rules": "opp_init", "goal": "win", "note": "This opponent fights to hold the Initiative, and starts with it."}, {"title": "Shard Collector", "you": "may", "opponent": "abragail", "cpu": "hard", "goal": "win_shards", "note": "Abragail builds Power fast. Out-blast her for the win."}, {"title": "Croh’s Curse", "you": "oren", "opponent": "croh", "cpu": "hard", "goal": "win", "note": "Croh can’t heal, but his CURSEs pile up. Stay ahead of them."}, {"title": "Robot Boy, Hard Mode", "you": "derby", "opponent": "robot", "cpu": "hard", "goal": "win", "note": "Robot Boy starts with 4 Power. Brace yourself."}, {"title": "Big Game", "you": "croh", "opponent": "bunny", "cpu": "hard", "rules": "long", "goal": "win", "note": "A Long Match. Croh’s 30 health against Bunny’s stitches."}, {"title": "The Gambler", "you": "may", "opponent": "derby", "cpu": "rank 8 / type I", "goal": "win", "note": "Wildly unpredictable, occasionally brilliant. Expect anything."}, {"title": "Quick Draw", "you": "omar", "opponent": "may", "cpu": "normal", "goal": "win_within 2", "note": "Two battles. That’s all you get."}, {"title": "Ultimate Showdown", "you": "derby", "opponent": "oren", "cpu": "rank 7 / type D", "rules": "you_mana 4, opp_mana 4", "goal": "win", "note": "Both wizards start with mana in the tank, and this opponent never saves an Ultimate."}, {"title": "Fortress", "you": "bunny", "opponent": "abragail", "cpu": "hard", "goal": "win_above 6", "note": "Win with at least 6 health left. Bunny’s stitches will need to work overtime."}, {"title": "Turtle Shell", "you": "oren", "opponent": "eve", "cpu": "rank 6 / type G", "rules": "opp_hp +4", "goal": "win_health", "note": "A defensive opponent with extra health. Break through."}, {"title": "Dragon’s Hoard", "you": "abragail", "opponent": "derby", "cpu": "hard", "rules": "you_tier 3", "goal": "win", "note": "You start at Tier III. The Dragons are waiting."}, {"title": "Even Footing", "you": "eve", "opponent": "eve", "cpu": "expert", "goal": "win", "note": "A mirror match against the Expert."}, {"title": "Short Fuse", "you": "derby", "opponent": "croh", "cpu": "hard", "rules": "you_hp -4, opp_hp -6", "goal": "win_within 3", "note": "Low health on both sides, and only three battles to finish."}, {"title": "The Reader", "you": "omar", "opponent": "abragail", "cpu": "rank 8 / type E", "goal": "win", "note": "This opponent is good at reading the reveal. Be unpredictable."}, {"title": "Patience", "you": "croh", "opponent": "may", "cpu": "expert", "rules": "long", "goal": "win_shards", "note": "A Long Match against the Expert, won only by Storm Shards."}, {"title": "Full Power", "you": "may", "opponent": "oren", "cpu": "hard", "rules": "you_power 4, opp_power 4", "goal": "win", "note": "Both wizards start with 4 Power. Tier II is one good card away."}, {"title": "Storm Legend", "you": "derby", "opponent": "abragail", "cpu": "expert", "goal": "win_within 4", "note": "The month’s finale: beat the Expert within four battles."}];
 const PUZZLES = [
