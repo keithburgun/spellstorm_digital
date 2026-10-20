@@ -75,6 +75,7 @@ function cpuDecideX(g, p, req) {
     if (d === 'easy' && Math.random() < 0.6) return req.slots[Math.floor(Math.random() * req.slots.length)];
     const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
     const tuned = !!S.rollTuned;   // test 1 (data-tuned card values for Expert's own choice) was rejected by SPRT; S.rollTuned = test them inside play-outs
+    if (S.rollDraft && typeof draftVal === 'function') { const dv = i => draftVal(S, p, S.cloud[i].id) + Math.random() * 0.5; return req.slots.slice().sort((a, b) => dv(b) - dv(a))[0]; }   // play-outs: drafting values learned from play-outs (engine12.js)
     const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (tuned ? (GAINADJ[id] || 0) : 0) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle ? 0 : Math.random() * 1.2); };   // (test 9, noiseless Storm Cloud choices: inconclusive, parked)   // puzzles: no coin flips
     return req.slots.slice().sort((a, b) => val(b) - val(a))[0];
   }

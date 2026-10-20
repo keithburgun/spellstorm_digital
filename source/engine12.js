@@ -20,7 +20,7 @@ async function rolloutGain(g0, p, req) {
       const fut = seed0 + k * 7919 + 1;
       for (let i = 0; i < opts.length; i++) {
         Math.random = seededRNG(fut);                                // same future for every option
-        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true;
+        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true;
         try {
           const c = S.cloud[slot]; S.cloud[slot] = null; g.refill(slot); S.pl[p].hand.push(c);
           const ord = g.order(), at = ord.indexOf(p);
@@ -34,6 +34,7 @@ async function rolloutGain(g0, p, req) {
       }
     }
   } finally { Math.random = prev; }
+  if (GAINRO.rec) GAINRO.rec(S0, p, opts, score);                   // (data collection for tests only)
   const best = Math.max(...score), top = opts.filter((_, i) => score[i] >= best - 0.5);
   if (top.length === 1) return top[0];
   const P = S0.pl[p]; return top.sort((a, b) => cardVal(S0.cloud[b].id, P) - cardVal(S0.cloud[a].id, P))[0];   // a tie: the usual card values decide
@@ -143,7 +144,7 @@ async function rolloutMidGain(g0, p, req) {
       const base = structuredClone(F); determinize(base, p); const fut = seed0 + k * 7919 + 1;
       for (let i = 0; i < opts.length; i++) {
         Math.random = seededRNG(fut);
-        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true;
+        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true;
         const io = { sim: true, log() { }, render() { }, pause() { return Promise.resolve(); },
           decide: (g, q, r) => {
             const n = seenN[q] = (seenN[q] || 0) + 1, mine = L.filter(e => e[0] === q);
@@ -178,3 +179,16 @@ cpuDecideX = function (g, p, req) {
     return rolloutMidGain(g, p, req).then(i => i == null ? _cpuDecideX12b(g, p, req) : i);
   return _cpuDecideX12b(g, p, req);
 };
+
+// ----- drafting values learned from play-outs (tests/draft_gen.js + draft_fit.py): each option's play-out win rate at
+// end-of-battle gains, fitted per card plus a few context terms. Used by the quick players inside Expert's play-outs.
+const DRAFTV = { on: false, ids: {}, we: {}, x: {} };
+function draftVal(S, p, id) {
+  const c = CARDS[id], P = S.pl[p], X = DRAFTV.x, b = S.battle || 1;
+  const mine = [...P.hand, ...P.deck, ...P.discard], nn = mine.filter(q => !CARDS[q.id].junk);
+  const opp = S.pl[nextOppOf(S, p)], oe = domEl(opp);
+  let v = (DRAFTV.ids[id] != null ? DRAFTV.ids[id] : 0) + (DRAFTV.we[P.wiz + ':' + c.el] || 0);
+  v += (WIZ[P.wiz].els.includes(c.el) ? X.wizEl || 0 : 0) + (BEATS[c.el] === oe ? X.counter || 0 : 0) + mine.filter(q => q.id === id).length * (X.copies || 0);
+  v += (nn.length ? nn.filter(q => CARDS[q.id].el === c.el).length / nn.length : 0) * (X.sameElFrac || 0) + ((c.t || 1) - 1) * b * (X.tierXbattle || 0) + c.v * b / 10 * (X.valXbattle || 0);
+  return v;
+}
