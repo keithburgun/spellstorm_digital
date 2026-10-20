@@ -1847,7 +1847,7 @@ function cpuDecideX(g, p, req) {
   if (isAI(S, p) && req.k === 'gain' && req.slots.length && req.verb === 'Gain') {
     if (d === 'easy' && Math.random() < 0.6) return req.slots[Math.floor(Math.random() * req.slots.length)];
     const P = S.pl[p], oe = domEl(S.pl[nextOppOf(S, p)]);
-    const tuned = false;   // test 1 (data-tuned card values) was rejected by SPRT: no gain
+    const tuned = !!S.rollTuned;   // test 1 (data-tuned card values for Expert's own choice) was rejected by SPRT; S.rollTuned = test them inside play-outs
     const val = i => { const id = S.cloud[i].id; return cardVal(id, P) + (tuned ? (GAINADJ[id] || 0) : 0) + planCardBonus(S, p, id) + ((d === 'hard' || d === 'expert') && BEATS[CARDS[id].el] === oe ? 1.5 : 0) + (S.puzzle ? 0 : Math.random() * 1.2); };   // (test 9, noiseless Storm Cloud choices: inconclusive, parked)   // puzzles: no coin flips
     return req.slots.slice().sort((a, b) => val(b) - val(a))[0];
   }
@@ -2457,7 +2457,7 @@ async function rolloutGain(g0, p, req) {
       const fut = seed0 + k * 7919 + 1;
       for (let i = 0; i < opts.length; i++) {
         Math.random = seededRNG(fut);                                // same future for every option
-        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i];
+        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true;
         try {
           const c = S.cloud[slot]; S.cloud[slot] = null; g.refill(slot); S.pl[p].hand.push(c);
           const ord = g.order(), at = ord.indexOf(p);
@@ -2534,6 +2534,86 @@ const _ultDecide12 = ultDecide;
 ultDecide = async function (S0, p, free) {
   if (isAI(S0, p) && !rankCfg(S0, p) && diffOf(S0, p) === 'expert' && ultRolloutOn(S0, p) && S0.pl.length === 2 && !S0.puzzle && S0.phase !== 'gain') return rolloutUlt(S0, p, free);
   return _ultDecide12(S0, p, free);
+};
+
+// ----- Drafting in the middle of a round (cards like Coffee Run or Amber: "gain a card"). The engine can't pause a card
+// half-way, so Expert keeps a copy of the game from the moment the cards were revealed, plus every choice made since;
+// to test an option it replays the round from that copy (repeating those choices), forces the option, and plays the game out.
+const MIDRO = { on: true, weather: false, k: 120 };   // ON: +30 Elo (824 mirrored games, 95% CI +6…+54, SPRT accept)
+const midRolloutOn = (S, p) => MIDRO.on || verHas(S, p, 'm');
+const encAnsG = (req, v) => req.k === 'gain' ? (typeof v === 'string' || v == null || v < 0 ? v : ['id', null]) : req.k === 'pick' ? (v || []).map(c => c.u) : v;
+const _afterPlay12 = Game.prototype.afterPlay;
+Game.prototype.afterPlay = async function () {
+  if (!this.io.sim && this.S.pl.length === 2) { this._fork = structuredClone(this.S); this._forkAt = 'reveal'; this._dlog = []; }
+  try { return await _afterPlay12.call(this); } finally { this._fork = null; this._dlog = null; }
+};
+const _weatherFx12 = Game.prototype.weatherFx;                         // the same for Weather cards that let everyone gain (Falling Star)
+Game.prototype.weatherFx = async function (w) {
+  if (!this.io.sim && this.S.pl.length === 2) { this._fork = structuredClone(this.S); this._forkAt = 'weather'; this._dlog = []; }
+  try { return await _weatherFx12.call(this, w); } finally { this._fork = null; this._dlog = null; }
+};
+const _decide12 = Game.prototype.decide;
+Game.prototype.decide = async function (p, req) {
+  const v = await _decide12.call(this, p, req);
+  if (this._dlog) { let e = encAnsG(req, v); if (Array.isArray(e) && e[0] === 'id') e = ['id', this._lastGainId]; this._dlog.push([p, req.k, e]); }
+  return v;
+};
+// remember which card a numbered gain answer referred to (the Storm Cloud slot is refilled right after)
+const _gainCard12 = Game.prototype.gainCard;
+Game.prototype.gainCard = async function (p, o) {
+  if (!this._dlog) return _gainCard12.call(this, p, o);
+  const S = this.S, before = S.cloud.map(c => c && c.u), r = await _gainCard12.call(this, p, o);
+  if (r && this._dlog.length) { const last = this._dlog[this._dlog.length - 1]; if (last[1] === 'gain' && Array.isArray(last[2])) last[2] = ['id', r.id]; }
+  return r;
+};
+async function rolloutMidGain(g0, p, req) {
+  const F = g0._fork, L = (g0._dlog || []).slice(), S0 = g0.S, seen = {}, opts = [];
+  for (const i of req.slots) { const id = S0.cloud[i] && S0.cloud[i].id; if (id && !seen[id]) { seen[id] = 1; opts.push(id); } }
+  if (req.optional) opts.push(-1);
+  if (opts.length <= 1) return null;
+  const nth = L.filter(e => e[0] === p).length;                       // this is p's (nth+1)-th decision since the reveal
+  const prev = Math.random, seed0 = Math.floor(prev() * 2147483647), score = opts.map(() => 0);
+  try {
+    for (let k = 0; k < MIDRO.k; k++) {
+      if (k % 10 === 9 && typeof window !== 'undefined') { Math.random = prev; await new Promise(r => setTimeout(r, 0)); }
+      Math.random = seededRNG(seed0 + k * 7919);
+      const base = structuredClone(F); determinize(base, p); const fut = seed0 + k * 7919 + 1;
+      for (let i = 0; i < opts.length; i++) {
+        Math.random = seededRNG(fut);
+        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true;
+        const io = { sim: true, log() { }, render() { }, pause() { return Promise.resolve(); },
+          decide: (g, q, r) => {
+            const n = seenN[q] = (seenN[q] || 0) + 1, mine = L.filter(e => e[0] === q);
+            if (q === p && n === nth + 1 && r.k === 'gain') {           // the decision being tested
+              if (forced === -1) return Promise.resolve(-1);
+              const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === forced); if (s != null) return Promise.resolve(s);
+            } else if (n <= mine.length && mine[n - 1][1] === r.k) {    // repeat what was actually chosen earlier this round
+              const a = mine[n - 1][2];
+              if (r.k === 'gain') { if (typeof a === 'string' || a === -1 || a == null) return Promise.resolve(a == null ? -1 : a);
+                const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === a[1]); if (s != null) return Promise.resolve(s); }
+              else if (r.k === 'pick') { const it = (r.items || []).filter(c => a.includes(c.u)); if (it.length >= (r.min || 0)) return Promise.resolve(it); }
+              else return Promise.resolve(a);
+            }
+            return ROLL_IO.decide(g, q, r);
+          } };
+        const g = new Game(S, io);
+        try { if (g0._forkAt === 'weather') { await g.weatherFx(S.wcur); await g.playStep(); } else await g.afterPlay(); for (let r = S.round + 1; r <= 4; r++) await g.round(r); await g.regroup(); for (let b = 0; b < 15; b++) { await g.battle(); await g.regroup(); } }
+        catch (e) { if (!(e instanceof GameOver)) throw e; }
+        score[i] += S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
+      }
+    }
+  } finally { Math.random = prev; }
+  const best = Math.max(...score), bi = score.indexOf(best), pick = opts[bi];
+  if (pick === -1) return -1;
+  return req.slots.find(j => S0.cloud[j] && S0.cloud[j].id === pick);
+}
+const _cpuDecideX12b = cpuDecideX;
+cpuDecideX = function (g, p, req) {
+  const S = g.S;
+  if (req.k === 'gain' && req.verb === 'Gain' && req.slots && req.slots.length && (S.phase === 'resolve' ? midRolloutOn(S, p) : S.phase === 'weather' ? (MIDRO.weather || verHas(S, p, 'w')) : false) && g.io && !g.io.sim && g._fork && isAI(S, p) && !rankCfg(S, p)
+      && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial)
+    return rolloutMidGain(g, p, req).then(i => i == null ? _cpuDecideX12b(g, p, req) : i);
+  return _cpuDecideX12b(g, p, req);
 };
 
 const DAILY = [{"title": "Opening Spark", "you": "derby", "opponent": "eve", "cpu": "normal", "goal": "win", "note": "A classic rivalry to start the calendar. Derby’s Fire against Eve’s ICE."}, {"title": "Ice Age", "you": "omar", "opponent": "eve", "cpu": "hard", "goal": "win_health", "note": "Eve will bury you in ICE. Win by bringing her to 0 health anyway."}, {"title": "Head Start", "you": "bunny", "opponent": "croh", "cpu": "hard", "rules": "opp_shards 2", "goal": "win", "note": "Croh starts with 2 Storm Shards. Catch up and pass him."}, {"title": "Glass Cannon", "you": "derby", "opponent": "abragail", "cpu": "normal", "rules": "you_hp -5", "goal": "win", "note": "Derby starts with 5 less health. Strike first, strike hard."}, {"title": "The Long Game", "you": "abragail", "opponent": "oren", "cpu": "normal", "rules": "long", "goal": "win_shards", "note": "A Long Match where only Storm Shards will do."}, {"title": "Blitz", "you": "may", "opponent": "bunny", "cpu": "normal", "goal": "win_within 3", "note": "Win within three battles. No dawdling."}, {"title": "Robot Uprising", "you": "oren", "opponent": "robot", "cpu": "medium", "goal": "win", "note": "Robot Boy doesn’t think. He just keeps coming."}, {"title": "Untouchable", "you": "eve", "opponent": "derby", "cpu": "normal", "goal": "win_above 8", "note": "Win while keeping at least 8 health. Derby’s Fireballs say otherwise."}, {"title": "The Hexer", "you": "croh", "opponent": "eve", "cpu": "rank 6 / type C", "goal": "win", "note": "This opponent loves filling your deck with junk. Keep yours clean."}, {"title": "Mana Surge", "you": "derby", "opponent": "may", "cpu": "hard", "rules": "you_mana 5", "goal": "win", "note": "You start one mana short of Flaming Yardstick. Make it count."}, {"title": "Tier Two Tango", "you": "abragail", "opponent": "omar", "cpu": "hard", "rules": "you_tier 2, opp_tier 2", "goal": "win", "note": "Both wizards start at Tier II. Stronger cards from the very first gain."}, {"title": "Underdog", "you": "bunny", "opponent": "oren", "cpu": "expert", "rules": "you_hp +4", "goal": "win", "note": "Bunny against the Expert — with a little extra health to work with."}, {"title": "Health Race", "you": "omar", "opponent": "derby", "cpu": "hard", "goal": "win_health", "note": "Both of you can deal damage. Who drops first?"}, {"title": "Initiative Wars", "you": "eve", "opponent": "omar", "cpu": "rank 7 / type H", "rules": "opp_init", "goal": "win", "note": "This opponent fights to hold the Initiative, and starts with it."}, {"title": "Shard Collector", "you": "may", "opponent": "abragail", "cpu": "hard", "goal": "win_shards", "note": "Abragail builds Power fast. Out-blast her for the win."}, {"title": "Croh’s Curse", "you": "oren", "opponent": "croh", "cpu": "hard", "goal": "win", "note": "Croh can’t heal, but his CURSEs pile up. Stay ahead of them."}, {"title": "Robot Boy, Hard Mode", "you": "derby", "opponent": "robot", "cpu": "hard", "goal": "win", "note": "Robot Boy starts with 4 Power. Brace yourself."}, {"title": "Big Game", "you": "croh", "opponent": "bunny", "cpu": "hard", "rules": "long", "goal": "win", "note": "A Long Match. Croh’s 30 health against Bunny’s stitches."}, {"title": "The Gambler", "you": "may", "opponent": "derby", "cpu": "rank 8 / type I", "goal": "win", "note": "Wildly unpredictable, occasionally brilliant. Expect anything."}, {"title": "Quick Draw", "you": "omar", "opponent": "may", "cpu": "normal", "goal": "win_within 2", "note": "Two battles. That’s all you get."}, {"title": "Ultimate Showdown", "you": "derby", "opponent": "oren", "cpu": "rank 7 / type D", "rules": "you_mana 4, opp_mana 4", "goal": "win", "note": "Both wizards start with mana in the tank, and this opponent never saves an Ultimate."}, {"title": "Fortress", "you": "bunny", "opponent": "abragail", "cpu": "hard", "goal": "win_above 6", "note": "Win with at least 6 health left. Bunny’s stitches will need to work overtime."}, {"title": "Turtle Shell", "you": "oren", "opponent": "eve", "cpu": "rank 6 / type G", "rules": "opp_hp +4", "goal": "win_health", "note": "A defensive opponent with extra health. Break through."}, {"title": "Dragon’s Hoard", "you": "abragail", "opponent": "derby", "cpu": "hard", "rules": "you_tier 3", "goal": "win", "note": "You start at Tier III. The Dragons are waiting."}, {"title": "Even Footing", "you": "eve", "opponent": "eve", "cpu": "expert", "goal": "win", "note": "A mirror match against the Expert."}, {"title": "Short Fuse", "you": "derby", "opponent": "croh", "cpu": "hard", "rules": "you_hp -4, opp_hp -6", "goal": "win_within 3", "note": "Low health on both sides, and only three battles to finish."}, {"title": "The Reader", "you": "omar", "opponent": "abragail", "cpu": "rank 8 / type E", "goal": "win", "note": "This opponent is good at reading the reveal. Be unpredictable."}, {"title": "Patience", "you": "croh", "opponent": "may", "cpu": "expert", "rules": "long", "goal": "win_shards", "note": "A Long Match against the Expert, won only by Storm Shards."}, {"title": "Full Power", "you": "may", "opponent": "oren", "cpu": "hard", "rules": "you_power 4, opp_power 4", "goal": "win", "note": "Both wizards start with 4 Power. Tier II is one good card away."}, {"title": "Storm Legend", "you": "derby", "opponent": "abragail", "cpu": "expert", "goal": "win_within 4", "note": "The month’s finale: beat the Expert within four battles."}];
