@@ -118,7 +118,11 @@ Game.prototype.weatherFx = async function (w) {
 };
 const _decide12 = Game.prototype.decide;
 Game.prototype.decide = async function (p, req) {
-  const v = await _decide12.call(this, p, req);
+  const S = this.S; let v;
+  if (req.k === 'yn' && req.ult && this._fork && !this.io.sim && S.phase === 'resolve' && (MIDYN.ult || verHas(S, p, 'U')) && isAI(S, p) && !rankCfg(S, p)
+      && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial) {   // Expert's Ultimates: replay the round both ways (A/B flag 'U')
+    v = await rolloutMidAns(this, p, req, true); if (v == null) v = await _decide12.call(this, p, req);
+  } else v = await _decide12.call(this, p, req);
   if (this._dlog) { let e = encAnsG(req, v); if (Array.isArray(e) && e[0] === 'id') e = ['id', this._lastGainId]; this._dlog.push([p, req.k, e]); }
   return v;
 };
@@ -180,7 +184,7 @@ async function rolloutMid(g0, p, req, opts, force, K) {
 }
 // ----- the same for Expert's other mid-round choices: yes/no questions (Drink another potion?, Gain the Dragon?) and
 // option lists. Ultimates are left to ultDecide. (A/B flag 'y')
-const MIDYN = { on: false, k: 100 };
+const MIDYN = { on: false, ult: false, k: 100 };
 async function rolloutMidAns(g0, p, req, dflt) {
   let opts;
   if (req.k === 'yn') opts = [true, false];
