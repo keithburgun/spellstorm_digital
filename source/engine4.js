@@ -99,6 +99,7 @@ function fastPlay(S, p) {
     const oh = S.pl[nextOppOf(S, p)].hand.filter(c => !CARDS[c.id].junk), n = oh.length || 1;
     return h.map(c => { const el = CARDS[c.id].el, beat = oh.filter(o => BEATS[el] === CARDS[o.id].el).length / n, lose = oh.filter(o => BEATS[CARDS[o.id].el] === el).length / n;
       return { c, v: CARDS[c.id].v * .6 + 6 * beat - 6 * lose + planCardBonus(S, p, c.id) + Math.random() * 3 }; }).sort((a, b) => b.v - a.v)[0].c; }
+  if (S.rollPlay && typeof playVal === 'function') { const cx = playCtx(S, p); return h.map(c => ({ c, v: playVal(S, p, c.id, cx) + Math.random() * PLAYV.noise })).sort((a, b) => b.v - a.v)[0].c; }   // learned from play-outs (engine12.js)
   const oe = domEl(S.pl[nextOppOf(S, p)]);
   return h.map(c => ({ c, v: CARDS[c.id].v + (BEATS[CARDS[c.id].el] === oe ? 3 : 0) + planCardBonus(S, p, c.id) + Math.random() * 4 })).sort((a, b) => b.v - a.v)[0].c;
 }

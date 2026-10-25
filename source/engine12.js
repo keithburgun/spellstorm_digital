@@ -20,7 +20,7 @@ async function rolloutGain(g0, p, req) {
       const fut = seed0 + k * 7919 + 1;
       for (let i = 0; i < opts.length; i++) {
         Math.random = seededRNG(fut);                                // same future for every option
-        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true;
+        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
         try {
           const c = S.cloud[slot]; S.cloud[slot] = null; g.refill(slot); S.pl[p].hand.push(c);
           const ord = g.order(), at = ord.indexOf(p);
@@ -157,7 +157,7 @@ async function rolloutMid(g0, p, req, opts, force, K) {
       const base = structuredClone(F); determinize(base, p); const fut = seed0 + k * 7919 + 1;
       for (let i = 0; i < opts.length; i++) {
         Math.random = seededRNG(fut);
-        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true;
+        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
         const io = { sim: true, log() { }, render() { }, pause() { return Promise.resolve(); },
           decide: (g, q, r) => {
             const n = seenN[q] = (seenN[q] || 0) + 1, mine = L.filter(e => e[0] === q);
@@ -222,4 +222,20 @@ function draftVal(S, p, id) {
   v += (WIZ[P.wiz].els.includes(c.el) ? X.wizEl || 0 : 0) + (BEATS[c.el] === oe ? X.counter || 0 : 0) + mine.filter(q => q.id === id).length * (X.copies || 0);
   v += (nn.length ? nn.filter(q => CARDS[q.id].el === c.el).length / nn.length : 0) * (X.sameElFrac || 0) + ((c.t || 1) - 1) * b * (X.tierXbattle || 0) + c.v * b / 10 * (X.valXbattle || 0);
   return v;
+}
+
+// ----- card-play values learned from play-outs (tests/play_gen.js + play_fit.py), for the quick players inside Expert's
+// play-outs (A/B flag 'f'). Values are play-out win-rate points.
+const PLAYV = { on: false, noise: 1, ids: {}, late: {}, x: {} };
+function playCtx(S, p) {
+  const O = S.pl[nextOppOf(S, p)], n = { F: 0, E: 0, W: 0 }; let t = 0;
+  for (const c of [...O.hand, ...O.deck]) { const d = CARDS[c.id]; if (!d.junk) { n[d.el]++; t++; } }
+  t = Math.max(1, t); return { F: n.F / t, E: n.E / t, W: n.W / t };
+}
+const LOSES_TO = { F: 'W', E: 'F', W: 'E' };
+function playVal(S, p, id, cx) {
+  const c = CARDS[id], X = PLAYV.x, late = ((S.round || 1) - 1) / 3, P = S.pl[p], O = S.pl[nextOppOf(S, p)];
+  const beat = cx[BEATS[c.el]], lose = cx[LOSES_TO[c.el]];
+  return (PLAYV.ids[id] || 0) + (PLAYV.late[id] || 0) * late + beat * (X.beat || 0) + lose * (X.lose || 0) + beat * late * (X.beatXr4 || 0)
+    + ((c.t || 1) - 1) * (X.tier || 0) + (c.v / 10) * ((P.hp <= 4 ? X.hpLow || 0 : 0) + (O.hp <= 4 ? X.ohpLow || 0 : 0));
 }
