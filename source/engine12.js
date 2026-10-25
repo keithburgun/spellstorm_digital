@@ -131,14 +131,23 @@ Game.prototype.gainCard = async function (p, o) {
   return r;
 };
 async function rolloutMidGain(g0, p, req) {
-  const F = g0._fork, L = (g0._dlog || []).slice(), S0 = g0.S, seen = {}, opts = [];
+  const S0 = g0.S, seen = {}, opts = [];
   for (const i of req.slots) { const id = S0.cloud[i] && S0.cloud[i].id; if (id && !seen[id]) { seen[id] = 1; opts.push(id); } }
   if (req.optional) opts.push(-1);
   if (opts.length <= 1) return null;
+  const force = (S, r, o) => { if (o === -1) return r.optional ? -1 : undefined; const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === o); return s; };
+  const score = await rolloutMid(g0, p, req, opts, force, MIDRO.k);
+  const pick = opts[score.indexOf(Math.max(...score))];
+  if (pick === -1) return -1;
+  return req.slots.find(j => S0.cloud[j] && S0.cloud[j].id === pick);
+}
+// the shared engine: score each option of p's current decision by replaying the round from the fork and playing the game out
+async function rolloutMid(g0, p, req, opts, force, K) {
+  const F = g0._fork, L = (g0._dlog || []).slice(), S0 = g0.S;
   const nth = L.filter(e => e[0] === p).length;                       // this is p's (nth+1)-th decision since the reveal
   const prev = Math.random, seed0 = Math.floor(prev() * 2147483647), score = opts.map(() => 0);
   try {
-    for (let k = 0; k < MIDRO.k; k++) {
+    for (let k = 0; k < K; k++) {
       if (k % 10 === 9 && typeof window !== 'undefined') { Math.random = prev; await new Promise(r => setTimeout(r, 0)); }
       Math.random = seededRNG(seed0 + k * 7919);
       const base = structuredClone(F); determinize(base, p); const fut = seed0 + k * 7919 + 1;
@@ -148,14 +157,14 @@ async function rolloutMidGain(g0, p, req) {
         const io = { sim: true, log() { }, render() { }, pause() { return Promise.resolve(); },
           decide: (g, q, r) => {
             const n = seenN[q] = (seenN[q] || 0) + 1, mine = L.filter(e => e[0] === q);
-            if (q === p && n === nth + 1 && r.k === 'gain') {           // the decision being tested
-              if (forced === -1) return Promise.resolve(-1);
-              const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === forced); if (s != null) return Promise.resolve(s);
+            if (q === p && n === nth + 1 && r.k === req.k && S.phase === S0.phase) {            // the decision being tested
+              const v = force(S, r, forced); if (v !== undefined) return Promise.resolve(v);
             } else if (n <= mine.length && mine[n - 1][1] === r.k) {    // repeat what was actually chosen earlier this round
               const a = mine[n - 1][2];
-              if (r.k === 'gain') { if (typeof a === 'string' || a === -1 || a == null) return Promise.resolve(a == null ? -1 : a);
-                const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === a[1]); if (s != null) return Promise.resolve(s); }
+              if (r.k === 'gain') { if (typeof a === 'string') return Promise.resolve(a); if (a === -1 || a == null) { if (r.optional) return Promise.resolve(-1); }
+                else if (Array.isArray(a)) { const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === a[1]); if (s != null) return Promise.resolve(s); } }
               else if (r.k === 'pick') { const it = (r.items || []).filter(c => a.includes(c.u)); if (it.length >= (r.min || 0)) return Promise.resolve(it); }
+              else if (r.k === 'opt') { if (typeof a === 'number' && r.opts && a >= 0 && a < r.opts.length && !(r.dis && r.dis[a])) return Promise.resolve(a); }
               else return Promise.resolve(a);
             }
             return ROLL_IO.decide(g, q, r);
@@ -167,9 +176,21 @@ async function rolloutMidGain(g0, p, req) {
       }
     }
   } finally { Math.random = prev; }
-  const best = Math.max(...score), bi = score.indexOf(best), pick = opts[bi];
-  if (pick === -1) return -1;
-  return req.slots.find(j => S0.cloud[j] && S0.cloud[j].id === pick);
+  return score;
+}
+// ----- the same for Expert's other mid-round choices: yes/no questions (Drink another potion?, Gain the Dragon?) and
+// option lists. Ultimates are left to ultDecide. (A/B flag 'y')
+const MIDYN = { on: false, k: 100 };
+async function rolloutMidAns(g0, p, req, dflt) {
+  let opts;
+  if (req.k === 'yn') opts = [true, false];
+  else { const n = (req.opts || req.o || []).length; opts = []; for (let i = 0; i < n; i++) if (!(req.dis && req.dis[i])) opts.push(i); }
+  if (opts.length <= 1) return null;
+  MIDYN.n = (MIDYN.n || 0) + 1;
+  const score = await rolloutMid(g0, p, req, opts, (S, r, o) => r.k === 'opt' && (!r.opts || o >= r.opts.length || (r.dis && r.dis[o])) ? undefined : o, MIDYN.k);
+  const best = Math.max(...score), di = opts.indexOf(req.k === 'yn' ? !!dflt : dflt);
+  if (!(di >= 0 && score[di] >= best)) MIDYN.flip = (MIDYN.flip || 0) + 1;
+  return di >= 0 && score[di] >= best ? opts[di] : opts[score.indexOf(best)];     // a tie keeps the usual answer
 }
 const _cpuDecideX12b = cpuDecideX;
 cpuDecideX = function (g, p, req) {
@@ -177,6 +198,11 @@ cpuDecideX = function (g, p, req) {
   if (req.k === 'gain' && req.verb === 'Gain' && req.slots && req.slots.length && (S.phase === 'resolve' ? midRolloutOn(S, p) : S.phase === 'weather' ? (MIDRO.weather || verHas(S, p, 'w')) : false) && g.io && !g.io.sim && g._fork && isAI(S, p) && !rankCfg(S, p)
       && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial)
     return rolloutMidGain(g, p, req).then(i => i == null ? _cpuDecideX12b(g, p, req) : i);
+  if ((req.k === 'yn' && !req.ult || req.k === 'opt') && S.phase === 'resolve' && (MIDYN.on || verHas(S, p, 'y')) && g.io && !g.io.sim && g._fork && isAI(S, p) && !rankCfg(S, p)
+      && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial) {
+    const d = _cpuDecideX12b(g, p, req);
+    return Promise.resolve(d).then(dv => rolloutMidAns(g, p, req, dv).then(v => v == null ? dv : v));
+  }
   return _cpuDecideX12b(g, p, req);
 };
 
