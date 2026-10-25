@@ -2,13 +2,14 @@
 // regroup rollouts) and save the position + win rate per option. node draft_gen.js <out.jsonl> <games> <shard> <nshards> [k]
 const fs = require('fs'); const E = require('./eng_all.js');
 const W = ['derby', 'eve', 'abragail', 'may', 'omar', 'bunny', 'oren', 'croh'];
-const [out, NG, sh, ns, ks] = process.argv.slice(2); E.GAINRO.k = +(ks || 100); E.MIDRO.on = false;
+const [out, NG, sh, ns, ks] = process.argv.slice(2); E.GAINRO.k = +(ks || 100); E.MIDRO.on = true; E.MIDRO.k = +(ks || 100);
 const ids = P => [...P.hand, ...P.deck, ...P.discard].map(c => c.id);
 let cur = null;
-E.GAINRO.rec = (S, p, opts, score) => {
+E.GAINRO.rec = (S, p, opts, score, kind) => {
+  if (opts.length < 2) return;
   const o = 1 - p, me = S.pl[p], op = S.pl[o], K = E.GAINRO.k;
   fs.appendFileSync(out, JSON.stringify({ g: cur, battle: S.battle, p, wiz: me.wiz, owiz: op.wiz, tier: me.tier, otier: op.tier, hp: me.hp, ohp: op.hp, sh: me.shards, osh: op.shards,
-    mine: ids(me), theirs: ids(op), opts: opts.map(i => S.cloud[i].id), wr: score.map(x => x / K) }) + '\n');
+    mine: ids(me), theirs: ids(op), opts: opts.map(i => S.cloud[i].id), wr: score.map(x => x / K), kind: kind || 'end' }) + '\n');
 };
 (async () => {
   for (let i = +sh; i < +NG; i += +ns) {

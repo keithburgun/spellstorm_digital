@@ -141,6 +141,7 @@ async function rolloutMidGain(g0, p, req) {
   if (opts.length <= 1) return null;
   const force = (S, r, o) => { if (o === -1) return r.optional ? -1 : undefined; const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === o); return s; };
   const score = await rolloutMid(g0, p, req, opts, force, MIDRO.k);
+  if (GAINRO.rec) GAINRO.rec(S0, p, opts.filter(o => o !== -1).map(id => S0.cloud.findIndex(c => c && c.id === id)), score.filter((_, i) => opts[i] !== -1).map(x => x * GAINRO.k / MIDRO.k), 'mid');   // (data collection for tests only)
   const pick = opts[score.indexOf(Math.max(...score))];
   if (pick === -1) return -1;
   return req.slots.find(j => S0.cloud[j] && S0.cloud[j].id === pick);
