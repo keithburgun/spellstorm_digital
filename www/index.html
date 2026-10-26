@@ -1070,7 +1070,8 @@ class Game {
   }
   async offerUlt(p, free) {
     const P = this.S.pl[p], W = WIZ[P.wiz]; if (!free && P.mana < W.cost) return;
-    const ok = await this.decide(p, { k: 'yn', ult: 1, free: !!free, cpu: true, q: free ? `Use ${W.un} without paying mana? (${W.ut})` : `Use ${W.un} for ${W.cost} mana? (${W.ut})` });
+    const WT = (typeof wizInfo === 'function' ? wizInfo(P.wiz, this.S.ed) : W).ut;   // the text of the edition being played
+    const ok = await this.decide(p, { k: 'yn', ult: 1, free: !!free, cpu: true, q: free ? `Use ${W.un} without paying mana? (${WT})` : `Use ${W.un} for ${W.cost} mana? (${WT})` });
     if (!ok) return; if (!free) P.mana -= W.cost;
     this.log(`${this.nm(p)} ${p === 0 ? 'unleash' : 'unleashes'} ${W.un.replace(/!+$/, '')}!`, 'big'); if (!this.io.sim && this.io.fx) this.io.fx('ult', p); await this.pause(500);
     await W.ult(this, p);
@@ -1873,6 +1874,7 @@ function fastPlay(S, p) {
     const oh = S.pl[nextOppOf(S, p)].hand.filter(c => !CARDS[c.id].junk), n = oh.length || 1;
     return h.map(c => { const el = CARDS[c.id].el, beat = oh.filter(o => BEATS[el] === CARDS[o.id].el).length / n, lose = oh.filter(o => BEATS[CARDS[o.id].el] === el).length / n;
       return { c, v: CARDS[c.id].v * .6 + 6 * beat - 6 * lose + planCardBonus(S, p, c.id) + Math.random() * 3 }; }).sort((a, b) => b.v - a.v)[0].c; }
+  if (S.rollPlay && typeof playVal === 'function') { const cx = playCtx(S, p); return h.map(c => ({ c, v: playVal(S, p, c.id, cx) + Math.random() * PLAYV.noise })).sort((a, b) => b.v - a.v)[0].c; }   // learned from play-outs (engine12.js)
   const oe = domEl(S.pl[nextOppOf(S, p)]);
   return h.map(c => ({ c, v: CARDS[c.id].v + (BEATS[CARDS[c.id].el] === oe ? 3 : 0) + planCardBonus(S, p, c.id) + Math.random() * 4 })).sort((a, b) => b.v - a.v)[0].c;
 }
@@ -1935,7 +1937,7 @@ async function aiChoosePlay(S0, p) {
   if (S0.puzzle) return puzzlePlay(S0, p);
   if (rankCfg(S0, p)) return aiChooseRanked(S0, p, rankCfg(S0, p), hand);
   { const off = (S0.aiOff && S0.aiOff[d] != null) ? S0.aiOff[d] : (OFFSCRIPT[d] || 0); if (off && Math.random() < off) return hand[Math.floor(Math.random() * hand.length)]; }   // ladder spacing: chance of an off-script (random) card
-  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p,  { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
+  if ((d === 'hard' || d === 'expert') && !(S0.aiOld && S0.aiOld[p])) return aiChooseMatrix(S0, p,  { hard: { n: 8, look: false, lateLook: false, mode: 'mix' }, expert: { n: verHas(S0, p, 'O') ? 150 : verHas(S0, p, 'N') ? 54 : 18, look: false, lateLook: true, mode: 'mix' } }[d], hand);   // A/B test 11: two-turn search   // ladder reorder: Expert = the strongest measured recipe (old Hard); Hard = a lighter version   // Expert v3: mixed strategy (+79 Elo over best response, SPRT accept)   // (test 5, late-only look-ahead: equal strength, 18% faster — parked as a speed option)
   if (d === 'easy' && Math.random() < 0.75) return hand[Math.floor(Math.random() * hand.length)];
   const cfg = { easy: { n: 6, all: false, look: false }, normal: { n: 16, all: false, look: false }, hard: { n: 22, all: true, look: false }, expert: { n: 18, all: true, look: true } }[d];
   const uniq = []; const seen = {}; for (const c of hand) if (!seen[c.id]) { seen[c.id] = 1; uniq.push(c); }
@@ -2451,7 +2453,7 @@ async function rolloutGain(g0, p, req) {
   if (opts.length <= 1) return null;
   const prev = Math.random, seed0 = Math.floor(prev() * 2147483647), score = opts.map(() => 0);
   try {
-    const K = verHas(S0, p, 'G') ? GAINRO.k * 2 : GAINRO.k;   // ('G' = A/B test of twice the play-outs)
+    const K = verHas(S0, p, 'G') ? GAINRO.k * 2 : verHas(S0, p, 'K') ? GAINRO.k * 3 : GAINRO.k;   // ('G' = A/B test of twice the play-outs)
     for (let k = 0; k < K; k++) {
       if (k % 10 === 9 && typeof window !== 'undefined') { Math.random = prev; await new Promise(r => setTimeout(r, 0)); }   // let the screen breathe on slower phones
       Math.random = seededRNG(seed0 + k * 7919);
@@ -2459,7 +2461,7 @@ async function rolloutGain(g0, p, req) {
       const fut = seed0 + k * 7919 + 1;
       for (let i = 0; i < opts.length; i++) {
         Math.random = seededRNG(fut);                                // same future for every option
-        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true;
+        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
         try {
           const c = S.cloud[slot]; S.cloud[slot] = null; g.refill(slot); S.pl[p].hand.push(c);
           const ord = g.order(), at = ord.indexOf(p);
@@ -2579,7 +2581,8 @@ async function rolloutMidGain(g0, p, req) {
   if (req.optional) opts.push(-1);
   if (opts.length <= 1) return null;
   const force = (S, r, o) => { if (o === -1) return r.optional ? -1 : undefined; const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === o); return s; };
-  const score = await rolloutMid(g0, p, req, opts, force, MIDRO.k);
+  const score = await rolloutMid(g0, p, req, opts, force, MIDRO.k * (verHas(S0, p, 'K') ? 3 : 1));
+  if (GAINRO.rec) GAINRO.rec(S0, p, opts.filter(o => o !== -1).map(id => S0.cloud.findIndex(c => c && c.id === id)), score.filter((_, i) => opts[i] !== -1).map(x => x * GAINRO.k / (MIDRO.k * (verHas(S0, p, 'K') ? 3 : 1))), 'mid');   // (data collection for tests only)
   const pick = opts[score.indexOf(Math.max(...score))];
   if (pick === -1) return -1;
   return req.slots.find(j => S0.cloud[j] && S0.cloud[j].id === pick);
@@ -2596,7 +2599,7 @@ async function rolloutMid(g0, p, req, opts, force, K) {
       const base = structuredClone(F); determinize(base, p); const fut = seed0 + k * 7919 + 1;
       for (let i = 0; i < opts.length; i++) {
         Math.random = seededRNG(fut);
-        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true;
+        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
         const io = { sim: true, log() { }, render() { }, pause() { return Promise.resolve(); },
           decide: (g, q, r) => {
             const n = seenN[q] = (seenN[q] || 0) + 1, mine = L.filter(e => e[0] === q);
@@ -2654,13 +2657,30 @@ cpuDecideX = function (g, p, req) {
 // A/B ('d'): +14 Elo over 2279 mirrored games (95% CI -1 … +28). Values are play-out win-rate points.
 const DRAFTV = { on: true, ids: {"amber":-2.14,"arctite":1.8,"beetle":0.0,"block":0.0,"blood":-7.88,"buddy":0.0,"charge":0.0,"coffee":0.0,"cross":-1.03,"curriculum":0.0,"dEarth":0.0,"dFire":0.0,"dIce":0.0,"dStorm":0.0,"dWind":0.0,"dart":0.0,"databreach":0.0,"deepgems":0.0,"diamond":-1.07,"essE":-1.28,"essF":0.53,"essW":0.27,"fb":-0.39,"fb2":7.81,"flame":1.29,"frost":-0.36,"heart":-5.52,"iceflume":-1.97,"lantern":-1.2,"lapis":-0.99,"lavabat":-0.06,"leap":0.22,"manafont":-3.84,"meteor":-6.04,"moon":5.56,"obsidian":-3.37,"opal":5.7,"pgem":-0.33,"potiongun":0.0,"punch":0.0,"quake":1.61,"rapid":0.27,"rb_blast":0.0,"rb_bounce":0.0,"rb_drill":0.0,"rb_fist":0.0,"rb_hack":0.0,"rb_iceblock":0.0,"rb_laser":0.0,"rb_repair":0.0,"rb_upgrade":0.0,"reflect":7.38,"riot":0.0,"ruby":0.93,"sapph":-1.11,"shatter":-1.62,"shock":1.94,"shuriken":0.0,"sift":-0.03,"sinking":0.0,"snowday":0.0,"spirit":-0.53,"starshot":0.0,"step":-1.01,"swamp":-0.15,"threepow":3.74,"twin":4.18,"twopow":4.03,"ultw":-2.49,"undertow":0.0,"unstable":0.0,"wave":-2.87}, we: {"abragail:F":-1.02,"abragail:E":-0.63,"abragail:W":1.65,"bunny:F":-1.03,"bunny:E":-0.19,"bunny:W":1.22,"croh:F":-0.23,"croh:E":-1.39,"croh:W":1.62,"derby:F":-0.46,"derby:E":-0.46,"derby:W":0.92,"eve:F":-0.19,"eve:E":-0.26,"eve:W":0.45,"may:F":-0.64,"may:E":-1.22,"may:W":1.87,"omar:F":0.83,"omar:E":-0.76,"omar:W":-0.07,"oren:F":-0.05,"oren:E":-0.91,"oren:W":0.95,"robot:F":0.0,"robot:E":0.0,"robot:W":0.0}, x: {"wizEl":0.716,"counter":0.03,"copies":-0.464,"sameElFrac":-2.286,"junkFrac":0.0,"tierXbattle":0.37,"valXbattle":-0.863,"deckSize":0.0} };
 function draftVal(S, p, id) {
-  const c = CARDS[id], P = S.pl[p], X = DRAFTV.x, b = S.battle || 1;
+  const T = S.rollDraft === 2 && DRAFTV.alt ? DRAFTV.alt : DRAFTV;   // ('e' = A/B test of a newer table)
+  const c = CARDS[id], P = S.pl[p], X = T.x, b = S.battle || 1;
   const mine = [...P.hand, ...P.deck, ...P.discard], nn = mine.filter(q => !CARDS[q.id].junk);
   const opp = S.pl[nextOppOf(S, p)], oe = domEl(opp);
-  let v = (DRAFTV.ids[id] != null ? DRAFTV.ids[id] : 0) + (DRAFTV.we[P.wiz + ':' + c.el] || 0);
+  let v = (T.ids[id] != null ? T.ids[id] : 0) + (T.we[P.wiz + ':' + c.el] || 0);
   v += (WIZ[P.wiz].els.includes(c.el) ? X.wizEl || 0 : 0) + (BEATS[c.el] === oe ? X.counter || 0 : 0) + mine.filter(q => q.id === id).length * (X.copies || 0);
   v += (nn.length ? nn.filter(q => CARDS[q.id].el === c.el).length / nn.length : 0) * (X.sameElFrac || 0) + ((c.t || 1) - 1) * b * (X.tierXbattle || 0) + c.v * b / 10 * (X.valXbattle || 0);
   return v;
+}
+
+// ----- card-play values learned from play-outs (tests/play_gen.js + play_fit.py), for the quick players inside Expert's
+// play-outs (A/B flag 'f'). Values are play-out win-rate points.
+const PLAYV = { on: false, noise: 1, ids: {}, late: {}, x: {} };
+function playCtx(S, p) {
+  const O = S.pl[nextOppOf(S, p)], n = { F: 0, E: 0, W: 0 }; let t = 0;
+  for (const c of [...O.hand, ...O.deck]) { const d = CARDS[c.id]; if (!d.junk) { n[d.el]++; t++; } }
+  t = Math.max(1, t); return { F: n.F / t, E: n.E / t, W: n.W / t };
+}
+const LOSES_TO = { F: 'W', E: 'F', W: 'E' };
+function playVal(S, p, id, cx) {
+  const c = CARDS[id], X = PLAYV.x, late = ((S.round || 1) - 1) / 3, P = S.pl[p], O = S.pl[nextOppOf(S, p)];
+  const beat = cx[BEATS[c.el]], lose = cx[LOSES_TO[c.el]];
+  return (PLAYV.ids[id] || 0) + (PLAYV.late[id] || 0) * late + beat * (X.beat || 0) + lose * (X.lose || 0) + beat * late * (X.beatXr4 || 0)
+    + ((c.t || 1) - 1) * (X.tier || 0) + (c.v / 10) * ((P.hp <= 4 ? X.hpLow || 0 : 0) + (O.hp <= 4 ? X.ohpLow || 0 : 0));
 }
 
 const DAILY = [{"title": "Opening Spark", "you": "derby", "opponent": "eve", "cpu": "normal", "goal": "win", "note": "A classic rivalry to start the calendar. Derby’s Fire against Eve’s ICE."}, {"title": "Ice Age", "you": "omar", "opponent": "eve", "cpu": "hard", "goal": "win_health", "note": "Eve will bury you in ICE. Win by bringing her to 0 health anyway."}, {"title": "Head Start", "you": "bunny", "opponent": "croh", "cpu": "hard", "rules": "opp_shards 2", "goal": "win", "note": "Croh starts with 2 Storm Shards. Catch up and pass him."}, {"title": "Glass Cannon", "you": "derby", "opponent": "abragail", "cpu": "normal", "rules": "you_hp -5", "goal": "win", "note": "Derby starts with 5 less health. Strike first, strike hard."}, {"title": "The Long Game", "you": "abragail", "opponent": "oren", "cpu": "normal", "rules": "long", "goal": "win_shards", "note": "A Long Match where only Storm Shards will do."}, {"title": "Blitz", "you": "may", "opponent": "bunny", "cpu": "normal", "goal": "win_within 3", "note": "Win within three battles. No dawdling."}, {"title": "Robot Uprising", "you": "oren", "opponent": "robot", "cpu": "medium", "goal": "win", "note": "Robot Boy doesn’t think. He just keeps coming."}, {"title": "Untouchable", "you": "eve", "opponent": "derby", "cpu": "normal", "goal": "win_above 8", "note": "Win while keeping at least 8 health. Derby’s Fireballs say otherwise."}, {"title": "The Hexer", "you": "croh", "opponent": "eve", "cpu": "rank 6 / type C", "goal": "win", "note": "This opponent loves filling your deck with junk. Keep yours clean."}, {"title": "Mana Surge", "you": "derby", "opponent": "may", "cpu": "hard", "rules": "you_mana 5", "goal": "win", "note": "You start one mana short of Flaming Yardstick. Make it count."}, {"title": "Tier Two Tango", "you": "abragail", "opponent": "omar", "cpu": "hard", "rules": "you_tier 2, opp_tier 2", "goal": "win", "note": "Both wizards start at Tier II. Stronger cards from the very first gain."}, {"title": "Underdog", "you": "bunny", "opponent": "oren", "cpu": "expert", "rules": "you_hp +4", "goal": "win", "note": "Bunny against the Expert — with a little extra health to work with."}, {"title": "Health Race", "you": "omar", "opponent": "derby", "cpu": "hard", "goal": "win_health", "note": "Both of you can deal damage. Who drops first?"}, {"title": "Initiative Wars", "you": "eve", "opponent": "omar", "cpu": "rank 7 / type H", "rules": "opp_init", "goal": "win", "note": "This opponent fights to hold the Initiative, and starts with it."}, {"title": "Shard Collector", "you": "may", "opponent": "abragail", "cpu": "hard", "goal": "win_shards", "note": "Abragail builds Power fast. Out-blast her for the win."}, {"title": "Croh’s Curse", "you": "oren", "opponent": "croh", "cpu": "hard", "goal": "win", "note": "Croh can’t heal, but his CURSEs pile up. Stay ahead of them."}, {"title": "Robot Boy, Hard Mode", "you": "derby", "opponent": "robot", "cpu": "hard", "goal": "win", "note": "Robot Boy starts with 4 Power. Brace yourself."}, {"title": "Big Game", "you": "croh", "opponent": "bunny", "cpu": "hard", "rules": "long", "goal": "win", "note": "A Long Match. Croh’s 30 health against Bunny’s stitches."}, {"title": "The Gambler", "you": "may", "opponent": "derby", "cpu": "rank 8 / type I", "goal": "win", "note": "Wildly unpredictable, occasionally brilliant. Expect anything."}, {"title": "Quick Draw", "you": "omar", "opponent": "may", "cpu": "normal", "goal": "win_within 2", "note": "Two battles. That’s all you get."}, {"title": "Ultimate Showdown", "you": "derby", "opponent": "oren", "cpu": "rank 7 / type D", "rules": "you_mana 4, opp_mana 4", "goal": "win", "note": "Both wizards start with mana in the tank, and this opponent never saves an Ultimate."}, {"title": "Fortress", "you": "bunny", "opponent": "abragail", "cpu": "hard", "goal": "win_above 6", "note": "Win with at least 6 health left. Bunny’s stitches will need to work overtime."}, {"title": "Turtle Shell", "you": "oren", "opponent": "eve", "cpu": "rank 6 / type G", "rules": "opp_hp +4", "goal": "win_health", "note": "A defensive opponent with extra health. Break through."}, {"title": "Dragon’s Hoard", "you": "abragail", "opponent": "derby", "cpu": "hard", "rules": "you_tier 3", "goal": "win", "note": "You start at Tier III. The Dragons are waiting."}, {"title": "Even Footing", "you": "eve", "opponent": "eve", "cpu": "expert", "goal": "win", "note": "A mirror match against the Expert."}, {"title": "Short Fuse", "you": "derby", "opponent": "croh", "cpu": "hard", "rules": "you_hp -4, opp_hp -6", "goal": "win_within 3", "note": "Low health on both sides, and only three battles to finish."}, {"title": "The Reader", "you": "omar", "opponent": "abragail", "cpu": "rank 8 / type E", "goal": "win", "note": "This opponent is good at reading the reveal. Be unpredictable."}, {"title": "Patience", "you": "croh", "opponent": "may", "cpu": "expert", "rules": "long", "goal": "win_shards", "note": "A Long Match against the Expert, won only by Storm Shards."}, {"title": "Full Power", "you": "may", "opponent": "oren", "cpu": "hard", "rules": "you_power 4, opp_power 4", "goal": "win", "note": "Both wizards start with 4 Power. Tier II is one good card away."}, {"title": "Storm Legend", "you": "derby", "opponent": "abragail", "cpu": "expert", "goal": "win_within 4", "note": "The month’s finale: beat the Expert within four battles."}];

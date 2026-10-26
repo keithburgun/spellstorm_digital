@@ -334,7 +334,8 @@ class Game {
   }
   async offerUlt(p, free) {
     const P = this.S.pl[p], W = WIZ[P.wiz]; if (!free && P.mana < W.cost) return;
-    const ok = await this.decide(p, { k: 'yn', ult: 1, free: !!free, cpu: true, q: free ? `Use ${W.un} without paying mana? (${W.ut})` : `Use ${W.un} for ${W.cost} mana? (${W.ut})` });
+    const WT = (typeof wizInfo === 'function' ? wizInfo(P.wiz, this.S.ed) : W).ut;   // the text of the edition being played
+    const ok = await this.decide(p, { k: 'yn', ult: 1, free: !!free, cpu: true, q: free ? `Use ${W.un} without paying mana? (${WT})` : `Use ${W.un} for ${W.cost} mana? (${WT})` });
     if (!ok) return; if (!free) P.mana -= W.cost;
     this.log(`${this.nm(p)} ${p === 0 ? 'unleash' : 'unleashes'} ${W.un.replace(/!+$/, '')}!`, 'big'); if (!this.io.sim && this.io.fx) this.io.fx('ult', p); await this.pause(500);
     await W.ult(this, p);
