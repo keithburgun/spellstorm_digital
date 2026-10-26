@@ -38,7 +38,7 @@ const CARDS = {
     await g.power(p, 1); const P = g.S.pl[p]; const top = [];
     for (let i = 0; i < 2; i++) { if (!P.deck.length) g.reshuffle(p); if (!P.deck.length) break; top.push(P.deck.pop()); }
     P.deck.push(...top.slice().reverse());
-    if (!top.length) return;
+    if (!top.length) { g.nofx('Sift: no cards left in the deck to look at.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Sift: choose cards from the top of your deck to discard. The rest stay on top.', items: top, min: 0, max: top.length, cpu: it => it.filter(c => CARDS[c.id].junk || CARDS[c.id].v <= 3 || CARDS[c.id].disc) });
     for (const c of pick) await g.discardFrom(p, c, 'deck'); } },
   diamond: { n: 'Diamond', el: 'E', t: 1, v: 5, disc: 1, fx: async (g, p) => {
@@ -46,17 +46,17 @@ const CARDS = {
     const pick = await g.decide(p, { k: 'pick', q: 'Diamond: discard exactly 3 cards.', items: P.hand.slice(), min: 3, max: 3, cpu: it => cheapest(it, 3) });
     for (const c of pick) await g.discardFrom(p, c, 'hand'); await g.power(p, 3); }, dfx: async (g, p) => { await g.power(p, 1); } },
   spirit: { n: 'Spirit Crystal', el: 'E', t: 1, v: 5, disc: 1, fx: async (g, p) => {
-    await g.draw(p, 1); const P = g.S.pl[p]; const es = P.hand.filter(c => isEl(c, 'E')); if (!es.length) return;
+    await g.draw(p, 1); const P = g.S.pl[p]; const es = P.hand.filter(c => isEl(c, 'E')); if (!es.length) { g.nofx('Spirit Crystal: no Earth card in hand to resolve.'); return; }
     const [c] = await g.decide(p, { k: 'pick', q: 'Spirit Crystal: reveal an Earth card from your hand to resolve, then discard it.', items: es, min: 1, max: 1, cpu: it => [best(it)] });
     await g.resolveFromHand(p, c); }, dfx: async (g, p) => { await g.power(p, 1); } },
   amber: { n: 'Amber', el: 'E', t: 1, v: 7, disc: 1, fx: async (g, p) => { if (ED2(g.S)) { await g.gainCard(p, { el: 'E' }); await g.gainCard(p, { el: 'E' }); return; }   // 2E: you may gain up to two Earth cards
     await g.power(p, 1); await g.gainCard(p, { must: 1 }); await g.gainCard(p, { must: 1 }); }, dfx: async (g, p) => { await g.power(p, 1); } },
   shatter: { n: 'Shatter', el: 'E', t: 2, v: 7, disc: 1, fx: async (g, p) => {
-    const P = g.S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) return;
+    const P = g.S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) { g.nofx('Shatter: no cards in hand to VOID.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Shatter: VOID up to 2 cards from your hand. Power Up for each.', items: it, min: 0, max: 2, cpu: x => x.filter(c => CARDS[c.id].junk).slice(0, 2) });
     let n = 0; for (const c of pick) if (g.voidFrom(p, c, P.hand)) n++; if (n) await g.power(p, n); }, dfx: async (g, p) => { await g.power(p, 1); } },
   meteor: { n: 'Meteorite', el: 'E', t: 1, v: 4, disc: 1, fx: async (g, p) => {
-    await g.damage(p, 1); const slots = g.S.cloud.map((c, i) => c ? i : -1).filter(i => i >= 0); if (!slots.length) return;
+    await g.damage(p, 1); const slots = g.S.cloud.map((c, i) => c ? i : -1).filter(i => i >= 0); if (!slots.length) { g.nofx('Meteorite: the Storm Cloud is empty.'); return; }
     const i = await g.decide(p, { k: 'gain', q: 'Meteorite: you may resolve any Storm Cloud card (any Tier), then VOID it.', slots, optional: 1, verb: 'Resolve' });
     if (i < 0) return; const c = g.S.cloud[i]; g.S.cloud[i] = null; g.refill(i);
     g.log(`${g.nm(p)} resolved ${CARDS[c.id].n} from the Storm Cloud.`); await g.resolve(p, c, 'cloud'); g.S.void.push(c); }, dfx: async (g, p) => { await g.damage(p, 1); } },
@@ -74,6 +74,7 @@ const CARDS = {
   lavabat: { n: 'Lava Bat', el: 'F', t: 1, v: 5, fx: async (g, p) => {
     await g.mana(p, 1); const S = g.S; const it = [];
     for (const q of S.pl.keys()) for (const c of S.pl[q].discard) if (isEl(c, 'F') && !CARDS[c.id].wiz) it.push(c);
+    if (!it.length) g.nofx('Lava Bat: no Fire cards in any discard pile to move.');
     if (it.length) {
       const pick = await g.decide(p, { k: 'pick', q: 'Lava Bat: you may move a Fire card to the other discard pile.', items: it, owner: c => { const q = S.pl.findIndex(P => P.discard.includes(c)); return q === 0 ? 'Your discard' : WIZ[S.pl[q].wiz].short + '’s discard'; }, min: 0, max: 1,
         cpu: x => { const mine = x.filter(c => S.pl[p].discard.includes(c) && CARDS[c.id].junk); if (mine.length) return [mine[0]]; const th = x.filter(c => !S.pl[p].discard.includes(c) && !CARDS[c.id].junk); const b = th.length ? best(th) : null; return b && CARDS[b.id].v >= 6 ? [b] : []; } });
@@ -86,7 +87,7 @@ const CARDS = {
     const n = got.filter(c => isEl(c, 'F')).length; const vo = got.filter(c => !CARDS[c.id].wiz && P.discard.includes(c));
     g.log(`${g.nm(p)} discarded ${got.map(c => CARDS[c.id].n).join(', ') || 'nothing'} from the top of the deck.`);
     if (ED2(g.S)) { if (n) await g.dmg(p, n); return; }   // 2E: just the damage
-    if (!n && !vo.length) return;
+    if (!n && !vo.length) { g.nofx('Ruby: no Fire cards and nothing to VOID.'); return; }
     const opts = [`Deal ${n} damage`, 'VOID one of them', 'Do neither'];
     const k = await g.decide(p, { k: 'opt', q: 'Ruby: choose one.', opts, dis: [n === 0, !vo.length, false], cpu: n > 0 ? 0 : (vo.some(c => CARDS[c.id].junk) ? 1 : 2) });
     if (k === 0) await g.dmg(p, n);
@@ -97,7 +98,7 @@ const CARDS = {
     const t = await g.askPlayer(p, 'Shockwave: choose a player. They lose 2 Power, discard a random card, lose Initiative and take 1 damage.', g.nextOpp(p));
     g.losePower(t, 2); await g.randomDiscard(t, 1); g.loseInit(t); await g.damage(t, 1, p); } },
   rapid: { n: 'Rapid Fire', el: 'F', t: 2, v: 10, fx: async (g, p, x) => {
-    if (ED2(g.S)) { if (g.hasInit(p)) { await g.dmg(p, 2); await g.gainSpecial(p, 'ash'); if (x.how === 'play' || x.how === 'hand') { x.dest = 'hand'; g.log('Rapid Fire returns to the hand.'); } } return; }   // 2E
+    if (ED2(g.S)) { if (g.hasInit(p)) { await g.dmg(p, 2); await g.gainSpecial(p, 'ash'); if (x.how === 'play' || x.how === 'hand') { x.dest = 'hand'; g.log('Rapid Fire returns to the hand.'); } } else g.nofx('Rapid Fire: no Initiative, so no effect.'); return; }   // 2E
     await g.draw(p, 1); if (g.hasInit(p)) { await g.dmg(p, 2); if (x.how === 'play' || x.how === 'hand') { if (await g.yn(p, 'Rapid Fire: return it to your hand?', true)) x.dest = 'hand'; } } } },
   obsidian: { n: 'Obsidian', el: 'F', t: 2, v: 6, fx: async (g, p) => {
     await g.damage(p, 1); const P = g.S.pl[p]; if (P.mana >= 2) { P.mana -= 2; g.log(`${g.nm(p)} lost 2 mana.`); await g.offerUlt(p, true); } else g.log(`${g.nm(p)} didn't have 2 mana to lose.`); } },
@@ -109,40 +110,41 @@ const CARDS = {
     if (ED2(g.S)) { const P = g.S.pl[p], ws = P.hand.filter(c => isEl(c, 'W')); if (!ws.length) { g.log('Mana Font: no Water card to discard.'); return; }   // 2E: discard a Water card from your hand
       const [c] = await g.decide(p, { k: 'pick', q: 'Mana Font: discard a Water card. If you did, gain 3 mana.', items: ws, min: 1, max: 1, cpu: x => [x.slice().sort((a, b) => CARDS[a.id].v - CARDS[b.id].v)[0]] });
       await g.discardFrom(p, c, 'hand'); await g.mana(p, 3); return; }
-    const slots = g.S.cloud.map((c, i) => isEl(c, 'W') ? i : -1).filter(i => i >= 0); if (!slots.length) return;
+    const slots = g.S.cloud.map((c, i) => isEl(c, 'W') ? i : -1).filter(i => i >= 0); if (!slots.length) { g.nofx('Mana Font: no Water card in the Storm Cloud.'); return; }
     const i = await g.decide(p, { k: 'gain', q: 'Mana Font: VOID a Water card in the Storm Cloud.', slots, optional: 0, verb: 'VOID' });
     const c = g.S.cloud[i]; g.S.cloud[i] = null; g.S.void.push(c); g.refill(i); g.log(`${g.nm(p)} voided ${CARDS[c.id].n} from the Storm Cloud.`); await g.mana(p, 3); },
     dfx: async (g, p) => { if (!ED2(g.S)) await g.damage(p, 1); await g.mana(p, 1); } },   // 2E: no damage
   flame: { n: 'Flame', el: 'F', t: 1, v: 6, ult: 1, fx: async (g, p) => {
-    await g.dmg(p, 1); const fs = g.S.pl[p].hand.filter(c => isEl(c, 'F') && !CARDS[c.id].junk); if (!fs.length) return;   // ICE / ASH / CURSE have nothing to resolve
+    await g.dmg(p, 1); const fs = g.S.pl[p].hand.filter(c => isEl(c, 'F') && !CARDS[c.id].junk); if (!fs.length) { g.nofx('Flame: no other Fire card in hand to resolve.'); return; }   // ICE / ASH / CURSE have nothing to resolve
     const [c] = await g.decide(p, { k: 'pick', q: 'Flame: resolve and discard a different Fire card from your hand.', items: fs, min: 1, max: 1, cpu: it => { const b = best(it.filter(c => !CARDS[c.id].junk)); if (b && CARDS[b.id].v >= 6) return [b]; const j = it.find(c => CARDS[c.id].junk); return [j || b]; } });
     await g.resolveFromHand(p, c); } },
-  fb2: { n: 'Fireball II', el: 'F', t: 3, v: 14, fx: async (g, p) => { await g.dmg(p, 2); if (g.hasInit(p)) await g.dmg(p, 2); } },
-  cross: { n: 'Crossfire', el: 'F', t: 2, v: 9, fx: async (g, p, x) => { if (!g.hasInit(p)) return; const t = await g.chooseOpp(p, 'Crossfire: deal 3 damage to which opponent?'); await g.damage(t, 3, p); g.loseInit(p); x.dest = 'to' + t; } },
-  fb: { n: 'Fireball', el: 'F', t: 1, v: 7, fx: async (g, p) => { await g.dmg(p, 1); await g.gainSpecial(p, 'ash'); if (g.hasInit(p)) { await g.dmg(p, 2); g.loseInit(p); } } },
+  fb2: { n: 'Fireball II', el: 'F', t: 3, v: 14, fx: async (g, p) => { await g.dmg(p, 2); if (g.hasInit(p)) await g.dmg(p, 2); else g.nofx('Fireball II: no Initiative, no extra damage.'); } },
+  cross: { n: 'Crossfire', el: 'F', t: 2, v: 9, fx: async (g, p, x) => { if (!g.hasInit(p)) { g.nofx('Crossfire: no Initiative, so no damage.'); return; } const t = await g.chooseOpp(p, 'Crossfire: deal 3 damage to which opponent?'); await g.damage(t, 3, p); g.loseInit(p); x.dest = 'to' + t; } },
+  fb: { n: 'Fireball', el: 'F', t: 1, v: 7, fx: async (g, p) => { await g.dmg(p, 1); await g.gainSpecial(p, 'ash'); if (g.hasInit(p)) { await g.dmg(p, 2); g.loseInit(p); } else g.nofx('Fireball: no Initiative, no extra damage.'); } },
   // water
   arctite: { n: 'Arctite', el: 'W', t: 3, v: 12, fx: async (g, p) => { await g.draw(p, 2); if (ED2(g.S)) { for (const q of g.opps(p)) await g.randomDiscard(q, 2); return; }   // 2E: opponents discard 2 random cards
     await g.heal(p, 2); await g.giveAll(p, 'ice'); } },
   iceflume: { n: 'Ice Flume', el: 'W', t: 2, v: 8, fx: async (g, p) => {
     await g.giveAll(p, 'ice'); const P = g.S.pl[p]; const it = [...P.hand, ...P.discard].filter(c => c.id === 'ice');
+    if (!it.length) g.nofx('Ice Flume: no ICE in hand or discard to VOID.');
     if (it.length) { const pick = await g.decide(p, { k: 'pick', q: 'Ice Flume: you may VOID an ICE from your hand or discard pile.', items: it, min: 0, max: 1, cpu: x => [x.find(c => P.hand.includes(c)) || x[0]] });
       for (const c of pick) g.voidFrom(p, c, P.hand.includes(c) ? P.hand : P.discard); }
     g.gainInit(p); } },
   frost: { n: 'Frost Magic', el: 'W', t: 1, v: 6, fx: async (g, p) => { await g.heal(p, 1); g.losePower(p, 1); await g.giveAll(p, 'ice'); } },
   lapis: { n: 'Lapis', el: 'W', t: 1, v: 5, fx: async (g, p) => {
-    await g.draw(p, 1); const P = g.S.pl[p]; if (!P.hand.length) return;
+    await g.draw(p, 1); const P = g.S.pl[p]; if (!P.hand.length) { g.nofx('Lapis: no cards in hand to discard.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Lapis: you may discard up to 2 cards. Heal 1 for each Water card discarded.', items: P.hand.slice(), min: 0, max: 2,
       cpu: it => { const r = it.filter(c => c.id === 'ice'); if (P.hp < P.max - 1) r.push(...it.filter(c => isEl(c, 'W') && c.id !== 'ice' && CARDS[c.id].v <= 5)); return r.slice(0, 2); } });
     let n = 0; for (const c of pick) { if (isEl(c, 'W')) n++; await g.discardFrom(p, c, 'hand'); } if (n) await g.heal(p, n); } },
   leap: { n: 'Leap', el: 'W', t: 2, v: 8, fx: async (g, p) => { g.gainInit(p); await g.heal(p, 1); if (ED2(g.S)) { await g.voidOneHandOrDiscard(p, 'Leap: VOID a card from your hand or discard pile.', true); return; }   // 2E: always, and required
-    if (g.opps(p).some(q => isEl(g.S.rev[q], 'F'))) await g.voidOneHandOrDiscard(p, 'Leap: you may VOID a card from your hand or discard pile.'); } },
+    if (g.opps(p).some(q => isEl(g.S.rev[q], 'F'))) await g.voidOneHandOrDiscard(p, 'Leap: you may VOID a card from your hand or discard pile.'); else g.nofx('Leap: no opponent revealed Fire, so no VOID.'); } },
   moon: { n: 'Moonstone', el: 'W', t: 3, v: 11, disc: 1, fx: async (g, p) => { await g.heal(p, 4); }, dfx: async (g, p) => { await g.heal(p, 2); } },
   reflect: { n: 'Reflect', el: 'W', t: 2, v: 10, fx: async (g, p) => { await g.draw(p, 1); g.gainInit(p); await g.heal(p, 1); for (const q of g.S.pl.keys()) if (isEl(g.S.rev[q], 'F')) await g.damage(q, 2, p); } },
   sapph: { n: 'Sapphire', el: 'W', t: 1, v: 6, ult: 1, fx: async (g, p) => { await g.draw(p, 1); await g.heal(p, 1); await g.gainSpecial(p, 'ash'); } },
   step: { n: 'Step', el: 'W', t: 1, v: 5, disc: 1, fx: async (g, p) => { if (g.hasInit(p)) await g.heal(p, 1); else g.gainInit(p); }, dfx: async (g, p) => { g.gainInit(p); } },
   twin: { n: 'Twin Sapphire', el: 'W', t: 2, v: 9, ult: 1, fx: async (g, p) => { await g.draw(p, 1); await g.heal(p, 2); } },
   ultw: { n: 'Ultimate', el: 'W', t: 1, v: 5, ult: 1, fx: async (g, p) => {
-    const P = g.S.pl[p]; const es = P.hand.filter(c => isEl(c, 'E') && !CARDS[c.id].wiz); if (!es.length) return;
+    const P = g.S.pl[p]; const es = P.hand.filter(c => isEl(c, 'E') && !CARDS[c.id].wiz); if (!es.length) { g.nofx('Ultimate: no Earth card in hand to VOID.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Ultimate: you may VOID an Earth card from your hand to gain 3 mana.', items: es, min: 0, max: 1, cpu: it => [worst(it)] });
     if (pick.length && g.voidFrom(p, pick[0], P.hand)) await g.mana(p, 3); } },
   wave: { n: 'Wave', el: 'W', t: 2, v: 8, fx: async (g, p) => {
@@ -155,7 +157,7 @@ const CARDS = {
   dIce: { n: 'Ice Dragon', el: 'W', t: 4, v: 30, drag: 1, ult: 1, fx: async (g, p) => { await g.heal(p, 3); await g.shards(p, 1); await g.giveAll(p, 'ice'); } },
   dStorm: { n: 'Storm Dragon', el: 'W', t: 4, v: 30, drag: 1, ult: 1, fx: async (g, p) => { await g.dmg(p, 3); await g.shards(p, 1); } },
   dWind: { n: 'Wind Dragon', el: 'F', t: 4, v: 30, drag: 1, ult: 1, fx: async (g, p) => {
-    g.gainInit(p); await g.shards(p, 1); const P = g.S.pl[p]; if (!P.hand.length) return;
+    g.gainInit(p); await g.shards(p, 1); const P = g.S.pl[p]; if (!P.hand.length) { g.nofx('Wind Dragon: no cards in hand to resolve.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Wind Dragon: you may resolve up to 2 cards from your hand.', items: P.hand.slice(), min: 0, max: 2, cpu: it => it.filter(c => !CARDS[c.id].junk).sort((a, b) => CARDS[b.id].v - CARDS[a.id].v).slice(0, 2) });
     for (const c of pick) if (P.hand.includes(c)) await g.resolveFromHand(p, c); } },
   // special
@@ -298,8 +300,9 @@ class Game {
     if (d.junk) this.S.special[c.id]++; else this.S.void.push(c);
     this.log(`${this.nm(p)} ${p === 0 ? 'VOID' : 'VOIDs'} ${d.n}.`); return true;
   }
+  nofx(m) { this.log(m, 'nofx'); }   // a card's effect didn't happen: say why, briefly
   async voidOneHandOrDiscard(p, q, must) {
-    const P = this.S.pl[p]; const it = [...P.hand, ...P.discard].filter(c => !CARDS[c.id].wiz); if (!it.length) return;
+    const P = this.S.pl[p]; const it = [...P.hand, ...P.discard].filter(c => !CARDS[c.id].wiz); if (!it.length) { this.nofx(`${q.split(':')[0]}: no cards in hand or discard to VOID.`); return; }
     const pick = await this.decide(p, { k: 'pick', q, items: it, min: must ? 1 : 0, max: 1, cpu: x => { const j = x.filter(c => CARDS[c.id].junk); const jd = j.find(c => P.discard.includes(c)); return j.length ? [jd || j[0]] : (must ? [x.slice().sort((a, b) => CARDS[a.id].v - CARDS[b.id].v)[0]] : []); } });
     for (const c of pick) this.voidFrom(p, c, P.hand.includes(c) ? P.hand : P.discard);
   }
@@ -324,7 +327,7 @@ class Game {
     let slots = this.eligibleSlots(p, o), sp = o.el ? { F: ['curse'], W: ['ice'], E: ['ash'] }[o.el] : ['ice', 'ash', 'curse'];
     const tutLock = this.S.tutorial && p === 0 && this.S.battle === 1 && this.S.round === 1;          // tutorial: Derby has you gain the Diamond
     if (tutLock) { const d = slots.filter(i => this.S.cloud[i] && this.S.cloud[i].id === 'diamond'); if (d.length) { slots = d; sp = []; o = { ...o, must: true }; } }
-    if (!slots.length && !sp.length) return null;
+    if (!slots.length && !sp.length) { this.nofx(`No ${o.el ? `Tier I or II ${ELN[o.el]} card` : 'card'} in the Storm Cloud to gain.`); return null; }
     const what = o.el ? `a Tier I or II ${ELN[o.el]} card` : 'a card';
     const i = await this.decide(p, { k: 'gain', q: o.must ? `You must gain ${what} from the Storm Cloud.` : `You may gain ${what} from the Storm Cloud.`, slots, optional: !o.must, verb: 'Gain', special: sp.length ? 1 : 0, specials: sp });
     if (typeof i === 'string') { const had = this.S.special[i] > 0; await this.gainSpecial(p, i); const D = this.S.pl[p].discard; return had ? D[D.length - 1] : null; }

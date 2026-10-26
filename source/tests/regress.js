@@ -5,7 +5,7 @@ const E=require('./eng_all.js');const W=Object.keys(E.WIZ);
 (async()=>{const out=[];
  for(let i=0;i<N;i++){Math.random=mulberry32(1000+i);
   const a=W[i%8],b=W[(i*3+1)%8]===a?W[(i+1)%8]:W[(i*3+1)%8];const S=E.newState(a,b);S.aiDiff={0:['easy','normal','hard'][i%3],1:['normal','hard','easy'][i%3]};
-  const L=[];const io={sim:false,log(m){L.push(m)},render(){},pause(){return Promise.resolve()},fx(){},ev(){},
+  const L=[];const io={sim:false,log(m,c){if(c!=='nofx')L.push(m)},render(){},pause(){return Promise.resolve()},fx(){},ev(){},
    decide:(g,p,req)=>req.k==='play'?E.aiChoosePlay(g.S,p):(req.k==='yn'&&req.ult?E.ultDecide(g.S,p,req.free):Promise.resolve(E.cpuDecideX(g,p,req)))};
   let r;try{r=await new E.Game(S,io).run();}catch(e){L.push('ERROR '+e.message);}
   out.push({i,a,b,winner:r&&r.winner,why:r&&r.why,battles:S.battle,hp:S.pl.map(p=>p.hp),sh:S.pl.map(p=>p.shards),log:L});}

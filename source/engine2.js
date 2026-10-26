@@ -48,7 +48,7 @@ Object.assign(CARDS, {
       if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c);
       const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`);
       if (el === 'F') await g.dmg(p, 2); return; }
-    await g.dmg(p, 1); const P = g.S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) return;
+    await g.dmg(p, 1); const P = g.S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) { g.nofx('Potion Gun: no non-Wizard card to give.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Potion Gun: you may give a non-Wizard card from your hand to your opponent’s hand, gaining 2 of its Element.', items: it, min: 0, max: 1, cpu: x => { const j = x.find(c => CARDS[c.id].junk); return j ? [j] : []; } });
     for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c); const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },
   unstable: { n: 'Unstable Formula', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
@@ -63,7 +63,7 @@ Object.assign(CARDS, {
     if (g.S.rev.some(c => isEl(c, 'W'))) { P.chem.E = Math.min(6, P.chem.E + 1); g.log(`${g.nm(o)} ${o === 0 ? 'gain' : 'gains'} +1 Earth Element.`); } } },
   // Omar
   beetle: { n: 'Beetle Buster', el: 'F', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
-    const P = g.S.pl[p]; const fs = P.hand.filter(c => isEl(c, 'F')); if (!fs.length) { if (ED2(g.S)) g.log('Beetle Buster: no Fire card to discard.'); return; }
+    const P = g.S.pl[p]; const fs = P.hand.filter(c => isEl(c, 'F')); if (!fs.length) { g.nofx('Beetle Buster: no Fire card to discard.'); return; }
     if (ED2(g.S)) {   // 2E: discard a Fire card; a chosen player takes 3 damage
       const [c] = await g.decide(p, { k: 'pick', q: 'Beetle Buster: discard a Fire card. If you did, a chosen player takes 3 damage.', items: fs, min: 1, max: 1, cpu: x => [worst(x)] });
       await g.discardFrom(p, c, 'hand'); const t = await g.chooseOpp(p, 'Beetle Buster: which player takes 3 damage?'); await g.damage(t, 3, p); return; }
@@ -86,7 +86,7 @@ Object.assign(CARDS, {
   // Abragail
   deepgems: { n: 'Deep Gems', el: 'W', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.draw(p, 1); await g.mana(p, 1); const S = g.S, P = S.pl[p];
-    const ws = S.cloud.map((c, i) => isEl(c, 'W') ? i : -1).filter(i => i >= 0); if (!ws.length || !P.power) return;
+    const ws = S.cloud.map((c, i) => isEl(c, 'W') ? i : -1).filter(i => i >= 0); if (!ws.length || !P.power) { g.nofx(!ws.length ? 'Deep Gems: no Water card in the Storm Cloud.' : 'Deep Gems: no Power to lose.'); return; }
     const bestW = Math.max(...ws.map(i => CARDS[S.cloud[i].id].v));
     if (!await g.yn(p, 'Deep Gems: lose 1 Power to resolve a Water card from the Storm Cloud, then VOID it?', bestW >= 6)) return;
     g.losePower(p, 1);
@@ -105,7 +105,7 @@ Object.assign(CARDS, {
     if (ED2(g.S)) {   // 2E: deal 1 damage; you may lose 2 Energy to resolve a different Fire card from your hand
       await g.dmg(p, 1);
       const fs = P.hand.filter(c => isEl(c, 'F') && !CARDS[c.id].junk);   // ICE / ASH / CURSE have nothing to resolve
-      if (P.energy < 2 || !fs.length) return;
+      if (P.energy < 2 || !fs.length) { g.nofx(P.energy < 2 ? 'Star Shot: fewer than 2 Energy, no bonus.' : 'Star Shot: no other Fire card in hand.'); return; }
       const pick = await g.decide(p, { k: 'pick', q: 'Star Shot: you may lose 2 Energy Tokens to resolve a different Fire card from your hand.', items: fs, min: 0, max: 1,
         cpu: it => { const b = best(it); return b && CARDS[b.id].v >= (P.energy >= 3 ? 6 : 8) ? [b] : []; } });
       if (!pick.length) return;
@@ -120,7 +120,7 @@ Object.assign(CARDS, {
       await g.power(p, 2);
       const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), O = g.S.pl[o];
       if (O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } return; }
-      if (!O.hand.length) return;
+      if (!O.hand.length) { g.nofx(`Data Breach: ${g.nm(o, 1, 1)} hand is empty.`); return; }
       g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`);
       const [c] = await g.decide(p, { k: 'pick', q: 'Data Breach: choose a card from your opponent’s hand for them to discard.', items: O.hand.slice(), min: 1, max: 1, cpu: x => [best(x.filter(c => !CARDS[c.id].junk)) || x[0]] });
       await g.discardFrom(o, c, 'hand'); return; }
@@ -186,6 +186,7 @@ Object.assign(WIZ, {
     start: 'Double Stitch: can heal up to 10 health. Triple Stitch: healing at 10 draws a card per point instead.', ut: 'Reveal a non-Wizard card from your hand. Resolve it twice and VOID it. All players heal 1.',
     ult: async (g, p) => {
       const S = g.S, P = S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz && !CARDS[c.id].junk);
+      if (!it.length) g.nofx('Cast a Magic Trick!: no non-Wizard card in hand to cast.');
       if (it.length) {
         const [c] = await g.decide(p, { k: 'pick', q: `Cast a Magic Trick! Choose a non-Wizard card from your hand to resolve twice, then ${ED2(S) ? 'discard it' : 'VOID it'}.`, items: it, min: 1, max: 1, cpu: x => [best(x)] });
         P.hand.splice(P.hand.indexOf(c), 1); g.log(`${g.nm(p)} ${p === 0 ? 'cast' : 'casts'} ${CARDS[c.id].n} twice!`, 'big');
@@ -218,7 +219,7 @@ Object.assign(WIZ, {
     start: 'Energize: starts with 2 Energy (max 3). Dangerous Download: at round end, may spend 1 Energy and 1 mana to resolve the opponent’s revealed Tier II card.', ut: 'Gain 3 Energy. You may resolve a non-Wizard card from your hand or the VOID, then put it on the bottom of the Spellstorm Deck.',
     ult: async (g, p) => {
       const S = g.S, P = S.pl[p]; P.energy = 3; g.log(`${g.nm(p)} ${p === 0 ? 'charge' : 'charges'} to 3 Energy.`);
-      const it = [...P.hand.filter(c => !CARDS[c.id].wiz && !CARDS[c.id].junk), ...S.void.filter(c => !CARDS[c.id].junk)]; if (!it.length) return;
+      const it = [...P.hand.filter(c => !CARDS[c.id].wiz && !CARDS[c.id].junk), ...S.void.filter(c => !CARDS[c.id].junk)]; if (!it.length) { g.nofx('Void Traveler: no card in hand or the VOID to resolve.'); return; }
       const pick = await g.decide(p, { k: 'pick', q: 'Void Traveler: you may resolve a card from your hand or the VOID, then put it on the bottom of the Spellstorm Deck.', items: it, owner: c => P.hand.includes(c) ? 'Your hand' : 'The VOID', min: 0, max: 1, cpu: x => { const b = best(x); return b && CARDS[b.id].v >= 6 ? [b] : []; } });
       for (const c of pick) { const z = P.hand.includes(c) ? P.hand : S.void; z.splice(z.indexOf(c), 1); g.log(`${g.nm(p)} ${p === 0 ? 'resolve' : 'resolves'} ${CARDS[c.id].n}.`); await g.resolve(p, c, 'copy'); S.sdeck.unshift(c); } } },
 });
