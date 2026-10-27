@@ -23,7 +23,7 @@ function featVec(S, p) {
   return [...a, ...b, ...d, ...ctx, ...wz, ...wo];
 }
 // model: z-scored inputs -> (optional hidden layer, tanh) -> logit. Filled in from value_fit.py output.
-const VMODEL = { on: false, scale: 100, mu: null, sd: null, W1: null, b1: null, w2: null, b2: 0 };
+const VMODEL = { on: false, blend: 0, scale: 100, mu: null, sd: null, W1: null, b1: null, w2: null, b2: 0 };
 function valueNet(x) {
   const M = VMODEL, n = x.length, z = new Array(n);
   for (let k = 0; k < n; k++) z[k] = (x[k] - M.mu[k]) / M.sd[k];
@@ -35,7 +35,7 @@ function valueNet(x) {
 function valueOn(S, p) { return (VMODEL.on || verHas(S, p, 'V')) && VMODEL.mu && diffOf(S, p) === 'expert' && !rankCfg(S, p) && S.pl.length === 2; }
 const _evalAI13 = evalAI;
 evalAI = function (S, p) {
-  if (!S.over && valueOn(S, p)) return VMODEL.scale * valueNet(featVec(S, p));   // logit of the win chance, scaled
+  if (!S.over && valueOn(S, p)) return VMODEL.blend ? _evalAI13(S, p) + VMODEL.blend * 48 * valueNet(featVec(S, p)) : VMODEL.scale * valueNet(featVec(S, p));   // logit of the win chance, scaled (blend: added to the hand-set score; 1 logit ≈ 48 points of it)
   if (S.over && valueOn(S, p)) return S.over.winner === p ? 1e4 : -1e4;
   return _evalAI13(S, p);
 };
