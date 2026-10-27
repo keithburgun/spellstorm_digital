@@ -1,7 +1,7 @@
 // ===== Spellstorm engine, part 12: Expert chooses Storm Cloud gains by playing the game out =====
 // For each card it could gain, Expert plays many fast games to the end from this exact moment (hidden cards re-dealt
 // at random each time, the same random futures for every option so the comparison is fair) and takes the card that wins most.
-const GAINRO = { on: true, k: 150 };   // k = play-outs per option. ON for Expert: +24 Elo over 1,577 mirrored games (95% CI +7…+42, SPRT accept)
+const GAINRO = { on: true, k: 450 };   // 450 (3x): +32 Elo over 835 mirrored games vs 150 (95% CI +9…+56, SPRT accept); ~1.7 s per pick on a desktop   // k = play-outs per option. ON for Expert: +24 Elo over 1,577 mirrored games (95% CI +7…+42, SPRT accept)
 // (k = 48: +17 over 802 games; k = 300 vs 150: no further gain. Play-outs for the card played ('r'): worse and 5× slower.
 //  Play-outs for 'use my Ultimate?' ('u'): no gain. Both kept off.)
 const verHas = (S, p, f) => !!(S.aiVer && typeof S.aiVer[p] === 'string' && S.aiVer[p].includes(f));
@@ -103,7 +103,7 @@ ultDecide = async function (S0, p, free) {
 // ----- Drafting in the middle of a round (cards like Coffee Run or Amber: "gain a card"). The engine can't pause a card
 // half-way, so Expert keeps a copy of the game from the moment the cards were revealed, plus every choice made since;
 // to test an option it replays the round from that copy (repeating those choices), forces the option, and plays the game out.
-const MIDRO = { on: true, weather: false, k: 120 };   // ON: +30 Elo (824 mirrored games, 95% CI +6…+54, SPRT accept)
+const MIDRO = { on: true, weather: false, k: 360 };   // 360 (3x, with GAINRO): part of the +32 above   // ON: +30 Elo (824 mirrored games, 95% CI +6…+54, SPRT accept)
 const midRolloutOn = (S, p) => MIDRO.on || verHas(S, p, 'm');
 const encAnsG = (req, v) => req.k === 'gain' ? (typeof v === 'string' || v == null || v < 0 ? v : ['id', null]) : req.k === 'pick' ? (v || []).map(c => c.u) : v;
 const _afterPlay12 = Game.prototype.afterPlay;
