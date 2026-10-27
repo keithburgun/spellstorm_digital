@@ -159,7 +159,9 @@ const CARDS = {
   dWind: { n: 'Wind Dragon', el: 'F', t: 4, v: 30, drag: 1, ult: 1, fx: async (g, p) => {
     g.gainInit(p); await g.shards(p, 1); const P = g.S.pl[p]; if (!P.hand.length) { g.nofx('Wind Dragon: no cards in hand to resolve.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Wind Dragon: you may resolve up to 2 cards from your hand.', items: P.hand.slice(), min: 0, max: 2, cpu: it => it.filter(c => !CARDS[c.id].junk).sort((a, b) => CARDS[b.id].v - CARDS[a.id].v).slice(0, 2) });
-    for (const c of pick) if (P.hand.includes(c)) await g.resolveFromHand(p, c); } },
+    for (const c of pick) { const i = P.hand.indexOf(c); if (i < 0) continue;   // resolved, then stays in your hand (the card says resolve, not discard)
+      P.hand.splice(i, 1); g.log(`${g.nm(p)} ${p === 0 ? 'resolve' : 'resolves'} ${CARDS[c.id].n} from hand; it stays in hand.`);
+      await g.resolve(p, c, 'copy'); if (!P.hand.includes(c)) P.hand.splice(Math.min(i, P.hand.length), 0, c); } } },
   // special
   ice: { n: 'ICE', el: 'W', t: 0, v: 0, junk: 1, disc: 1, dfx: async (g, p, o) => { if (o && o.regroup) { g.S.pl[p].blastMod -= 1; g.log(`ICE: −1 to ${g.nm(p, 1, 1)} Blast Score.`); } } },
   ash: { n: 'ASH', el: 'E', t: 0, v: 0, junk: 1, disc: 1, dfx: async (g, p) => { g.losePower(p, 1); } },
@@ -310,7 +312,7 @@ class Game {
   refill(i) { if (!this.S.cloud[i]) this.S.cloud[i] = this.drawStorm(); }
   async gainSpecial(p, type) {
     const S = this.S;
-    if (S.special[type] > 0) { S.special[type]--; S.pl[p].discard.push({ u: ++S.uid, id: type }); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${type === 'ice' ? 'an' : 'a'} ${CARDS[type].n}.`, 'junk'); }
+    if (S.special[type] > 0) { S.special[type]--; S.pl[p].discard.push({ u: ++S.uid, id: type }); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${type === 'ice' || type === 'ash' ? 'an' : 'a'} ${CARDS[type].n}.`, 'junk'); }
     else { this.log(`No ${CARDS[type].n} left — the board effect applies to ${this.nm(p, 1)}.`); if (type === 'ice') await this.randomDiscard(p, 1); else if (type === 'ash') this.losePower(p, 1); else await this.damage(p, 1); }
   }
   async gainDragon(p) {

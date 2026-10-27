@@ -896,7 +896,9 @@ const CARDS = {
   dWind: { n: 'Wind Dragon', el: 'F', t: 4, v: 30, drag: 1, ult: 1, fx: async (g, p) => {
     g.gainInit(p); await g.shards(p, 1); const P = g.S.pl[p]; if (!P.hand.length) { g.nofx('Wind Dragon: no cards in hand to resolve.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Wind Dragon: you may resolve up to 2 cards from your hand.', items: P.hand.slice(), min: 0, max: 2, cpu: it => it.filter(c => !CARDS[c.id].junk).sort((a, b) => CARDS[b.id].v - CARDS[a.id].v).slice(0, 2) });
-    for (const c of pick) if (P.hand.includes(c)) await g.resolveFromHand(p, c); } },
+    for (const c of pick) { const i = P.hand.indexOf(c); if (i < 0) continue;   // resolved, then stays in your hand (the card says resolve, not discard)
+      P.hand.splice(i, 1); g.log(`${g.nm(p)} ${p === 0 ? 'resolve' : 'resolves'} ${CARDS[c.id].n} from hand; it stays in hand.`);
+      await g.resolve(p, c, 'copy'); if (!P.hand.includes(c)) P.hand.splice(Math.min(i, P.hand.length), 0, c); } } },
   // special
   ice: { n: 'ICE', el: 'W', t: 0, v: 0, junk: 1, disc: 1, dfx: async (g, p, o) => { if (o && o.regroup) { g.S.pl[p].blastMod -= 1; g.log(`ICE: −1 to ${g.nm(p, 1, 1)} Blast Score.`); } } },
   ash: { n: 'ASH', el: 'E', t: 0, v: 0, junk: 1, disc: 1, dfx: async (g, p) => { g.losePower(p, 1); } },
@@ -1047,14 +1049,14 @@ class Game {
   refill(i) { if (!this.S.cloud[i]) this.S.cloud[i] = this.drawStorm(); }
   async gainSpecial(p, type) {
     const S = this.S;
-    if (S.special[type] > 0) { S.special[type]--; S.pl[p].discard.push({ u: ++S.uid, id: type }); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${type === 'ice' ? 'an' : 'a'} ${CARDS[type].n}.`, 'junk'); }
+    if (S.special[type] > 0) { S.special[type]--; S.pl[p].discard.push({ u: ++S.uid, id: type }); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${type === 'ice' || type === 'ash' ? 'an' : 'a'} ${CARDS[type].n}.`, 'junk'); }
     else { this.log(`No ${CARDS[type].n} left — the board effect applies to ${this.nm(p, 1)}.`); if (type === 'ice') await this.randomDiscard(p, 1); else if (type === 'ash') this.losePower(p, 1); else await this.damage(p, 1); }
   }
   async gainDragon(p) {
     const S = this.S;
     if (!S.dragons.length) { this.log('The Dragon deck is empty: deal 2 damage and gain 2 Storm Shards.'); await this.dmg(p, 2); await this.shards(p, 2); return; }
     const top = S.dragons[S.dragons.length - 1];
-    if (await this.yn(p, `Your power overflows at Tier III. Gain ${CARDS[top.id].n}?`, true)) { S.dragons.pop(); S.pl[p].hand.push(top); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[top.id].n}!`, 'big'); await this.pause(700); }
+    if (await this.yn(p, `Your power overflows at Tier III. Gain ${CARDS[top.id].n}?`, true)) { S.dragons.pop(); S.pl[p].hand.push(top); markSeen(S, p, top); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[top.id].n}!`, 'big'); await this.pause(700); }
   }
   eligibleSlots(p, o = {}) {
     const S = this.S, P = S.pl[p];
@@ -1069,7 +1071,7 @@ class Game {
     const i = await this.decide(p, { k: 'gain', q: o.must ? `You must gain ${what} from the Storm Cloud.` : `You may gain ${what} from the Storm Cloud.`, slots, optional: !o.must, verb: 'Gain', special: sp.length ? 1 : 0, specials: sp });
     if (typeof i === 'string') { const had = this.S.special[i] > 0; await this.gainSpecial(p, i); const D = this.S.pl[p].discard; return had ? D[D.length - 1] : null; }
     if (i < 0) return null;
-    const S = this.S, c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c);
+    const S = this.S, c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); markSeen(S, p, c);
     this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); await this.pause(750); return c;
   }
   async offerUlt(p, free) {
@@ -1089,7 +1091,7 @@ class Game {
   }
   place(p, c, dest) {
     const S = this.S; if (dest === 'void') { if (CARDS[c.id].wiz) S.pl[p].discard.push(c); else S.void.push(c); }
-    else if (dest === 'hand') S.pl[p].hand.push(c); else if (dest === 'opp' || (typeof dest === 'string' && dest.startsWith('to'))) { const T = S.pl[dest === 'opp' ? this.next(p) : +dest.slice(2)]; if (T.rb && !CARDS[c.id].junk) S.void.push(c); else T.discard.push(c); } else S.pl[p].discard.push(c);
+    else if (dest === 'hand') { S.pl[p].hand.push(c); markSeen(S, p, c); } else if (dest === 'opp' || (typeof dest === 'string' && dest.startsWith('to'))) { const T = S.pl[dest === 'opp' ? this.next(p) : +dest.slice(2)]; if (T.rb && !CARDS[c.id].junk) S.void.push(c); else T.discard.push(c); } else S.pl[p].discard.push(c);
   }
   async resolveFromHand(p, c) {
     const P = this.S.pl[p]; const i = P.hand.indexOf(c); if (i < 0) return; P.hand.splice(i, 1);
@@ -1189,7 +1191,7 @@ class Game {
       const slots = this.eligibleSlots(p);
       const i = await this.decide(p, { k: 'gain', q: 'Gain Spell: take one card from the Storm Cloud, or a free special card.', slots, optional: 0, special: 1, verb: 'Gain' });
       if (typeof i === 'string') { await this.gainSpecial(p, i); }
-      else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
+      else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); markSeen(S, p, c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
       await this.pause(400);
     }
     for (const p of this.order()) await this.draw(p, 3 - S.pl[p].hand.length);
@@ -1248,10 +1250,15 @@ function cpuDecide(g, p, req) {
   }
 }
 
+// Cards that went into a hand in plain sight (gained from the Storm Cloud, returned from the discard, given, revealed) are
+// public: S.kn[player][card uid] = 1. Expert (KNOWN, engine12.js) keeps those in the opponent's hand when it imagines the hidden cards.
+function markSeen(S, q, c) { if (!c) return; const K = S.kn || (S.kn = {}); (K[q] || (K[q] = {}))[c.u] = 1; }
 function determinize(S, p) {
-  const o = 1 - p, O = S.pl[o];
-  const pool = shuffle([...O.hand, ...O.deck]); const hn = O.hand.length;
-  O.hand = pool.slice(0, hn); O.deck = pool.slice(hn);
+  const o = 1 - p, O = S.pl[o], kn = typeof knownOn === 'function' && knownOn(S, p) && S.kn && S.kn[o];
+  if (kn) { const keep = O.hand.filter(c => kn[c.u]), rest = O.hand.filter(c => !kn[c.u]), pool = shuffle([...rest, ...O.deck]);
+    O.hand = [...keep, ...pool.slice(0, rest.length)]; O.deck = pool.slice(rest.length); }
+  else { const pool = shuffle([...O.hand, ...O.deck]); const hn = O.hand.length;
+  O.hand = pool.slice(0, hn); O.deck = pool.slice(hn); }
   shuffle(S.pl[p].deck); shuffle(S.sdeck);
   if (O.trap && !O.trap.used) O.trap.id = ['mud', 'dodge', 'ice'][Math.floor(Math.random() * 3)];
 }
@@ -1319,7 +1326,7 @@ const POTIONS = {
 };
 const takeFromDiscard = async (g, p, q) => {
   const P = g.S.pl[p]; const [c] = await g.decide(p, { k: 'pick', q, items: P.discard.slice(), min: 1, max: 1, cpu: it => [best(it.filter(c => !CARDS[c.id].junk)) || it[0]] });
-  P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); g.log(`${g.nm(p)} ${p === 0 ? 'return' : 'returns'} ${CARDS[c.id].n} to hand.`);
+  P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); markSeen(g.S, p, c); g.log(`${g.nm(p)} ${p === 0 ? 'return' : 'returns'} ${CARDS[c.id].n} to hand.`);
 };
 const goodInDiscard = P => P.discard.some(c => CARDS[c.id].v >= 7);
 
@@ -1331,12 +1338,12 @@ Object.assign(CARDS, {
       const [c] = await g.decide(p, { k: 'pick', q: 'Potion Gun: give a non-Wizard card from your hand to an opponent. Gain 2 of its Element; if it’s Fire, deal 2 damage.', items: it, min: 1, max: 1,
         cpu: x => { const sc = c => (CARDS[c.id].junk ? 8 : 0) + (isEl(c, 'F') ? 5 : 0) - CARDS[c.id].v * .5; return [x.slice().sort((a, b) => sc(b) - sc(a))[0]]; } });
       const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1);
-      if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c);
+      if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else { g.S.pl[to].hand.push(c); markSeen(g.S, to, c); }
       const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`);
       if (el === 'F') await g.dmg(p, 2); return; }
     await g.dmg(p, 1); const P = g.S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) { g.nofx('Potion Gun: no non-Wizard card to give.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Potion Gun: you may give a non-Wizard card from your hand to your opponent’s hand, gaining 2 of its Element.', items: it, min: 0, max: 1, cpu: x => { const j = x.find(c => CARDS[c.id].junk); return j ? [j] : []; } });
-    for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c); const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },
+    for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else { g.S.pl[to].hand.push(c); markSeen(g.S, to, c); } const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },
   unstable: { n: 'Unstable Formula', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.power(p, 1); await g.mana(p, 1);
     // Elements belong to Oren: if someone else resolves this (e.g. through Buddy System), it works on Oren's Elements
@@ -1407,14 +1414,14 @@ Object.assign(CARDS, {
       const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), O = g.S.pl[o];
       if (O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } return; }
       if (!O.hand.length) { g.nofx(`Data Breach: ${g.nm(o, 1, 1)} hand is empty.`); return; }
-      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`);
+      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`); for (const c of O.hand) markSeen(g.S, o, c);
       const [c] = await g.decide(p, { k: 'pick', q: 'Data Breach: choose a card from your opponent’s hand for them to discard.', items: O.hand.slice(), min: 1, max: 1, cpu: x => [best(x.filter(c => !CARDS[c.id].junk)) || x[0]] });
       await g.discardFrom(o, c, 'hand'); return; }
     const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), P = g.S.pl[p], O = g.S.pl[o]; const mx = Math.min(2, P.energy); let k = 0;
     if (mx) k = mx === 1 ? 1 : 1 + await g.decide(p, { k: 'opt', q: `Data Breach: lose 1 or 2 Energy to Power Up that many times. (You have ${P.energy}.)`, opts: ['Lose 1', 'Lose 2'], dis: [false, mx < 2], cpu: P.energy >= 3 ? 0 : 1 });   // the card says lose 1 or 2
     if (k) { P.energy -= k; await g.power(p, k); }
     if (P.energy >= 2 && O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } } else if (P.energy >= 2 && O.hand.length) {
-      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`);
+      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`); for (const c of O.hand) markSeen(g.S, o, c);
       const [c] = await g.decide(p, { k: 'pick', q: 'Data Breach: choose a card from your opponent’s hand for them to discard.', items: O.hand.slice(), min: 1, max: 1, cpu: x => [best(x.filter(c => !CARDS[c.id].junk)) || x[0]] });
       await g.discardFrom(o, c, 'hand');
     } } },
@@ -1446,7 +1453,7 @@ Object.assign(WIZ, {
         const n = Math.min(P.doom || 0, P.discard.length);   // 2E (latest): up to one card from the discard per DOOM Token
         if (n) { const pick = await g.decide(p, { k: 'pick', q: `DOOOOOOOM! You may draw up to ${n} card${n === 1 ? '' : 's'} from your discard (one per DOOM Token).`, items: P.discard.slice(), min: 0, max: n,
             cpu: x => x.filter(c => !CARDS[c.id].junk).sort((a, b) => CARDS[b.id].v - CARDS[a.id].v).slice(0, n) });
-          for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); }
+          for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); markSeen(g.S, p, c); }
           if (pick.length) g.log(`DOOOOOOOM! ${g.nm(p)} ${p === 0 ? 'draw' : 'draws'} ${pick.length} card${pick.length === 1 ? '' : 's'} from the discard: ${pick.map(c => CARDS[c.id].n).join(', ')}.`, 'big'); }
         else if (!P.doom) g.log('DOOOOOOOM!: no DOOM Tokens, so no cards from the discard.');
         return; }
@@ -1548,7 +1555,7 @@ Game.prototype.battleStart = async function (p) {
   if (m) await this.mana(p, m); if (pw) await this.power(p, pw); if (m || pw) this.log(`Journal: ${m ? `+${m} mana ` : ''}${pw ? `+${pw} power` : ''}`.trim());
   if (R[7]) { if (!ED2(S)) await this.draw(p, 1);
     else { const it = P.discard.filter(c => isEl(c, 'F') && !CARDS[c.id].junk); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may draw a Fire card from your discard to your hand.', items: it, min: 0, max: 1, cpu: x => [best(x)] });
-      for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'take' : 'takes'} ${CARDS[c.id].n} from the discard into hand.`); } } } }
+      for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); markSeen(this.S, p, c); this.log(`${this.nm(p)} ${p === 0 ? 'take' : 'takes'} ${CARDS[c.id].n} from the discard into hand.`); } } } }
   if (R[6]) await this.gainCard(p, ED2(S) ? { el: 'E' } : {});
   if (R[4]) { const it = P.hand.filter(c => !CARDS[c.id].wiz); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may VOID a card from your hand.', items: it, min: 0, max: 1, cpu: x => x.filter(c => CARDS[c.id].junk).slice(0, 1) }); for (const c of pick) this.voidFrom(p, c, P.hand); } }
   if (R[5]) { const it = P.discard.filter(c => CARDS[c.id].junk); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may move an ICE, ASH or CURSE from your discard to your opponent’s discard.', items: it, min: 0, max: 1, cpu: x => [x[0]] });
@@ -1772,7 +1779,7 @@ Game.prototype.regroup = async function () {
     const slots = this.eligibleSlots(p);
     const i = await this.decide(p, { k: 'gain', q: 'Gain Spell: take one card from the Storm Cloud, or a free special card.', slots, optional: 0, special: 1, verb: 'Gain' });
     if (typeof i === 'string') { await this.gainSpecial(p, i); }
-    else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
+    else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); markSeen(S, p, c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
     await bp(900);
   }
   for (const p of this.order()) if (!S.pl[p].rb) await this.draw(p, 3 - S.pl[p].hand.length);
@@ -2498,9 +2505,9 @@ cpuDecideX = function (g, p, req) {
 // playing the whole game out instead of judging the position at the end of the battle. (A/B flag: S.aiVer[p] === 'r')
 const PLAYRO = { m: 4 };                                          // play-outs per table cell per sampled deal (same futures in every cell)
 async function simRoundRoll(base, p, myU, oid, seed) {
-  const prev = Math.random; let tot = 0;
+  const prev = Math.random, M = verHas(base, p, 'r') ? PLAYRO.m : ENDGAME.m; let tot = 0;
   try {
-    for (let t = 0; t < PLAYRO.m; t++) {
+    for (let t = 0; t < M; t++) {
       Math.random = seededRNG(seed + t * 104729);
       const S = structuredClone(base), nx = nextOppOf(S, p), me = S.pl[p], op = S.pl[nx];
       const mc = me.hand.find(x => x.u === myU); me.hand.splice(me.hand.indexOf(mc), 1); S.slot[p] = mc;
@@ -2511,9 +2518,14 @@ async function simRoundRoll(base, p, myU, oid, seed) {
       tot += S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
     }
   } finally { Math.random = prev; }
-  return tot / PLAYRO.m;
+  return tot / M;
 }
-const playRolloutOn = (S, p) => verHas(S, p, 'r');
+const playRolloutOn = (S, p) => verHas(S, p, 'r') || endgameOn(S, p);
+// ----- #4 endgame: when someone is close to winning, judge each card by playing the game to the end (short, accurate games)
+// instead of by the end-of-round position score. (A/B flag 'Z'; ENDGAME.m play-outs per table cell per sampled deal)
+const ENDGAME = { on: false, m: 8, sh: 2, hp: 4 };
+function isEndgame(S) { const W8 = S.win || 8; return S.pl.some(P => !P.out && (P.shards >= W8 - ENDGAME.sh || P.hp <= ENDGAME.hp)); }
+function endgameOn(S, p) { return (ENDGAME.on || verHas(S, p, 'Z')) && diffOf(S, p) === 'expert' && !rankCfg(S, p) && S.pl.length === 2 && isEndgame(S); }
 
 // ----- and for "use my Ultimate now?": play the game out both ways (the rest of the current round is skipped in both, so the comparison stays fair)
 const ULTRO = { on: false, k: 80 };
@@ -2687,6 +2699,11 @@ function playVal(S, p, id, cx) {
   return (PLAYV.ids[id] || 0) + (PLAYV.late[id] || 0) * late + beat * (X.beat || 0) + lose * (X.lose || 0) + beat * late * (X.beatXr4 || 0)
     + ((c.t || 1) - 1) * (X.tier || 0) + (c.v / 10) * ((P.hp <= 4 ? X.hpLow || 0 : 0) + (O.hp <= 4 ? X.ohpLow || 0 : 0));
 }
+
+// ----- #1 hidden information: Expert keeps the cards it saw go into the opponent's hand (engine.js markSeen) when it
+// imagines their hand, instead of reshuffling everything. (A/B flag 'H')
+const KNOWN = { on: false };
+function knownOn(S, p) { return (KNOWN.on || verHas(S, p, 'H')) && diffOf(S, p) === 'expert' && !rankCfg(S, p); }
 
 const DAILY = [{"title": "Opening Spark", "you": "derby", "opponent": "eve", "cpu": "normal", "goal": "win", "note": "A classic rivalry to start the calendar. Derby’s Fire against Eve’s ICE."}, {"title": "Ice Age", "you": "omar", "opponent": "eve", "cpu": "hard", "goal": "win_health", "note": "Eve will bury you in ICE. Win by bringing her to 0 health anyway."}, {"title": "Head Start", "you": "bunny", "opponent": "croh", "cpu": "hard", "rules": "opp_shards 2", "goal": "win", "note": "Croh starts with 2 Storm Shards. Catch up and pass him."}, {"title": "Glass Cannon", "you": "derby", "opponent": "abragail", "cpu": "normal", "rules": "you_hp -5", "goal": "win", "note": "Derby starts with 5 less health. Strike first, strike hard."}, {"title": "The Long Game", "you": "abragail", "opponent": "oren", "cpu": "normal", "rules": "long", "goal": "win_shards", "note": "A Long Match where only Storm Shards will do."}, {"title": "Blitz", "you": "may", "opponent": "bunny", "cpu": "normal", "goal": "win_within 3", "note": "Win within three battles. No dawdling."}, {"title": "Robot Uprising", "you": "oren", "opponent": "robot", "cpu": "medium", "goal": "win", "note": "Robot Boy doesn’t think. He just keeps coming."}, {"title": "Untouchable", "you": "eve", "opponent": "derby", "cpu": "normal", "goal": "win_above 8", "note": "Win while keeping at least 8 health. Derby’s Fireballs say otherwise."}, {"title": "The Hexer", "you": "croh", "opponent": "eve", "cpu": "rank 6 / type C", "goal": "win", "note": "This opponent loves filling your deck with junk. Keep yours clean."}, {"title": "Mana Surge", "you": "derby", "opponent": "may", "cpu": "hard", "rules": "you_mana 5", "goal": "win", "note": "You start one mana short of Flaming Yardstick. Make it count."}, {"title": "Tier Two Tango", "you": "abragail", "opponent": "omar", "cpu": "hard", "rules": "you_tier 2, opp_tier 2", "goal": "win", "note": "Both wizards start at Tier II. Stronger cards from the very first gain."}, {"title": "Underdog", "you": "bunny", "opponent": "oren", "cpu": "expert", "rules": "you_hp +4", "goal": "win", "note": "Bunny against the Expert — with a little extra health to work with."}, {"title": "Health Race", "you": "omar", "opponent": "derby", "cpu": "hard", "goal": "win_health", "note": "Both of you can deal damage. Who drops first?"}, {"title": "Initiative Wars", "you": "eve", "opponent": "omar", "cpu": "rank 7 / type H", "rules": "opp_init", "goal": "win", "note": "This opponent fights to hold the Initiative, and starts with it."}, {"title": "Shard Collector", "you": "may", "opponent": "abragail", "cpu": "hard", "goal": "win_shards", "note": "Abragail builds Power fast. Out-blast her for the win."}, {"title": "Croh’s Curse", "you": "oren", "opponent": "croh", "cpu": "hard", "goal": "win", "note": "Croh can’t heal, but his CURSEs pile up. Stay ahead of them."}, {"title": "Robot Boy, Hard Mode", "you": "derby", "opponent": "robot", "cpu": "hard", "goal": "win", "note": "Robot Boy starts with 4 Power. Brace yourself."}, {"title": "Big Game", "you": "croh", "opponent": "bunny", "cpu": "hard", "rules": "long", "goal": "win", "note": "A Long Match. Croh’s 30 health against Bunny’s stitches."}, {"title": "The Gambler", "you": "may", "opponent": "derby", "cpu": "rank 8 / type I", "goal": "win", "note": "Wildly unpredictable, occasionally brilliant. Expect anything."}, {"title": "Quick Draw", "you": "omar", "opponent": "may", "cpu": "normal", "goal": "win_within 2", "note": "Two battles. That’s all you get."}, {"title": "Ultimate Showdown", "you": "derby", "opponent": "oren", "cpu": "rank 7 / type D", "rules": "you_mana 4, opp_mana 4", "goal": "win", "note": "Both wizards start with mana in the tank, and this opponent never saves an Ultimate."}, {"title": "Fortress", "you": "bunny", "opponent": "abragail", "cpu": "hard", "goal": "win_above 6", "note": "Win with at least 6 health left. Bunny’s stitches will need to work overtime."}, {"title": "Turtle Shell", "you": "oren", "opponent": "eve", "cpu": "rank 6 / type G", "rules": "opp_hp +4", "goal": "win_health", "note": "A defensive opponent with extra health. Break through."}, {"title": "Dragon’s Hoard", "you": "abragail", "opponent": "derby", "cpu": "hard", "rules": "you_tier 3", "goal": "win", "note": "You start at Tier III. The Dragons are waiting."}, {"title": "Even Footing", "you": "eve", "opponent": "eve", "cpu": "expert", "goal": "win", "note": "A mirror match against the Expert."}, {"title": "Short Fuse", "you": "derby", "opponent": "croh", "cpu": "hard", "rules": "you_hp -4, opp_hp -6", "goal": "win_within 3", "note": "Low health on both sides, and only three battles to finish."}, {"title": "The Reader", "you": "omar", "opponent": "abragail", "cpu": "rank 8 / type E", "goal": "win", "note": "This opponent is good at reading the reveal. Be unpredictable."}, {"title": "Patience", "you": "croh", "opponent": "may", "cpu": "expert", "rules": "long", "goal": "win_shards", "note": "A Long Match against the Expert, won only by Storm Shards."}, {"title": "Full Power", "you": "may", "opponent": "oren", "cpu": "hard", "rules": "you_power 4, opp_power 4", "goal": "win", "note": "Both wizards start with 4 Power. Tier II is one good card away."}, {"title": "Storm Legend", "you": "derby", "opponent": "abragail", "cpu": "expert", "goal": "win_within 4", "note": "The month’s finale: beat the Expert within four battles."}];
 const PUZZLES = [
