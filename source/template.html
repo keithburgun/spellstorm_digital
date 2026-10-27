@@ -151,6 +151,7 @@ h1,h2,.disp{font-family:'Corporata','Arial Rounded MT Bold','Trebuchet MS',sans-
 .bigwiz{width:min(84vw,62vh*0.652,440px);aspect-ratio:560/859;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
 .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .goacts{margin:2px 0 10px}
+.sndrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px}.volsl{display:flex;align-items:center;gap:8px;font-weight:600}.volsl input{width:min(220px,50vw);accent-color:var(--accent,#6b4bb0)}.volsl.off{opacity:.5}
 .grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .grid .card{--cw:min(26vw,120px)}
 .tc{display:flex;flex-direction:column;align-items:center;gap:3px}
@@ -1048,7 +1049,7 @@ function placeCoach(co,tg){const lw=$('#logwrap'),lr=lw&&lw.offsetParent?lw.getB
 function fitCoachText(co){const tx=co.querySelector('.ctext');if(!tx)return;tx.style.fontSize='';let s=1;while(tx.scrollHeight>tx.clientHeight+1&&s>.66){s-=.05;tx.style.fontSize=s+'em';}}
 /* ---------- sounds: tiny, synthesized, license-free ---------- */
 let _sfxs=12345;const sfxRand=()=>{_sfxs=(_sfxs*1103515245+12345)&0x7fffffff;return _sfxs/0x7fffffff;};
-const SFX={ctx:null,vol(){return +(OPT.vol??0.5)},
+const SFX={ctx:null,vol(){return OPT.muted?0:+(OPT.vol??0.5)},
  init(){if(!this.ctx){try{this.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume();},
  tone(f,d,type,g,t0=0,slide=0){const c=this.ctx,t=c.currentTime+t0,o=c.createOscillator(),a=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);
   a.gain.setValueAtTime(0.0001,t);a.gain.exponentialRampToValueAtTime(Math.max(0.0002,g*this.vol()),t+0.012);a.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(a).connect(c.destination);o.start(t);o.stop(t+d+0.03);},
@@ -1645,6 +1646,7 @@ document.addEventListener('click',e=>{
   if(a==='stab'){statsTab=b.dataset.v;statsSheet();return;}
   if(a==='sdiff'){statsDiff=b.dataset.v;statsSheet();return;}
   if(a==='setdiff'){if(OPT.tour&&loadProf().tour)return;if(OPT.mode==='coop'||((OPT.mode||'duel')==='duel'&&pickSel.opp==='robot'&&!rnd.opp&&!OPT.tour))OPT.rbdiff=b.dataset.v;else OPT.diff=b.dataset.v;saveOpt();drawSelect();return;}
+  if(a==='mutetog'){OPT.muted=!OPT.muted;saveOpt();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}optionsSheet();return;}
   if(a==='opt'){OPT[b.dataset.k]=(b.dataset.k==='speed'||b.dataset.k==='vol')?+b.dataset.v:b.dataset.v;if(b.dataset.k==='vol'){SFX.init();setTimeout(()=>SFX.play('shard'),30);}saveOpt();applyOpt();optionsSheet();return;}
   if(a==='optphone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));settle();optionsSheet();return;}
   if(a==='reset1'){optionsSheet(true);return;}
@@ -1801,7 +1803,8 @@ function drawSelect(){setEdClass(OPT.ed1?1:2);
   setH($('#picks'),`<div class="row"><h2>Mode <span class="seg modeseg">${[['duel','Versus'],['tour','Tournament'],['ranked','Ranked'],['daily','Daily Challenge'],['puzzle','Puzzles'],['ffa','Free‑for‑All'],['coop','Co‑op vs Robot Boy'],['2v2','Two‑on‑Two']].map(([m,l])=>`<button data-a="setmode" data-v="${m}" aria-pressed="${m==='tour'?(mode==='duel'&&!!OPT.tour):m==='duel'?(mode==='duel'&&!OPT.tour):mode===m}">${l}</button>`).join('')}</span></h2>${mode==='ffa'?`<h2>Players <span class="seg">${[3,4].map(n=>`<button data-a="setnp" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}${mode==='coop'?`<h2>Team size <span class="seg">${[2,3,4].map(n=>`<button data-a="setcoopn" data-v="${n}" aria-pressed="${np===n}">${n}</button>`).join('')}</span></h2>`:''}</div><div class="acts goacts">${tourSaved(tm)?'<button class="btn" data-a="t_cont" style="font-size:1.1rem;padding:.7em 2em">Continue match</button>':`<button class="btn" data-a="launch" style="font-size:1.1rem;padding:.7em 2em">${go}</button>`}</div><div class="row"><label class="longm"><input type="checkbox" data-t="tips" ${OPT.tips?'checked':''}${tm?' disabled':''}> <b>Expert Tips</b> <span class="lbl">${tm?'not available in Tournaments':'ask the Expert AI what it would play'}</span></label><label class="longm"><input type="checkbox" data-t="ed1" ${OPT.ed1?'checked':''}> <b>First Edition Balance</b> <button type="button" class="lbl qlink" data-a="edhelp" aria-label="About First Edition Balance">[?]</button></label><label class="longm"><input type="checkbox" data-t="long" ${OPT.long?'checked':''}> <b>Long Match</b> <span class="lbl">+50% health for every wizard · 12 Storm Shards to win</span></label></div><div class="row rows ${rndMe?'rand':''}">${meHead}<div class="tiles">${meTiles}</div></div><div class="row rows ${rnd.opp&&!tm?'rand':''}">${oppHead}<div class="tiles">${oppTiles}</div></div>
    <div class="info">${info}</div>${diff}<div class="acts"><button class="btn alt" data-a="totitle">Back</button><button class="btn alt" data-a="tutstart">Tutorial</button>${T?'<button class="btn alt" data-a="exittour">Exit Tournament</button>':''}${tourSaved(tm)?'<button class="btn alt" data-a="tournew1">New tournament</button>':''}</div>${loadSave()?'<p class="lbl" style="text-align:center">Starting a new match replaces your saved match in progress.</p>':''}`);
 }
-document.addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.a==='rpslide'&&RPV&&RPV.h)replayView(RPV.h,+e.target.value);});
+document.addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.a==='rpslide'&&RPV&&RPV.h)replayView(RPV.h,+e.target.value);
+  if(e.target.dataset&&e.target.dataset.a==='volslide'){OPT.vol=+e.target.value/100;const l=$('#volpct');if(l)l.textContent=e.target.value+'%';saveOpt();SFX.init();clearTimeout(SFX._vt);SFX._vt=setTimeout(()=>SFX.play('shard'),120);}});
 document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.t==='ed1'){OPT.ed1=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='long'){OPT.long=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tips'){OPT.tips=e.target.checked;saveOpt();drawSelect();return;}if(d.t==='tour'){OPT.tour=e.target.checked;saveOpt();drawSelect();return;}if(d.r){rnd[d.r]=e.target.checked;drawSelect();}});
 // ---------- Ranked (single-player Elo) ----------
 // Ranked keeps one Elo per character plus one for Random; history, bot drift and streak records are shared.
@@ -2236,7 +2239,7 @@ function optionsSheet(confirmReset){
   openOv(`<h2>Options</h2><div class="rules">
   <h3>Animation speed</h3>${seg('speed',[[1.4,'Relaxed'],[1,'Normal'],[0.45,'Fast']])}
   <h3>Theme</h3>${seg('theme',[['auto','Match device'],['light','Light'],['dark','Dark']])}
-  <h3>Sound</h3>${seg('vol',[[0,'Off'],[0.25,'Quiet'],[0.5,'Normal'],[0.9,'Loud']])}
+  <h3>Sound</h3><div class="sndrow"><button class="btn ${OPT.muted?'':'alt'}" data-a="mutetog" aria-pressed="${!!OPT.muted}">${OPT.muted?'🔇 Muted':'🔊 Mute'}</button><label class="volsl${OPT.muted?' off':''}">Volume <input type="range" min="0" max="100" step="5" value="${Math.round(100*(+(OPT.vol??0.5)))}" data-a="volslide" aria-label="Volume"> <span id="volpct">${Math.round(100*(+(OPT.vol??0.5)))}%</span></label></div>
   <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
   <h3>Animations</h3>${seg('motion',[['full','Full'],['reduced','Reduced']])}
