@@ -317,7 +317,7 @@ class Game {
     const S = this.S;
     if (!S.dragons.length) { this.log('The Dragon deck is empty: deal 2 damage and gain 2 Storm Shards.'); await this.dmg(p, 2); await this.shards(p, 2); return; }
     const top = S.dragons[S.dragons.length - 1];
-    if (await this.yn(p, `Your power overflows at Tier III. Gain ${CARDS[top.id].n}?`, true)) { S.dragons.pop(); S.pl[p].hand.push(top); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[top.id].n}!`, 'big'); await this.pause(700); }
+    if (await this.yn(p, `Your power overflows at Tier III. Gain ${CARDS[top.id].n}?`, true)) { S.dragons.pop(); S.pl[p].hand.push(top); markSeen(S, p, top); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[top.id].n}!`, 'big'); await this.pause(700); }
   }
   eligibleSlots(p, o = {}) {
     const S = this.S, P = S.pl[p];
@@ -332,7 +332,7 @@ class Game {
     const i = await this.decide(p, { k: 'gain', q: o.must ? `You must gain ${what} from the Storm Cloud.` : `You may gain ${what} from the Storm Cloud.`, slots, optional: !o.must, verb: 'Gain', special: sp.length ? 1 : 0, specials: sp });
     if (typeof i === 'string') { const had = this.S.special[i] > 0; await this.gainSpecial(p, i); const D = this.S.pl[p].discard; return had ? D[D.length - 1] : null; }
     if (i < 0) return null;
-    const S = this.S, c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c);
+    const S = this.S, c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); markSeen(S, p, c);
     this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); await this.pause(750); return c;
   }
   async offerUlt(p, free) {
@@ -352,7 +352,7 @@ class Game {
   }
   place(p, c, dest) {
     const S = this.S; if (dest === 'void') { if (CARDS[c.id].wiz) S.pl[p].discard.push(c); else S.void.push(c); }
-    else if (dest === 'hand') S.pl[p].hand.push(c); else if (dest === 'opp' || (typeof dest === 'string' && dest.startsWith('to'))) { const T = S.pl[dest === 'opp' ? this.next(p) : +dest.slice(2)]; if (T.rb && !CARDS[c.id].junk) S.void.push(c); else T.discard.push(c); } else S.pl[p].discard.push(c);
+    else if (dest === 'hand') { S.pl[p].hand.push(c); markSeen(S, p, c); } else if (dest === 'opp' || (typeof dest === 'string' && dest.startsWith('to'))) { const T = S.pl[dest === 'opp' ? this.next(p) : +dest.slice(2)]; if (T.rb && !CARDS[c.id].junk) S.void.push(c); else T.discard.push(c); } else S.pl[p].discard.push(c);
   }
   async resolveFromHand(p, c) {
     const P = this.S.pl[p]; const i = P.hand.indexOf(c); if (i < 0) return; P.hand.splice(i, 1);
@@ -452,7 +452,7 @@ class Game {
       const slots = this.eligibleSlots(p);
       const i = await this.decide(p, { k: 'gain', q: 'Gain Spell: take one card from the Storm Cloud, or a free special card.', slots, optional: 0, special: 1, verb: 'Gain' });
       if (typeof i === 'string') { await this.gainSpecial(p, i); }
-      else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
+      else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); markSeen(S, p, c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
       await this.pause(400);
     }
     for (const p of this.order()) await this.draw(p, 3 - S.pl[p].hand.length);
@@ -511,10 +511,15 @@ function cpuDecide(g, p, req) {
   }
 }
 
+// Cards that went into a hand in plain sight (gained from the Storm Cloud, returned from the discard, given, revealed) are
+// public: S.kn[player][card uid] = 1. Expert (KNOWN, engine12.js) keeps those in the opponent's hand when it imagines the hidden cards.
+function markSeen(S, q, c) { if (!c) return; const K = S.kn || (S.kn = {}); (K[q] || (K[q] = {}))[c.u] = 1; }
 function determinize(S, p) {
-  const o = 1 - p, O = S.pl[o];
-  const pool = shuffle([...O.hand, ...O.deck]); const hn = O.hand.length;
-  O.hand = pool.slice(0, hn); O.deck = pool.slice(hn);
+  const o = 1 - p, O = S.pl[o], kn = typeof knownOn === 'function' && knownOn(S, p) && S.kn && S.kn[o];
+  if (kn) { const keep = O.hand.filter(c => kn[c.u]), rest = O.hand.filter(c => !kn[c.u]), pool = shuffle([...rest, ...O.deck]);
+    O.hand = [...keep, ...pool.slice(0, rest.length)]; O.deck = pool.slice(rest.length); }
+  else { const pool = shuffle([...O.hand, ...O.deck]); const hn = O.hand.length;
+  O.hand = pool.slice(0, hn); O.deck = pool.slice(hn); }
   shuffle(S.pl[p].deck); shuffle(S.sdeck);
   if (O.trap && !O.trap.used) O.trap.id = ['mud', 'dodge', 'ice'][Math.floor(Math.random() * 3)];
 }

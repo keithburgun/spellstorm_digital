@@ -33,7 +33,7 @@ const POTIONS = {
 };
 const takeFromDiscard = async (g, p, q) => {
   const P = g.S.pl[p]; const [c] = await g.decide(p, { k: 'pick', q, items: P.discard.slice(), min: 1, max: 1, cpu: it => [best(it.filter(c => !CARDS[c.id].junk)) || it[0]] });
-  P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); g.log(`${g.nm(p)} ${p === 0 ? 'return' : 'returns'} ${CARDS[c.id].n} to hand.`);
+  P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); markSeen(g.S, p, c); g.log(`${g.nm(p)} ${p === 0 ? 'return' : 'returns'} ${CARDS[c.id].n} to hand.`);
 };
 const goodInDiscard = P => P.discard.some(c => CARDS[c.id].v >= 7);
 
@@ -45,12 +45,12 @@ Object.assign(CARDS, {
       const [c] = await g.decide(p, { k: 'pick', q: 'Potion Gun: give a non-Wizard card from your hand to an opponent. Gain 2 of its Element; if it’s Fire, deal 2 damage.', items: it, min: 1, max: 1,
         cpu: x => { const sc = c => (CARDS[c.id].junk ? 8 : 0) + (isEl(c, 'F') ? 5 : 0) - CARDS[c.id].v * .5; return [x.slice().sort((a, b) => sc(b) - sc(a))[0]]; } });
       const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1);
-      if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c);
+      if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else { g.S.pl[to].hand.push(c); markSeen(g.S, to, c); }
       const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`);
       if (el === 'F') await g.dmg(p, 2); return; }
     await g.dmg(p, 1); const P = g.S.pl[p]; const it = P.hand.filter(c => !CARDS[c.id].wiz); if (!it.length) { g.nofx('Potion Gun: no non-Wizard card to give.'); return; }
     const pick = await g.decide(p, { k: 'pick', q: 'Potion Gun: you may give a non-Wizard card from your hand to your opponent’s hand, gaining 2 of its Element.', items: it, min: 0, max: 1, cpu: x => { const j = x.find(c => CARDS[c.id].junk); return j ? [j] : []; } });
-    for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else g.S.pl[to].hand.push(c); const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },
+    for (const c of pick) { const to = await g.chooseOpp(p, 'Potion Gun: which opponent?'); P.hand.splice(P.hand.indexOf(c), 1); if (g.S.pl[to].rb) { g.S.void.push(c); g.log(`${CARDS[c.id].n} is VOIDED — Robot Boy can’t keep it.`); } else { g.S.pl[to].hand.push(c); markSeen(g.S, to, c); } const el = CARDS[c.id].el; P.chem[el] = Math.min(6, P.chem[el] + 2); g.log(`${g.nm(p)} ${p === 0 ? 'fire' : 'fires'} ${CARDS[c.id].n} into ${g.nm(to, 1, 1)} hand: +2 ${ELN[el]} Element.`); } } },
   unstable: { n: 'Unstable Formula', el: 'E', t: 1, v: 7, wiz: 1, ult: 1, fx: async (g, p) => {
     await g.power(p, 1); await g.mana(p, 1);
     // Elements belong to Oren: if someone else resolves this (e.g. through Buddy System), it works on Oren's Elements
@@ -121,14 +121,14 @@ Object.assign(CARDS, {
       const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), O = g.S.pl[o];
       if (O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } return; }
       if (!O.hand.length) { g.nofx(`Data Breach: ${g.nm(o, 1, 1)} hand is empty.`); return; }
-      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`);
+      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`); for (const c of O.hand) markSeen(g.S, o, c);
       const [c] = await g.decide(p, { k: 'pick', q: 'Data Breach: choose a card from your opponent’s hand for them to discard.', items: O.hand.slice(), min: 1, max: 1, cpu: x => [best(x.filter(c => !CARDS[c.id].junk)) || x[0]] });
       await g.discardFrom(o, c, 'hand'); return; }
     const o = await g.chooseOpp(p, 'Data Breach: which opponent?'), P = g.S.pl[p], O = g.S.pl[o]; const mx = Math.min(2, P.energy); let k = 0;
     if (mx) k = mx === 1 ? 1 : 1 + await g.decide(p, { k: 'opt', q: `Data Breach: lose 1 or 2 Energy to Power Up that many times. (You have ${P.energy}.)`, opts: ['Lose 1', 'Lose 2'], dis: [false, mx < 2], cpu: P.energy >= 3 ? 0 : 1 });   // the card says lose 1 or 2
     if (k) { P.energy -= k; await g.power(p, k); }
     if (P.energy >= 2 && O.rb) { if (O.blast) { O.blast--; g.log('Robot Boy loses a Blast Token.'); } } else if (P.energy >= 2 && O.hand.length) {
-      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`);
+      g.log(`${g.nm(o)} ${o === 0 ? 'reveal' : 'reveals'} ${g.nm(o, 1, 1)} hand to ${g.nm(p, 1)}.`); for (const c of O.hand) markSeen(g.S, o, c);
       const [c] = await g.decide(p, { k: 'pick', q: 'Data Breach: choose a card from your opponent’s hand for them to discard.', items: O.hand.slice(), min: 1, max: 1, cpu: x => [best(x.filter(c => !CARDS[c.id].junk)) || x[0]] });
       await g.discardFrom(o, c, 'hand');
     } } },
@@ -160,7 +160,7 @@ Object.assign(WIZ, {
         const n = Math.min(P.doom || 0, P.discard.length);   // 2E (latest): up to one card from the discard per DOOM Token
         if (n) { const pick = await g.decide(p, { k: 'pick', q: `DOOOOOOOM! You may draw up to ${n} card${n === 1 ? '' : 's'} from your discard (one per DOOM Token).`, items: P.discard.slice(), min: 0, max: n,
             cpu: x => x.filter(c => !CARDS[c.id].junk).sort((a, b) => CARDS[b.id].v - CARDS[a.id].v).slice(0, n) });
-          for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); }
+          for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); markSeen(g.S, p, c); }
           if (pick.length) g.log(`DOOOOOOOM! ${g.nm(p)} ${p === 0 ? 'draw' : 'draws'} ${pick.length} card${pick.length === 1 ? '' : 's'} from the discard: ${pick.map(c => CARDS[c.id].n).join(', ')}.`, 'big'); }
         else if (!P.doom) g.log('DOOOOOOOM!: no DOOM Tokens, so no cards from the discard.');
         return; }
@@ -262,7 +262,7 @@ Game.prototype.battleStart = async function (p) {
   if (m) await this.mana(p, m); if (pw) await this.power(p, pw); if (m || pw) this.log(`Journal: ${m ? `+${m} mana ` : ''}${pw ? `+${pw} power` : ''}`.trim());
   if (R[7]) { if (!ED2(S)) await this.draw(p, 1);
     else { const it = P.discard.filter(c => isEl(c, 'F') && !CARDS[c.id].junk); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may draw a Fire card from your discard to your hand.', items: it, min: 0, max: 1, cpu: x => [best(x)] });
-      for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'take' : 'takes'} ${CARDS[c.id].n} from the discard into hand.`); } } } }
+      for (const c of pick) { P.discard.splice(P.discard.indexOf(c), 1); P.hand.push(c); markSeen(this.S, p, c); this.log(`${this.nm(p)} ${p === 0 ? 'take' : 'takes'} ${CARDS[c.id].n} from the discard into hand.`); } } } }
   if (R[6]) await this.gainCard(p, ED2(S) ? { el: 'E' } : {});
   if (R[4]) { const it = P.hand.filter(c => !CARDS[c.id].wiz); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may VOID a card from your hand.', items: it, min: 0, max: 1, cpu: x => x.filter(c => CARDS[c.id].junk).slice(0, 1) }); for (const c of pick) this.voidFrom(p, c, P.hand); } }
   if (R[5]) { const it = P.discard.filter(c => CARDS[c.id].junk); if (it.length) { const pick = await this.decide(p, { k: 'pick', q: 'Journal: you may move an ICE, ASH or CURSE from your discard to your opponent’s discard.', items: it, min: 0, max: 1, cpu: x => [x[0]] });

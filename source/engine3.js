@@ -169,7 +169,7 @@ Game.prototype.regroup = async function () {
     const slots = this.eligibleSlots(p);
     const i = await this.decide(p, { k: 'gain', q: 'Gain Spell: take one card from the Storm Cloud, or a free special card.', slots, optional: 0, special: 1, verb: 'Gain' });
     if (typeof i === 'string') { await this.gainSpecial(p, i); }
-    else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
+    else { const c = S.cloud[i]; S.cloud[i] = null; this.refill(i); S.pl[p].hand.push(c); markSeen(S, p, c); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${CARDS[c.id].n}.`, 'gain'); this.ev('gain', p); }
     await bp(900);
   }
   for (const p of this.order()) if (!S.pl[p].rb) await this.draw(p, 3 - S.pl[p].hand.length);

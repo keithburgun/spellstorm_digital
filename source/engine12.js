@@ -52,9 +52,9 @@ cpuDecideX = function (g, p, req) {
 // playing the whole game out instead of judging the position at the end of the battle. (A/B flag: S.aiVer[p] === 'r')
 const PLAYRO = { m: 4 };                                          // play-outs per table cell per sampled deal (same futures in every cell)
 async function simRoundRoll(base, p, myU, oid, seed) {
-  const prev = Math.random; let tot = 0;
+  const prev = Math.random, M = verHas(base, p, 'r') ? PLAYRO.m : ENDGAME.m; let tot = 0;
   try {
-    for (let t = 0; t < PLAYRO.m; t++) {
+    for (let t = 0; t < M; t++) {
       Math.random = seededRNG(seed + t * 104729);
       const S = structuredClone(base), nx = nextOppOf(S, p), me = S.pl[p], op = S.pl[nx];
       const mc = me.hand.find(x => x.u === myU); me.hand.splice(me.hand.indexOf(mc), 1); S.slot[p] = mc;
@@ -65,9 +65,14 @@ async function simRoundRoll(base, p, myU, oid, seed) {
       tot += S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
     }
   } finally { Math.random = prev; }
-  return tot / PLAYRO.m;
+  return tot / M;
 }
-const playRolloutOn = (S, p) => verHas(S, p, 'r');
+const playRolloutOn = (S, p) => verHas(S, p, 'r') || endgameOn(S, p);
+// ----- #4 endgame: when someone is close to winning, judge each card by playing the game to the end (short, accurate games)
+// instead of by the end-of-round position score. (A/B flag 'Z'; ENDGAME.m play-outs per table cell per sampled deal)
+const ENDGAME = { on: false, m: 8, sh: 2, hp: 4 };
+function isEndgame(S) { const W8 = S.win || 8; return S.pl.some(P => !P.out && (P.shards >= W8 - ENDGAME.sh || P.hp <= ENDGAME.hp)); }
+function endgameOn(S, p) { return (ENDGAME.on || verHas(S, p, 'Z')) && diffOf(S, p) === 'expert' && !rankCfg(S, p) && S.pl.length === 2 && isEndgame(S); }
 
 // ----- and for "use my Ultimate now?": play the game out both ways (the rest of the current round is skipped in both, so the comparison stays fair)
 const ULTRO = { on: false, k: 80 };
@@ -241,3 +246,8 @@ function playVal(S, p, id, cx) {
   return (PLAYV.ids[id] || 0) + (PLAYV.late[id] || 0) * late + beat * (X.beat || 0) + lose * (X.lose || 0) + beat * late * (X.beatXr4 || 0)
     + ((c.t || 1) - 1) * (X.tier || 0) + (c.v / 10) * ((P.hp <= 4 ? X.hpLow || 0 : 0) + (O.hp <= 4 ? X.ohpLow || 0 : 0));
 }
+
+// ----- #1 hidden information: Expert keeps the cards it saw go into the opponent's hand (engine.js markSeen) when it
+// imagines their hand, instead of reshuffling everything. (A/B flag 'H')
+const KNOWN = { on: false };
+function knownOn(S, p) { return (KNOWN.on || verHas(S, p, 'H')) && diffOf(S, p) === 'expert' && !rankCfg(S, p); }
