@@ -63,18 +63,22 @@ ipcMain.handle('upd:go', async (e, url) => {
   if (typeof url !== 'string' || !url.startsWith(ALLOWED) || !url.endsWith(kind === 'win' ? '.exe' : '.AppImage')) throw new Error('That isn’t a Spellstorm update.');
   const send = p => { if (!e.sender.isDestroyed()) e.sender.send('upd:progress', p); };
   if (kind === 'win') {
-    // Replace the running .exe in place (Windows lets a running program be renamed, not overwritten), so the player's
-    // shortcuts keep working. If that isn't allowed, fall back to saving the new version next to it under its own name.
+    // Replace Spellstorm.exe itself (same file name and place, so shortcuts keep working). A running .exe can't be
+    // overwritten, so a tiny helper script waits for the game to close, moves the download over the old file, and
+    // starts it again. If the file stays locked for ~2 minutes, it saves the new version under its own name next to it and starts that.
     const me = process.env.PORTABLE_EXECUTABLE_FILE, dir = path.dirname(me), part = me + '.download';
     await fetchTo(url, part, send);
-    let target = me;
-    try { try { fs.unlinkSync(me + '.old'); } catch (err) {} fs.renameSync(me, me + '.old'); fs.renameSync(part, me); }
-    catch (err) {
-      try { if (!fs.existsSync(me) && fs.existsSync(me + '.old')) fs.renameSync(me + '.old', me); } catch (e2) {}
-      target = path.join(dir, path.basename(new URL(url).pathname)); try { fs.unlinkSync(target); } catch (e3) {} fs.renameSync(part, target);
-    }
+    try { fs.unlinkSync(me + '.old'); } catch (err) {}
+    const bat = path.join(require('os').tmpdir(), 'spellstorm-update-' + Date.now() + '.cmd');
+    fs.writeFileSync(bat, [
+      '@echo off', 'chcp 65001 >nul', 'setlocal', `set "ME=${me}"`, `set "PART=${part}"`, `set "NEWX=${path.join(dir, path.basename(new URL(url).pathname))}"`, 'set n=0',
+      ':loop', 'move /Y "%PART%" "%ME%" >nul 2>&1 && goto done', 'set /a n+=1', 'if %n% geq 120 goto fail',
+      'ping -n 2 127.0.0.1 >nul', 'goto loop',
+      ':done', 'start "" "%ME%"', 'goto end',
+      ':fail', 'move /Y "%PART%" "%NEWX%" >nul 2>&1', 'start "" "%NEWX%"',
+      ':end', '(goto) 2>nul & del "%~f0"', ''].join('\r\n'));
     app.releaseSingleInstanceLock();
-    spawn(target, [], { detached: true, stdio: 'ignore', cwd: dir }).unref();
+    spawn('cmd.exe', ['/d', '/c', bat], { detached: true, stdio: 'ignore', windowsHide: true, cwd: dir }).unref();
   } else {
     const img = process.env.APPIMAGE, part = img + '.download';
     await fetchTo(url, part, send);

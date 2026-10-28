@@ -2757,7 +2757,7 @@ function valueNet(x) {
 function valueOn(S, p) { return (VMODEL.on || verHas(S, p, 'V')) && VMODEL.mu && diffOf(S, p) === 'expert' && !rankCfg(S, p) && S.pl.length === 2; }
 const _evalAI13 = evalAI;
 evalAI = function (S, p) {
-  if (!S.over && valueOn(S, p)) return VMODEL.blend ? _evalAI13(S, p) + VMODEL.blend * 48 * valueNet(featVec(S, p)) : VMODEL.scale * valueNet(featVec(S, p));   // logit of the win chance, scaled (blend: added to the hand-set score; 1 logit ≈ 48 points of it)
+  if (!S.over && valueOn(S, p)) { const bl = verHas(S, p, 'W') ? 1 : VMODEL.blend; if (bl) return _evalAI13(S, p) + bl * 48 * valueNet(featVec(S, p)); return VMODEL.scale * valueNet(featVec(S, p)); }   // ('W' = A/B of blend 1.0) logit of the win chance, scaled (blend: added to the hand-set score; 1 logit ≈ 48 points of it)
   if (S.over && valueOn(S, p)) return S.over.winner === p ? 1e4 : -1e4;
   return _evalAI13(S, p);
 };
