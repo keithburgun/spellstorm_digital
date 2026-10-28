@@ -4906,7 +4906,7 @@ function medalsHTML(P){const M=P.medal||{};let gold=0,silver=0,bronze=0;for(cons
   const card=w=>{const opps=ROSTER.filter(o=>o!==w),g=opps.filter(o=>(M[w+'|'+o]||0)>=3).length;
     return `<div class="mcard"><div class="mhead"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b><small>${g}/7 gold</small></span></div><div class="mslots">${opps.map(o=>{const lv=Math.min(3,M[w+'|'+o]||0);
       return `<span class="medal m${lv}" title="${lv?`${MEDAL[lv]}: beat ${esc(RNAME[o])} on ${MEDALD[lv]}`:`Beat ${esc(RNAME[o])} on Normal, Hard or Expert`}"><i class="por ci-wz_${o}"></i><em>${SH[o]}</em></span>`;}).join('')}</div></div>`;};
-  return `<div class="kpis"><div class="kpi"><b>${pct}%</b><span>Medal Completion (gold)</span></div><div class="kpi"><b>${gold}</b><span>Gold</span></div><div class="kpi"><b>${silver}</b><span>Silver</span></div><div class="kpi"><b>${bronze}</b><span>Bronze</span></div></div>
+  return `<div class="kpis"><div class="kpi"><b>${pct}%</b><span>Medal Completion (gold)</span></div></div>
     <p class="lbl" style="text-align:left;margin:0 0 8px">Win a 1-on-1 match against another wizard to earn a medal for the wizard you played: <b>bronze</b> on Normal, <b>silver</b> on Hard, <b>gold</b> on Expert. A better medal replaces a lower one. 100% means every wizard has beaten all 7 others on Expert.</p>
     <div class="medals">${ROSTER.map(card).join('')}</div>`;}
 function statsSheet(){
