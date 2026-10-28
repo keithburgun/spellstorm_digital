@@ -5,20 +5,43 @@ const GAINRO = { on: true, k: 450 };   // 450 (3x): +32 Elo over 835 mirrored ga
 // (k = 48: +17 over 802 games; k = 300 vs 150: no further gain. Play-outs for the card played ('r'): worse and 5× slower.
 //  Play-outs for 'use my Ultimate?' ('u'): no gain. Both kept off.)
 const verHas = (S, p, f) => !!(S.aiVer && typeof S.aiVer[p] === 'string' && S.aiVer[p].includes(f));
+// ----- play-out budget: plain (every option K times) or racing (A/B flag 'S'): the same total budget, but every BATCH
+// samples, options clearly behind the leader are dropped (paired comparison on the shared futures: mean gap > Z standard
+// errors), and the freed play-outs go to the options still in contention. Deterministic for a given seed (replays stay identical).
+const RACE = { on: false, batch: 30, z: 2.0, min: 60 };
+async function raceOptions(n, K, adaptive, setup, runOne, breathe) {
+  const res = Array.from({ length: n }, () => []); let active = [...Array(n).keys()], budget = K * n, k = 0;
+  while (budget > 0 && (adaptive ? active.length > 1 : k < K)) {
+    const stop = adaptive ? Math.min(k + RACE.batch, k + Math.ceil(budget / active.length)) : K;
+    for (; k < stop && budget > 0; k++) {
+      if (breathe && k % 10 === 9) await breathe();
+      const ctx = setup(k);
+      for (const i of active) { res[i].push(await runOne(i, ctx)); budget--; }
+    }
+    if (!adaptive) break;
+    const mean = i => res[i].reduce((a, b) => a + b, 0) / res[i].length, lead = active.reduce((a, b) => mean(b) > mean(a) ? b : a), m = res[lead].length;
+    if (m < RACE.min) continue;
+    active = active.filter(i => {
+      if (i === lead) return true;
+      const L = res[lead].slice(-res[i].length), d = res[i].map((x, t) => L[t] - x), md = d.reduce((a, b) => a + b, 0) / d.length;
+      const sd = Math.sqrt(d.reduce((a, b) => a + (b - md) ** 2, 0) / Math.max(1, d.length - 1)) || 1e-9;
+      return md <= RACE.z * sd / Math.sqrt(d.length);
+    });
+  }
+  return res.map(r => r.length ? r.reduce((a, b) => a + b, 0) / r.length * K : -1);   // mean win rate, scaled to K (dropped options keep their mean)
+}
+const raceOn = (S, p) => RACE.on || verHas(S, p, 'S');
 const gainRolloutOn = (S, p) => GAINRO.on || verHas(S, p, 'g') || verHas(S, p, 'G');
 async function rolloutGain(g0, p, req) {
   const S0 = g0.S, seen = {}, opts = [];
   for (const i of req.slots) { const id = S0.cloud[i] && S0.cloud[i].id; if (id && !seen[id]) { seen[id] = 1; opts.push(i); } }
   if (opts.length <= 1) return null;
-  const prev = Math.random, seed0 = Math.floor(prev() * 2147483647), score = opts.map(() => 0);
+  const prev = Math.random, seed0 = Math.floor(prev() * 2147483647); let score;
   try {
     const K = verHas(S0, p, 'G') ? GAINRO.k * 2 : verHas(S0, p, 'K') ? GAINRO.k * 3 : GAINRO.k;   // ('G' = A/B test of twice the play-outs)
-    for (let k = 0; k < K; k++) {
-      if (k % 10 === 9 && typeof window !== 'undefined') { Math.random = prev; await new Promise(r => setTimeout(r, 0)); }   // let the screen breathe on slower phones
-      Math.random = seededRNG(seed0 + k * 7919);
-      const base = structuredClone(S0); determinize(base, p);
-      const fut = seed0 + k * 7919 + 1;
-      for (let i = 0; i < opts.length; i++) {
+    score = await raceOptions(opts.length, K, raceOn(S0, p),
+      k => { Math.random = seededRNG(seed0 + k * 7919); const base = structuredClone(S0); determinize(base, p); return { base, fut: seed0 + k * 7919 + 1 }; },
+      async (i, { base, fut }) => {
         Math.random = seededRNG(fut);                                // same future for every option
         const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
         try {
@@ -30,9 +53,9 @@ async function rolloutGain(g0, p, req) {
           for (const q of ord) if (!S.pl[q].rb && !S.pl[q].out) await g.draw(q, 3 - S.pl[q].hand.length);
           for (let b = 0; b < 15; b++) { await g.battle(); await g.regroup(); }
         } catch (e) { if (!(e instanceof GameOver)) throw e; }
-        score[i] += S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
-      }
-    }
+        return S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
+      },
+      typeof window !== 'undefined' ? async () => { const r = Math.random; Math.random = prev; await new Promise(z => setTimeout(z, 0)); Math.random = r; } : null);   // let the screen breathe on slower phones
   } finally { Math.random = prev; }
   if (GAINRO.rec) GAINRO.rec(S0, p, opts, score);                   // (data collection for tests only)
   const best = Math.max(...score), top = opts.filter((_, i) => score[i] >= best - 0.5);
@@ -155,13 +178,11 @@ async function rolloutMidGain(g0, p, req) {
 async function rolloutMid(g0, p, req, opts, force, K) {
   const F = g0._fork, L = (g0._dlog || []).slice(), S0 = g0.S;
   const nth = L.filter(e => e[0] === p).length;                       // this is p's (nth+1)-th decision since the reveal
-  const prev = Math.random, seed0 = Math.floor(prev() * 2147483647), score = opts.map(() => 0);
+  const prev = Math.random, seed0 = Math.floor(prev() * 2147483647); let score;
   try {
-    for (let k = 0; k < K; k++) {
-      if (k % 10 === 9 && typeof window !== 'undefined') { Math.random = prev; await new Promise(r => setTimeout(r, 0)); }
-      Math.random = seededRNG(seed0 + k * 7919);
-      const base = structuredClone(F); determinize(base, p); const fut = seed0 + k * 7919 + 1;
-      for (let i = 0; i < opts.length; i++) {
+    score = await raceOptions(opts.length, K, raceOn(S0, p),
+      k => { Math.random = seededRNG(seed0 + k * 7919); const base = structuredClone(F); determinize(base, p); return { base, fut: seed0 + k * 7919 + 1 }; },
+      async (i, { base, fut }) => {
         Math.random = seededRNG(fut);
         const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
         const io = { sim: true, log() { }, render() { }, pause() { return Promise.resolve(); },
@@ -182,9 +203,9 @@ async function rolloutMid(g0, p, req, opts, force, K) {
         const g = new Game(S, io);
         try { if (g0._forkAt === 'weather') { await g.weatherFx(S.wcur); await g.playStep(); } else await g.afterPlay(); for (let r = S.round + 1; r <= 4; r++) await g.round(r); await g.regroup(); for (let b = 0; b < 15; b++) { await g.battle(); await g.regroup(); } }
         catch (e) { if (!(e instanceof GameOver)) throw e; }
-        score[i] += S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
-      }
-    }
+        return S.over ? (S.over.winner === p ? 1 : 0) : 0.5;
+      },
+      typeof window !== 'undefined' ? async () => { const r = Math.random; Math.random = prev; await new Promise(z => setTimeout(z, 0)); Math.random = r; } : null);
   } finally { Math.random = prev; }
   return score;
 }
