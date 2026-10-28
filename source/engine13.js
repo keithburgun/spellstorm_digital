@@ -47,3 +47,25 @@ evalAI = function (S, p) {
   if (S.over && valueOn(S, p)) return S.over.winner === p ? 1e4 : -1e4;
   return _evalAI13(S, p);
 };
+
+// ---------- test opponent: "all-in damage" style (A/B flag 'A') ----------
+// Expert's card play, but it drafts Fire and damage above everything and counts damage dealt as extra valuable — a stand-in
+// for a skilled player committing to an all-red plan. Used to measure (and fix) how well Expert copes with one-note strategies.
+const AGGRO = { draftFire: 10, dmgW: 6 };
+const aggroOn = (S, p) => verHas(S, p, 'A');
+const _cpuDecideX13 = cpuDecideX;
+cpuDecideX = function (g, p, req) {
+  const S = g.S;
+  if (aggroOn(S, p) && g.io && !g.io.sim && req.k === 'gain' && req.verb === 'Gain' && req.slots && req.slots.length) {
+    const v = i => { const d = CARDS[S.cloud[i].id]; return (d.el === 'F' ? AGGRO.draftFire : 0) + d.v; };
+    return req.slots.slice().sort((a, b) => v(b) - v(a))[0];
+  }
+  return _cpuDecideX13(g, p, req);
+};
+const _evalAI13b = evalAI;
+evalAI = function (S, p) {
+  const v = _evalAI13b(S, p);
+  if (S.over || !aggroOn(S, p)) return v;
+  let dealt = 0; for (const q of S.pl.keys()) if (q !== p) dealt += S.pl[q].max - S.pl[q].hp;
+  return v + AGGRO.dmgW * dealt;
+};

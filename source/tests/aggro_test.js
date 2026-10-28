@@ -18,7 +18,7 @@ const expDecide = (g, p, req) => req.k === 'play' ? E.aiChoosePlay(g.S, p) : (re
     const opp = OPPS[i % OPPS.length];
     for (const side of [0, 1]) {
       E.seedRandom(31337 * i + 7 + side); const S = side === 0 ? E.newState(wz, opp) : E.newState(opp, wz); E.applyEdition(S, 2);
-      S.aiDiff = { 0: 'expert', 1: 'expert' };
+      S.aiDiff = { 0: 'expert', 1: 'expert' }; if (POL === 'aggroX') S.aiVer = { [side]: 'A', [1 - side]: 'b' };
       const io = { sim: false, log() { }, render() { }, pause() { return Promise.resolve(); }, fx() { }, ev() { },
         decide: (g, p, req) => (p === side && POL === 'aggro') ? aggroDecide(g, p, req) : expDecide(g, p, req) };
       let r = null; try { r = await new E.Game(S, io).run(); } catch (e) { console.error(e.message); }
