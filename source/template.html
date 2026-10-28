@@ -2156,8 +2156,9 @@ function recordGame(r){
   if(!TR||TR.tutorial)return [];const P=loadProf(),won=S.team?S.team[r.winner]===S.team[0]:r.winner===0,me=S.pl[0];
   P.games++;const d=TR.diff;P.rec[d]=P.rec[d]||{};P.rec[d][TR.me]=P.rec[d][TR.me]||{};const c=P.rec[d][TR.me][TR.opp]=P.rec[d][TR.me][TR.opp]||[0,0];c[1]++;
   const byShards=me.shards>=8;
-  MEDALRES=null;{const lv={normal:1,hard:2,expert:3,cheater:3}[d];   // Medals: a 1-on-1 win vs a wizard on Normal/Hard/Expert (bronze/silver/gold)
-    if(won&&lv&&S.pl.length===2&&!S.team&&!S.ranked&&!S.online&&!S.daily&&!S.puzzle&&!S.rbMode&&ROSTER.includes(TR.me)&&ROSTER.includes(TR.opp)&&TR.me!==TR.opp){
+  MEDALRES=null;{let lv={normal:1,hard:2,expert:3,cheater:3}[d];   // Medals: a 1-on-1 win vs a wizard on Normal/Hard/Expert (bronze/silver/gold)
+    if(S.ranked){const e=+S.ranked.elo||0;lv=e>MEDAL_ELO.expert?3:e>MEDAL_ELO.hard?2:e>MEDAL_ELO.normal?1:0;}   // Ranked: beating an opponent rated above that bot's strength
+    if(won&&lv&&S.pl.length===2&&!S.team&&!S.online&&!S.daily&&!S.puzzle&&!S.rbMode&&ROSTER.includes(TR.me)&&ROSTER.includes(TR.opp)&&TR.me!==TR.opp){
       P.medal=P.medal||{};const k=TR.me+'|'+TR.opp;if((P.medal[k]||0)<lv){MEDALRES={me:TR.me,opp:TR.opp,lv,up:!!P.medal[k]};P.medal[k]=lv;}}}
   if(won){c[0]++;P.wins++;P.streak++;P.best=Math.max(P.best,P.streak);if(d==='hard'||d==='expert'){P.hstreak++;P.hbest=Math.max(P.hbest,P.hstreak);}P.by[byShards?'shards':'health']++;}else{P.streak=0;if(d==='hard'||d==='expert')P.hstreak=0;}
   if(TR.tour&&P.tour){if(won){P.tour.wins++;P.tbest=P.tbest||{};P.tbest[d]=Math.max(P.tbest[d]||0,P.tour.wins);
@@ -2207,6 +2208,8 @@ function historyHTML(P){const L=(P.hist||[]).slice().reverse();
       </div>`:''}</li>`;};
   return `<div class="kpis"><div class="kpi"><b>${w}–${last.length-w}</b><span>Last ${last.length} matches</span></div><div class="kpi"><b>${fmtDur(avg)}</b><span>Average length</span></div><div class="kpi"><b>${RNAME[fav]}</b><span>Most played</span></div><div class="kpi"><b>${L.length}</b><span>Matches saved</span></div></div>
     <ul class="hlist">${L.map(row).join('')}</ul>`;}
+// Ranked-scale strength of each difficulty (measured against the Ranked ladder, Oct 2026): a Ranked win over a higher-rated opponent earns that medal
+const MEDAL_ELO={normal:895,hard:1115,expert:1380};
 const MEDAL=['','Bronze','Silver','Gold'],MEDALD=['','Normal','Hard','Expert'];
 let MEDALRES=null;
 function medalsHTML(P){const M=P.medal||{};let gold=0,silver=0,bronze=0;for(const k in M){if(M[k]>=3)gold++;else if(M[k]===2)silver++;else if(M[k]===1)bronze++;}
@@ -2215,7 +2218,7 @@ function medalsHTML(P){const M=P.medal||{};let gold=0,silver=0,bronze=0;for(cons
     return `<div class="mcard"><div class="mhead"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b><small>${g}/7 gold</small></span></div><div class="mslots">${opps.map(o=>{const lv=Math.min(3,M[w+'|'+o]||0);
       return `<span class="medal m${lv}" title="${lv?`${MEDAL[lv]}: beat ${esc(RNAME[o])} on ${MEDALD[lv]}`:`Beat ${esc(RNAME[o])} on Normal, Hard or Expert`}"><i class="por ci-wz_${o}"></i><em>${SH[o]}</em></span>`;}).join('')}</div></div>`;};
   return `<div class="kpis"><div class="kpi"><b>${pct}%</b><span>Medal Completion (gold)</span></div></div>
-    <p class="lbl" style="text-align:left;margin:0 0 8px">Win a 1-on-1 match against another wizard to earn a medal for the wizard you played: <b>bronze</b> on Normal, <b>silver</b> on Hard, <b>gold</b> on Expert. A better medal replaces a lower one. 100% means every wizard has beaten all 7 others on Expert.</p>
+    <p class="lbl" style="text-align:left;margin:0 0 8px">Win a 1-on-1 match against another wizard to earn a medal for the wizard you played: <b>bronze</b> on Normal, <b>silver</b> on Hard, <b>gold</b> on Expert. In Ranked, beating an opponent rated above ${MEDAL_ELO.normal} / ${MEDAL_ELO.hard} / ${MEDAL_ELO.expert} earns bronze / silver / gold. A better medal replaces a lower one. 100% means every wizard has beaten all 7 others on Expert.</p>
     <div class="medals">${ROSTER.map(card).join('')}</div>`;}
 function statsSheet(){
   const P=loadProf(),got=ACH.filter(a=>P.ach[a.id]).length;
