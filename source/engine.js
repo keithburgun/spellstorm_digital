@@ -441,7 +441,7 @@ class Game {
     S.wdisc.push(...S.wused); S.wused = []; S.wcur = null;
     for (const p of this.order()) { const P = S.pl[p]; P.blastMod = 0; for (const c of P.hand.filter(c => CARDS[c.id].disc)) await this.discardFrom(p, c, 'hand', { regroup: true }); }
     await this.pause(500);
-    const sc = [0, 1].map(p => Math.max(0, S.pl[p].hand.length + S.pl[p].blastMod));
+    const sc = [0, 1].map(p => S.pl[p].hand.length + S.pl[p].blastMod);
     for (const p of [0, 1]) { const P = S.pl[p]; P.discard.push(...P.hand.splice(0)); }
     this.log(`Blast Scores — you: ${sc[0]}, ${this.nm(1)}: ${sc[1]}.`, 'head');
     S.lastBlast = sc; this.ev('blast', -1, sc);

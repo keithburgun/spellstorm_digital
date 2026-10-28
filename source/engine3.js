@@ -147,7 +147,7 @@ Game.prototype.regroup = async function () {
     B.stage = 'count'; sync(p); await bp(300);
     let n = 0;
     for (const c of P.hand.slice()) { const e = B.cards[p].find(x => x.u === c.u); if (e) { e.up = true; e.t = now(); } n++; setScore(p, n + P.blastMod); await bp(210); }
-    setScore(p, P.rb ? P.blast : Math.max(0, P.hand.length + P.blastMod)); await bp(600);
+    setScore(p, P.rb ? P.blast : P.hand.length + P.blastMod); await bp(600);
   }
   const sc = B.score.slice();
   for (const p of S.pl.keys()) { const P = S.pl[p]; P.discard.push(...P.hand.splice(0)); }
