@@ -149,8 +149,8 @@ h1,h2,.disp{font-family:'Corporata','Arial Rounded MT Bold','Trebuchet MS',sans-
 .bigwiz{width:min(84vw,62vh*0.652,440px);aspect-ratio:560/859;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
 .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .goacts{margin:2px 0 10px}
-#cine{position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(circle,rgba(18,9,36,.8),rgba(4,2,10,.94));pointer-events:none;animation:cineFade var(--d) ease both}
-#cine .ct{position:absolute;top:max(4vh,14px);left:12px;right:12px;text-align:center;font-size:clamp(1.7rem,5.5vw,3.4rem);font-weight:800;color:#fff;letter-spacing:.02em;text-shadow:0 2px 14px #000,0 0 30px var(--cg)}
+#cine{position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(circle,rgba(16,8,32,.94),rgba(4,2,10,.97));-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);pointer-events:none;animation:cineFade var(--d) ease both}
+#cine .ct{max-width:92vw;text-align:center;line-height:1.1;font-size:clamp(1.7rem,5.5vw,3.4rem);font-weight:800;color:#fff;letter-spacing:.02em;text-shadow:0 2px 14px #000,0 0 30px var(--cg)}
 #cine .ci{width:min(62vmin,520px);aspect-ratio:1;background-size:cover;background-position:center;border-radius:18px;box-shadow:0 12px 60px rgba(0,0,0,.7),0 0 46px var(--cg);animation:cineZoom var(--d) ease-out both}
 #cine.drag .ci{width:min(50vmin,400px);aspect-ratio:5/7;border-radius:14px}
 #cine .cw{color:#fff;font-weight:700;opacity:.85;text-shadow:0 2px 8px #000}
@@ -1102,12 +1102,13 @@ class Game {
     const WT = (typeof wizInfo === 'function' ? wizInfo(P.wiz, this.S.ed) : W).ut;   // the text of the edition being played
     const ok = await this.decide(p, { k: 'yn', ult: 1, free: !!free, cpu: true, q: free ? `Use ${W.un} without paying mana? (${WT})` : `Use ${W.un} for ${W.cost} mana? (${WT})` });
     if (!ok) return; if (!free) P.mana -= W.cost;
-    this.log(`${this.nm(p)} ${p === 0 ? 'unleash' : 'unleashes'} ${W.un.replace(/!+$/, '')}!`, 'big'); if (!this.io.sim && this.io.fx) { this.io.fx('ult', p); this.io.fx('ultcine', p, P.wiz); await this.pause(2000); } else await this.pause(500);   // a moment of drama: the Ultimate's art and name, then it resolves
+    if (!this.io.sim && this.io.fx) { this.io.fx('ult', p); this.io.fx('ultcine', p, P.wiz); }   // the moment of drama first, so the log's pop-up doesn't sit on top of it
+    this.log(`${this.nm(p)} ${p === 0 ? 'unleash' : 'unleashes'} ${W.un.replace(/!+$/, '')}!`, 'big'); await this.pause(!this.io.sim && this.io.fx ? 3000 : 500);   // a moment of drama: the Ultimate's art and name, then it resolves
     await W.ult(this, p);
   }
   async resolve(p, c, how) {
     const d = CARDS[c.id]; const x = { how, dest: null };
-    if (d.drag && !this.io.sim && this.io.fx) { this.io.fx('dragon', p, c.id); await this.pause(2000); }   // the Dragon's card close up, its name and a roar, then it resolves
+    if (d.drag && !this.io.sim && this.io.fx) { this.io.fx('dragon', p, c.id); await this.pause(3000); }   // the Dragon's card close up, its name and a roar, then it resolves
     if (d.junk) { this.log(`${d.n} can’t be played — nothing happens.`); return x; }
     if (this.S.wcur === 'glitter' && d.el === 'E') { this.log(`Glittering Dust: ${d.n} does nothing but heal 2.`); await this.heal(p, 2); return x; }
     await d.fx(this, p, x); if (d.ult) await this.offerUlt(p, false);
@@ -4253,11 +4254,11 @@ function renderLog(){
   const M=$('#logm');if(M){setH(M,h);M.scrollTop=M.scrollHeight;}
 }
 let toastT;
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
+function toast(m){if(document.getElementById('cine'))return;const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
 // Ultimates and Dragons get a moment of drama: art close up, the name across the top, a sound; the game waits meanwhile.
 function cinema(kind,x){const old=document.getElementById('cine');if(old)old.remove();
-  const d=Math.round(2000*speed),dr=kind==='dragon',W=dr?null:WIZ[x],name=dr?(CARDS[x]?CARDS[x].n+'!':''):(W?W.un:'');
+  const d=Math.round(3000*speed),dr=kind==='dragon',W=dr?null:WIZ[x],name=dr?(CARDS[x]?CARDS[x].n+'!':''):(W?W.un:'');
   const el=document.createElement('div');el.id='cine';el.className=dr?'drag':'ult';el.style.setProperty('--d',d+'ms');el.setAttribute('aria-live','polite');
   el.innerHTML=`<div class="ct">${esc(name)}</div><div class="ci ${dr?'ci-'+x:'ci-ult_'+x}" role="img" aria-label="${esc(name)}"></div>${dr?'':`<div class="cw">${esc(W?W.n:'')}</div>`}`;
   if(RM())el.querySelector('.ci').style.animation='none';document.body.appendChild(el);SFX.play(dr?'roar':'woosh');setTimeout(()=>el.remove(),d+60);}
@@ -4368,7 +4369,8 @@ function manual(from,pg){const n=MANUAL.length;if(!n)return;const i=Math.max(0,M
 function manTurn(d){const sh=$('#sheet .manual');if(!sh)return false;const i=(+OPT.manP||0)+d;if(i<0||i>=MANUAL.length)return true;manual(null,i);return true;}
 {let sx=null,sy=0;document.addEventListener('pointerdown',e=>{if(e.target.closest&&e.target.closest('.manpage')){sx=e.clientX;sy=e.clientY;}else sx=null;},true);
  document.addEventListener('pointerup',e=>{if(sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(!manual.zoom&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){manual.swiped=performance.now()+400;manTurn(dx<0?1:-1);}},true);}   // swipe to turn pages
-function menu(){openOv(`<h2>Menu</h2><p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
+function sndRow(from){const v=Math.round(100*(+(OPT.vol??0.5)));return `<div class="sndrow"><button class="btn ${OPT.muted?'':'alt'}" data-a="mutetog" data-from="${from}" aria-pressed="${!!OPT.muted}">${OPT.muted?'🔇 Muted':'🔊 Mute'}</button><label class="volsl${OPT.muted?' off':''}">Volume <input type="range" min="0" max="100" step="5" value="${v}" data-a="volslide" aria-label="Volume"> <span id="volpct">${v}%</span></label></div>`;}
+function menu(){openOv(`<h2>Menu</h2><p>Sound</p>${sndRow('menu')}<p>Animation speed</p><div class="acts" style="justify-content:flex-start">${[['Relaxed',1.4],['Normal',1],['Fast',.45]].map(([n,v])=>`<button class="btn ${speed===v?'':'alt'}" data-a="speed" data-v="${v}">${n}</button>`).join('')}</div>
 <p>Layout</p><div class="acts" style="justify-content:flex-start"><button class="btn ${$('#app').classList.contains('phone')?'':'alt'}" data-a="phone">Phone view ${$('#app').classList.contains('phone')?'on':'off'}</button><button class="btn alt" data-a="rules">Rules</button><button class="btn alt" data-a="manual" data-from="menu">Rulebook</button></div>
 <div class="acts">${S&&S.online||ONL.on?'<button class="btn alt" data-a="olexit">Leave online match</button>':'<button class="btn alt" data-a="totitle">Save &amp; quit to title</button><button class="btn alt" data-a="resign1">Resign &amp; quit</button>'}<button class="btn alt" data-a="report">Report a problem</button><button class="btn alt" data-a="t_lib">Card Library</button><button class="btn alt" data-a="close">Close</button></div>`);}
 const TROPHY='<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v10c0 10-6 17-14 18-8-1-14-8-14-18z" fill="currentColor"/><path d="M18 12H8c0 9 5 14 11 15M46 12h10c0 9-5 14-11 15" fill="none" stroke="currentColor" stroke-width="4"/><rect x="28" y="36" width="8" height="10" fill="currentColor"/><rect x="19" y="46" width="26" height="8" rx="2" fill="currentColor"/></svg>';
@@ -4450,7 +4452,7 @@ document.addEventListener('click',e=>{
   if(a==='stab'){statsTab=b.dataset.v;statsSheet();return;}
   if(a==='sdiff'){statsDiff=b.dataset.v;statsSheet();return;}
   if(a==='setdiff'){if(OPT.tour&&loadProf().tour)return;if(OPT.mode==='coop'||((OPT.mode||'duel')==='duel'&&pickSel.opp==='robot'&&!rnd.opp&&!OPT.tour))OPT.rbdiff=b.dataset.v;else OPT.diff=b.dataset.v;saveOpt();drawSelect();return;}
-  if(a==='mutetog'){OPT.muted=!OPT.muted;saveOpt();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}optionsSheet();return;}
+  if(a==='mutetog'){OPT.muted=!OPT.muted;saveOpt();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}if(b.dataset.from==='menu')menu();else optionsSheet();return;}
   if(a==='opt'){OPT[b.dataset.k]=(b.dataset.k==='speed'||b.dataset.k==='vol')?+b.dataset.v:b.dataset.v;if(b.dataset.k==='vol'){SFX.init();setTimeout(()=>SFX.play('shard'),30);}saveOpt();applyOpt();optionsSheet();return;}
   if(a==='optphone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));settle();optionsSheet();return;}
   if(a==='reset1'){optionsSheet(true);return;}
@@ -5060,7 +5062,7 @@ function optionsSheet(confirmReset){
   openOv(`<h2>Options</h2><div class="rules">
   <h3>Animation speed</h3>${seg('speed',[[1.4,'Relaxed'],[1,'Normal'],[0.45,'Fast']])}
   <h3>Theme</h3>${seg('theme',[['auto','Match device'],['light','Light'],['dark','Dark']])}
-  <h3>Sound</h3><div class="sndrow"><button class="btn ${OPT.muted?'':'alt'}" data-a="mutetog" aria-pressed="${!!OPT.muted}">${OPT.muted?'🔇 Muted':'🔊 Mute'}</button><label class="volsl${OPT.muted?' off':''}">Volume <input type="range" min="0" max="100" step="5" value="${Math.round(100*(+(OPT.vol??0.5)))}" data-a="volslide" aria-label="Volume"> <span id="volpct">${Math.round(100*(+(OPT.vol??0.5)))}%</span></label></div>
+  <h3>Sound</h3>${sndRow('opts')}
   <h3>Colorblind mode</h3>${seg('cb',[['off','Off'],['on','On']])}<p class="lbl" style="text-align:left">Adds a ▲ Fire, ● Water, ■ Earth tag to every card.</p>
   <h3>CPU difficulty</h3>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard'],['expert','Expert']])}
   <h3>Animations</h3>${seg('motion',[['full','Full'],['reduced','Reduced']])}
