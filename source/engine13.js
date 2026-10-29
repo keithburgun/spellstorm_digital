@@ -69,3 +69,11 @@ evalAI = function (S, p) {
   let dealt = 0; for (const q of S.pl.keys()) if (q !== p) dealt += S.pl[q].max - S.pl[q].hp;
   return v + AGGRO.dmgW * dealt;
 };
+
+// ---------- ceiling test: smarter players inside the play-outs (A/B flag 'Q') ----------
+// The quick player picks its card by a value-plus-noise rule. Here it instead simulates the round for each card against a few
+// guesses of the opponent's card (Normal's method, few samples). Slower; used to measure how much better play-outs would help.
+const SMARTRO = { samples: 3 };
+const smartFor = (S, p) => S.rollSmart === true || (S.rollSmart && S.rollSmart[p]);
+const _rollDecide13 = ROLL_IO.decide;
+ROLL_IO.decide = (g, p, req) => req.k === 'play' && g.S.rollSmart && smartFor(g.S, p) ? choosePlay(g.S, p, SMARTRO.samples) : _rollDecide13(g, p, req);

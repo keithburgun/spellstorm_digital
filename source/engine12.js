@@ -43,7 +43,7 @@ async function rolloutGain(g0, p, req) {
       k => { Math.random = seededRNG(seed0 + k * 7919); const base = structuredClone(S0); determinize(base, p); return { base, fut: seed0 + k * 7919 + 1 }; },
       async (i, { base, fut }) => {
         Math.random = seededRNG(fut);                                // same future for every option
-        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
+        const S = structuredClone(base), g = new Game(S, ROLL_IO), slot = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true; if (verHas(S0, p, 'Q')) S.rollSmart = true;
         try {
           const c = S.cloud[slot]; S.cloud[slot] = null; g.refill(slot); S.pl[p].hand.push(c);
           const ord = g.order(), at = ord.indexOf(p);
@@ -184,7 +184,7 @@ async function rolloutMid(g0, p, req, opts, force, K) {
       k => { Math.random = seededRNG(seed0 + k * 7919); const base = structuredClone(F); determinize(base, p); return { base, fut: seed0 + k * 7919 + 1 }; },
       async (i, { base, fut }) => {
         Math.random = seededRNG(fut);
-        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true;
+        const S = structuredClone(base), seenN = {}, forced = opts[i]; if (verHas(S0, p, 't')) S.rollTuned = true; if (DRAFTV.on || verHas(S0, p, 'd')) S.rollDraft = true; if (verHas(S0, p, 'e') && DRAFTV.alt) S.rollDraft = 2; if (PLAYV.on || verHas(S0, p, 'f')) S.rollPlay = true; if (verHas(S0, p, 'Q')) S.rollSmart = true;
         const io = { sim: true, log() { }, render() { }, pause() { return Promise.resolve(); },
           decide: (g, q, r) => {
             const n = seenN[q] = (seenN[q] || 0) + 1, mine = L.filter(e => e[0] === q);
