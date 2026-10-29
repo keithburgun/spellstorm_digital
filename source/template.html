@@ -1550,10 +1550,12 @@ function openPick(){
 }
 function showPile(p,z){
   const P=S.pl[p];const who=p?WIZ[P.wiz].short+'’s':'Your';
-  if(z==='deck'){openOv(`<h2>${who} deck</h2><p>${P.deck.length} cards, face-down. Cards in a deck stay hidden until drawn.</p><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(z==='deck'&&p!==0){openOv(`<h2>${who} deck</h2><p>${P.deck.length} cards, face-down. Cards in a deck stay hidden until drawn.</p><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);return;}
+  if(z==='deck'){const EO={F:0,E:1,W:2};const sorted=P.deck.slice().sort((a,b)=>{const x=CARDS[a.id],y=CARDS[b.id];return (!!x.junk-!!y.junk)||(EO[x.el]-EO[y.el])||((x.t||0)-(y.t||0))||x.n.localeCompare(y.n);});   // your deck's contents are known; only the draw order is hidden
+    showList(`Your deck (${P.deck.length})`,sorted,'(order not shown)');return;}
   showList(`${who} discard pile`,P.discard);
 }
-function showList(t,list){openOv(`<h2>${esc(t)}</h2>${list.length?`<div class="grid">${list.map((c,i)=>card(c,'',`data-a="zoomc" data-u="${c.u}"`)).join('')}</div>`:'<p>Empty.</p>'}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
+function showList(t,list,note){openOv(`<h2>${esc(t)}</h2>${list.length?`<div class="grid">${list.map((c,i)=>card(c,'',`data-a="zoomc" data-u="${c.u}"`)).join('')}</div>`:'<p>Empty.</p>'}${note&&list.length?`<p class="lbl" style="text-align:center;margin-top:8px">${esc(note)}</p>`:''}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
   showList.cur=list;}
 function wizCard(w){const W=WIZ[w];openOv(`<div class="bigwiz ci-wz_${w}" role="img" aria-label="${esc(W.n)}"></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
 function rules(){openOv(`<div class="rules"><h2>How a game goes</h2><p class="manlink">This is the short version. <button class="qlink" data-a="manual" data-from="rules">Read the full rulebook</button></p>
@@ -2100,6 +2102,7 @@ A('ultx3','Showstopper','Use your Ultimate 3 times in one match.',(P,G)=>G.ults>
 A('tier2','Rising Power','Reach Tier II.',(P,G)=>G.tier>=2);
 A('tier3','Peak Power','Reach Tier III.',(P,G)=>G.tier>=3);
 A('dragon','Dragon Tamer','Gain a Dragon.',(P,G)=>G.dragons>=1);
+A('dragonlord','Dragon Lord','Gain all five Dragons in one match.',(P,G)=>G.dragons>=DRAGON_IDS.length);
 A('shopper','Storm Shopper','Gain 10 cards from the Storm Cloud in one match.',(P,G)=>G.gains>=10);
 A('saboteur','Saboteur','Give your opponent 5 ICE, ASH or CURSE in one match.',(P,G)=>G.give>=5);
 A('unplayable','Against the Odds','Win a match in which you had an unplayable hand.',(P,G)=>G.won&&G.unplayable);
