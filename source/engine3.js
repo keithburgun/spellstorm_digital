@@ -29,6 +29,29 @@ Game.prototype.ev = function (t, p, x) { if (!this.io.sim && this.io.ev) this.io
 
 // ---------- Blast ceremony helpers ----------
 // discard-effect order: ICE, ASH, CURSE, self-damaging cards, positive Earth cards, other positive cards
+// Discard effects at the end of a battle can go in any order. When the order matters (ASH before the Earth cards that give
+// Power when you have none; damage before healing unless the damage would be fatal...), try each order on a copy of the game
+// and use the best one for that player. Ties keep the usual order. (Real games only; the AI's quick simulations skip this.)
+async function discOrder(g, p, cards) {
+  if (g.io.sim || cards.length < 2 || cards.length > 6 || new Set(cards.map(c => c.id)).size < 2) return cards;
+  const perms = [], seen = new Set();
+  const walk = (left, acc) => { if (!left.length) { const k = acc.map(c => c.id).join(','); if (!seen.has(k)) { seen.add(k); perms.push(acc); } return; }
+    for (let i = 0; i < left.length; i++) walk([...left.slice(0, i), ...left.slice(i + 1)], [...acc, left[i]]); };
+  walk(cards, []);
+  const prev = Math.random; let best = cards, bestV = -Infinity;
+  try {
+    for (const order of perms) {
+      Math.random = seededRNG(4242);                                  // a private random stream: the real game's stays untouched
+      const S2 = structuredClone(g.S), g2 = new Game(S2, SIM_IO), P2 = S2.pl[p]; P2.blastMod = 0;
+      try { for (const c of order) { const cc = P2.hand.find(x => x.u === c.u); if (cc) await g2.discardFrom(p, cc, 'hand', { regroup: true }); } }
+      catch (e) { if (!(e instanceof GameOver)) throw e; }
+      let v = S2.over ? (S2.over.winner === p ? 1e9 : -1e9) : scoreP(S2, p) + 10 * P2.blastMod;
+      if (!S2.over) for (const q of S2.pl.keys()) if (q !== p && !S2.pl[q].out) v -= scoreP(S2, q) / Math.max(1, S2.pl.length - 1);
+      if (v > bestV + 1e-9) { bestV = v; best = order; }                // the usual order is tried first, so a tie keeps it
+    }
+  } finally { Math.random = prev; }
+  return best;
+}
 function blastRank(id) { return ({ ice: 0, ash: 1, curse: 2, meteor: 2.5, heart: 2.5, manafont: 2.5 })[id] ?? (CARDS[id].el === 'E' ? 3 : 4); }
 const DISC_TEXT = { pgem: '+1 Power', essE: '+1 Power', twopow: '+2 Power', opal: '+2 Power', diamond: '+1 Power', spirit: '+1 Power', amber: '+1 Power', shatter: '+1 Power',
   quake: '+1 Power', threepow: '+2 Power', meteor: 'Take 1 Damage!', blood: '+1 Mana', heart: 'Take 1 Damage!', manafont: 'Take 1 Damage!', moon: 'Heal 2', step: 'Gain Initiative',
@@ -135,7 +158,7 @@ Game.prototype.regroup = async function () {
   await bp(1300);
   for (const p of [...[...S.pl.keys()].filter(q => q !== 0), 0].filter(q => !S.pl[q].out)) {
     const P = S.pl[p]; P.blastMod = 0; B.turn = p; B.stage = 'disc';
-    for (const c of P.hand.filter(c => CARDS[c.id].disc).sort((a, b) => blastRank(a.id) - blastRank(b.id))) {
+    for (const c of await discOrder(this, p, P.hand.filter(c => CARDS[c.id].disc).sort((a, b) => blastRank(a.id) - blastRank(b.id)))) {
       if (!P.hand.includes(c)) continue;
       const e = B.cards[p].find(x => x.u === c.u);                       // flip, resolve and show its text at the same moment
       const a0 = snapP(S, p);

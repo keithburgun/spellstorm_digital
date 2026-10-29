@@ -342,11 +342,12 @@ class Game {
     const WT = (typeof wizInfo === 'function' ? wizInfo(P.wiz, this.S.ed) : W).ut;   // the text of the edition being played
     const ok = await this.decide(p, { k: 'yn', ult: 1, free: !!free, cpu: true, q: free ? `Use ${W.un} without paying mana? (${WT})` : `Use ${W.un} for ${W.cost} mana? (${WT})` });
     if (!ok) return; if (!free) P.mana -= W.cost;
-    this.log(`${this.nm(p)} ${p === 0 ? 'unleash' : 'unleashes'} ${W.un.replace(/!+$/, '')}!`, 'big'); if (!this.io.sim && this.io.fx) this.io.fx('ult', p); await this.pause(500);
+    this.log(`${this.nm(p)} ${p === 0 ? 'unleash' : 'unleashes'} ${W.un.replace(/!+$/, '')}!`, 'big'); if (!this.io.sim && this.io.fx) { this.io.fx('ult', p); this.io.fx('ultcine', p, P.wiz); await this.pause(2000); } else await this.pause(500);   // a moment of drama: the Ultimate's art and name, then it resolves
     await W.ult(this, p);
   }
   async resolve(p, c, how) {
     const d = CARDS[c.id]; const x = { how, dest: null };
+    if (d.drag && !this.io.sim && this.io.fx) { this.io.fx('dragon', p, c.id); await this.pause(2000); }   // the Dragon's card close up, its name and a roar, then it resolves
     if (d.junk) { this.log(`${d.n} can’t be played — nothing happens.`); return x; }
     if (this.S.wcur === 'glitter' && d.el === 'E') { this.log(`Glittering Dust: ${d.n} does nothing but heal 2.`); await this.heal(p, 2); return x; }
     await d.fx(this, p, x); if (d.ult) await this.offerUlt(p, false);

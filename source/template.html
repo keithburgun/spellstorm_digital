@@ -151,6 +151,16 @@ h1,h2,.disp{font-family:'Corporata','Arial Rounded MT Bold','Trebuchet MS',sans-
 .bigwiz{width:min(84vw,62vh*0.652,440px);aspect-ratio:560/859;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
 .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .goacts{margin:2px 0 10px}
+#cine{position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(circle,rgba(18,9,36,.8),rgba(4,2,10,.94));pointer-events:none;animation:cineFade var(--d) ease both}
+#cine .ct{position:absolute;top:max(4vh,14px);left:12px;right:12px;text-align:center;font-size:clamp(1.7rem,5.5vw,3.4rem);font-weight:800;color:#fff;letter-spacing:.02em;text-shadow:0 2px 14px #000,0 0 30px var(--cg)}
+#cine .ci{width:min(62vmin,520px);aspect-ratio:1;background-size:cover;background-position:center;border-radius:18px;box-shadow:0 12px 60px rgba(0,0,0,.7),0 0 46px var(--cg);animation:cineZoom var(--d) ease-out both}
+#cine.drag .ci{width:min(50vmin,400px);aspect-ratio:5/7;border-radius:14px}
+#cine .cw{color:#fff;font-weight:700;opacity:.85;text-shadow:0 2px 8px #000}
+#cine.ult{--cg:rgba(170,120,255,.75)}#cine.drag{--cg:rgba(255,140,60,.8)}
+@keyframes cineFade{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
+@keyframes cineZoom{0%{transform:scale(.82)}100%{transform:scale(1.04)}}
+@media (prefers-reduced-motion:reduce){#cine .ci{animation:none}}
+
 .medals{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
 .mcard{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:var(--card,transparent)}
 .mhead{display:flex;align-items:center;gap:8px;margin-bottom:6px}.mhead b{display:block}.mhead small{color:var(--muted)}
@@ -1068,7 +1078,7 @@ const SFX={ctx:null,vol(){return OPT.muted?0:+(OPT.vol??0.5)},
  noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(sfxRand()*2-1)*Math.pow(1-i/n,2);
   const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
  // how long each sound rings (seconds): a sound can't start again while it is still playing
- DUR:{card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,nav:.035,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
+ DUR:{woosh:.8,roar:1.2,card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,nav:.035,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
  seq(k,n,gap){const g=Math.max(gap,((this.DUR[k]||.25)*1000)+30);for(let i=0;i<n;i++)setTimeout(()=>this.play(k),i*g);},
  play(k){if(!this.ctx||this.vol()<=0||this.mute)return;const now=performance.now();if((this.busy[k]||0)>now)return;this.busy[k]=now+(this.DUR[k]||.25)*1000;try{switch(k){
   case 'card':this.noise(.07,.35,0,1500,7000);break;
@@ -1086,6 +1096,8 @@ const SFX={ctx:null,vol(){return OPT.muted?0:+(OPT.vol??0.5)},
   case 'nav':this.tone(1500,.03,'sine',.022);break;   // controller highlight moves
   case 'newbattle':this.noise(.5,.16,0,300,4000);this.tone(220,.5,'sawtooth',.045,0,440);break;
   case 'ult':this.tone(440,.35,'sawtooth',.05,0,880);this.tone(660,.35,'triangle',.05,.05,1320);break;
+  case 'woosh':this.noise(.55,.22,0,500,2500);this.noise(.7,.16,.12,2500,9000);this.tone(180,.7,'sawtooth',.03,0,1400);this.tone(360,.6,'triangle',.035,.08,2200);break;   // rising synth sweep
+  case 'roar':this.tone(95,1.1,'sawtooth',.09,0,48);this.tone(142,1,'square',.035,.03,70);this.tone(71,1.2,'sawtooth',.07,.05,38);this.noise(1.1,.22,0,60,700);this.noise(.5,.12,.05,700,2600);break;   // low, growling synth roar
   case 'win':[523,659,784,1047].forEach((f,i)=>this.tone(f,.26,'triangle',.09,i*.11));break;
   case 'lose':[392,330,262].forEach((f,i)=>this.tone(f,.3,'triangle',.09,i*.15));break;}}catch(e){}}};
 document.addEventListener('pointerdown',()=>SFX.init());document.addEventListener('keydown',()=>SFX.init());
@@ -1234,7 +1246,7 @@ function onlGuestState(st){if(!ONL.on||ONL.role!=='guest')return;ONL.state=st;if
   S=st.view;const newLogs=st.logs||[];
   if(newLogs.length&&ONL.logN&&newLogs.length>=ONL.logN){for(const l of newLogs.slice(Math.max(0,newLogs.length-(newLogs.length-ONL.logN))).slice(-3))if((l.c==='big'||l.c==='shard')&&!S.blast)toast(l.m);}
   ONL.logN=newLogs.length;logs=newLogs;renderLog();
-  for(const e of st.fx||[])if(e.n>ONL.lastFx){ONL.lastFx=e.n;fx(e.t,typeof e.p==='number'?1-e.p:e.p);}
+  for(const e of st.fx||[])if(e.n>ONL.lastFx){ONL.lastFx=e.n;fx(e.t,typeof e.p==='number'?1-e.p:e.p,e.x);}
   if(st.req&&st.req.id!==ONL.answered){if(!pending||pending.req.id!==st.req.id){pending={req:st.req,res:v=>onlAnswer(st.req.id,v)};sel=[];if(st.req.k==='pick')openPick();else if(st.req.k==='opt'&&st.req.opts&&st.req.opts.length>3)optSheet(st.req);}}
   else if(pending&&(!st.req||st.req.id===ONL.answered))pending=null;
   thinking=!st.req&&st.status==='playing';render();onlBar();
@@ -1471,7 +1483,13 @@ function renderLog(){
 let toastT;
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),1500*speed);}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms*speed));
-function fx(t,p){if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+// Ultimates and Dragons get a moment of drama: art close up, the name across the top, a sound; the game waits meanwhile.
+function cinema(kind,x){const old=document.getElementById('cine');if(old)old.remove();
+  const d=Math.round(2000*speed),dr=kind==='dragon',W=dr?null:WIZ[x],name=dr?(CARDS[x]?CARDS[x].n+'!':''):(W?W.un:'');
+  const el=document.createElement('div');el.id='cine';el.className=dr?'drag':'ult';el.style.setProperty('--d',d+'ms');el.setAttribute('aria-live','polite');
+  el.innerHTML=`<div class="ct">${esc(name)}</div><div class="ci ${dr?'ci-'+x:'ci-ult_'+x}" role="img" aria-label="${esc(name)}"></div>${dr?'':`<div class="cw">${esc(W?W.n:'')}</div>`}`;
+  if(RM())el.querySelector('.ci').style.animation='none';document.body.appendChild(el);SFX.play(dr?'roar':'woosh');setTimeout(()=>el.remove(),d+60);}
+function fx(t,p,x){if(t==='ultcine'||t==='dragon'){if(!(RPLAY&&RPLAY.ff))cinema(t,x);if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t,p,x});return;}if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
