@@ -337,7 +337,7 @@ body.ceremony #prompt.ask{position:relative;z-index:36}
 .slogo span{display:block;width:100%;height:100%;background-position:center;background-size:contain;background-repeat:no-repeat}
 .nbt,.btitle{font-family:'Corporata','Arial Rounded MT Bold',sans-serif!important;font-weight:700!important;letter-spacing:.02em}
 /* ---------- phones held sideways: short landscape layout ---------- */
-@media (orientation:landscape) and (max-height:600px){
+@media (orientation:landscape) and (max-height:500px){
   #app:not(.phone){grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)!important;grid-template-rows:auto auto minmax(0,1fr) auto!important;
     grid-template-areas:"opp cloud" "me arena" "prompt arena" "hand hand"!important;--cw:min(6.2vw,13vh);--cw:min(6.2vw,13svh);gap:5px!important}
   #app:not(.phone) #logwrap{display:none!important}
@@ -393,7 +393,7 @@ body.ceremony #prompt.ask{position:relative;z-index:36}
 .ptag{font-size:.72rem;font-weight:700;padding:1px 6px;border-radius:999px;background:var(--panel2)}.ptag.ok{color:#1f9a57}.ptag.no{color:var(--hp)}
 .ptwice{display:block;margin-top:2px;font-size:.8rem;font-weight:900;color:var(--accent);text-align:center}
 .pres{margin-top:8px;font-size:.95rem}.pres p{margin:.2em 0}.pres .bad{color:var(--hp);font-weight:700}
-@media (orientation:landscape) and (max-height:600px){.ppanel{--pw:min(9vw,15vh);display:block}.psub{display:none}}
+@media (orientation:landscape) and (max-height:500px){.ppanel{--pw:min(9vw,15vh);display:block}.psub{display:none}}
 /* version stamp */
 #ver{position:fixed;left:max(6px,env(safe-area-inset-left,0px));bottom:max(2px,env(safe-area-inset-bottom,0px));z-index:30;font-size:10px;color:#a99fcb;opacity:.75;pointer-events:none;letter-spacing:.02em}
 /* tournament */
@@ -430,7 +430,7 @@ body.ceremony #prompt.ask{position:relative;z-index:36}
 #prompt .q small.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 #prompt{max-height:34svh;overflow:hidden}
 @media (orientation:portrait) and (max-height:800px){#prompt .q small.clamp{-webkit-line-clamp:1}#app:not(.phone){gap:5px!important}.hearts{--hs:10px}.pp{padding:4px 8px}#prompt{padding:5px 10px}.crow{gap:4px}}
-@media (orientation:landscape) and (max-height:600px){
+@media (orientation:landscape) and (max-height:500px){
   #app:not(.phone){grid-template-areas:"opp cloud" "me arena" "prompt prompt" "hand hand"!important;grid-template-rows:auto auto auto auto!important}
   #app:not(.phone) #hand .card{--cw:min(6.4vw,14.5vh)}
   .pinfo .stats,.pinfo .piles{display:inline-flex;vertical-align:middle;margin:0 6px 0 0}
@@ -471,7 +471,7 @@ body.cb .won{outline:3px dashed #fff;outline-offset:3px}
   filter:drop-shadow(0 8px 22px rgba(0,0,0,.5));animation:rise .7s ease-out both}
 #title .tmenu{flex:none}
 .tbtn small{display:block;font-size:.58em;font-weight:700;opacity:.8;margin-top:1px;letter-spacing:0}
-@media (orientation:landscape) and (max-height:600px){
+@media (orientation:landscape) and (max-height:500px){
   #title{flex-direction:row!important;justify-content:space-around!important;padding:12px max(5vw,env(safe-area-inset-right,0px)) 12px max(5vw,env(safe-area-inset-left,0px))!important}
   #title .hero::after{background:linear-gradient(90deg,rgba(14,8,28,.2),rgba(14,8,28,.35) 55%,rgba(14,8,28,.85))!important}
   .tlogo{flex:1 1 0;height:72vh;max-height:none;width:auto;max-width:58vw;margin:0 3vw 0 0}
@@ -713,7 +713,7 @@ body.pad :focus-visible:not(.padf){outline:none!important}
 body.pad .padf{outline:3px solid #fff!important;outline-offset:3px;box-shadow:0 0 0 7px #2fc8ff,0 0 26px 8px rgba(47,200,255,.7)!important;z-index:5}
 body.pad #hand .card.padf{translate:0 -16px;z-index:60!important}
 body.pad #cloud .card.padf{translate:0 -6px}
-body.pad .tbtn.padf{border-color:#fff;background:rgba(40,24,74,.85)}
+body.pad .tbtn.padf:not(.primary){border-color:#fff;background:rgba(40,24,74,.85)}body.pad .tbtn.primary.padf{border-color:#fff}
 body.pad label.padf{border-radius:6px;outline-offset:1px;box-shadow:0 0 0 4px #2fc8ff,0 0 14px 4px rgba(47,200,255,.6)!important}
 #padhint{position:fixed;right:10px;bottom:8px;z-index:90;display:none;gap:14px;align-items:center;padding:5px 14px;border-radius:999px;background:rgba(18,11,32,.82);color:#fff;font-size:13px;font-weight:700;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
 #padhint.show{display:flex}
@@ -1523,7 +1523,7 @@ function answer(v){const p=pending;pending=null;captureSheet(v);closeOv();render
 // ---------- overlays ----------
 // the win/loss screen, kept so Menu can bring it back after 'View board'
 let ENDOV=null;function openEnd(h){ENDOV=h;openOv(h);}
-function openOv(h){$('#sheet').classList.remove('wide');setH($('#sheet'),h);$('#ov').classList.add('show');const b=$('#sheet button');if(b)b.focus();}
+function openOv(h){$('#sheet').classList.remove('wide');setH($('#sheet'),h);$('#ov').classList.add('show');const b=$('#sheet button');if(b)try{b.focus({preventScroll:true});}catch(e){b.focus();}$('#sheet').scrollTop=0;}   // start at the top (focusing a button low down used to scroll the title out of view)
 let OVBACK=null;   // where closing the current sheet should return to (e.g. the Card Library)
 function closeOv(){if(OVBACK){const f=OVBACK;OVBACK=null;f();return;}$('#ov').classList.remove('show');$('#sheet')._h=null;if(LIB.open){LIB.open=false;setEdClass(OPT.ed1?1:2);}}
 // ---------- icon explanations on the zoomed card ----------

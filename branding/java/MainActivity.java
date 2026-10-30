@@ -1,6 +1,9 @@
 package com.spellstorm.game;
 
 import android.os.Bundle;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -24,6 +27,23 @@ public class MainActivity extends BridgeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         registerPlugin(UpdaterPlugin.class);   // in-app updates (see UpdaterPlugin.java)
         super.onCreate(savedInstanceState);
+        immersive();
+    }
+
+    /** Full screen: hide the status bar and navigation bar (a swipe from the edge shows them for a moment), and use the whole
+     *  display. Re-applied whenever the game comes back into focus. */
+    private void immersive() {
+        try {
+            WindowInsetsControllerCompat c = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+            c.hide(WindowInsetsCompat.Type.systemBars());
+            c.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        } catch (Exception ignored) { }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) immersive();
     }
 
     private static boolean isController(InputDevice d, int eventSource) {
