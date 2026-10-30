@@ -695,6 +695,8 @@ body.rm *{animation:none!important;transition:none!important}
 .updbar{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin:6px 0}
 .updbar span{display:block;height:100%;background:var(--bolt);transition:width .2s}
 #updbanner .btn{margin-left:8px}
+.tbtn.updtbtn{background:linear-gradient(#5fd38a,#2f9e5c);color:#062612;border-color:#9ff0bd;animation:updpulse 2.2s ease-in-out infinite}.tbtn.updtbtn:disabled{animation:none;opacity:.9}
+@keyframes updpulse{0%,100%{box-shadow:0 0 0 0 rgba(95,211,138,.0)}50%{box-shadow:0 0 0 6px rgba(95,211,138,.35)}}
 /* ---------- rulebook viewer ---------- */
 #sheet.mansheet{max-width:min(96vw,940px)}
 .manual h2{margin-bottom:4px}
@@ -713,7 +715,7 @@ body.pad :focus-visible:not(.padf){outline:none!important}
 body.pad .padf{outline:3px solid #fff!important;outline-offset:3px;box-shadow:0 0 0 7px #2fc8ff,0 0 26px 8px rgba(47,200,255,.7)!important;z-index:5}
 body.pad #hand .card.padf{translate:0 -16px;z-index:60!important}
 body.pad #cloud .card.padf{translate:0 -6px}
-body.pad .tbtn.padf:not(.primary){border-color:#fff;background:rgba(40,24,74,.85)}body.pad .tbtn.primary.padf{border-color:#fff}
+body.pad .tbtn.padf:not(.primary):not(.updtbtn){border-color:#fff;background:rgba(40,24,74,.85)}body.pad .tbtn.primary.padf,body.pad .tbtn.updtbtn.padf{border-color:#fff}
 body.pad label.padf{border-radius:6px;outline-offset:1px;box-shadow:0 0 0 4px #2fc8ff,0 0 14px 4px rgba(47,200,255,.6)!important}
 #padhint{position:fixed;right:10px;bottom:8px;z-index:90;display:none;gap:14px;align-items:center;padding:5px 14px;border-radius:999px;background:rgba(18,11,32,.82);color:#fff;font-size:13px;font-weight:700;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
 #padhint.show{display:flex}
@@ -750,7 +752,7 @@ body.pad #start{padding-bottom:64px}
 <div id="potov" aria-live="polite"></div>
 <div id="nb" aria-hidden="true"><div class="nbt">NEW BATTLE!</div><div class="nbs"></div></div>
 <div id="title"><div class="hero ci-hero2" aria-hidden="true"></div><div class="tlogo ci-logo" role="img" aria-label="Spellstorm"></div>
-  <div id="lobbybanner" class="lobbybanner" hidden></div><div id="updbanner" class="lobbybanner" hidden></div><nav class="tmenu" aria-label="Main menu"><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_online" id="onlbtn">Play Online</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
+  <div id="lobbybanner" class="lobbybanner" hidden></div><div id="updbanner" class="lobbybanner" hidden></div><nav class="tmenu" aria-label="Main menu"><button class="tbtn updtbtn" data-a="updgo" id="updbtn" hidden>Update Available!</button><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_online" id="onlbtn">Play Online</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
   <p class="fine">Duel CPU wizards in the storm.</p></div>
 <div id="start">
   <h1 class="slogo"><span class="ci-logo" role="img" aria-label="Spellstorm"></span></h1>
@@ -2326,7 +2328,7 @@ function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&
 function teardown(){unseedRandom();speed=OPT.speed||1;if(RPLAY){speed=RPLAY.speed0;RPLAY=null;}SFX.mute=false;{const rb=document.getElementById('rpbar');if(rb)rb.classList.remove('show');}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
-function showTitle(){setEdClass(OPT.ed1?1:2);gameId++;teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
+function showTitle(){setEdClass(OPT.ed1?1:2);gameId++;try{UPD.titleCheck();}catch(e){}teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
 function exitGame(){try{window.close();}catch(e){}setTimeout(()=>openOv(`<h2>Thanks for playing!</h2><p>A browser tab can’t be closed by the page itself, so close this tab whenever you like. In the desktop and phone apps, Exit will quit the game.</p><div class="acts"><button class="btn" data-a="close">Back to title</button></div>`),300);}
 const APP_VERSION='__APP_VERSION__';
 function setVer(v){const e=document.getElementById('ver');if(e)e.textContent=v;}
@@ -2362,7 +2364,7 @@ const UPD=(()=>{
       S.state=S.asset&&newer(vn(S.latest),vn(S.cur))?'available':'current';}
     catch(e){S.state=quiet?'idle':'error';S.err='Couldn’t check for updates. Check your internet connection and try again.';}
     OPT.updChk=Date.now();try{saveOpt();}catch(e){}
-    redraw();if(quiet&&S.state==='available')toast(`Spellstorm ${S.latest} is available.`);}
+    redraw();}
   async function go(){if(!S.asset||S.state==='downloading')return;S.state='downloading';S.pct=0;S.err='';redraw();
     try{if(S.kind==='android'){const P=Capacitor.Plugins.SpellstormUpdater;const h=await P.addListener('progress',x=>{S.pct=x.pct;redraw();});
         try{await P.downloadAndInstall({url:S.asset});}finally{try{h.remove();}catch(e){}}S.state='installing';}
@@ -2380,9 +2382,13 @@ const UPD=(()=>{
     else b=`<p>You have version ${esc(S.cur)}.</p>${btn('updchk','Check for updates')}`;
     return `<div id="updbox"><h3>Updates</h3>${b}</div>`;}
   function redraw(){const b=document.getElementById('updbox');if(b)b.outerHTML=box();
-    const t=document.getElementById('updbanner');if(t){const on=S.state==='available';t.hidden=!on;if(on)t.innerHTML=`<b>Spellstorm ${esc(S.latest)}</b> is available. <button class="btn sm" data-a="updgo">Update</button>`;}}
-  return {S,init,check,go,box};})();
-UPD.init().then(k=>{if(k&&Date.now()-(+OPT.updChk||0)>20*3600e3)setTimeout(()=>UPD.check(true),5000);});   // a quiet check at most about once a day
+    const ub=document.getElementById('updbtn');if(ub){const on=S.state==='available'||S.state==='downloading'||S.state==='installing'||S.state==='restarting';ub.hidden=!on;
+      ub.disabled=S.state!=='available';ub.textContent=S.state==='downloading'?`Updating… ${S.pct}%`:S.state==='installing'?'Installing…':S.state==='restarting'?'Restarting…':'Update Available!';
+      ub.title=S.latest?`Spellstorm ${S.latest} (you have ${S.cur})`:'';}}
+  // the title screen checks each time it opens (at most every few minutes, to stay within GitHub's limits)
+  function titleCheck(){if(!S.kind||['available','downloading','installing','restarting','checking'].includes(S.state))return;if(Date.now()-(+OPT.updChk||0)<4*60e3&&S.state!=='idle')return;check(true);}
+  return {S,init,check,go,box,titleCheck};})();
+UPD.init().then(k=>{if(k)setTimeout(()=>UPD.titleCheck(),800);});   // check on start (the title screen re-checks whenever it opens)
 applyOpt();showTitle();
 </script>
 <script>
