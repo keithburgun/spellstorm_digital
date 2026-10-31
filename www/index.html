@@ -3862,7 +3862,7 @@ const SFX={ctx:null,vol(){return OPT.muted?0:+(OPT.vol??0.5)},
  noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(sfxRand()*2-1)*Math.pow(1-i/n,2);
   const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
  // how long each sound rings (seconds): a sound can't start again while it is still playing
- DUR:{woosh:.8,roar:1.2,card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,nav:.035,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
+ DUR:{tierup:1.1,woosh:.8,roar:1.2,card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,nav:.035,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
  seq(k,n,gap){const g=Math.max(gap,((this.DUR[k]||.25)*1000)+30);for(let i=0;i<n;i++)setTimeout(()=>this.play(k),i*g);},
  play(k){if(!this.ctx||this.vol()<=0||this.mute)return;const now=performance.now();if((this.busy[k]||0)>now)return;this.busy[k]=now+(this.DUR[k]||.25)*1000;try{switch(k){
   case 'card':this.noise(.07,.35,0,1500,7000);break;
@@ -3880,6 +3880,7 @@ const SFX={ctx:null,vol(){return OPT.muted?0:+(OPT.vol??0.5)},
   case 'nav':this.tone(1500,.03,'sine',.022);break;   // controller highlight moves
   case 'newbattle':this.noise(.5,.16,0,300,4000);this.tone(220,.5,'sawtooth',.045,0,440);break;
   case 'ult':this.tone(440,.35,'sawtooth',.05,0,880);this.tone(660,.35,'triangle',.05,.05,1320);break;
+  case 'tierup':[523,659,784,1047,1319].forEach((f,i)=>{this.tone(f,.5,'sine',.06,i*.09);this.tone(f*2,.35,'triangle',.018,i*.09+.01);});this.tone(262,1,'triangle',.035,0,1047);this.noise(.9,.05,.15,4000,12000);[2093,2637,3136].forEach((f,i)=>this.tone(f,.4,'sine',.025,.5+i*.06));break;   // magical rising arpeggio with a shimmer
   case 'woosh':this.noise(.55,.22,0,500,2500);this.noise(.7,.16,.12,2500,9000);this.tone(180,.7,'sawtooth',.03,0,1400);this.tone(360,.6,'triangle',.035,.08,2200);break;   // rising synth sweep
   case 'roar':this.tone(95,1.1,'sawtooth',.09,0,48);this.tone(142,1,'square',.035,.03,70);this.tone(71,1.2,'sawtooth',.07,.05,38);this.noise(1.1,.22,0,60,700);this.noise(.5,.12,.05,700,2600);break;   // low, growling synth roar
   case 'win':[523,659,784,1047].forEach((f,i)=>this.tone(f,.26,'triangle',.09,i*.11));break;
@@ -4858,7 +4859,7 @@ let LASTBEAT=0;
 setInterval(()=>{const n=performance.now(),d=n-LASTBEAT;LASTBEAT=n;   // count only time the match is on screen and running
   if(TR&&S&&!S.over&&!S.replay&&document.visibilityState==='visible'&&d>0&&d<5000)TR.play=(TR.play||0)+d;},1000);
 document.addEventListener('visibilitychange',()=>{LASTBEAT=performance.now();});
-function track(t,p,x){if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
+function track(t,p,x){if(t==='tier')SFX.play('tierup');if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
   if(t==='dmg'){if(x.t===0)TR.minHp=Math.min(TR.minHp,S.pl[0].hp);if(p===0&&x.t===1){TR.dmg+=x.d;const k=S.battle+'-'+S.round;TR.rd[k]=(TR.rd[k]||0)+x.d;TR.maxRd=Math.max(TR.maxRd,TR.rd[k]);}return;}
   if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);rpBlast(x);return;}
   if(p!==0)return;
