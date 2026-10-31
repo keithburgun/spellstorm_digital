@@ -1446,7 +1446,7 @@ function promptHTML(){
   const el=$('#prompt');el.classList.toggle('ask',!!pending);el.classList.toggle('waiting',!pending);
   if(!pending&&S.pl[0].out&&!S.over)return '<div class="q">You’ve been eliminated. '+(S.team?'Your team plays on…':'The match plays on…')+'</div><button class="btn alt" data-a="totitle">Leave match</button>';
   if(!pending&&S.replay)return `<div class="q">Watching a replay…</div>`;
-  if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?(S.online?`Waiting for ${esc(WIZ[S.pl[1].wiz].short)}…`:`${esc(WIZ[S.pl[1].wiz].short)} is choosing a card…`):esc(last?last.m:'')}</div>`;}
+  if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?(S.online?`Waiting for ${esc(WIZ[S.pl[1].wiz].short)}…`:`<span class="thinkq">${esc(WIZ[S.pl[1].wiz].short)} is thinking<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></span>`):esc(last?last.m:'')}</div>`;}
   const r=pending.req;
   switch(r.k){
     case 'play':return `<div class="q">Choose a card to play face-down.</div>${tipsOn()?'<button class="btn alt tipbtn" data-a="tip">💡 Expert Tip</button>':''}`;
@@ -1502,8 +1502,8 @@ const io={sim:false,
     if(p!==0&&g.S.online)return onlRemoteDecide(g,p,req);
     if(p!==0){
       if(req.k==='play'&&g.S.tutorial&&g.S.battle===1&&g.S.round===1){const bl=g.S.pl[1].hand.find(c=>c.id==='block');if(bl){await sleep(600);SFX.play('card');return bl;}}
-      if(req.k==='play'){thinking=true;render();const [c]=await Promise.all([aiChoosePlay(g.S,p),sleep(700)]);thinking=false;SFX.play('card');return c;}
-      await sleep(350);if(req.k==='yn'&&req.ult)return await ultDecide(g.S,p,req.free);return cpuDecideX(g,p,req);
+      if(req.k==='play'){thinking=true;render();await sleep(30);const [c]=await Promise.all([aiChoosePlay(g.S,p),sleep(670)]);thinking=false;render();SFX.play('card');return c;}
+      thinking=true;render();await sleep(350);try{if(req.k==='yn'&&req.ult)return await ultDecide(g.S,p,req.free);return await cpuDecideX(g,p,req);}finally{thinking=false;render();}
     }
     return new Promise(res=>{pending={req,res};sel=[];render();if(req.k==='pick')openPick();else if(req.trap)trapSheet(0,req);else if(req.k==='opt'&&req.opts.length>3)optSheet(req);else if(req.k==='gain'&&!req.slots.length&&!req.special)answer(-1);});
   }};
