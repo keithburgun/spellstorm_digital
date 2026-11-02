@@ -772,7 +772,7 @@ const ROM=['','I','II','III','IV'];
 const ELC={F:'var(--fire)',W:'var(--water)',E:'var(--earth)'};
 const tk=k=>`<i class="tk ci-tk_${k}"></i>`;
 const IC={hp:tk('hp'),mana:tk('mana'),power:tk('power'),bolt:tk('bolt'),shard:tk('shard')};
-let S=null,G=null,pending=null,logs=[],sel=[],thinking=false,FX={},speed=1,ended=null;
+let S=null,G=null,pending=null,logs=[],sel=[],thinking=false,THINKP=1,FX={},speed=1,ended=null;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function setH(el,h){if(el._h!==h){morph(el,h);el._h=h;}}
 // Update a section in place instead of rebuilding it: elements are matched by card identity (data-u) or position,
@@ -1447,7 +1447,7 @@ function promptHTML(){
   const el=$('#prompt');el.classList.toggle('ask',!!pending);el.classList.toggle('waiting',!pending);
   if(!pending&&S.pl[0].out&&!S.over)return '<div class="q">You’ve been eliminated. '+(S.team?'Your team plays on…':'The match plays on…')+'</div><button class="btn alt" data-a="totitle">Leave match</button>';
   if(!pending&&S.replay)return `<div class="q">Watching a replay…</div>`;
-  if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?(S.online?`Waiting for ${esc(WIZ[S.pl[1].wiz].short)}…`:`<span class="thinkq">${esc(WIZ[S.pl[1].wiz].short)} is thinking<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></span>`):esc(last?last.m:'')}</div>`;}
+  if(!pending){const last=logs[logs.length-1];return `<div class="q">${thinking?(S.online?`Waiting for ${esc(WIZ[S.pl[1].wiz].short)}…`:`<span class="thinkq">${esc(WIZ[(S.pl[THINKP]||S.pl[1]).wiz].short)} is thinking<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></span>`):esc(last?last.m:'')}</div>`;}
   const r=pending.req;
   switch(r.k){
     case 'play':return `<div class="q">Choose a card to play face-down.</div>${tipsOn()?'<button class="btn alt tipbtn" data-a="tip">💡 Expert Tip</button>':''}`;
@@ -1492,7 +1492,7 @@ function cinema(kind,x){const old=document.getElementById('cine');if(old)old.rem
   const el=document.createElement('div');el.id='cine';el.className=dr?'drag':'ult';el.style.setProperty('--d',d+'ms');el.setAttribute('aria-live','polite');
   el.innerHTML=`<div class="ct">${esc(name)}</div><div class="ci ${dr?'ci-'+x:'ci-ult_'+x}" role="img" aria-label="${esc(name)}"></div>${dr?'':`<div class="cw">${esc(W?W.n:'')}</div>`}`;
   if(RM())el.querySelector('.ci').style.animation='none';document.body.appendChild(el);SFX.play(dr?'roar':'woosh');setTimeout(()=>el.remove(),d+60);}
-function fx(t,p,x){if(t==='ultcine'||t==='dragon'){if(!(RPLAY&&RPLAY.ff))cinema(t,x);if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t,p,x});return;}if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+function fx(t,p,x){if(t==='tierup'){SFX.play('tierup');return;}if(t==='ultcine'||t==='dragon'){if(!(RPLAY&&RPLAY.ff))cinema(t,x);if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t,p,x});return;}if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
@@ -1503,7 +1503,7 @@ const io={sim:false,
     if(p!==0&&g.S.online)return onlRemoteDecide(g,p,req);
     if(p!==0){
       if(req.k==='play'&&g.S.tutorial&&g.S.battle===1&&g.S.round===1){const bl=g.S.pl[1].hand.find(c=>c.id==='block');if(bl){await sleep(600);SFX.play('card');return bl;}}
-      if(req.k==='play'){thinking=true;render();await sleep(30);const [c]=await Promise.all([aiChoosePlay(g.S,p),sleep(670)]);thinking=false;render();SFX.play('card');return c;}
+      THINKP=p;if(req.k==='play'){thinking=true;render();await sleep(30);const [c]=await Promise.all([aiChoosePlay(g.S,p),sleep(670)]);thinking=false;render();SFX.play('card');return c;}
       thinking=true;render();await sleep(350);try{if(req.k==='yn'&&req.ult)return await ultDecide(g.S,p,req.free);return await cpuDecideX(g,p,req);}finally{thinking=false;render();}
     }
     return new Promise(res=>{pending={req,res};sel=[];render();if(req.k==='pick')openPick();else if(req.trap)trapSheet(0,req);else if(req.k==='opt'&&req.opts.length>3)optSheet(req);else if(req.k==='gain'&&!req.slots.length&&!req.special)answer(-1);});
@@ -1762,7 +1762,7 @@ document.addEventListener('click',e=>{
   if(a==='manual'){manual(b.dataset.from);return;}
   if(a==='manpg'){manTurn(+b.dataset.v);return;}
   if(a==='manzoom'){if(performance.now()<(manual.swiped||0))return;manual.zoom=!manual.zoom;manual(null,+OPT.manP||0);return;}
-  if(a==='menu'){if(S&&(S.over||(S.puzzle&&PZEND))&&ENDOV){openOv(ENDOV);return;}menu();return;}
+  if(a==='menu'){if(S&&!S.replay&&(S.over||(S.puzzle&&PZEND))&&ENDOV){openOv(ENDOV);return;}menu();return;}
   if(a==='speed'){speed=+b.dataset.v;OPT.speed=speed;saveOpt();menu();return;}
   if(a==='phone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));menu();return;}
   if(a==='openpick'){openPick();return;}
@@ -2077,7 +2077,7 @@ let LASTBEAT=0;
 setInterval(()=>{const n=performance.now(),d=n-LASTBEAT;LASTBEAT=n;   // count only time the match is on screen and running
   if(TR&&S&&!S.over&&!S.replay&&document.visibilityState==='visible'&&d>0&&d<5000)TR.play=(TR.play||0)+d;},1000);
 document.addEventListener('visibilitychange',()=>{LASTBEAT=performance.now();});
-function track(t,p,x){if(t==='tier')SFX.play('tierup');if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
+function track(t,p,x){if(t==='tier'){SFX.play('tierup');if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t:'tierup',p});}if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
   if(t==='dmg'){if(x.t===0)TR.minHp=Math.min(TR.minHp,S.pl[0].hp);if(p===0&&x.t===1){TR.dmg+=x.d;const k=S.battle+'-'+S.round;TR.rd[k]=(TR.rd[k]||0)+x.d;TR.maxRd=Math.max(TR.maxRd,TR.rd[k]);}return;}
   if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);rpBlast(x);return;}
   if(p!==0)return;
@@ -2179,7 +2179,7 @@ A('rkstreak','Hot Streak','Win 5 Ranked matches in a row.',P=>RK(P).best>=5,P=>[
 function recordGame(r){
   if(!TR||TR.tutorial)return [];const P=loadProf(),won=S.team?S.team[r.winner]===S.team[0]:r.winner===0,me=S.pl[0];
   P.games++;const d=TR.diff;P.rec[d]=P.rec[d]||{};P.rec[d][TR.me]=P.rec[d][TR.me]||{};const c=P.rec[d][TR.me][TR.opp]=P.rec[d][TR.me][TR.opp]||[0,0];c[1]++;
-  const byShards=me.shards>=8;
+  const byShards=r.why?r.why==='shards':me.shards>=8;
   MEDALRES=null;{let lv={normal:1,hard:2,expert:3,cheater:3}[d];   // Medals: a 1-on-1 win vs a wizard on Normal/Hard/Expert (bronze/silver/gold)
     if(S.ranked){const e=+S.ranked.elo||0;lv=e>=MEDAL_ELO.expert?3:e>=MEDAL_ELO.hard?2:e>=MEDAL_ELO.normal?1:0;}   // Ranked: beating an opponent rated above that bot's strength
     if(won&&lv&&S.pl.length===2&&!S.team&&!S.online&&!S.daily&&!S.puzzle&&!S.rbMode&&ROSTER.includes(TR.me)&&ROSTER.includes(TR.opp)&&TR.me!==TR.opp){
@@ -2326,10 +2326,10 @@ async function begin(w,opp,o={}){
 }
 function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&&!S.pl[q].out&&(!S.team||S.team[q]!==S.team[0]))??1,wasTour=TR&&TR.tour;
   const r={winner:opp,why:'resign'};S.over=r;gameId++;pending=null;recordGame(r);clearSave();closeOv();showTitle();}
-function teardown(){unseedRandom();speed=OPT.speed||1;if(RPLAY){speed=RPLAY.speed0;RPLAY=null;}SFX.mute=false;{const rb=document.getElementById('rpbar');if(rb)rb.classList.remove('show');}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
+function teardown(){unseedRandom();ENDOV=null;MEDALRES=null;thinking=false;{const ce=document.getElementById('cine');if(ce)ce.remove();}speed=OPT.speed||1;if(RPLAY){speed=RPLAY.speed0;RPLAY=null;}SFX.mute=false;{const rb=document.getElementById('rpbar');if(rb)rb.classList.remove('show');}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
-function showTitle(){setEdClass(OPT.ed1?1:2);gameId++;try{UPD.titleCheck();}catch(e){}teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=$('#title .tbtn');if(b)b.focus();},50);}
+function showTitle(){setEdClass(OPT.ed1?1:2);gameId++;try{UPD.titleCheck();}catch(e){}teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=[...document.querySelectorAll('#title .tbtn')].find(e=>e.id!=='updbtn'&&!e.hidden&&e.offsetParent);if(b)b.focus();},50);}
 function exitGame(){try{window.close();}catch(e){}setTimeout(()=>openOv(`<h2>Thanks for playing!</h2><p>A browser tab can’t be closed by the page itself, so close this tab whenever you like. In the desktop and phone apps, Exit will quit the game.</p><div class="acts"><button class="btn" data-a="close">Back to title</button></div>`),300);}
 const APP_VERSION='__APP_VERSION__';
 function setVer(v){const e=document.getElementById('ver');if(e)e.textContent=v;}
@@ -2387,7 +2387,10 @@ const UPD=(()=>{
       ub.disabled=S.state!=='available';ub.textContent=S.state==='downloading'?`Updating… ${S.pct}%`:S.state==='installing'?'Installing…':S.state==='restarting'?'Restarting…':'Update Available!';
       ub.title=S.latest?`Spellstorm ${S.latest} (you have ${S.cur})`:'';}}
   // the title screen checks each time it opens (at most every few minutes, to stay within GitHub's limits)
-  function titleCheck(){if(!S.kind||['available','downloading','installing','restarting','checking'].includes(S.state))return;if(Date.now()-(+OPT.updChk||0)<4*60e3&&S.state!=='idle')return;check(true);}
+  let first=true;
+  function titleCheck(){if(S.state==='installing'){S.state='available';redraw();}   // back on the title with the installer gone (e.g. Android's prompt was cancelled): offer it again
+    if(!S.kind||['available','downloading','restarting','checking'].includes(S.state))return;if(!first&&Date.now()-(+OPT.updChk||0)<4*60e3)return;first=false;check(true);}
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&S.state==='installing')setTimeout(()=>{if(S.state==='installing'){S.state='available';redraw();}},1500);});
   return {S,init,check,go,box,titleCheck};})();
 UPD.init().then(k=>{if(k)setTimeout(()=>UPD.titleCheck(),800);});   // check on start (the title screen re-checks whenever it opens)
 applyOpt();showTitle();

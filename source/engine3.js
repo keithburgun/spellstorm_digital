@@ -35,12 +35,14 @@ Game.prototype.ev = function (t, p, x) { if (!this.io.sim && this.io.ev) this.io
 async function discOrder(g, p, cards) {
   if (g.io.sim || cards.length < 2 || cards.length > 6 || new Set(cards.map(c => c.id)).size < 2) return cards;
   const perms = [], seen = new Set();
-  const walk = (left, acc) => { if (!left.length) { const k = acc.map(c => c.id).join(','); if (!seen.has(k)) { seen.add(k); perms.push(acc); } return; }
+  const walk = (left, acc) => { if (perms.length >= 120) return; if (!left.length) { const k = acc.map(c => c.id).join(','); if (!seen.has(k)) { seen.add(k); perms.push(acc); } return; }
     for (let i = 0; i < left.length; i++) walk([...left.slice(0, i), ...left.slice(i + 1)], [...acc, left[i]]); };
   walk(cards, []);
   const prev = Math.random; let best = cards, bestV = -Infinity;
   try {
-    for (const order of perms) {
+    for (let k = 0; k < perms.length; k++) {
+      const order = perms[k];
+      if (k % 12 === 11 && typeof window !== 'undefined') { Math.random = prev; await new Promise(z => setTimeout(z, 0)); }   // let the screen breathe
       Math.random = seededRNG(4242);                                  // a private random stream: the real game's stays untouched
       const S2 = structuredClone(g.S), g2 = new Game(S2, SIM_IO), P2 = S2.pl[p]; P2.blastMod = 0;
       try { for (const c of order) { const cc = P2.hand.find(x => x.u === c.u); if (cc) await g2.discardFrom(p, cc, 'hand', { regroup: true }); } }
