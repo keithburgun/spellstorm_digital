@@ -38,7 +38,7 @@ async function rolloutGain(g0, p, req) {
   if (opts.length <= 1) return null;
   const prev = Math.random, seed0 = Math.floor(prev() * 2147483647); let score;
   try {
-    const K = verHas(S0, p, 'G') ? GAINRO.k * 2 : verHas(S0, p, 'K') ? GAINRO.k * 3 : GAINRO.k;   // ('G' = A/B test of twice the play-outs)
+    const K = verHas(S0, p, 'G') || verHas(S0, p, 'D') ? GAINRO.k * 2 : verHas(S0, p, 'K') ? GAINRO.k * 3 : GAINRO.k;   // ('G' = A/B test of twice the play-outs)
     score = await raceOptions(opts.length, K, raceOn(S0, p),
       k => { Math.random = seededRNG(seed0 + k * 7919); const base = structuredClone(S0); determinize(base, p); return { base, fut: seed0 + k * 7919 + 1 }; },
       async (i, { base, fut }) => {
@@ -168,8 +168,8 @@ async function rolloutMidGain(g0, p, req) {
   if (req.optional) opts.push(-1);
   if (opts.length <= 1) return null;
   const force = (S, r, o) => { if (o === -1) return r.optional ? -1 : undefined; const s = (r.slots || []).find(j => S.cloud[j] && S.cloud[j].id === o); return s; };
-  const score = await rolloutMid(g0, p, req, opts, force, MIDRO.k * (verHas(S0, p, 'K') ? 3 : 1));
-  if (GAINRO.rec) GAINRO.rec(S0, p, opts.filter(o => o !== -1).map(id => S0.cloud.findIndex(c => c && c.id === id)), score.filter((_, i) => opts[i] !== -1).map(x => x * GAINRO.k / (MIDRO.k * (verHas(S0, p, 'K') ? 3 : 1))), 'mid');   // (data collection for tests only)
+  const score = await rolloutMid(g0, p, req, opts, force, MIDRO.k * (verHas(S0, p, 'K') ? 3 : verHas(S0, p, 'D') ? 2 : 1));
+  if (GAINRO.rec) GAINRO.rec(S0, p, opts.filter(o => o !== -1).map(id => S0.cloud.findIndex(c => c && c.id === id)), score.filter((_, i) => opts[i] !== -1).map(x => x * GAINRO.k / (MIDRO.k * (verHas(S0, p, 'K') ? 3 : verHas(S0, p, 'D') ? 2 : 1))), 'mid');   // (data collection for tests only)
   const pick = opts[score.indexOf(Math.max(...score))];
   if (pick === -1) return -1;
   return req.slots.find(j => S0.cloud[j] && S0.cloud[j].id === pick);
