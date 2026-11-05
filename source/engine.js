@@ -271,7 +271,7 @@ class Game {
   gainInit(p) { if (this.S.init !== p) { this.S.init = p; this.log(`${this.nm(p)} ${p === 0 ? 'take' : 'takes'} the Initiative.`, 'ini'); } }
   loseInit(p) { if (this.S.init === p) { this.S.init = 1 - p; this.log(`${this.nm(p)} ${p === 0 ? 'lose' : 'loses'} the Initiative.`, 'ini'); } }
   reshuffle(p) { const P = this.S.pl[p]; if (!P.discard.length) return; P.deck = shuffle(P.discard.splice(0)); this.log(`${this.nm(p)} ${p === 0 ? 'reshuffle' : 'reshuffles'} ${this.nm(p, 1, 1)} discard pile.`); }
-  async draw(p, n) { const P = this.S.pl[p]; let k = 0; for (let i = 0; i < n; i++) { if (!P.deck.length) this.reshuffle(p); if (!P.deck.length) break; P.hand.push(P.deck.pop()); k++; } return k; }
+  async draw(p, n) { const P = this.S.pl[p], K = this.S.kn && this.S.kn[p]; let k = 0; for (let i = 0; i < n; i++) { if (!P.deck.length) this.reshuffle(p); if (!P.deck.length) break; const c = P.deck.pop(); if (K) delete K[c.u]; P.hand.push(c); k++; } return k; }   // a card drawn in secret is no longer 'seen'
   async mana(p, n) { this.S.pl[p].mana += n; }
   async power(p, n) {
     const P = this.S.pl[p];
@@ -527,15 +527,7 @@ function cpuDecide(g, p, req) {
 // Cards that went into a hand in plain sight (gained from the Storm Cloud, returned from the discard, given, revealed) are
 // public: S.kn[player][card uid] = 1. Expert (KNOWN, engine12.js) keeps those in the opponent's hand when it imagines the hidden cards.
 function markSeen(S, q, c) { if (!c) return; const K = S.kn || (S.kn = {}); (K[q] || (K[q] = {}))[c.u] = 1; }
-function determinize(S, p) {
-  const o = 1 - p, O = S.pl[o], kn = typeof knownOn === 'function' && knownOn(S, p) && S.kn && S.kn[o];
-  if (kn) { const keep = O.hand.filter(c => kn[c.u]), rest = O.hand.filter(c => !kn[c.u]), pool = shuffle([...rest, ...O.deck]);
-    O.hand = [...keep, ...pool.slice(0, rest.length)]; O.deck = pool.slice(rest.length); }
-  else { const pool = shuffle([...O.hand, ...O.deck]); const hn = O.hand.length;
-  O.hand = pool.slice(0, hn); O.deck = pool.slice(hn); }
-  shuffle(S.pl[p].deck); shuffle(S.sdeck);
-  if (O.trap && !O.trap.used) O.trap.id = ['mud', 'dodge', 'ice'][Math.floor(Math.random() * 3)];
-}
+// (determinize lives in engine4.js: one version, with the known-card and peek options)
 const SIM_IO = { sim: true, decide: (g, p, req) => Promise.resolve(cpuDecide(g, p, req)), log() { }, render() { }, pause() { return Promise.resolve(); } };
 
 async function choosePlay(S0, p, samples = 14) {

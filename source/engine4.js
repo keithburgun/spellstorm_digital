@@ -6,10 +6,20 @@ function isAI(S, p) { return S.aiDiff ? !!S.aiDiff[p] : p !== 0; }
 
 // The CPU never knows the order of face-down decks: its own deck, yours, the Spellstorm Deck, or the Weather Deck.
 function determinize(S, p) {
-  const os = oppsOf(S, p);
-  for (const o of os) { const O = S.pl[o]; const pool = shuffle([...O.hand, ...O.deck]); const hn = O.hand.length; O.hand = pool.slice(0, hn); O.deck = pool.slice(hn); }
+  // Re-deal what p can't see: each opponent's hand (from their hand + deck), p's own deck order, the Spellstorm and Weather decks.
+  // Known-card option (KNOWN / flag 'H'): cards seen going into an opponent's hand stay there (engine.js markSeen).
+  // Peek (flag 'P'): A/B TEST ONLY — keeps the opponent's real hand, to measure how much hand-reading could ever be worth.
+  const peek = verHas(S, p, 'P'), know = !peek && typeof knownOn === 'function' && knownOn(S, p);
+  for (const o of oppsOf(S, p)) {
+    const O = S.pl[o];
+    if (peek) { shuffle(O.deck); continue; }
+    const kn = know && S.kn && S.kn[o];
+    const keep = kn ? O.hand.filter(c => kn[c.u]) : [], rest = kn ? O.hand.filter(c => !kn[c.u]) : O.hand;
+    const pool = shuffle([...rest, ...O.deck]);
+    O.hand = [...keep, ...pool.slice(0, rest.length)]; O.deck = pool.slice(rest.length);
+  }
   shuffle(S.pl[p].deck); shuffle(S.sdeck); shuffle(S.wdeck);
-  for (const o of os) { const O = S.pl[o]; if (O.trap && !O.trap.used) O.trap.id = ['mud', 'dodge', 'ice'][Math.floor(Math.random() * 3)]; }
+  if (!peek) for (const o of oppsOf(S, p)) { const O = S.pl[o]; if (O.trap && !O.trap.used) O.trap.id = ['mud', 'dodge', 'ice'][Math.floor(Math.random() * 3)]; }
 }
 
 // ---------- strategic concept: "what is my path to victory?" ----------
