@@ -204,7 +204,7 @@ Object.assign(WIZ, {
         const id = P.potions.pop(), d = POTIONS[id]; S.potionShow = id; drinks++; const ent = { id, paid: null, twice: false, t: Date.now() }; S.potion.drawn.push(ent);
         g.log(`${g.nm(p)} ${p === 0 ? 'drink' : 'drinks'} “${d.n}” (${ELN[d.el]} ${d.cost}${d.tox ? ', TOXIC' : ''}).`, 'res'); await g.pause(800);
         if (P.chem[d.el] >= d.cost) { P.chem[d.el] -= d.cost; ent.paid = true; S.potion.chem = { ...P.chem }; const reps = twice ? 2 : 1; ent.twice = twice; twice = false; await g.pause(500); for (let r = 0; r < reps; r++) { if ((await d.fx(g, p)) === 'twice') twice = true; } }
-        else { ent.paid = false; g.log(`Not enough ${ELN[d.el]} Element — no effect.`); }
+        else { ent.paid = false; twice = false; g.log(`Not enough ${ELN[d.el]} Element — no effect.`); }   // 'your next Potion' is this one, paid or not
         if (d.tox) S.potion.tox = tox + 1; S.potion.chem = { ...P.chem }; await g.pause(700);
         if (d.tox && ++tox >= 3) { g.log('Third TOXIC potion! The Ultimate ends — gain an ASH, a CURSE and an ICE.', 'warn'); bust = true; S.potion.bust = true; for (const t of ['ash', 'curse', 'ice']) await g.gainSpecial(p, t); break; }
         if (!P.potions.length) break;
@@ -237,7 +237,7 @@ Game.prototype.heal = async function (p, n) {
 };
 Game.prototype.damage = async function (t, n, src) {
   if (n <= 0) return; const P = this.S.pl[t];
-  if (src !== undefined && src !== t && P.trap && !P.trap.used && P.trap.id === 'dodge' && await this.yn(t, `Reveal Dodge!? The first 2 damage you take this round is negated.`, true)) {
+  if (src !== undefined && src !== t && !allyOf(this.S, src, t) && P.trap && !P.trap.used && P.trap.id === 'dodge' && await this.yn(t, `Reveal Dodge!? The first 2 damage you take this round is negated.`, true)) {
     P.trap.used = true; P.dodge = 2; this.ev('trap', t, 'dodge'); this.log(`${this.nm(t)} ${t === 0 ? 'reveal' : 'reveals'} Dodge!`, 'big');
   }
   if (P.dodge > 0) { const a = Math.min(P.dodge, n); P.dodge -= a; n -= a; this.log(`Dodge! negates ${a} damage.`); if (n <= 0) return; }

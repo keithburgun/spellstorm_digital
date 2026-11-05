@@ -103,7 +103,7 @@ const CARDS = {
   obsidian: { n: 'Obsidian', el: 'F', t: 2, v: 6, fx: async (g, p) => {
     await g.damage(p, 1); const P = g.S.pl[p]; if (P.mana >= 2) { P.mana -= 2; g.log(`${g.nm(p)} lost 2 mana.`); await g.offerUlt(p, true); } else g.log(`${g.nm(p)} didn't have 2 mana to lose.`); } },
   lantern: { n: 'Lantern', el: 'F', t: 1, v: 6, fx: async (g, p, x) => {
-    if (ED2(g.S)) { await g.mana(p, 2); if (g.S.rev.some(c => isEl(c, 'W'))) { g.log('The Lantern flares!'); for (const q of g.order()) { await g.damage(q, 1, p); await g.gainSpecial(q, 'curse'); } } return; }   // 2E
+    if (ED2(g.S)) { await g.mana(p, 2); if (g.S.rev.some(c => isEl(c, 'W'))) { g.log('The Lantern flares!'); for (const q of g.order()) { if (allyOf(g.S, p, q)) continue; await g.damage(q, 1, p); await g.gainSpecial(q, 'curse'); } } return; }   // 2E
     await g.mana(p, 2); if (isEl(g.S.rev[g.next(p)], 'W')) { x.dest = 'void'; g.log('The Lantern goes out.'); await g.gainSpecial(p, 'curse'); await g.damage(p, 1); } } },
   heart: { n: 'Heart Gem', el: 'F', t: 1, v: 6, disc: 1, ult: 1, fx: async (g, p) => { await g.heal(p, 3); await g.gainSpecial(p, 'curse'); }, dfx: async (g, p) => { await g.damage(p, 1); } },
   manafont: { n: 'Mana Font', el: 'F', t: 1, v: 5, disc: 1, fx: async (g, p) => {
@@ -139,7 +139,7 @@ const CARDS = {
   leap: { n: 'Leap', el: 'W', t: 2, v: 8, fx: async (g, p) => { g.gainInit(p); await g.heal(p, 1); if (ED2(g.S)) { await g.voidOneHandOrDiscard(p, 'Leap: VOID a card from your hand or discard pile.', true); return; }   // 2E: always, and required
     if (g.opps(p).some(q => isEl(g.S.rev[q], 'F'))) await g.voidOneHandOrDiscard(p, 'Leap: you may VOID a card from your hand or discard pile.'); else g.nofx('Leap: no opponent revealed Fire, so no VOID.'); } },
   moon: { n: 'Moonstone', el: 'W', t: 3, v: 11, disc: 1, fx: async (g, p) => { await g.heal(p, 4); }, dfx: async (g, p) => { await g.heal(p, 2); } },
-  reflect: { n: 'Reflect', el: 'W', t: 2, v: 10, fx: async (g, p) => { await g.draw(p, 1); g.gainInit(p); await g.heal(p, 1); for (const q of g.S.pl.keys()) if (isEl(g.S.rev[q], 'F')) await g.damage(q, 2, p); } },
+  reflect: { n: 'Reflect', el: 'W', t: 2, v: 10, fx: async (g, p) => { await g.draw(p, 1); g.gainInit(p); await g.heal(p, 1); for (const q of g.S.pl.keys()) if (isEl(g.S.rev[q], 'F') && !allyOf(g.S, p, q)) await g.damage(q, 2, p); } },   // (team modes: you don't damage allies)
   sapph: { n: 'Sapphire', el: 'W', t: 1, v: 6, ult: 1, fx: async (g, p) => { await g.draw(p, 1); await g.heal(p, 1); await g.gainSpecial(p, 'ash'); } },
   step: { n: 'Step', el: 'W', t: 1, v: 5, disc: 1, fx: async (g, p) => { if (g.hasInit(p)) await g.heal(p, 1); else g.gainInit(p); }, dfx: async (g, p) => { g.gainInit(p); } },
   twin: { n: 'Twin Sapphire', el: 'W', t: 2, v: 9, ult: 1, fx: async (g, p) => { await g.draw(p, 1); await g.heal(p, 2); } },
@@ -322,7 +322,10 @@ class Game {
   async gainSpecial(p, type) {
     const S = this.S;
     if (S.special[type] > 0) { S.special[type]--; S.pl[p].discard.push({ u: ++S.uid, id: type }); this.log(`${this.nm(p)} ${p === 0 ? 'gain' : 'gains'} ${type === 'ice' || type === 'ash' ? 'an' : 'a'} ${CARDS[type].n}.`, 'junk'); }
-    else { this.log(`No ${CARDS[type].n} left — the board effect applies to ${this.nm(p, 1)}.`); if (type === 'ice') await this.randomDiscard(p, 1); else if (type === 'ash') this.losePower(p, 1); else await this.damage(p, 1); }
+    else {   // the board space: VOID one of that card from your hand or discard pile, then ICE: discard 2 randomly / ASH: lose 2 Power / CURSE: take 1 damage
+      this.log(`No ${CARDS[type].n} left — the board effect applies to ${this.nm(p, 1)}.`); const P = S.pl[p], it = [...P.hand, ...P.discard].filter(c => c.id === type);
+      if (it.length) { const [c] = it.length === 1 ? it : await this.decide(p, { k: 'pick', q: `VOID a ${CARDS[type].n} from your hand or discard pile.`, items: it, min: 1, max: 1, cpu: x => [x.find(c => P.hand.includes(c)) || x[0]] }); if (c) this.voidFrom(p, c, P.hand.includes(c) ? P.hand : P.discard); }
+      if (type === 'ice') await this.randomDiscard(p, 2); else if (type === 'ash') this.losePower(p, 2); else await this.damage(p, 1); }
   }
   async gainDragon(p) {
     const S = this.S;
@@ -338,8 +341,8 @@ class Game {
     let slots = this.eligibleSlots(p, o), sp = o.el ? { F: ['curse'], W: ['ice'], E: ['ash'] }[o.el] : ['ice', 'ash', 'curse'];
     const tutLock = this.S.tutorial && p === 0 && this.S.battle === 1 && this.S.round === 1;          // tutorial: Derby has you gain the Diamond
     if (tutLock) { const d = slots.filter(i => this.S.cloud[i] && this.S.cloud[i].id === 'diamond'); if (d.length) { slots = d; sp = []; o = { ...o, must: true }; } }
-    if (!slots.length && !sp.length) { this.nofx(`No ${o.el ? `Tier I or II ${ELN[o.el]} card` : 'card'} in the Storm Cloud to gain.`); return null; }
-    const what = o.el ? `a Tier I or II ${ELN[o.el]} card` : 'a card';
+    if (!slots.length && !sp.length) { this.nofx(`No ${o.el ? (o.anyTier ? `Tier I or II ${ELN[o.el]} card` : `${ELN[o.el]} card of your Tier or lower`) : 'card'} in the Storm Cloud to gain.`); return null; }
+    const what = o.el ? (o.anyTier ? `a Tier I or II ${ELN[o.el]} card` : `${/^[AEIOU]/.test(ELN[o.el]) ? 'an' : 'a'} ${ELN[o.el]} card of your Tier or lower`) : 'a card';
     const i = await this.decide(p, { k: 'gain', q: o.must ? `You must gain ${what} from the Storm Cloud.` : `You may gain ${what} from the Storm Cloud.`, slots, optional: !o.must, verb: 'Gain', special: sp.length ? 1 : 0, specials: sp });
     if (typeof i === 'string') { const had = this.S.special[i] > 0; await this.gainSpecial(p, i); const D = this.S.pl[p].discard; return had ? D[D.length - 1] : null; }
     if (i < 0) return null;
@@ -526,6 +529,8 @@ function cpuDecide(g, p, req) {
 
 // Cards that went into a hand in plain sight (gained from the Storm Cloud, returned from the discard, given, revealed) are
 // public: S.kn[player][card uid] = 1. Expert (KNOWN, engine12.js) keeps those in the opponent's hand when it imagines the hidden cards.
+// allies: two different players on the same team (Co-op, Two-on-Two). Rulebook: you don't deal damage to allies.
+function allyOf(S, a, b) { return a !== b && !!S.team && S.team[a] === S.team[b]; }
 function markSeen(S, q, c) { if (!c) return; const K = S.kn || (S.kn = {}); (K[q] || (K[q] = {}))[c.u] = 1; }
 // (determinize lives in engine4.js: one version, with the known-card and peek options)
 const SIM_IO = { sim: true, decide: (g, p, req) => Promise.resolve(cpuDecide(g, p, req)), log() { }, render() { }, pause() { return Promise.resolve(); } };

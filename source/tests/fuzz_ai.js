@@ -30,7 +30,7 @@ function setup(i){const d=k=>DF[(i+k)%4];let S;
      if(req.k==='opt'&&(typeof a!=='number'||a<0||a>=req.opts.length||(req.dis&&req.dis[a])))note('badopt',`p${p} opt ${a} of ${req.opts.length} '${(req.q||'').slice(0,60)}'`);
      return a;}};
   let snap=null,cps=0;const stopAt=process.env.RES?1+R(40):-1;io.checkpoint=()=>{if(++cps===stopAt){snap=JSON.stringify(S);throw new Error('STOP');}};
-  if(stopAt>0){try{await new E.Game(S,io).run();}catch(e){if(e.message!=='STOP'){err++;note('error-pre',`${MODE} game ${i}: ${e.message} | ${(e.stack||'').split('\n').slice(1,3).join(' ')}`);E.unseedRandom();n++;continue;}}
+  if(stopAt>0){try{const r0=await new E.Game(S,io).run();why[r0&&r0.why]=(why[r0&&r0.why]||0)+1;E.unseedRandom();n++;continue;}catch(e){if(e.message!=='STOP'){err++;note('error-pre',`${MODE} game ${i}: ${e.message} | ${(e.stack||'').split('\n').slice(1,3).join(' ')}`);E.unseedRandom();n++;continue;}}
     if(snap){S=JSON.parse(snap);io.checkpoint=()=>{};}}
   const tg=Date.now();try{const r=await (snap?new E.Game(S,io).resumeRun():new E.Game(S,io).run());if(process.env.V)console.log(i,JSON.stringify(S.aiDiff),S.pl.map(P=>P.wiz).join(),Date.now()-tg,"ms",steps,"decisions");check(S,'end');why[r&&r.why]=(why[r&&r.why]||0)+1;
     if(!r||r.winner==null)note('nowinner',`${MODE} game ${i}: result ${JSON.stringify(r)}`);
