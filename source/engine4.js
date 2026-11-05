@@ -37,7 +37,11 @@ function planScores(S, p) {
   };
 }
 function updatePlan(g, p) {
-  const S = g.S; S.plan = S.plan || {};
+  const S0 = g.S; S0.plan = S0.plan || {};
+  // Read the plan from a guessed copy of the game: the real state holds the opponents' hands, which a player can't see.
+  // (Its own fixed seed, so the game's random stream is untouched.)
+  const prevR = Math.random; let S; try { Math.random = seededRNG(7919 * (S0.battle || 0) + 131 * (S0.round || 0) + p + 1); S = structuredClone(S0); determinize(S, p); } finally { Math.random = prevR; }
+  S.plan = S0.plan;
   if (diffOf(S, p) === 'expert' && !rankCfg(S, p) && threatOn(S, p) && THREAT_W.plan) { const best = threatPlan(S, p); if (best !== S.plan[p]) { S.plan[p] = best; if (!S.aiProf) g.log(`${g.nm(p)} now aims to ${PLANS[best]}.`, 'ini'); } return; }
   const sc = planScores(S, p), cur = S.plan[p];
   for (const k in sc) sc[k] += Math.random() * 2.5;                       // a little randomness in the read
