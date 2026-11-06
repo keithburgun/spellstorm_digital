@@ -245,6 +245,8 @@ body.shop #app.phone{background:radial-gradient(120% 70% at 30% 0%,var(--shop2),
 .jl{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .jl li{border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:.85rem;display:flex;gap:6px;align-items:center}
 .jl li.on{border-color:var(--bolt);background:color-mix(in srgb,var(--bolt) 18%,transparent);font-weight:700}
+#tmute{position:absolute;z-index:3;top:max(12px,env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));width:44px;height:44px;padding:9px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(18,11,32,.55);color:#e9e2ff;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,transform .1s}
+#tmute:hover{background:rgba(60,40,100,.75)}#tmute:active{transform:scale(.92)}#tmute:focus-visible{outline:2px solid #c9a7ff;outline-offset:2px}#tmute.on{color:#ff9a9a}#tmute svg{width:100%;height:100%;display:block}
 #title{position:fixed;inset:0;z-index:27;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;background:#120b20;overflow:hidden;
   padding:0 16px max(6vh,calc(env(safe-area-inset-bottom,0px) + 20px))}
 #title .hero{position:absolute;inset:0;background-size:cover;background-position:center 16%}
@@ -753,7 +755,7 @@ body.pad #start{padding-bottom:64px}
 <div id="nb" aria-hidden="true"><div class="nbt">NEW BATTLE!</div><div class="nbs"></div></div>
 <div id="title"><div class="hero ci-hero2" aria-hidden="true"></div><div class="tlogo ci-logo" role="img" aria-label="Spellstorm"></div>
   <div id="lobbybanner" class="lobbybanner" hidden></div><div id="updbanner" class="lobbybanner" hidden></div><nav class="tmenu" aria-label="Main menu"><button class="tbtn updtbtn" data-a="updgo" id="updbtn" hidden>Update Available!</button><button class="tbtn primary" data-a="t_cont" id="contbtn" hidden>Continue match</button><button class="tbtn primary" data-a="t_play" id="playbtn">Play</button><button class="tbtn" data-a="t_online" id="onlbtn">Play Online</button><button class="tbtn" data-a="t_lib">Card Library</button><button class="tbtn" data-a="t_opts">Options</button><button class="tbtn" data-a="t_stats">Stats</button><button class="tbtn" data-a="t_exit">Exit</button></nav>
-  <p class="fine">Duel CPU wizards in the storm.</p></div>
+  <p class="fine">Duel CPU wizards in the storm.</p><button id="tmute" class="tmute" data-a="titlemute" aria-label="Mute sound" aria-pressed="false" title="Mute sound"></button></div>
 <div id="start">
   <h1 class="slogo"><span class="ci-logo" role="img" aria-label="Spellstorm"></span></h1>
   <p class="sub">Wizards do battle in this original magical tactical deckbuilder! Designed by Keith Burgun.</p>
@@ -1682,6 +1684,7 @@ document.addEventListener('click',e=>{
   if(a==='stab'){statsTab=b.dataset.v;statsSheet();return;}
   if(a==='sdiff'){statsDiff=b.dataset.v;statsSheet();return;}
   if(a==='setdiff'){if(OPT.tour&&loadProf().tour)return;if(OPT.mode==='coop'||((OPT.mode||'duel')==='duel'&&pickSel.opp==='robot'&&!rnd.opp&&!OPT.tour))OPT.rbdiff=b.dataset.v;else OPT.diff=b.dataset.v;saveOpt();drawSelect();return;}
+  if(a==='titlemute'){OPT.muted=!OPT.muted;saveOpt();tmuteDraw();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}return;}
   if(a==='mutetog'){OPT.muted=!OPT.muted;saveOpt();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}if(b.dataset.from==='menu')menu();else optionsSheet();return;}
   if(a==='opt'){OPT[b.dataset.k]=(b.dataset.k==='speed'||b.dataset.k==='vol')?+b.dataset.v:b.dataset.v;if(b.dataset.k==='vol'){SFX.init();setTimeout(()=>SFX.play('shard'),30);}saveOpt();applyOpt();optionsSheet();return;}
   if(a==='optphone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));settle();optionsSheet();return;}
@@ -1956,6 +1959,7 @@ function launch(){
 /* ---------- options & profile ---------- */
 const PKEY='spellstorm.profile.v1',OKEY='spellstorm.options.v1';
 let OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};try{Object.assign(OPT,JSON.parse(localStorage.getItem(OKEY)||'{}'));}catch(e){}
+try{tmuteDraw();}catch(e){}   // the title screen's speaker button
 function saveOpt(){try{localStorage.setItem(OKEY,JSON.stringify(OPT));const m=JSON.parse(localStorage.getItem('spellstorm.sync.v1')||'{}');m.omt=Date.now();localStorage.setItem('spellstorm.sync.v1',JSON.stringify(m));}catch(e){}try{SYNC.dirty();}catch(e){}}
 function applyOpt(){document.body.classList.toggle('rm',OPT.motion==='reduced');speed=OPT.speed;document.body.classList.toggle('cb',OPT.cb==='on');const r=document.documentElement;if(OPT.theme==='auto')delete r.dataset.theme;else r.dataset.theme=OPT.theme;}
 function blankProf(){return {ffa:{g:0,w:0,g3:0,w3:0,g4:0,w4:0,ws:0},tour:null,tbest:{},trophy:{},v:1,games:0,wins:0,streak:0,best:0,hstreak:0,hbest:0,rec:{normal:{},hard:{}},tot:{dmg:0,heal:0,counters:0,ults:0,shards:0},by:{shards:0,health:0},ach:{}};}
@@ -2329,7 +2333,9 @@ function resign(){if(!S||S.over)return;const opp=[...S.pl.keys()].find(q=>q!==0&
 function teardown(){unseedRandom();ENDOV=null;MEDALRES=null;thinking=false;{const ce=document.getElementById('cine');if(ce)ce.remove();}speed=OPT.speed||1;if(RPLAY){speed=RPLAY.speed0;RPLAY=null;}SFX.mute=false;{const rb=document.getElementById('rpbar');if(rb)rb.classList.remove('show');}ACK=null;pending=null;if(typeof TUT!=='undefined'){TUT.step=null;TUT.res=null;}const co=document.getElementById('coach');if(co)co.classList.remove('show');document.querySelectorAll('.tutring').forEach(e=>e.classList.remove('tutring'));thinking=false;sel=[];closeOv();for(const id of ['prompt','cloud','arena','hand','opp','me','blast','potov']){const e=$('#'+id);if(e){e.innerHTML='';e._h=null;}}
   $('#blast').classList.remove('show');$('#potov').classList.remove('show');document.body.classList.remove('shop','ceremony');$('#prompt').classList.remove('ask','waiting');
   document.querySelectorAll('.ghost,.flt').forEach(e=>e.remove());$('#toast').classList.remove('show');$('#nb').classList.remove('go');FX={};FLQ=[];LASTSNAP=[null,null];LASTW=null;LASTINIT=null;}
-function showTitle(){setEdClass(OPT.ed1?1:2);gameId++;try{UPD.titleCheck();}catch(e){}teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=[...document.querySelectorAll('#title .tbtn')].find(e=>e.id!=='updbtn'&&!e.hidden&&e.offsetParent);if(b)b.focus();},50);}
+function tmuteDraw(){const b=document.getElementById('tmute');if(!b)return;const m=!!OPT.muted;b.classList.toggle('on',m);b.setAttribute('aria-pressed',m);b.setAttribute('aria-label',m?'Unmute sound':'Mute sound');b.title=m?'Sound off — click to unmute':'Sound on — click to mute';
+  b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor" fill-opacity=".25"/>${m?'<path d="M16 9.5l5 5M21 9.5l-5 5"/>':'<path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18.2 6.5a7.5 7.5 0 0 1 0 11"/>'}</svg>`;}
+function showTitle(){tmuteDraw();setEdClass(OPT.ed1?1:2);gameId++;try{UPD.titleCheck();}catch(e){}teardown();S=null;if(ONL.on)onlLeave();{const ob=document.getElementById('onlbtn');if(ob)ob.hidden=onlInApp();}{const sv=loadSave();$('#contbtn').hidden=!sv;$('#playbtn').classList.toggle('primary',!sv);if(sv)$('#contbtn').innerHTML=`Continue match<small>${RNAME[sv.S.pl[0].wiz]} vs ${sv.S.pl.slice(1).map(P=>RNAME[P.wiz]).join(', ')}</small>`;}document.body.classList.remove('shop');$('#start').style.display='none';$('#title').style.display='flex';setTimeout(()=>{const b=[...document.querySelectorAll('#title .tbtn')].find(e=>e.id!=='updbtn'&&!e.hidden&&e.offsetParent);if(b)b.focus();},50);}
 function exitGame(){try{window.close();}catch(e){}setTimeout(()=>openOv(`<h2>Thanks for playing!</h2><p>A browser tab can’t be closed by the page itself, so close this tab whenever you like. In the desktop and phone apps, Exit will quit the game.</p><div class="acts"><button class="btn" data-a="close">Back to title</button></div>`),300);}
 const APP_VERSION='__APP_VERSION__';
 function setVer(v){const e=document.getElementById('ver');if(e)e.textContent=v;}

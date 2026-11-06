@@ -48,7 +48,7 @@ function defaultFor(sc,L){const f=s=>L.find(e=>e.matches(s));
   if(sc.id==='rpbar')return f('[data-v=next]:not([disabled])')||f('[data-v=auto]')||L[0];
   if(MODALS.includes(sc.id))return f('.btn:not(.alt)')||L[0];
   if(sc.id==='start')return f('[data-a=launch]')||L[0];
-  if(sc.id==='title')return L.find(e=>e.id!=='updbtn')||L[0];
+  if(sc.id==='title')return L.find(e=>e.id!=='updbtn'&&e.id!=='tmute')||L[0];
   return gameDefault(L);}
 function restore(sid,sc,L){if(!L.length)return null;const m=mem[sid];
   if(m){const same=L.filter(e=>key(e)===m.k);if(same.length)return same[Math.min(m.n,same.length-1)];if(sid==='game'||sid===sidPrev)return nearest(L,m.r);}
@@ -137,7 +137,7 @@ function lookY(){{const z=ovOn()&&q('#sheet .manpage');if(z){z.click();return;}}
   const k=q('#sheet [data-a=ikey]');if(ovOn()&&k&&ok(k,q('#sheet'))){k.click();return;}}
 function lookable(){return !!(cur&&(cur.matches('#hand .card,#cloud .card,.card[data-a]')||(cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom'))));}
 function tipX(){if(ovOn())return;const t=[...document.querySelectorAll('[data-a=tip]')].find(e=>ok(e,document.body));if(t)t.click();}
-function startBtn(){if(ovOn()){back();return;}const t=q('#title');if(shown(t)){const L=cands(t).filter(e=>e.id!=='updbtn');if(L[0])L[0].click();return;}
+function startBtn(){if(ovOn()){back();return;}const t=q('#title');if(shown(t)){const L=cands(t).filter(e=>e.id!=='updbtn'&&e.id!=='tmute');if(L[0])L[0].click();return;}
   const s=q('#start');if(shown(s)){const b=q('#start [data-a=launch]');if(b&&!b.disabled)b.click();return;}if(S)menu();}
 function selBtn(){if(S&&!ovOn()&&!shown(q('#title'))&&!shown(q('#start')))act('log');}
 
