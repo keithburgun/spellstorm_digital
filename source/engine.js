@@ -362,7 +362,7 @@ class Game {
     const d = CARDS[c.id]; const x = { how, dest: null };
     if (d.drag && !this.io.sim && this.io.fx) { this.io.fx('dragon', p, c.id); await this.pause(3000); }   // the Dragon's card close up, its name and a roar, then it resolves
     if (d.junk) { this.log(`${d.n} can’t be played — nothing happens.`); return x; }
-    if (this.S.wcur === 'glitter' && d.el === 'E') { this.log(`Glittering Dust: ${d.n} does nothing but heal 2.`); await this.heal(p, 2); return x; }
+    if (this.S.wcur === 'glitter' && d.el === 'E') { this.log(`Glittering Dust: ${d.n} does nothing but heal 2.`); this.ev('glitter', p, c.id); await this.heal(p, 2); return x; }
     await d.fx(this, p, x); if (d.ult) await this.offerUlt(p, false);
     return x;
   }

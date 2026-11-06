@@ -247,6 +247,14 @@ body.shop #app.phone{background:radial-gradient(120% 70% at 30% 0%,var(--shop2),
 .jl li.on{border-color:var(--bolt);background:color-mix(in srgb,var(--bolt) 18%,transparent);font-weight:700}
 #tmute{position:absolute;z-index:3;top:max(12px,env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));width:44px;height:44px;padding:9px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(18,11,32,.55);color:#e9e2ff;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,transform .1s}
 #tmute:hover{background:rgba(60,40,100,.75)}#tmute:active{transform:scale(.92)}#tmute:focus-visible{outline:2px solid #c9a7ff;outline-offset:2px}#tmute.on{color:#ff9a9a}#tmute svg{width:100%;height:100%;display:block}
+#hand .card.glitd{position:relative;filter:saturate(.45) brightness(.82)}
+#hand .card.glitd::after{content:'✦ Heal 2';position:absolute;left:50%;bottom:6%;transform:translateX(-50%);white-space:nowrap;font:800 calc(var(--cw)*.13)/1.15 system-ui,sans-serif;letter-spacing:.02em;color:#3a2600;background:linear-gradient(135deg,#fff3b0,#f5c542 55%,#ffe58a);padding:.25em .55em;border-radius:999px;box-shadow:0 0 0 1px rgba(0,0,0,.25),0 0 10px rgba(255,214,90,.75);pointer-events:none;animation:glitpulse 2.2s ease-in-out infinite}
+@keyframes glitpulse{0%,100%{box-shadow:0 0 0 1px rgba(0,0,0,.25),0 0 6px rgba(255,214,90,.5)}50%{box-shadow:0 0 0 1px rgba(0,0,0,.25),0 0 14px rgba(255,224,120,.95)}}
+#arena .wcard.glit{position:relative;z-index:6;animation:wglit 1.25s ease-out}
+@keyframes wglit{0%{transform:scale(1);box-shadow:var(--shadow)}18%{transform:scale(1.18);box-shadow:0 0 0 3px #ffe58a,0 0 34px 10px rgba(255,214,90,.9)}40%{transform:scale(1.1);box-shadow:0 0 0 2px #ffe58a,0 0 22px 6px rgba(255,214,90,.7)}60%{transform:scale(1.15);box-shadow:0 0 0 3px #fff3b0,0 0 30px 9px rgba(255,224,120,.85)}100%{transform:scale(1);box-shadow:var(--shadow)}}
+.glitnote{display:flex;gap:10px;align-items:center;margin:10px auto 0;max-width:30em;padding:8px 12px;border-radius:12px;background:rgba(245,197,66,.14);border:1px solid rgba(245,197,66,.55);text-align:left;font-size:.92rem;line-height:1.3}
+.glitnote .wcard{--cw:44px;height:calc(var(--cw)*1.4);flex:none;box-shadow:0 0 12px rgba(255,214,90,.7);cursor:default}
+@media (prefers-reduced-motion:reduce){#arena .wcard.glit{animation:none;box-shadow:0 0 0 3px #ffe58a,0 0 22px 6px rgba(255,214,90,.8)}#hand .card.glitd::after{animation:none}}
 #title{position:fixed;inset:0;z-index:27;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;background:#120b20;overflow:hidden;
   padding:0 16px max(6vh,calc(env(safe-area-inset-bottom,0px) + 20px))}
 #title .hero{position:absolute;inset:0;background-size:cover;background-position:center 16%}
@@ -1082,7 +1090,7 @@ const SFX={ctx:null,vol(){return OPT.muted?0:+(OPT.vol??0.5)},
  noise(d,g,t0=0,hp=800,lp=6000){const c=this.ctx,n=Math.max(1,c.sampleRate*d|0),buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(let i=0;i<n;i++)x[i]=(sfxRand()*2-1)*Math.pow(1-i/n,2);
   const s=c.createBufferSource(),f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),a=c.createGain();s.buffer=buf;f1.type='highpass';f1.frequency.value=hp;f2.type='lowpass';f2.frequency.value=lp;a.gain.value=g*this.vol();s.connect(f1).connect(f2).connect(a).connect(c.destination);s.start(c.currentTime+t0);},
  // how long each sound rings (seconds): a sound can't start again while it is still playing
- DUR:{tierup:1.1,woosh:.8,roar:1.2,card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,nav:.035,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
+ DUR:{glint:.7,tierup:1.1,woosh:.8,roar:1.2,card:.12,reveal:.3,counter:.38,hit:.16,heal:.36,shard:.3,ice:.3,ash:.36,void:.85,curse:.8,gain:.3,tick:.08,nav:.035,newbattle:.9,ult:.9,win:1.2,lose:1.2},busy:{},
  seq(k,n,gap){const g=Math.max(gap,((this.DUR[k]||.25)*1000)+30);for(let i=0;i<n;i++)setTimeout(()=>this.play(k),i*g);},
  play(k){if(!this.ctx||this.vol()<=0||this.mute)return;const now=performance.now();if((this.busy[k]||0)>now)return;this.busy[k]=now+(this.DUR[k]||.25)*1000;try{switch(k){
   case 'card':this.noise(.07,.35,0,1500,7000);break;
@@ -1100,6 +1108,7 @@ const SFX={ctx:null,vol(){return OPT.muted?0:+(OPT.vol??0.5)},
   case 'nav':this.tone(1500,.03,'sine',.022);break;   // controller highlight moves
   case 'newbattle':this.noise(.5,.16,0,300,4000);this.tone(220,.5,'sawtooth',.045,0,440);break;
   case 'ult':this.tone(440,.35,'sawtooth',.05,0,880);this.tone(660,.35,'triangle',.05,.05,1320);break;
+  case 'glint':[2637,2093,3136,2349,2794].forEach((f,i)=>this.tone(f,.28,'sine',.03,i*.07));this.noise(.5,.035,.02,6000,14000);break;
   case 'tierup':[523,659,784,1047,1319].forEach((f,i)=>{this.tone(f,.5,'sine',.06,i*.09);this.tone(f*2,.35,'triangle',.018,i*.09+.01);});this.tone(262,1,'triangle',.035,0,1047);this.noise(.9,.05,.15,4000,12000);[2093,2637,3136].forEach((f,i)=>this.tone(f,.4,'sine',.025,.5+i*.06));break;   // magical rising arpeggio with a shimmer
   case 'woosh':this.noise(.55,.22,0,500,2500);this.noise(.7,.16,.12,2500,9000);this.tone(180,.7,'sawtooth',.03,0,1400);this.tone(360,.6,'triangle',.035,.08,2200);break;   // rising synth sweep
   case 'roar':this.tone(95,1.1,'sawtooth',.09,0,48);this.tone(142,1,'square',.035,.03,70);this.tone(71,1.2,'sawtooth',.07,.05,38);this.noise(1.1,.22,0,60,700);this.noise(.5,.12,.05,700,2600);break;   // low, growling synth roar
@@ -1349,7 +1358,7 @@ document.addEventListener('pointerdown',e=>{if(e.button>0||!pending||!S)return;c
 document.addEventListener('pointermove',e=>{const D=DRAG;if(!D||e.pointerId!==D.id)return;
   if(!D.on){if(Math.hypot(e.clientX-D.x0,e.clientY-D.y0)<8)return;D.on=true;
     const g=D.el.cloneNode(true);g.removeAttribute('data-a');g.removeAttribute('data-u');g.className+=' dragghost';Object.assign(g.style,{position:'fixed',left:D.r.left+'px',top:D.r.top+'px',width:D.r.width+'px',height:D.r.height+'px',margin:0,zIndex:60,pointerEvents:'none'});
-    document.body.appendChild(g);D.g=g;D.el._keepStyle=true;D.el.style.opacity='.25';document.body.classList.add('dragging');SFX.play('card');}
+    document.body.appendChild(g);D.g=g;if(D.kind==='play'&&glitOn()&&D.el.dataset.cid&&CARDS[D.el.dataset.cid].el==='E')glitFlash();D.el._keepStyle=true;D.el.style.opacity='.25';document.body.classList.add('dragging');SFX.play('card');}
   const vx=e.clientX-D.lx;D.lx=e.clientX;D.tilt=Math.max(-4.7,Math.min(4.7,D.tilt*.7+vx*.3));
   D.g.style.left=(e.clientX-D.ox)+'px';D.g.style.top=(e.clientY-D.oy)+'px';D.g.style.transform=`rotate(${D.tilt}deg) scale(1.08)`;
   const z=dragZone(D);if(z)z.classList.toggle('dropok',overZone(D,e.clientX,e.clientY));});
@@ -1427,7 +1436,7 @@ function cloudHTML(){
 }
 function arenaHTML(){
   const w=S.wcur;
-  const wx=w?`<button class="wcard ci-w_${w}${on('wflip')?' flip':''}" data-a="weather" aria-label="${esc(WEATHER[w].n)}"></button>`
+  const wx=w?`<button class="wcard ci-w_${w}${on('wflip')?' flip':''}${on('wglit')?' glit':''}" data-a="weather" aria-label="${esc(WEATHER[w].n)}"></button>`
     :`<div class="slot" style="aspect-ratio:1050/750;width:auto;height:calc(var(--cw)*1.4)">Weather deck<br>${S.wdeck.length} cards</div>`;
   const shop=S.phase==='regroup'||S.phase==='gain';const last=!shop&&S.battle&&S.round===4;const rnd=shop?'Regroup':S.battle?`Round ${S.round} of 4`:'Game start';
   const sd=p=>{const c=S.slot[p];const el=c&&CARDS[c.id].el;let cls='';
@@ -1441,9 +1450,13 @@ function arenaHTML(){
    ${S.pl.length>2?ffaTable(sd)
    :`<div class="duel"><div class="side"><span class="lbl">${esc(WIZ[S.pl[1].wiz].short)}</span>${sd(1)}</div><div class="side"><span class="lbl">You</span>${sd(0)}</div></div>`}`;
 }
+// Glittering Dust (weather): Earth cards do nothing when resolved but heal 2. Make that hard to miss.
+function glitOn(){return !!(S&&S.wcur==='glitter');}
+function glitFlash(snd){FX.wglit=performance.now()+1300;const w=document.querySelector('#arena .wcard');if(w){w.classList.remove('glit');void w.offsetWidth;w.classList.add('glit');}if(snd!==false)SFX.play('glint');}
+function glitNote(c){return glitOn()&&CARDS[c.id].el==='E'&&S.pl[0].hand.includes(c)?`<div class="glitnote"><i class="wcard ci-w_glitter"></i><span><b>Glittering Dust is out.</b> Earth cards do nothing this round except heal 2.</span></div>`:'';}
 function handHTML(){
   const pl=pending&&pending.req.k==='play';
-  const lk=tutLock();return S.pl[0].hand.map(c=>{const d=CARDS[c.id];return card(c,d.junk?'dead':(pl&&(!lk||c.id===lk)?'can':''),`data-a="hand" data-u="${c.u}"`);}).join('')||'<div class="lbl" style="align-self:center">Your hand is empty</div>';
+  const lk=tutLock();return S.pl[0].hand.map(c=>{const d=CARDS[c.id];return card(c,(d.junk?'dead':(pl&&(!lk||c.id===lk)?'can':''))+(glitOn()&&d.el==='E'?' glitd':''),`data-a="hand" data-u="${c.u}"`);}).join('')||'<div class="lbl" style="align-self:center">Your hand is empty</div>';
 }
 function promptHTML(){
   const el=$('#prompt');el.classList.toggle('ask',!!pending);el.classList.toggle('waiting',!pending);
@@ -1494,7 +1507,7 @@ function cinema(kind,x){const old=document.getElementById('cine');if(old)old.rem
   const el=document.createElement('div');el.id='cine';el.className=dr?'drag':'ult';el.style.setProperty('--d',d+'ms');el.setAttribute('aria-live','polite');
   el.innerHTML=`<div class="ct">${esc(name)}</div><div class="ci ${dr?'ci-'+x:'ci-ult_'+x}" role="img" aria-label="${esc(name)}"></div>${dr?'':`<div class="cw">${esc(W?W.n:'')}</div>`}`;
   if(RM())el.querySelector('.ci').style.animation='none';document.body.appendChild(el);SFX.play(dr?'roar':'woosh');setTimeout(()=>el.remove(),d+60);}
-function fx(t,p,x){if(t==='tierup'){SFX.play('tierup');return;}if(t==='ultcine'||t==='dragon'){if(!(RPLAY&&RPLAY.ff))cinema(t,x);if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t,p,x});return;}if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
+function fx(t,p,x){if(t==='tierup'){SFX.play('tierup');return;}if(t==='glitter'){glitFlash();return;}if(t==='ultcine'||t==='dragon'){if(!(RPLAY&&RPLAY.ff))cinema(t,x);if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t,p,x});return;}if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
   render();setTimeout(render,1500);}
@@ -1559,9 +1572,9 @@ function iconKeyHTML(){const P=ICONDATA.pics,row=(pic,name,txt)=>`<div class="ik
     row(P.wiz?img('wiz'):'','Wizard card',ITIP.wiz)].join('')}</div><p class="lbl">The icon in a card’s top-left corner is its element. Hover or tap any icon on a zoomed card to see what it means.</p>`;}
 function iconLegend(id){const d=CARDS[id];if(!d)return '';const ts=[...(ICONDATA.leg[id]||[])];if(d.ult&&!ts.includes('ult'))ts.push('ult');if(d.disc&&!ts.includes('disc'))ts.push('disc');
   return ts.length?`<div class="ileg" aria-label="Icons on this card">${ts.filter(k=>ICONDATA.pics[k]).map(k=>`<span class="ilegi"><img src="${ICONDATA.pics[k]}" alt=""><span>${esc(ITIP[k])}</span></span>`).join('')}</div>`:'';}
-function preview(c,acts=''){acts=`<button class="btn alt" data-a="ikey">Icon Key</button>`+acts;
+function preview(c,acts=''){if(glitNote(c))glitFlash();acts=`<button class="btn alt" data-a="ikey">Icon Key</button>`+acts;
   const d=CARDS[c.id];const tierNote=d.t&&d.t<=3?`Tier ${ROM[d.t]}`:(d.t===4?'Tier IV Dragon':'Special card');
-  openOv(`<div class="bigcard ci-${c.id}" role="img" aria-label="${esc(d.n)}">${iconSpots(c.id)}</div><div class="ikey">${iconKeyHTML()}</div><div class="lbl" style="margin-top:6px">${esc(d.n)}, ${ELN[d.el]}, ${tierNote}${d.disc?', has a discard effect':''}</div><div class="acts">${acts}<button class="btn alt" data-a="close">Close</button></div>`);
+  openOv(`<div class="bigcard ci-${c.id}" role="img" aria-label="${esc(d.n)}">${iconSpots(c.id)}</div><div class="ikey">${iconKeyHTML()}</div><div class="lbl" style="margin-top:6px">${esc(d.n)}, ${ELN[d.el]}, ${tierNote}${d.disc?', has a discard effect':''}</div>${glitNote(c)}<div class="acts">${acts}<button class="btn alt" data-a="close">Close</button></div>`);
 }
 function openPick(){
   const r=pending.req;const own=r.owner;
@@ -2081,7 +2094,7 @@ let LASTBEAT=0;
 setInterval(()=>{const n=performance.now(),d=n-LASTBEAT;LASTBEAT=n;   // count only time the match is on screen and running
   if(TR&&S&&!S.over&&!S.replay&&document.visibilityState==='visible'&&d>0&&d<5000)TR.play=(TR.play||0)+d;},1000);
 document.addEventListener('visibilitychange',()=>{LASTBEAT=performance.now();});
-function track(t,p,x){if(t==='tier'){SFX.play('tierup');if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t:'tierup',p});}if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
+function track(t,p,x){if(t==='glitter'){glitFlash();setTimeout(()=>{if(S)render();},1350);if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t:'glitter',p});}if(t==='tier'){SFX.play('tierup');if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t:'tierup',p});}if(S&&S.puzzle&&t==='blast')puzzleCheck('blast',x);if(!TR||!S)return;
   if(t==='dmg'){if(x.t===0)TR.minHp=Math.min(TR.minHp,S.pl[0].hp);if(p===0&&x.t===1){TR.dmg+=x.d;const k=S.battle+'-'+S.round;TR.rd[k]=(TR.rd[k]||0)+x.d;TR.maxRd=Math.max(TR.maxRd,TR.rd[k]);}return;}
   if(t==='blast'){if(x[0]>x[1])TR.maxBlastWin=Math.max(TR.maxBlastWin,x[0]);rpBlast(x);return;}
   if(p!==0)return;
