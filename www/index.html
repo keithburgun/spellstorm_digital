@@ -245,7 +245,7 @@ body.shop #app.phone{background:radial-gradient(120% 70% at 30% 0%,var(--shop2),
 .jl li.on{border-color:var(--bolt);background:color-mix(in srgb,var(--bolt) 18%,transparent);font-weight:700}
 #tmute{position:absolute;z-index:3;top:max(12px,env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));width:44px;height:44px;padding:9px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(18,11,32,.55);color:#e9e2ff;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,color .15s,transform .1s}
 #tmute:hover{background:rgba(60,40,100,.75)}#tmute:active{transform:scale(.92)}#tmute:focus-visible{outline:2px solid #c9a7ff;outline-offset:2px}#tmute.on{color:#ff9a9a}#tmute svg{width:100%;height:100%;display:block}
-#hand .card.glitd{position:relative;filter:saturate(.45) brightness(.82)}
+#hand .card.glitd{position:relative}
 #hand .card.glitd::after{content:'✦ Heal 2';position:absolute;left:50%;bottom:6%;transform:translateX(-50%);white-space:nowrap;font:800 calc(var(--cw)*.13)/1.15 system-ui,sans-serif;letter-spacing:.02em;color:#3a2600;background:linear-gradient(135deg,#fff3b0,#f5c542 55%,#ffe58a);padding:.25em .55em;border-radius:999px;box-shadow:0 0 0 1px rgba(0,0,0,.25),0 0 10px rgba(255,214,90,.75);pointer-events:none;animation:glitpulse 2.2s ease-in-out infinite}
 @keyframes glitpulse{0%,100%{box-shadow:0 0 0 1px rgba(0,0,0,.25),0 0 6px rgba(255,214,90,.5)}50%{box-shadow:0 0 0 1px rgba(0,0,0,.25),0 0 14px rgba(255,224,120,.95)}}
 #arena .wcard.glit{position:relative;z-index:6;animation:wglit 1.25s ease-out}
