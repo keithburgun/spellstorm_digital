@@ -63,22 +63,43 @@ ipcMain.handle('upd:go', async (e, url) => {
   if (typeof url !== 'string' || !url.startsWith(ALLOWED) || !url.endsWith(kind === 'win' ? '.exe' : '.AppImage')) throw new Error('That isn’t a Spellstorm update.');
   const send = p => { if (!e.sender.isDestroyed()) e.sender.send('upd:progress', p); };
   if (kind === 'win') {
-    // Replace Spellstorm.exe itself (same file name and place, so shortcuts keep working). A running .exe can't be
-    // overwritten, so a tiny helper script waits for the game to close, moves the download over the old file, and
-    // starts it again. If the file stays locked for ~2 minutes, it saves the new version under its own name next to it and starts that.
-    const me = process.env.PORTABLE_EXECUTABLE_FILE, dir = path.dirname(me), part = me + '.download';
+    // Replace the player's own Spellstorm .exe in place: same file, same name, same folder, so shortcuts keep working.
+    // Never leave a second copy next to it. Steps:
+    //  1. download into the temp folder, not next to the game (a synced Desktop/OneDrive or a virus scan can hold a fresh file there for minutes);
+    //  2. a small helper script waits until this game (and its portable launcher) has really exited;
+    //  3. it moves the download over the old .exe; if overwriting is refused, it renames the old one to .old and moves the new one in
+    //     (Windows often allows a rename when it refuses an overwrite);
+    //  4. it starts the game again. If the swap is still refused after ~3 minutes, it starts the old version unchanged (the update
+    //     will simply be offered again) — it no longer saves the new version under another name.
+    // Every step is written to %TEMP%\spellstorm-update.log, so a failure can be diagnosed.
+    const os = require('os'), tmp = os.tmpdir(), stamp = Date.now();
+    const me = process.env.PORTABLE_EXECUTABLE_FILE, old = me + '.old', part = path.join(tmp, 'spellstorm-update-' + stamp + '.exe');
     await fetchTo(url, part, send);
-    try { fs.unlinkSync(me + '.old'); } catch (err) {}
-    const bat = path.join(require('os').tmpdir(), 'spellstorm-update-' + Date.now() + '.cmd');
+    try { fs.unlinkSync(old); } catch (err) {}
+    const log = path.join(tmp, 'spellstorm-update.log'), bat = path.join(tmp, 'spellstorm-update-' + stamp + '.cmd');
+    const pids = [process.pid, process.ppid].filter(n => Number.isInteger(n) && n > 4);
+    const L = m => `echo [%date% %time%] ${m}>>"%LOG%"`;
     fs.writeFileSync(bat, [
-      '@echo off', 'chcp 65001 >nul', 'setlocal', `set "ME=${me}"`, `set "PART=${part}"`, `set "NEWX=${path.join(dir, path.basename(new URL(url).pathname))}"`, 'set n=0',
-      ':loop', 'move /Y "%PART%" "%ME%" >nul 2>&1 && goto done', 'set /a n+=1', 'if %n% geq 120 goto fail',
-      'ping -n 2 127.0.0.1 >nul', 'goto loop',
-      ':done', 'start "" "%ME%"', 'goto end',
-      ':fail', 'move /Y "%PART%" "%NEWX%" >nul 2>&1', 'start "" "%NEWX%"',
+      '@echo off', 'chcp 65001 >nul', 'setlocal',
+      `set "ME=${me}"`, `set "OLD=${old}"`, `set "OLDN=${path.basename(old)}"`, `set "PART=${part}"`, `set "LOG=${log}"`,
+      L(`update to ${path.basename(new URL(url).pathname)}: waiting for Spellstorm (pids ${pids.join(' ')}) to close`),
+      'set n=0',
+      ':wait', 'set busy=',
+      ...pids.map(id => `tasklist /FI "PID eq ${id}" /NH 2>nul | find " ${id} " >nul && set busy=1`),
+      'if not defined busy goto swap', 'set /a n+=1', 'if %n% geq 90 goto swap', 'ping -n 2 127.0.0.1 >nul', 'goto wait',
+      ':swap', L('game closed after %n% s; replacing the game file'), 'set n=0',
+      ':loop',
+      'move /Y "%PART%" "%ME%" >nul 2>&1 && goto done',
+      'if %n% geq 10 if not exist "%OLD%" ren "%ME%" "%OLDN%" >nul 2>&1',
+      'if not exist "%ME%" move /Y "%PART%" "%ME%" >nul 2>&1 && goto done',
+      'if not exist "%ME%" if exist "%OLD%" move /Y "%OLD%" "%ME%" >nul 2>&1',   // (the new one wouldn't go in: put the old one back and try again)
+      'set /a n+=1', 'if %n% geq 180 goto fail', 'ping -n 2 127.0.0.1 >nul', 'goto loop',
+      ':done', L('replaced OK after %n% tries'), 'start "" "%ME%"', 'goto end',
+      ':fail', L('FAILED: the game file stayed locked; starting the old version (the update will be offered again)'),
+      'del "%PART%" >nul 2>&1', 'if not exist "%ME%" if exist "%OLD%" move /Y "%OLD%" "%ME%" >nul 2>&1', 'start "" "%ME%"',
       ':end', '(goto) 2>nul & del "%~f0"', ''].join('\r\n'));
     app.releaseSingleInstanceLock();
-    spawn('cmd.exe', ['/d', '/c', bat], { detached: true, stdio: 'ignore', windowsHide: true, cwd: dir }).unref();
+    spawn('cmd.exe', ['/d', '/c', bat], { detached: true, stdio: 'ignore', windowsHide: true, cwd: tmp }).unref();
   } else {
     const img = process.env.APPIMAGE, part = img + '.download';
     await fetchTo(url, part, send);
@@ -94,7 +115,8 @@ ipcMain.handle('upd:go', async (e, url) => {
 function tidyOldExes() {
   const me = process.env.PORTABLE_EXECUTABLE_FILE; if (!me) return;
   let tries = 0;
-  const go = () => { const old = me + '.old'; if (!fs.existsSync(old)) return; try { fs.unlinkSync(old); } catch (err) { if (++tries < 6) setTimeout(go, 4000); } };
+  // (also a Spellstorm.exe.download left beside the game by the older updater)
+  const go = () => { let left = 0; for (const f of [me + '.old', me + '.download']) { if (!fs.existsSync(f)) continue; try { fs.unlinkSync(f); } catch (err) { left++; } } if (left && ++tries < 6) setTimeout(go, 4000); };
   setTimeout(go, 4000);
 }
 
