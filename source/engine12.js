@@ -148,8 +148,10 @@ const _decide12 = Game.prototype.decide;
 Game.prototype.decide = async function (p, req) {
   const S = this.S; let v;
   if (req.k === 'yn' && req.ult && this._fork && !this.io.sim && S.phase === 'resolve' && (MIDYN.ult || verHas(S, p, 'U')) && isAI(S, p) && !rankCfg(S, p)
-      && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial) {   // Expert's Ultimates: replay the round both ways (A/B flag 'U')
-    v = await rolloutMidAns(this, p, req, true); if (v == null) v = await _decide12.call(this, p, req);
+      && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial && !this.io.replayAll) {   // Expert's Ultimates: replay the round both ways (A/B flag 'U')
+    // (in the app this choice is recorded for replays and thinks on its own random numbers, like every other bot decision)
+    v = this.io.aiWrap ? await this.io.aiWrap(p, () => rolloutMidAns(this, p, req, true)) : await rolloutMidAns(this, p, req, true);
+    if (v == null) v = await _decide12.call(this, p, req); else if (this.io.rec) this.io.rec(p, req, v);
   } else v = await _decide12.call(this, p, req);
   if (this._dlog) { let e = encAnsG(req, v); if (Array.isArray(e) && e[0] === 'id') e = ['id', this._lastGainId]; this._dlog.push([p, req.k, e]); }
   return v;
