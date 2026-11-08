@@ -2682,8 +2682,10 @@ const _decide12 = Game.prototype.decide;
 Game.prototype.decide = async function (p, req) {
   const S = this.S; let v;
   if (req.k === 'yn' && req.ult && this._fork && !this.io.sim && S.phase === 'resolve' && (MIDYN.ult || verHas(S, p, 'U')) && isAI(S, p) && !rankCfg(S, p)
-      && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial) {   // Expert's Ultimates: replay the round both ways (A/B flag 'U')
-    v = await rolloutMidAns(this, p, req, true); if (v == null) v = await _decide12.call(this, p, req);
+      && diffOf(S, p) === 'expert' && S.pl.length === 2 && !S.puzzle && !S.tutorial && !this.io.replayAll) {   // Expert's Ultimates: replay the round both ways (A/B flag 'U')
+    // (in the app this choice is recorded for replays and thinks on its own random numbers, like every other bot decision)
+    v = this.io.aiWrap ? await this.io.aiWrap(p, () => rolloutMidAns(this, p, req, true)) : await rolloutMidAns(this, p, req, true);
+    if (v == null) v = await _decide12.call(this, p, req); else if (this.io.rec) this.io.rec(p, req, v);
   } else v = await _decide12.call(this, p, req);
   if (this._dlog) { let e = encAnsG(req, v); if (Array.isArray(e) && e[0] === 'id') e = ['id', this._lastGainId]; this._dlog.push([p, req.k, e]); }
   return v;
@@ -4102,7 +4104,8 @@ let TIPBUSY=false;
 function stateHash(){const s=JSON.stringify({b:S.battle,r:S.round,w:S.wcur,i:S.init,c:S.cloud,p:S.pl.map(P=>[P.wiz,P.hp,P.mana,P.power,P.tier,P.shards,P.hand.map(c=>c.u),P.deck.map(c=>c.u),P.discard.map(c=>c.u)])});
   let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
 let TIPCACHE=null;
-async function showTip(){if(!pending||TIPBUSY||!tipsOn())return;const realRand=Math.random;Math.random=seededRNG(stateHash());try{await showTip2();}finally{Math.random=realRand;}}
+let TIPP=null;   // a tip still thinking (it borrows the global random numbers, so the game must not move on until it's done)
+async function showTip(){if(!pending||TIPBUSY||!tipsOn())return;const realRand=Math.random;Math.random=seededRNG(stateHash());let done;TIPP=new Promise(r=>done=r);try{await showTip2();}finally{Math.random=realRand;TIPP=null;done();}}
 async function showTip2(){const r=pending.req;TIPBUSY=true;
   const proxy=Object.assign(Object.create(Object.getPrototypeOf(S)),S,{aiDiff:expertView(S,0)});
   if(r.k==='play'){openOv('<h2>Expert Tip</h2><p class="lbl">The Expert is thinking<span class="mmdots"><i>.</i><i>.</i><i>.</i></span></p>');await sleep(30);
@@ -4169,26 +4172,42 @@ document.addEventListener('pointerup',e=>dragEnd(e,false));document.addEventList
 document.addEventListener('click',e=>{if(performance.now()<DRAG_SUPPRESS){e.stopPropagation();e.preventDefault();}},true);
 /* ---------- Replays: re-run the real engine from the start snapshot + seed, feeding in your recorded choices ---------- */
 let RPLAY=null;
+// Replays v2 (Nov 2026): every player's choices are recorded, not just yours, so a replay never depends on the bots thinking the
+// same way twice (a game update that changes the AI used to knock old replays out of sync). For that to work the bots must not draw
+// from the game's random numbers while they think: each bot decision runs on its own stream, so the game's shuffles and draws
+// depend only on the match itself.
+let AISEQ=0;
+async function aiOwnRandom(X,fn){const g0=Math.random,r=seededRNG(((X.seed>>>0)^Math.imul(++AISEQ,2654435761))>>>0);Math.random=r;try{return await fn();}finally{Math.random=g0;}}
+function verText(){return ((document.getElementById('ver')||{}).textContent||'').trim();}
 function encAns(req,v){if(req.k==='play')return v?v.u:null;if(req.k==='pick')return (v||[]).map(c=>c.u);return v===undefined?null:v;}
-function decAns(req,a){if(req.k==='play')return S.pl[0].hand.find(c=>c.u===a)||null;if(req.k==='pick')return (req.items||[]).filter(c=>(a||[]).includes(c.u));return a;}
+function decAns(req,a,p=0){if(req.k==='play')return S.pl[p].hand.find(c=>c.u===a)||null;if(req.k==='pick'){const it=req.items||[];return (a||[]).map(u=>it.find(c=>c.u===u)).filter(Boolean);}return a;}   // (in the order chosen: it decides e.g. the order cards land in a discard pile)
 function ansNote(req,v){try{if(req.k==='gain')return typeof v==='string'?`You took ${CARDS[v].n}.`:v>=0&&S.cloud[v]?`You gained ${CARDS[S.cloud[v].id].n}.`:'You skipped the gain.';
   if(req.k==='yn')return req.ult?(v?'You used your Ultimate!':'You saved your mana.'):`You chose ${v?'Yes':'No'}.`;if(req.k==='opt')return `You chose: ${String(req.opts[v]).replace(/\{([FEW])\}/g,(m,e)=>ELN[e])}.`;
   if(req.k==='pick')return v.length?`You chose ${v.map(c=>CARDS[c.id].n).join(', ')}.`:'';if(req.k==='player')return `You chose ${v===0?'yourself':WIZ[S.pl[v].wiz].short}.`;}catch(e){}return '';}
-function replayFits(req,a){if(req.k==='play')return a==null||S.pl[0].hand.some(c=>c.u===a);if(req.k==='pick')return Array.isArray(a)&&a.every(u=>(req.items||[]).some(c=>c.u===u));if(req.k==='yn')return typeof a==='boolean';return true;}
+function replayFits(req,a,p=0){if(req.k==='play')return a==null||S.pl[p].hand.some(c=>c.u===a);if(req.k==='pick')return Array.isArray(a)&&a.every(u=>(req.items||[]).some(c=>c.u===u));if(req.k==='yn')return typeof a==='boolean';return true;}
 function replayDesync(){if(!RPLAY||RPLAY.done)return;const R=RPLAY;gameId++;pending=null;thinking=false;R.desync={decision:R.i,turn:R.turn};
   if(R.ff){R.ff=false;speed=R.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}R.done=true;R.auto=false;R.paused=true;R.target=null;render();rpBar();
-  if(R.exp)exportReady();else toast(`This replay went out of sync at decision ${R.i+1} (turn ${R.turn+1}), so it stops here. Please use Export match so Keith can look into it.`);}
-function replayDecide(req,id){if(RPLAY&&RPLAY.hold&&RPLAY.i===0){RPLAY.hold=false;RPLAY.paused=true;rpBar();}   // start: pause on turn 1, after the opening deal
+  if(R.exp)exportReady();else toast(rpWhy(R)?`This replay went out of sync at turn ${R.turn+1}: ${rpWhy(R)}`:`This replay went out of sync at decision ${R.i+1} (turn ${R.turn+1}), so it stops here. Please use Export match so Keith can look into it.`);}
+// why a replay may drift: it re-runs the match on this version of the game, and older recordings also re-run the bots' thinking
+function rpWhy(R){const X=R&&R.h&&R.h.rpx;if(!X)return '';const v=verText();if(X.ver&&v&&X.ver!==v)return `it was recorded on an older version of Spellstorm (${X.ver}), and updates since then change how it plays out.`;
+  if(X.v!==2)return 'it was recorded before replays saved the bots’ choices, so an update to the bots changes how it plays out.';return '';}
+function replayDecide(req,id,p=0){if(RPLAY&&RPLAY.hold&&RPLAY.i===0){RPLAY.hold=false;RPLAY.paused=true;rpBar();}   // start: pause on turn 1, after the opening deal
   return new Promise(res=>setTimeout(async()=>{while(RPLAY&&RPLAY.paused&&id===gameId)await new Promise(r=>setTimeout(r,120));if(id!==gameId)return;
-  if(RPLAY.i>=RPLAY.d.length){replayDone(null);return;}if(!replayFits(req,RPLAY.d[RPLAY.i])){replayDesync();return;}const v=decAns(req,RPLAY.d[RPLAY.i++]);const n=req.k==='play'||RPLAY.ff?'':ansNote(req,v);if(n)toast(n);res(v);},(req.k==='play'?700:900)*speed));}
+  if(RPLAY.i>=RPLAY.d.length){replayDone(null);return;}const e=RPLAY.d[RPLAY.i],a=RPLAY.v2?(Array.isArray(e)&&e[0]===p?e[1]:undefined):e;
+  if((RPLAY.v2&&!(Array.isArray(e)&&e[0]===p))||!replayFits(req,a,p)){replayDesync();return;}RPLAY.i++;const v=decAns(req,a,p);const n=p!==0||req.k==='play'||RPLAY.ff?'':ansNote(req,v);if(n)toast(n);res(v);},(p===0?(req.k==='play'?700:900):(req.k==='play'?600:300))*speed));}
 function snapTurn(){const s=S;return{battle:s.battle,round:s.round,initiative:s.init,weather:s.wcur&&s.wcur.id||s.wcur||null,storm:s.cloud.map(c=>c?c.id:null),void:s.void.length,
   players:s.pl.map(P=>({wizard:P.wiz,hp:P.hp,max:P.max,shards:P.shards,mana:P.mana,power:P.power,tier:P.tier,hand:P.hand.map(c=>c.id),deck:P.deck.length,discard:P.discard.map(c=>c.id),doom:P.doom||0,energy:P.energy||0}))};}
 function exportData(){const R=RPLAY,h=R.h,X=h.rpx;return{format:'spellstorm-match-v1',exported:new Date().toISOString(),version:(document.getElementById('ver')||{}).textContent||'',edition:(JSON.parse(X.s0).ed===2?'2E':'First Edition'),
   mode:h.mode,you:h.me&&h.me.wiz,opponents:(h.opp||[]).map(x=>x.wiz||x),result:{won:h.won,how:h.why,battles:h.battles,rounds:h.rounds},desync:R.desync||null,
-  turns:R.exp?R.exp.snaps:[],log:R.exp?R.exp.log:[],replay:{seed:X.seed,start:X.s0,decisions:X.d,reseeds:X.rs||[]}};}
+  turns:R.exp?R.exp.snaps:[],log:R.exp?R.exp.log:[],replay:{v:X.v||1,recordedOn:X.ver||null,seed:X.seed,start:X.s0,decisions:X.d,reseeds:X.rs||[]}};}
 let EXPORTTXT='';
+function rpFileName(){try{const h=RPLAY&&RPLAY.h,X=h&&h.rpx,s0=X?JSON.parse(X.s0):null,nm=w=>(WIZ[w]&&WIZ[w].short)||RNAME[w]||w;
+  const me=s0?s0.pl[0].wiz:h.me.wiz,foes=s0?s0.pl.slice(1).map(P=>P.wiz):(h.foes||[]).map(f=>f.wiz),d=new Date(h.t||Date.now()),p2=n=>String(n).padStart(2,'0');
+  const id=((X&&X.seed)>>>0).toString(36).toUpperCase().padStart(6,'0');
+  return `Spellstorm Replay - ${nm(me)} vs ${foes.map(nm).join(' & ')} - ${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())} - ${id}.json`.replace(/[\\/:*?"<>|]/g,'');}
+  catch(e){return `Spellstorm Replay - ${Date.now()}.json`;}}
 function exportReady(){const txt=JSON.stringify(exportData());EXPORTTXT=txt;const kb=Math.round(txt.length/1024),web=!!(window.claude&&claude.use);
-  openOv(`<h2>Match file ready</h2><p>A detailed record of this match (${kb} KB): every turn’s hands, decks and discards, the full log, and everything needed to replay it exactly.${RPLAY&&RPLAY.desync?` <b>Note:</b> the replay went out of sync at decision ${RPLAY.desync.decision+1}, which is useful to know.`:''}</p>
+  openOv(`<h2>Match file ready</h2><p>A detailed record of this match (${kb} KB): every turn’s hands, decks and discards, the full log, and everything needed to replay it exactly.${RPLAY&&RPLAY.desync?` <b>Note:</b> the replay went out of sync at decision ${RPLAY.desync.decision+1}${rpWhy(RPLAY)?`, because ${rpWhy(RPLAY)} The file still holds the full record.`:', which is useful to know.'}`:''}</p>
   <div class="acts">${web?'<button class="btn" data-a="mexsend">Send to Keith</button>':''}<button class="btn${web?' alt':''}" data-a="mexcopy">Copy to clipboard</button><button class="btn alt" data-a="mexsave">Download file</button><button class="btn alt" data-a="close">Close</button></div>`);}
 function replayTurnDone(){if(!RPLAY)return;RPLAY.turn++;if(RPLAY.exp)RPLAY.exp.snaps.push(snapTurn());if(RPLAY.target!=null&&RPLAY.turn>=RPLAY.target)replayArrive();else rpBar();}
 function replayArrive(){RPLAY.target=null;if(RPLAY.ff){RPLAY.ff=false;speed=RPLAY.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}RPLAY.paused=!RPLAY.auto;render();rpBar();}
@@ -4206,10 +4225,21 @@ function replayCtl(v){const R=RPLAY;if(!R)return;R.hold=false;
   if(v==='start'){replayRestart(0);return;}
   if(v==='prev'){replayRestart(Math.max(0,(R.done?R.turn:R.turn)-1));return;}
   if(v==='end'){if(R.done)return;R.auto=false;R.target=Infinity;R.ff=true;R.paused=false;speed=0.0005;SFX.mute=true;rpBar();return;}}
+// Import a replay someone exported (a .json file from Export match, or its text pasted in) and watch it.
+function importSheet(msg){openOv(`<h2>Import replay</h2><p>Open a match file saved with <b>Export match</b>, or paste its text below.</p>
+  <div class="acts" style="justify-content:flex-start"><button class="btn" data-a="rpimpfile">Choose file…</button></div>
+  <textarea id="rpimptxt" rows="5" style="width:100%;box-sizing:border-box;margin-top:10px;font:12px/1.3 ui-monospace,monospace;border-radius:10px;padding:8px" placeholder="…or paste the match text here" aria-label="Match text"></textarea>
+  ${msg?`<p class="lbl" style="color:#e66">${esc(msg)}</p>`:''}<div class="acts"><button class="btn" data-a="rpimpgo">Watch</button><button class="btn alt" data-a="rpimpback">Back</button></div>`);}
+function importReplay(txt){let o;try{o=JSON.parse(String(txt||'').trim());}catch(e){importSheet('That isn’t a Spellstorm match file (it couldn’t be read).');return;}
+  const R=o&&o.replay;if(!R||typeof R.start!=='string'||!Array.isArray(R.decisions)){importSheet('That file doesn’t contain a Spellstorm replay.');return;}
+  let s0;try{s0=JSON.parse(R.start);}catch(e){importSheet('The replay in that file is damaged.');return;}if(!s0||!Array.isArray(s0.pl)||!s0.pl.length||!WIZ[s0.pl[0].wiz]){importSheet('The replay in that file is damaged.');return;}
+  const res=o.result||{};const h={t:Date.parse(o.exported)||Date.now(),imported:true,mode:o.mode,me:{wiz:s0.pl[0].wiz},foes:s0.pl.slice(1).map(P=>({wiz:P.wiz})),opp:s0.pl.slice(1).map(P=>({wiz:P.wiz})),
+    won:res.won,why:res.how,battles:res.battles,rounds:res.rounds,rpx:Object.assign({seed:R.seed>>>0,s0:R.start,d:R.decisions,rs:Array.isArray(R.reseeds)?R.reseeds:[]},R.v===2?{v:2}:{},R.recordedOn?{ver:R.recordedOn}:{})};
+  watchReplay(h,'import');}
 function watchReplay(h,from){if(!h||!h.rpx)return;closeOv();begin(h.me.wiz,null,{replay:{h,from}});}
 function replayDone(r){if(!RPLAY)return;const h=RPLAY.h;gameId++;pending=null;thinking=false;if(RPLAY.ff){RPLAY.ff=false;speed=RPLAY.speed0;SFX.mute=false;SEEN=new Map();ANIM_ON=false;}RPLAY.done=true;RPLAY.auto=false;RPLAY.paused=true;RPLAY.target=null;render();rpBar();if(RPLAY.exp){exportReady();return;}
   toast(`End of the replay: ${h.won?'you won':'you lost'} ${({shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'})[h.why]||''}.`);}
-function replayExit(){const from=RPLAY&&RPLAY.from;if(RPLAY)speed=RPLAY.speed0;SFX.mute=false;RPLAY=null;$('#rpbar').classList.remove('show');closeOv();showTitle();if(from==='hist'){statsTab='hist';statsSheet();}}
+function replayExit(){let from=RPLAY&&RPLAY.from;if(from==='import')from='hist';if(RPLAY)speed=RPLAY.speed0;SFX.mute=false;RPLAY=null;$('#rpbar').classList.remove('show');closeOv();showTitle();if(from==='hist'){statsTab='hist';statsSheet();}}
 function xtra(p){
   const P=S.pl[p],row=(k,n,m)=>`<span class="tokrow">${Array.from({length:m},(_,i)=>`<i class="tk ci-tk_${k} ${i<n?'':'off'}"></i>`).join('')}</span>`;let h='';
   if(P.rb)h=`<span data-k="energy" class="stat" title="Blast Tokens (his Blast Score)">Blast ${row('blast',P.blast,6)}</span><span class="rbult" title="Ultimate cards: one face-up, one face-down">${P.ultUp?`<button class="card ci-${P.ultUp.id}" data-a="rbup" data-p="${p}" aria-label="${esc(CARDS[P.ultUp.id].n)}"></button>`:''}${P.ultDown?'<i class="card back ci-back"></i>':''}</span>`;
@@ -4327,9 +4357,14 @@ const io={sim:false,
     return new Promise(res=>{pending={req,res};sel=[];render();if(req.k==='pick')openPick();else if(req.trap)trapSheet(0,req);else if(req.k==='opt'&&req.opts.length>3)optSheet(req);else if(req.k==='gain'&&!req.slots.length&&!req.special)answer(-1);});
   }};
 function makeIO(id){return {sim:false,
+  get replayAll(){return !!(S&&S.replay&&RPLAY&&RPLAY.v2);},   // a v2 replay: every choice comes from the recording
+  aiWrap(p,fn){const X=TR&&TR.rpx;return X&&X.v===2&&!S.replay?aiOwnRandom(X,fn):fn();},
+  rec(p,req,v){const X=TR&&TR.rpx;if(X&&X.v===2&&!S.replay&&id===gameId)X.d.push([p,encAns(req,v)]);},
   log(m,c){if(id===gameId)io.log(m,c);},ev(t,p,x){if(id===gameId)track(t,p,x);},render(){if(id===gameId)render();},pause:ms=>cinePause(ms),fx(t,p,x){if(id===gameId)fx(t,p,x);},
-  decide(g,p,req){if(id!==gameId)return new Promise(()=>{});if(p===0&&S.replay)return replayDecide(req,id);const pr=io.decide(g,p,req);
-    if(p===0&&TR&&TR.rpx)return pr.then(v=>{TR.rpx.d.push(encAns(req,v));return v;});return pr;},
+  decide(g,p,req){if(id!==gameId)return new Promise(()=>{});
+    if(S.replay&&RPLAY){if(RPLAY.v2||p===0)return replayDecide(req,id,p);return io.decide(g,p,req);}   // v2 replays feed every player's recorded choice; older ones re-run the bots
+    const X=TR&&TR.rpx;if(X&&X.v===2){const pr=p===0?io.decide(g,p,req):aiOwnRandom(X,()=>io.decide(g,p,req));return pr.then(v=>{if(id===gameId)X.d.push([p,encAns(req,v)]);return v;});}
+    const pr=io.decide(g,p,req);if(p===0&&X)return pr.then(v=>{X.d.push(encAns(req,v));return v;});return pr;},
   checkpoint(){if(id!==gameId)return;
     if(S.replay&&RPLAY){RPLAY.cp=(RPLAY.cp||0)+1;const rs=[...(RPLAY.h.rpx.rs||[])].reverse().find(x=>x.cp===RPLAY.cp);if(rs)seedRandom(rs.seed);}   // replays switch seeds exactly where the match was continued
     else if(TR&&TR.rpx){if(TR.rpx.resumed){TR.rpx.resumed=false;const seed=Math.floor((window._mathRandomReal||Math.random)()*4294967295)>>>0;seedRandom(seed);TR.rpx.rs=(TR.rpx.rs||[]).filter(x=>x.cp!==(TR.rpx.cp||0));TR.rpx.rs.push({cp:TR.rpx.cp||0,seed});}
@@ -4339,7 +4374,7 @@ function makeIO(id){return {sim:false,
   tut(st){if(id!==gameId)return new Promise(()=>{});return tutStage(st);},
   ack(k){if(id!==gameId)return new Promise(()=>{});if(S.replay)return sleep(1800);return new Promise(res=>{ACK={k,res};render();setTimeout(()=>{const b=document.querySelector('[data-a=ack]');if(b)b.focus();},60);});}};}
 let ACK=null;
-function answer(v){const p=pending;pending=null;captureSheet(v);closeOv();render();p.res(v);}
+function answer(v){const p=pending;pending=null;captureSheet(v);closeOv();render();if(TIPP)TIPP.then(()=>p.res(v));else p.res(v);}   // answered while a tip is still thinking: the game carries on once it's done
 
 // ---------- overlays ----------
 // the win/loss screen, kept so Menu can bring it back after 'View board'
@@ -4555,10 +4590,15 @@ document.addEventListener('click',e=>{
   if(a==='tip'){showTip();return;}
   if(a==='tipplay'){const c=S&&S.pl[0].hand.find(x=>x.u==b.dataset.u);closeOv();if(c&&pending&&pending.req.k==='play'){SFX.play('card');answer(c);}return;}
   if(a==='rpwatch'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rp){RPV={back:i<0?'end':'hist'};replayView(h,0);}return;}
+  if(a==='rpimport'){importSheet();return;}
+  if(a==='rpimpback'){statsTab='hist';statsSheet();return;}
+  if(a==='rpimpgo'){const t=($('#rpimptxt')||{}).value||'';if(!t.trim()){importSheet('Choose a file or paste the match text first.');return;}importReplay(t);return;}
+  if(a==='rpimpfile'){const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json,text/plain';inp.style.display='none';document.body.appendChild(inp);
+    inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.remove();if(!f)return;if(f.size>8e6){importSheet('That file is too big to be a Spellstorm replay.');return;}const r=new FileReader();r.onload=()=>importReplay(r.result);r.onerror=()=>importSheet('That file couldn’t be opened.');r.readAsText(f);};inp.click();return;}
   if(a==='rpplay'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rpx)watchReplay(h,i<0?'end':'hist');return;}
   if(a==='rpctl'){replayCtl(b.dataset.v);return;}
   if(a==='mexcopy'){navigator.clipboard&&navigator.clipboard.writeText(EXPORTTXT).then(()=>toast('Match file copied — paste it into a message to Keith.'),()=>toast('Copy failed on this device; try Download file.'));return;}
-  if(a==='mexsave'){try{const u=URL.createObjectURL(new Blob([EXPORTTXT],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download=`spellstorm-match-${Date.now()}.json`;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Downloading the match file…');}catch(e){toast('Download isn’t available here; use Copy to clipboard.');}return;}
+  if(a==='mexsave'){try{const u=URL.createObjectURL(new Blob([EXPORTTXT],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download=rpFileName();document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Downloading the match file…');}catch(e){toast('Download isn’t available here; use Copy to clipboard.');}return;}
   if(a==='mexsend'){(async()=>{try{const db=await claude.use('db');await db.collection('matchlogs').add({t:Date.now(),size:EXPORTTXT.length,data:EXPORTTXT.slice(0,900000)});toast('Sent to Keith. Thank you!');}catch(e){toast('Couldn’t send it; use Copy to clipboard instead.');}})();return;}
   if(a==='rpexport'){const L=(loadProf().hist||[]).slice().reverse(),i=+b.dataset.i,h=i<0?L[0]:L[i];if(h&&h.rpx){closeOv();begin(h.me.wiz,null,{replay:{h,from:i<0?'end':'hist',target:Infinity,exp:true}});}return;}
   if(a==='rpexit'){replayExit();return;}
@@ -5033,8 +5073,8 @@ let HOPEN=-1,DAILYRES=null;
 const WHY={shards:'by Storm Shards',health:'by health',tie:'on the tiebreak',resign:'by resignation'};
 function durOf(h){return h&&(h.act||h.dur<=Math.max(1,h.rounds||1)*600)?h.dur:null;}   // older records measured wall-clock time
 function fmtDur(s){if(s==null)return '—';const m=Math.floor(s/60);return m?`${m}m ${String(s%60).padStart(2,'0')}s`:`${s}s`;}
-function historyHTML(P){const L=(P.hist||[]).slice().reverse();
-  if(!L.length)return '<p>No matches yet. Finished matches appear here (the tutorial and online matches aren’t recorded).</p>';
+function historyHTML(P){const L=(P.hist||[]).slice().reverse(),imp='<div class="acts" style="justify-content:flex-end;margin:0 0 8px"><button class="btn alt" data-a="rpimport">Import replay…</button></div>';
+  if(!L.length)return imp+'<p>No matches yet. Finished matches appear here (the tutorial and online matches aren’t recorded).</p>';
   const last=L.slice(0,20),w=last.filter(h=>h.won).length,valid=L.slice(0,20).map(durOf).filter(x=>x!=null),avg=valid.length?Math.round(valid.reduce((a,b)=>a+b,0)/valid.length):null;
   const cnt={};for(const h of L)cnt[h.me.wiz]=(cnt[h.me.wiz]||0)+1;const fav=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
   const who=f=>`${f.name?esc(f.name)+' ':''}${RNAME[f.wiz]||f.wiz}${f.ally?' (ally)':''}`;
@@ -5050,7 +5090,7 @@ function historyHTML(P){const L=(P.hist||[]).slice().reverse();
           ${h.foes.map(f=>`<tr><td>${who(f)}</td><td>${f.out?'eliminated':f.hp+'/'+f.max}</td><td>${f.sh}</td><td>${ROM[f.tier]||f.tier}</td></tr>`).join('')}</table>
         ${h.rp||h.rpx?`<div class="acts" style="justify-content:flex-start">${h.rpx?`<button class="btn alt" data-a="rpplay" data-i="${i}">▶ Watch replay</button><button class="btn alt" data-a="rpexport" data-i="${i}">Export match</button>`:''}${h.rp?`<button class="btn alt" data-a="rpwatch" data-i="${i}">Round summary</button>`:''}</div>`:''}<div class="hstats">${[['Damage dealt',h.st.dmg],['Healing',h.st.heal],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons gained',h.st.dragons],['Cards voided',h.st.voids],['Junk given',h.st.give]].map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>
       </div>`:''}</li>`;};
-  return `<div class="kpis"><div class="kpi"><b>${w}–${last.length-w}</b><span>Last ${last.length} matches</span></div><div class="kpi"><b>${fmtDur(avg)}</b><span>Average length</span></div><div class="kpi"><b>${RNAME[fav]}</b><span>Most played</span></div><div class="kpi"><b>${L.length}</b><span>Matches saved</span></div></div>
+  return imp+`<div class="kpis"><div class="kpi"><b>${w}–${last.length-w}</b><span>Last ${last.length} matches</span></div><div class="kpi"><b>${fmtDur(avg)}</b><span>Average length</span></div><div class="kpi"><b>${RNAME[fav]}</b><span>Most played</span></div><div class="kpi"><b>${L.length}</b><span>Matches saved</span></div></div>
     <ul class="hlist">${L.map(row).join('')}</ul>`;}
 // Ranked-scale strength of each difficulty (measured against the Ranked ladder, Oct 2026): a Ranked win over a higher-rated opponent earns that medal
 const MEDAL_ELO={normal:895,hard:1115,expert:1380};
@@ -5131,10 +5171,10 @@ async function begin(w,opp,o={}){
   SEEN=new Map();ANIM_ON=false;TRANSIT=new Map();LASTV=[{},{}];LASTSP=null;LASTJ=null;LASTVOID=null;TOURRES=null;TUT.step=null;TUT.res=null;TUT.off=false;TUT.seen={};
   if(o.resume){S=o.resume.S;TR=o.resume.TR;logs=o.resume.logs||[];if(TR&&TR.rpx){TR.rpx.resumed=true;}}
   else if(o.replay){const X=o.replay.h.rpx,tg=o.replay.target||0,sp0=o.replay.speed0!=null?o.replay.speed0:speed;S=JSON.parse(X.s0);S.replay=true;S.tips=false;TR=null;
-    RPLAY={d:X.d,i:0,h:o.replay.h,from:o.replay.from,speed0:sp0,turn:0,auto:false,done:false,target:tg>0?tg:null,ff:tg>0,paused:false,hold:!(tg>0),view:o.replay.view||0,exp:o.replay.exp?{snaps:[],log:[]}:null};speed=RPLAY.ff?0.0005:sp0;SFX.mute=RPLAY.ff;seedRandom(X.seed);}
+    RPLAY={v2:X.v===2,d:X.d,i:0,h:o.replay.h,from:o.replay.from,speed0:sp0,turn:0,auto:false,done:false,target:tg>0?tg:null,ff:tg>0,paused:false,hold:!(tg>0),view:o.replay.view||0,exp:o.replay.exp?{snaps:[],log:[]}:null};speed=RPLAY.ff?0.0005:sp0;SFX.mute=RPLAY.ff;seedRandom(X.seed);}
   else{ENDOV=null;MEDALRES=null;if(o.puzzle){PZEND=false;seedRandom(1000+o.puzzle.id);S=puzzleState(o.puzzle);}else if(o.daily){seedRandom(o.daily.seed);const C=o.daily.C,cpu=dailyCpu(C);S=C.opponent==='robot'?newStateRB(w,cpu.diff||'medium'):newState(w,opp);if(cpu.rank)S.aiProf={1:{rank:cpu.rank,pers:cpu.pers}};applyEdition(S,OPT.ed1?1:2);applyRules(S,C.rules);S.daily=o.daily;unseedRandom();}else if(o.online){S=newState(w,opp);S.online=true;S.diff='normal';}else if(o.ranked){S=newState(w,opp);S.ranked=o.ranked;S.aiProf=o.ranked.expert?null:{1:{rank:o.ranked.rank,pers:o.ranked.pers}};}else S=o.coop?newStateCoop(w,o.coop,o.rb,OPT.diff==='cheater'?'expert':OPT.diff):o.tvt?newState2v2(w,o.tvt[0],o.tvt[1],o.tvt[2],OPT.diff==='cheater'?'expert':OPT.diff):o.rb?newStateRB(w,o.rb):o.multi?newStateN([w,...o.multi]):newState(w,opp);S.diff=o.rb||o.diff||OPT.diff;if(o.tutorial)setupTutorial(S);if(o.ranked||o.puzzle)S.diff='normal';if(o.ranked&&o.ranked.expert)S.aiDiff={1:'expert'};   /* NorikaJims: the full Expert AI */if(S.diff==='cheater'){if(S.pl.length===2&&!o.tour&&!o.daily&&!o.ranked&&!S.rbMode&&!S.pl[1].rb){S.cheater=true;}S.diff='expert';}if(o.daily){const cpu=dailyCpu(o.daily.C);S.diff=cpu.rank?'normal':(cpu.diff||'normal');}if(S.ed==null&&!o.puzzle)applyEdition(S,OPT.ed1?1:2);   // puzzles keep the rules they were built and verified with
   S.tips=!!(OPT.tips&&!o.ranked&&!o.tour&&!o.online&&!o.tutorial&&!o.puzzle);if(OPT.long&&!o.tutorial&&!o.ranked&&!o.daily&&!o.puzzle){S.win=12;for(const P of S.pl){P.max=Math.round(P.max*1.5);P.hp=P.max;}}TR=newTR(w,o.coop?'coop':o.tvt?'2v2':o.multi?'ffa':opp,o.ranked?'ranked':S.cheater?'cheater':S.diff);TR.ranked=!!o.ranked;RANKRES=null;TR.tour=!!o.tour;TR.tutorial=!!o.tutorial;TR.daily=!!o.daily;if(o.online||o.puzzle)TR=null;}
-  if(TR&&!o.resume&&!S.online&&!S.tutorial&&!S.puzzle&&!S.replay){const seed=Math.floor(Math.random()*4294967295);seedRandom(seed);TR.rpx={seed,s0:JSON.stringify(S),d:[]};}
+  if(TR&&!o.resume&&!S.online&&!S.tutorial&&!S.puzzle&&!S.replay){const seed=Math.floor(Math.random()*4294967295);seedRandom(seed);TR.rpx={v:2,ver:verText(),seed,s0:JSON.stringify(S),d:[]};AISEQ=0;}
   if(!o.resume&&!S.replay&&!S.puzzle&&!S.tutorial&&!S.daily&&!S.online&&S.pl.length===2&&S.pl[1].wiz)noteOpp(S.pl[1].wiz);   // opponent variety
   G=new Game(S,makeIO(id));renderLog();render();if(S.replay)rpBar();
   if(S.win&&!o.resume)setTimeout(()=>{if(id===gameId)makeIO(id).log(`Long Match: every wizard has 50% more health, and ${S.win} Storm Shards win.`,'ini');},0);
