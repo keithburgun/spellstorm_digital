@@ -143,7 +143,8 @@ function selBtn(){if(S&&!ovOn()&&!shown(q('#title'))&&!shown(q('#start')))act('l
 
 function wake(){if(on)return;on=true;document.body.classList.add('pad');try{SFX.init();}catch(e){}if(cur&&cur.isConnected)cur.classList.add('padf');}
 function sleep(){if(!on)return;on=false;document.body.classList.remove('pad');if(cur)cur.classList.remove('padf');hint();}
-function press(k,src){const g=src==='kb'?'kb':(nat.used?natGlyph:padGlyph);if(g!==glyph){glyph=g;hintSig='';}   // prompts switch to whatever you last pressed
+function press(k,src){if(document.getElementById('cine')){if(k==='A'||k==='B'||k==='X'||k==='Y'||k==='S')cineSkip();return;}   // a scene is up: buttons skip it, nothing behind it reacts
+const g=src==='kb'?'kb':(nat.used?natGlyph:padGlyph);if(g!==glyph){glyph=g;hintSig='';}   // prompts switch to whatever you last pressed
   const was=on,had=!!(cur&&cur.isConnected);wake();upkeep();
   if(!was&&(DIRS.has(k)||k==='A')&&!(ovOn()&&q('#sheet .manual')&&k!=='A')){if(!had)setCur(restore(sidPrev,scopeEl(),cands(scopeEl())));hint();return;}   // the first touch only shows where the highlight is
   switch(k){case 'U':move(0,-1);break;case 'D':move(0,1);break;case 'L':move(-1,0);break;case 'R':move(1,0);break;
@@ -202,6 +203,7 @@ requestAnimationFrame(frame);
 
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey||e.altKey||e.metaKey)return;
+  if(document.getElementById('cine')){e.preventDefault();e.stopPropagation();if(e.key==='Enter'||e.key===' '||e.key==='Escape')cineSkip();return;}
   const t=e.target,typing=t&&t.matches&&t.matches('input:not([type=range]):not([type=checkbox]):not([type=radio]),textarea,select');
   const go=k=>{e.preventDefault();e.stopPropagation();press(k,'kb');};
   const K={ArrowUp:'U',ArrowDown:'D',ArrowLeft:'L',ArrowRight:'R'}[e.key];

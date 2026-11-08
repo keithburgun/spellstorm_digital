@@ -149,7 +149,7 @@ h1,h2,.disp{font-family:'Corporata','Arial Rounded MT Bold','Trebuchet MS',sans-
 .bigwiz{width:min(84vw,62vh*0.652,440px);aspect-ratio:560/859;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
 .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .goacts{margin:2px 0 10px}
-#cine{position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(circle,rgba(16,8,32,.94),rgba(4,2,10,.97));-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);pointer-events:none;animation:cineFade var(--d) ease both}
+#cine{position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(circle,rgba(16,8,32,.94),rgba(4,2,10,.97));-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);pointer-events:auto;cursor:pointer;touch-action:none;animation:cineFade var(--d) ease both}
 #cine .ct{max-width:92vw;text-align:center;line-height:1.1;font-size:clamp(1.7rem,5.5vw,3.4rem);font-weight:800;color:#fff;letter-spacing:.02em;text-shadow:0 2px 14px #000,0 0 30px var(--cg)}
 #cine .ci{width:min(62vmin,520px);aspect-ratio:1;background-size:cover;background-position:center;border-radius:18px;box-shadow:0 12px 60px rgba(0,0,0,.7),0 0 46px var(--cg);animation:cineZoom var(--d) ease-out both}
 #cine.drag .ci{width:min(50vmin,400px);aspect-ratio:5/7;border-radius:14px}
@@ -4301,7 +4301,15 @@ function cinema(kind,x){const old=document.getElementById('cine');if(old)old.rem
   const d=Math.round(3000*speed),dr=kind==='dragon',W=dr?null:WIZ[x],name=dr?(CARDS[x]?CARDS[x].n+'!':''):(W?W.un:'');
   const el=document.createElement('div');el.id='cine';el.className=dr?'drag':'ult';el.style.setProperty('--d',d+'ms');el.setAttribute('aria-live','polite');
   el.innerHTML=`<div class="ct">${esc(name)}</div><div class="ci ${dr?'ci-'+x:'ci-ult_'+x}" role="img" aria-label="${esc(name)}"></div>${dr?'':`<div class="cw">${esc(W?W.n:'')}</div>`}`;
-  if(RM())el.querySelector('.ci').style.animation='none';document.body.appendChild(el);SFX.play(dr?'roar':'woosh');setTimeout(()=>el.remove(),d+60);}
+  if(RM())el.querySelector('.ci').style.animation='none';document.body.appendChild(el);SFX.play(dr?'roar':'woosh');
+  // the scene swallows taps (nothing behind it can be pressed) and a tap skips it: back to the game, and the engine's wait ends too
+  const stop=e=>{e.preventDefault();e.stopPropagation();};el.addEventListener('pointerdown',stop);el.addEventListener('pointerup',stop);el.addEventListener('click',e=>{stop(e);cineSkip();});
+  setTimeout(()=>{if(el.isConnected){el.remove();cineWake();}},d+60);}
+// The engine waits ~3s on an Ultimate or Dragon scene; while one is up, that wait can be cut short by skipping.
+let CINEW=[];
+function cineWake(){const w=CINEW;CINEW=[];w.forEach(f=>f());}
+function cineSkip(){const el=document.getElementById('cine');if(el)el.remove();cineWake();}
+function cinePause(ms){if(!document.getElementById('cine'))return sleep(ms);return new Promise(r=>{let done=false;const f=()=>{if(!done){done=true;clearTimeout(t);r();}};const t=setTimeout(f,ms*speed);CINEW.push(f);});}
 function fx(t,p,x){if(t==='tierup'){SFX.play('tierup');return;}if(t==='glitter'){glitFlash();return;}if(t==='ultcine'||t==='dragon'){if(!(RPLAY&&RPLAY.ff))cinema(t,x);if(ONL.on&&ONL.role==='host'&&ONL.started)ONL.fxq.push({n:++ONL.fxSeq,t,p,x});return;}if(RPLAY&&RPLAY.ff&&t!=='counter')return;if(RPLAY&&RPLAY.ff)return;const n=performance.now();if(t==='counter'&&TR&&S&&!S.online){const R=TR.rp=TR.rp||{rounds:[],li:0};(R.ctr=R.ctr||[]).push([p,S.pl.length>2?nextOppOf(S,p):1-p]);}if(ONL.on&&ONL.role==='host'&&ONL.started&&(typeof p==='number'||p===undefined))ONL.fxq.push({n:++ONL.fxSeq,t,p});if(t==='counter')requestAnimationFrame(()=>requestAnimationFrame(()=>counterAnim(p)));if(t==='counter'&&S&&S.pl.length>2){FX.ctr=(FX.ctr||[]).filter(x=>x.until>n);FX.ctr.push({p,t:nextOppOf(S,p),until:n+800});setTimeout(render,820);setTimeout(render,2650);}if(t==='blastskip_old'){const sc=p;SFX.play('shard');toast(sc[0]===sc[1]?`Blast tied ${sc[0]}–${sc[1]}: both gain 1 Storm Shard`:`Blast: you ${sc[0]}, ${esc(WIZ[S.pl[1].wiz].short)} ${sc[1]}. ${sc[0]>sc[1]?'You gain':esc(WIZ[S.pl[1].wiz].short)+' gains'} 2 Storm Shards`);return;}if(t==='newbattle'){SFX.play('newbattle');newBattle(p);return;}
   if(t==='reveal')SFX.play('reveal');if(t==='counter')SFX.play('counter');if(t==='ult')SFX.play('ult');
   if(t==='hit')FX['hit'+p]=n+450;if(t==='reveal')FX.flip=n+600;if(t==='counter'){FX.won=n+1400;FX.wonP=p;}if(t==='ult')FX['ult'+p]=n+1000;
@@ -4319,7 +4327,7 @@ const io={sim:false,
     return new Promise(res=>{pending={req,res};sel=[];render();if(req.k==='pick')openPick();else if(req.trap)trapSheet(0,req);else if(req.k==='opt'&&req.opts.length>3)optSheet(req);else if(req.k==='gain'&&!req.slots.length&&!req.special)answer(-1);});
   }};
 function makeIO(id){return {sim:false,
-  log(m,c){if(id===gameId)io.log(m,c);},ev(t,p,x){if(id===gameId)track(t,p,x);},render(){if(id===gameId)render();},pause:ms=>sleep(ms),fx(t,p,x){if(id===gameId)fx(t,p,x);},
+  log(m,c){if(id===gameId)io.log(m,c);},ev(t,p,x){if(id===gameId)track(t,p,x);},render(){if(id===gameId)render();},pause:ms=>cinePause(ms),fx(t,p,x){if(id===gameId)fx(t,p,x);},
   decide(g,p,req){if(id!==gameId)return new Promise(()=>{});if(p===0&&S.replay)return replayDecide(req,id);const pr=io.decide(g,p,req);
     if(p===0&&TR&&TR.rpx)return pr.then(v=>{TR.rpx.d.push(encAns(req,v));return v;});return pr;},
   checkpoint(){if(id!==gameId)return;
@@ -5355,7 +5363,8 @@ function selBtn(){if(S&&!ovOn()&&!shown(q('#title'))&&!shown(q('#start')))act('l
 
 function wake(){if(on)return;on=true;document.body.classList.add('pad');try{SFX.init();}catch(e){}if(cur&&cur.isConnected)cur.classList.add('padf');}
 function sleep(){if(!on)return;on=false;document.body.classList.remove('pad');if(cur)cur.classList.remove('padf');hint();}
-function press(k,src){const g=src==='kb'?'kb':(nat.used?natGlyph:padGlyph);if(g!==glyph){glyph=g;hintSig='';}   // prompts switch to whatever you last pressed
+function press(k,src){if(document.getElementById('cine')){if(k==='A'||k==='B'||k==='X'||k==='Y'||k==='S')cineSkip();return;}   // a scene is up: buttons skip it, nothing behind it reacts
+const g=src==='kb'?'kb':(nat.used?natGlyph:padGlyph);if(g!==glyph){glyph=g;hintSig='';}   // prompts switch to whatever you last pressed
   const was=on,had=!!(cur&&cur.isConnected);wake();upkeep();
   if(!was&&(DIRS.has(k)||k==='A')&&!(ovOn()&&q('#sheet .manual')&&k!=='A')){if(!had)setCur(restore(sidPrev,scopeEl(),cands(scopeEl())));hint();return;}   // the first touch only shows where the highlight is
   switch(k){case 'U':move(0,-1);break;case 'D':move(0,1);break;case 'L':move(-1,0);break;case 'R':move(1,0);break;
@@ -5414,6 +5423,7 @@ requestAnimationFrame(frame);
 
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey||e.altKey||e.metaKey)return;
+  if(document.getElementById('cine')){e.preventDefault();e.stopPropagation();if(e.key==='Enter'||e.key===' '||e.key==='Escape')cineSkip();return;}
   const t=e.target,typing=t&&t.matches&&t.matches('input:not([type=range]):not([type=checkbox]):not([type=radio]),textarea,select');
   const go=k=>{e.preventDefault();e.stopPropagation();press(k,'kb');};
   const K={ArrowUp:'U',ArrowDown:'D',ArrowLeft:'L',ArrowRight:'R'}[e.key];
