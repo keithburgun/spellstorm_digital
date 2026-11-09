@@ -4551,7 +4551,7 @@ document.addEventListener('click',e=>{
   if(a==='openopt'){if(pending&&pending.req.k==='opt')optSheet(pending.req);return;}
   if(a==='exittour'){const T=loadProf().tour;openOv(`<h2>Exit tournament?</h2><p>This ends your tournament run (${T?T.wins:0}/7 as ${T?RNAME[T.me]:''}). You can start a new one any time.</p><div class="acts"><button class="btn" data-a="abandon2" style="background:var(--hp)">Exit tournament</button><button class="btn alt" data-a="close">Keep going</button></div>`);return;}
   if(a==='wipe1'){openOv(`<h2>Wipe all data?</h2><p>This permanently erases your stats, all achievements, tournament trophies, any tournament in progress, and your settings on this device.${SYNC.S.ses?' <b>You’re signed in, so this also erases the progress saved in your account.</b>':''}</p><div class="acts"><button class="btn" data-a="wipe2" style="background:var(--hp)">Wipe everything</button><button class="btn alt" data-a="t_opts">Cancel</button></div>`);return;}
-  if(a==='wipe2'){try{localStorage.removeItem(PKEY);localStorage.removeItem(OKEY);}catch(e){}OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};applyOpt();pickSel={me:'derby',opp:'eve'};rnd={me:false,opp:false};closeOv();toast('All data wiped');if($('#start').style.display!=='none')drawSelect();return;}
+  if(a==='wipe2'){try{localStorage.removeItem(PKEY);localStorage.removeItem(OKEY);}catch(e){}OPT={speed:1,theme:'dark',diff:'normal',vol:0.5,cb:'off'};applyOpt();pickSel={me:'derby',opp:'eve'};rnd={me:false,opp:false};closeOv();toast('All data wiped');if($('#start').style.display!=='none')drawSelect();return;}
   if(a==='t_cont'){const sv=loadSave();if(sv)begin(null,null,{resume:sv});return;}
   if(a==='tutstart'){closeOv();begin('derby','eve',{tutorial:true,diff:'easy'});return;}
   if(a==='tutnext'){tutNext();return;}
@@ -4814,7 +4814,7 @@ function launch(){
 }
 /* ---------- options & profile ---------- */
 const PKEY='spellstorm.profile.v1',OKEY='spellstorm.options.v1';
-let OPT={speed:1,theme:'auto',diff:'normal',vol:0.5,cb:'off'};try{Object.assign(OPT,JSON.parse(localStorage.getItem(OKEY)||'{}'));}catch(e){}
+let OPT={speed:1,theme:'dark',diff:'normal',vol:0.5,cb:'off'};try{Object.assign(OPT,JSON.parse(localStorage.getItem(OKEY)||'{}'));}catch(e){}
 try{tmuteDraw();}catch(e){}   // the title screen's speaker button
 function saveOpt(){try{localStorage.setItem(OKEY,JSON.stringify(OPT));const m=JSON.parse(localStorage.getItem('spellstorm.sync.v1')||'{}');m.omt=Date.now();localStorage.setItem('spellstorm.sync.v1',JSON.stringify(m));}catch(e){}try{SYNC.dirty();}catch(e){}}
 function applyOpt(){document.body.classList.toggle('rm',OPT.motion==='reduced');speed=OPT.speed;document.body.classList.toggle('cb',OPT.cb==='on');const r=document.documentElement;if(OPT.theme==='auto')delete r.dataset.theme;else r.dataset.theme=OPT.theme;}
