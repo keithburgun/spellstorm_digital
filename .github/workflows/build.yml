@@ -1,7 +1,8 @@
 name: Build Spellstorm
 
 # Builds the Android APK, the Windows .exe and the Linux AppImage (Steam Deck) side by side, publishes them as a
-# GitHub Release, and uploads them and the browser version to itch.io. Runs on every change to main (except README edits),
+# GitHub Release, and uploads them and the browser version to itch.io. Also builds the Steam version (Windows + Linux
+# folders) and uploads it to Steamworks as a private build when the Steam secrets are set. Runs on every change to main (except README edits),
 # or by hand from Actions → Build Spellstorm → Run workflow. A hand-started run on another branch only builds (no release, no upload).
 on:
   push:
@@ -145,6 +146,131 @@ jobs:
       - name: Add it to the release
         if: env.MAIN == 'true'
         run: gh release upload "$TAG" "desktop/dist/Spellstorm-$VERSION.AppImage" --repo "${{ github.repository }}" --clobber
+
+  # ---------- Steam: folder builds of the desktop app with steam.json (Steam features on, in-app updater off) ----------
+  steam_win:
+    name: Steam build (Windows)
+    needs: [start]
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Copy the game into the desktop app, marked as the Steam version
+        run: |
+          mkdir -p desktop/app
+          cp www/index.html desktop/app/index.html
+          echo '{"appId":5591240}' > desktop/steam.json
+      - name: Install packages
+        working-directory: desktop
+        run: |
+          npm ci
+          npm version 1.0.${{ github.run_number }} --no-git-tag-version --allow-same-version
+      - name: Build the Steam folder
+        working-directory: desktop
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+        run: npx electron-builder --win dir --x64 --publish never
+      - name: Check it has the game, the Steam marker and the Steam library
+        run: |
+          D=desktop/dist/win-unpacked
+          test -f "$D/Spellstorm.exe"
+          test -f "$D/resources/app.asar.unpacked/node_modules/steamworks.js/dist/win64/steam_api64.dll"
+          npx --yes @electron/asar list "$D/resources/app.asar" | grep -qx '/steam.json'
+          du -sh "$D"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: steam-windows
+          path: desktop/dist/win-unpacked
+          retention-days: 3
+
+  steam_linux:
+    name: Steam build (Linux / Steam Deck)
+    needs: [start]
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Copy the game into the desktop app, marked as the Steam version
+        run: |
+          mkdir -p desktop/app
+          cp www/index.html desktop/app/index.html
+          echo '{"appId":5591240}' > desktop/steam.json
+      - name: Install packages
+        working-directory: desktop
+        run: |
+          npm ci
+          npm version 1.0.${{ github.run_number }} --no-git-tag-version --allow-same-version
+      - name: Build the Steam folder
+        working-directory: desktop
+        run: npx electron-builder --linux dir --x64 --publish never
+      - name: Check it has the game, the Steam marker and the Steam library
+        run: |
+          D=desktop/dist/linux-unpacked
+          test -x "$D/spellstorm"
+          test -f "$D/resources/app.asar.unpacked/node_modules/steamworks.js/dist/linux64/libsteam_api.so"
+          npx --yes @electron/asar list "$D/resources/app.asar" | grep -qx '/steam.json'
+          du -sh "$D"
+      # (artifacts don't keep Unix permissions, so the folder travels as a tarball)
+      - name: Pack it
+        run: tar -C desktop/dist -czf steam-linux.tgz linux-unpacked
+      - uses: actions/upload-artifact@v4
+        with:
+          name: steam-linux
+          path: steam-linux.tgz
+          retention-days: 3
+
+  steam_upload:
+    name: Upload to Steam (private build, not live)
+    if: ${{ github.ref == 'refs/heads/main' && !failure() && !cancelled() }}
+    needs: [steam_win, steam_linux]
+    runs-on: ubuntu-latest
+    env:
+      STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}       # the build-only Steam account (repo secret)
+      STEAM_CONFIG_VDF: ${{ secrets.STEAM_CONFIG_VDF }}   # its saved login (base64 of steamcmd's config.vdf; repo secret)
+    steps:
+      - name: Check the Steam settings
+        id: cfg
+        run: |
+          if [ -z "$STEAM_USERNAME" ] || [ -z "$STEAM_CONFIG_VDF" ]; then
+            echo "::warning::Steam upload skipped: add the STEAM_USERNAME and STEAM_CONFIG_VDF secrets in the repo settings."
+            echo "go=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/download-artifact@v4
+        if: steps.cfg.outputs.go == 'yes'
+        with:
+          path: art
+      - name: Lay out the two depots
+        if: steps.cfg.outputs.go == 'yes'
+        run: |
+          mkdir -p steam
+          mv art/steam-windows steam/windows
+          tar -C steam -xzf art/steam-linux/steam-linux.tgz && mv steam/linux-unpacked steam/linux
+          test -f steam/windows/Spellstorm.exe && test -x steam/linux/spellstorm
+          du -sh steam/*
+      # Depot 1 = 5591241 (Windows), depot 2 = 5591242 (Linux + SteamOS). The build is uploaded but not set live
+      # unless the repo variable STEAM_BRANCH names a branch (e.g. "beta"); the default branch is always set live by hand.
+      - uses: game-ci/steam-deploy@v3.2.2
+        if: steps.cfg.outputs.go == 'yes'
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          appId: 5591240
+          buildDescription: Spellstorm ${{ env.VERSION }} (${{ github.sha }})
+          rootPath: steam
+          depot1Path: windows
+          depot2Path: linux
+          releaseBranch: ${{ vars.STEAM_BRANCH }}
 
   release:
     name: Publish release

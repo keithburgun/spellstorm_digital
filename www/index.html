@@ -4909,7 +4909,25 @@ const SYNC=(()=>{
   function run(){if(!S.on||!S.ses)return S.chain;S.chain=S.chain.then(async()=>{S.state='busy';S.again=false;render();
       try{await pass();if(S.combined){S.combined=false;S.wasCombined=true;toast('This device’s progress was combined with your account.');}}catch(e){S.err=e.msg||'Sync failed. It will retry.';}
       S.state='idle';render();if(S.again)dirty();}).catch(()=>{});return S.chain;}
-  function dirty(){if(!S.on||!S.ses||S.quiet)return;clearTimeout(S.timer);S.timer=setTimeout(run,2500);}
+  function dirty(){steamDirty();if(!S.on||!S.ses||S.quiet)return;clearTimeout(S.timer);S.timer=setTimeout(run,2500);}
+  // ---- Steam Cloud (the Steam version): the same three-way merge, against one file in the player's Steam Cloud ----
+  const STK='spellstorm.steamsync.v1',STF='spellstorm_save.json';let stBusy=null,stTimer=null;
+  async function steamPass(){if(!STEAMON||!STEAMON.cloud)return false;if(stBusy)return stBusy;
+    stBusy=(async()=>{let changed=false;try{
+      const snapP=loadProf(),local={p:forCloud(snapP),o:Object.assign(optCloud(),{_mt:(meta().omt||0)})};
+      let m={};try{m=JSON.parse(localStorage.getItem(STK)||'{}')||{};}catch(e){}
+      let cloud=null;const txt=await SSSteam.cloudRead(STF);if(txt){try{cloud=JSON.parse(txt);}catch(e){cloud=null;}}
+      let doc;
+      if(!cloud||!cloud.p)doc=local;
+      else{cloud.p=Object.assign(blankProf(),cloud.p);cloud.o=cloud.o||{};
+        doc=!m.base&&isBlank(snapP)?cloud:mergeDoc(m.base||{p:blankProf(),o:{}},local,cloud);}
+      if(!cloud||!same(doc,cloud))await SSSteam.cloudWrite(STF,JSON.stringify(doc));
+      const now=loadProf();
+      if(same(forCloud(now),forCloud(snapP))){if(!same(doc.p,local.p)||!same(doc.o,local.o)){applyLocal(doc);changed=true;}}
+      else{applyLocal({p:merge(forCloud(snapP),forCloud(now),doc.p,true,'',''),o:doc.o});changed=true;}   // keep what happened meanwhile
+      try{localStorage.setItem(STK,JSON.stringify({base:doc}));}catch(e){}
+    }catch(e){console.warn('Steam Cloud:',e&&e.message||e);}finally{stBusy=null;}return changed;})();return stBusy;}
+  function steamDirty(){if(!STEAMON||!STEAMON.cloud)return;clearTimeout(stTimer);stTimer=setTimeout(steamPass,3000);}
   function box(){if(!S.on)return '';return S.ses?`<div id="acctbox" data-st="${S.state}1"><h3>Account</h3><p>Signed in as <b>${esc(S.ses.email||'')}</b> · <span id="acctst" class="lbl">${esc(status())}</span></p><button class="btn alt" data-a="syncnow">Sync now</button> <button class="btn alt" data-a="acctout">Sign out</button></div>`
       :`<div id="acctbox" data-st="${S.state}0"><h3>Account</h3><p class="lbl">Sign in to keep your progress in sync on all your devices.</p><button class="btn" data-a="acct">Sign in or create an account</button></div>`;}
   async function signIn(email,pw,create){const j=await call(create?'/auth/v1/signup':'/auth/v1/token?grant_type=password',{method:'POST',body:{email:email.trim(),password:pw}}).catch(e=>{throw {msg:friendly(e)};});
@@ -4919,8 +4937,29 @@ const SYNC=(()=>{
     try{localStorage.removeItem(PKEY);}catch(e){}S.last=0;S.err='';S.state='idle';}
   async function recoverMail(email){await call('/auth/v1/recover',{method:'POST',body:{email:email.trim()}}).catch(e=>{throw {msg:friendly(e)};});}
   async function setPassword(pw){await rest('/auth/v1/user',{method:'PUT',body:{password:pw}}).catch(e=>{throw {msg:friendly(e)};});}
-  return {S,run,dirty,box,render,status,signIn,signOut,recoverMail,setPassword,keep,sesFrom,merge,mergeDoc,forCloud};
+  return {S,run,dirty,box,render,status,signIn,signOut,recoverMail,setPassword,keep,sesFrom,merge,mergeDoc,forCloud,steamPass};
 })();
+// ---------- Steam (the Steam version only; does nothing anywhere else) ----------
+// 100 of the 130 achievements are Steam achievements (Valve's limit for a new game); Steam Cloud keeps progress in step
+// across computers with the same merge as account sync; Rich Presence tells friends what you're playing; on a Steam Deck,
+// text fields open the Steam keyboard.
+var STEAMON=null;
+const STEAM_ACH=new Set(["win1","win10","win25","win50","win100","play10","play50","play100","hard1","hard10","hard25","with_derby","with_eve","with_abragail","with_may","with_omar","with_bunny","with_oren","with_croh","beat_derby","beat_eve","beat_abragail","beat_may","beat_omar","beat_bunny","beat_oren","beat_croh","master_derby","master_eve","master_abragail","master_may","master_omar","master_bunny","master_oren","master_croh","allwith","allbeat","allwithH","allbeatH","matrix","matrixH","streak3","streak5","streak10","shardwin","kowin","blitz","marathon","clutch","comeback","untouched","shutout","overkill","blaster","counterpunch","ultimate","ultx3","tier2","tier3","dragon","dragonlord","shopper","saboteur","unplayable","perfect","dmg1000","heal100","counters100","ults50","shards100","scholar","doomed","ninja","stitch","chemist","hacker","overtime","bauble","tour1n","tour7n","tour1h","tour7h","expert1","tour7x","rb_easy","rb_med","rb_hard","ffa1","ffa3","ffa4","ffa10","coop1","coopH","coop4","tvt1","medic","rk1","rk1200","rk1400","rkgiant"]);
+function steamAch(id){if(STEAMON&&STEAM_ACH.has(id))SSSteam.unlock('SS_'+id.toUpperCase()).catch(()=>{});}
+function steamRP(){if(!STEAMON)return;try{const nm=w=>(WIZ[w]&&WIZ[w].short)||w;let kv;
+  if(!S||S.over)kv={steam_display:'#Menu'};else if(S.replay)kv={steam_display:'#Replay'};else if(S.tutorial)kv={steam_display:'#Tutorial'};
+  else if(S.puzzle)kv={steam_display:'#Puzzle',puzzle:String(S.puzzle.id)};
+  else{const me=nm(S.pl[0].wiz),foes=S.pl.slice(1).map(P=>nm(P.wiz));
+    kv=S.online?{steam_display:'#Online',wizard:me,opponent:foes[0]}:S.pl.length>2?{steam_display:'#Group',wizard:me,players:String(S.pl.length)}:{steam_display:'#Match',wizard:me,opponent:foes[0],battle:String(S.battle||1)};}
+  SSSteam.presence(kv).catch(()=>{});}catch(e){}}
+async function steamStart(){if(!window.SSSteam)return;let i;try{i=await SSSteam.info();}catch(e){return;}if(!i||!i.on)return;STEAMON=i;
+  if(i.cloud){try{await SYNC.steamPass();}catch(e){}}
+  const P=loadProf();for(const id in P.ach||{})steamAch(id);   // earned before Steam, or on another computer
+  steamRP();setInterval(steamRP,15000);
+  if(i.deck)document.addEventListener('focusin',e=>{const t=e.target;if(!t||!t.matches||!t.matches('input:not([type]),input[type=text],input[type=email],input[type=password],input[type=search],input[type=number],textarea'))return;
+    const r=t.getBoundingClientRect(),d=devicePixelRatio||1,mode=t.tagName==='TEXTAREA'?1:t.type==='email'?2:t.type==='number'?3:0;
+    SSSteam.keyboard(mode,r.left*d,r.top*d,r.width*d,r.height*d).catch(()=>{});});}
+steamStart();
 
 const cell=(P,d,me,op)=>((P.rec[d]||{})[me]||{})[op]||[0,0];
 const DIFFS=['easy','normal','medium','hard','expert','cheater','ranked'];
@@ -5064,7 +5103,7 @@ function recordGame(r){
     let kept=0;for(let i=P.hist.length-1;i>=0;i--){if(P.hist[i].rp||P.hist[i].rpx){if(++kept>25){delete P.hist[i].rp;delete P.hist[i].rpx;}}}}
   P.tot.dmg+=TR.dmg;P.tot.heal+=TR.heal;P.tot.counters+=TR.counters;P.tot.ults+=TR.ults;P.tot.shards+=me.shards;
   const G2=Object.assign({},TR,{won,battles:S.battle,hp:me.hp,max:me.max,byShards,oppShards:S.pl[1].shards});
-  const fresh=[];for(const a of ACH)if(!P.ach[a.id]){let ok=false;try{ok=a.ok(P,G2);}catch(e){}if(ok){P.ach[a.id]=Date.now();fresh.push(a);}}
+  const fresh=[];for(const a of ACH)if(!P.ach[a.id]){let ok=false;try{ok=a.ok(P,G2);}catch(e){}if(ok){P.ach[a.id]=Date.now();fresh.push(a);steamAch(a.id);}}
   saveProf(P);return fresh;
 }
 /* ---------- sheets ---------- */

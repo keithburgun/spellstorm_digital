@@ -5,6 +5,36 @@ const fs = require('fs');
 const https = require('https');
 const { spawn } = require('child_process');
 
+// ---------- Steam (only in the Steam build: CI puts steam.json next to this file) ----------
+// Achievements, Steam Cloud, the overlay, the Steam Deck keyboard and Rich Presence. If Steam isn't running, or the
+// library can't load, the game simply runs without them.
+const STEAMCFG = (() => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'steam.json'), 'utf8')); } catch (err) { return null; } })();
+let STEAM = null;
+if (STEAMCFG) {
+  if (process.platform === 'linux') app.commandLine.appendSwitch('no-sandbox');   // Chromium's sandbox helper can't run inside Steam's Linux runtime
+  try {
+    const sw = require('steamworks.js');
+    if (sw.restartAppIfNecessary(STEAMCFG.appId)) process.exit(0);   // started outside Steam: Steam relaunches it properly
+    STEAM = sw.init(STEAMCFG.appId);
+    sw.electronEnableSteamOverlay();
+  } catch (err) { STEAM = null; console.error('Steam not available:', err && err.message); }
+}
+const steamTry = (f, dflt) => { if (!STEAM) return dflt; try { return f(STEAM); } catch (err) { return dflt; } };
+ipcMain.handle('st:info', () => ({
+  on: !!STEAM,
+  deck: steamTry(s => s.utils.isSteamRunningOnSteamDeck(), false),
+  cloud: steamTry(s => s.cloud.isEnabledForAccount() && s.cloud.isEnabledForApp(), false),
+}));
+ipcMain.handle('st:ach', (_e, name) => steamTry(s => { if (typeof name !== 'string' || !/^[A-Z0-9_]{1,64}$/.test(name)) return false;
+  if (s.achievement.isActivated(name)) return true; const ok = s.achievement.activate(name); s.stats.store(); return ok; }, false));
+ipcMain.handle('st:rp', (_e, kv) => steamTry(s => { if (!kv || typeof kv !== 'object') return false;
+  for (const [k, v] of Object.entries(kv)) if (typeof k === 'string' && k.length <= 64) s.localplayer.setRichPresence(k, v == null ? undefined : String(v).slice(0, 256)); return true; }, false));
+const CLOUDNAME = n => typeof n === 'string' && /^[a-z0-9_.-]{1,64}$/i.test(n);
+ipcMain.handle('st:cread', (_e, name) => steamTry(s => CLOUDNAME(name) && s.cloud.fileExists(name) ? s.cloud.readFile(name) : null, null));
+ipcMain.handle('st:cwrite', (_e, name, text) => steamTry(s => CLOUDNAME(name) && typeof text === 'string' && text.length < 8e6 ? s.cloud.writeFile(name, text) : false, false));
+ipcMain.handle('st:kbd', (_e, r) => steamTry(s => { if (!r) return false; const n = v => Math.max(0, Math.round(+v || 0));
+  return s.utils.showFloatingGamepadTextInput(+r.mode || 0, n(r.x), n(r.y), n(r.w), n(r.h)); }, false));
+
 // Sounds can start from a controller press (browsers only count mouse/keyboard as "the player did something").
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 // Steam Deck (Game Mode) and Steam Big Picture: start fullscreen. Anywhere else: --fullscreen does the same.

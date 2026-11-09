@@ -18,7 +18,8 @@
       "preload.js",
       "icon.ico",
       "icon.png",
-      "app/**/*"
+      "app/**/*",
+      "steam.json"
     ],
     "directories": {
       "output": "dist"
@@ -54,6 +55,12 @@
     "appImage": {
       "artifactName": "Spellstorm-${version}.AppImage"
     },
-    "publish": null
+    "publish": null,
+    "asarUnpack": [
+      "node_modules/steamworks.js/**"
+    ]
+  },
+  "dependencies": {
+    "steamworks.js": "0.4.0"
   }
 }
