@@ -4461,7 +4461,7 @@ function gameReport(){const L=loadProf().hist||[],h=L[L.length-1];if(!h||Math.ab
   const tiles=[['Rounds',h.rounds],['Length',fmtDur(durOf(h))],['Damage dealt',h.st.dmg],['Counters',h.st.counters],['Ultimates',h.st.ults],['Cards gained',h.st.gains],['Dragons',h.st.dragons],['Healing',h.st.heal]];
   return `<h2 style="font-size:1.1rem;margin-top:10px">Game Report</h2><div class="hstats">${tiles.map(([k,v])=>`<span><b>${v||0}</b>${k}</span>`).join('')}</div>`;}
 // ---------- Report a problem ----------
-const REPORT_EMAIL='keithburgun@gmail.com';
+const REPORT_EMAIL='keithburgungames@gmail.com';
 function reportSheet(){openOv(`<h2>Report a problem</h2><p>What went wrong? A sentence or two is plenty.</p>
   <textarea id="rptxt" class="rptxt" rows="5" placeholder="e.g. Shuriken cancelled the wrong card in round 3"></textarea>
   <label class="longm"><input type="checkbox" id="rpdet" checked> Include game details (version, mode, the last 40 log lines and a snapshot of the game)</label>
