@@ -181,7 +181,7 @@ jobs:
           D=desktop/dist/win-unpacked
           test -f "$D/Spellstorm.exe"
           test -f "$D/resources/app.asar.unpacked/node_modules/steamworks.js/dist/win64/steam_api64.dll"
-          npx --yes @electron/asar list "$D/resources/app.asar" | grep -qx '/steam.json'
+          npx --yes @electron/asar list "$D/resources/app.asar" | tr -d '\r' | grep -qE '^[/\\]steam\.json$'
           du -sh "$D"
       - uses: actions/upload-artifact@v4
         with:
@@ -217,7 +217,7 @@ jobs:
           D=desktop/dist/linux-unpacked
           test -x "$D/spellstorm"
           test -f "$D/resources/app.asar.unpacked/node_modules/steamworks.js/dist/linux64/libsteam_api.so"
-          npx --yes @electron/asar list "$D/resources/app.asar" | grep -qx '/steam.json'
+          npx --yes @electron/asar list "$D/resources/app.asar" | tr -d '\r' | grep -qE '^[/\\]steam\.json$'
           du -sh "$D"
       # (artifacts don't keep Unix permissions, so the folder travels as a tarball)
       - name: Pack it
