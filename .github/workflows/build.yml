@@ -258,19 +258,42 @@ jobs:
           tar -C steam -xzf art/steam-linux/steam-linux.tgz && mv steam/linux-unpacked steam/linux
           test -f steam/windows/Spellstorm.exe && test -x steam/linux/spellstorm
           du -sh steam/*
-      # Depot 1 = 5591241 (Windows), depot 2 = 5591242 (Linux + SteamOS). The build is uploaded but not set live
-      # unless the repo variable STEAM_BRANCH names a branch (e.g. "beta"); the default branch is always set live by hand.
-      - uses: game-ci/steam-deploy@v3.2.2
+      # Valve's own uploader (SteamCMD), signed in with the build account's saved login. Depot 5591241 = Windows,
+      # 5591242 = Linux + SteamOS. The build is uploaded but NOT set live, unless the repo variable STEAM_BRANCH names a
+      # (private) branch such as "beta". The default branch players get is only ever set live by hand in Steamworks.
+      - name: Upload with SteamCMD
         if: steps.cfg.outputs.go == 'yes'
-        with:
-          username: ${{ secrets.STEAM_USERNAME }}
-          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
-          appId: 5591240
-          buildDescription: Spellstorm ${{ env.VERSION }} (${{ github.sha }})
-          rootPath: steam
-          depot1Path: windows
-          depot2Path: linux
-          releaseBranch: ${{ vars.STEAM_BRANCH }}
+        env:
+          STEAM_BRANCH: ${{ vars.STEAM_BRANCH }}
+        run: |
+          set -e
+          mkdir -p "$HOME/steamcmd" && cd "$HOME/steamcmd"
+          curl -sSL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar xz
+          ./steamcmd.sh +quit >/dev/null || true                     # first run updates SteamCMD itself
+          for d in "$HOME/Steam/config" "$HOME/steamcmd/config"; do mkdir -p "$d"; echo "$STEAM_CONFIG_VDF" | base64 -d > "$d/config.vdf"; done
+          if [ "$STEAM_BRANCH" = default ] || [ "$STEAM_BRANCH" = public ]; then echo "::error::STEAM_BRANCH may not be the default branch"; exit 1; fi
+          ROOT="$GITHUB_WORKSPACE/steam"; OUT="$GITHUB_WORKSPACE/steam_out"; mkdir -p "$OUT"
+          printf '%s\n' '"AppBuild"' '{' \
+            '  "AppID" "5591240"' \
+            "  \"Desc\" \"Spellstorm $VERSION ($GITHUB_SHA)\"" \
+            "  \"ContentRoot\" \"$ROOT\"" \
+            "  \"BuildOutput\" \"$OUT\"" \
+            "  \"SetLive\" \"$STEAM_BRANCH\"" \
+            '  "Depots"' '  {' \
+            '    "5591241" { "FileMapping" { "LocalPath" "windows/*" "DepotPath" "." "recursive" "1" } }' \
+            '    "5591242" { "FileMapping" { "LocalPath" "linux/*" "DepotPath" "." "recursive" "1" } }' \
+            '  }' '}' > "$OUT/app_build.vdf"
+          cat "$OUT/app_build.vdf"
+          set +e
+          ./steamcmd.sh +login "$STEAM_USERNAME" +run_app_build "$OUT/app_build.vdf" +quit 2>&1 | tee "$OUT/steamcmd.log"
+          set -e
+          rm -f "$HOME/Steam/config/config.vdf" "$HOME/steamcmd/config/config.vdf"
+          if grep -q "Successfully finished AppID 5591240 build" "$OUT/steamcmd.log"; then
+            echo "::notice::Uploaded to Steam: $(grep -o 'BuildID [0-9]*' "$OUT/steamcmd.log" | tail -1). Set it live in Steamworks > SteamPipe > Builds."
+          else
+            echo "---- SteamCMD's own logs ----"; tail -n 60 "$HOME"/steamcmd/logs/*.txt 2>/dev/null || true
+            echo "::error::Steam upload failed. See the SteamCMD output above."; exit 1
+          fi
 
   release:
     name: Publish release
