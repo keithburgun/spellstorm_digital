@@ -10,11 +10,12 @@
     body {
       width: 100dvw; height: 100dvh; overflow: hidden;
       background: #120c24 url("splash.jpg") center / cover no-repeat;
-      display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #fff;
     }
-    .shade { position: fixed; inset: 0; background: linear-gradient(to top, rgba(10,6,24,.92) 0%, rgba(10,6,24,.35) 38%, rgba(10,6,24,0) 60%); pointer-events: none; }
-    main { position: relative; display: grid; gap: .55rem; justify-items: center; padding: 0 16px 6dvh; text-align: center; }
+    .shade { position: fixed; inset: 0; background: linear-gradient(to top, rgba(10,6,24,.85) 0%, rgba(10,6,24,.45) 45%, rgba(10,6,24,.25) 100%); pointer-events: none; }
+    main { position: relative; display: grid; gap: 1.6dvh; justify-items: center; padding: 0 16px; text-align: center; }
+    .logo { width: min(78vw, 60dvh * 2.1, 560px); height: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,.6)); }
     p { margin: 0; font-size: clamp(13px, 2.3dvh, 16px); text-shadow: 0 1px 4px #000; max-width: 34rem; }
     .credit { opacity: .78; font-size: clamp(11px, 1.8dvh, 13px); }
     button {
@@ -28,6 +29,7 @@
   <body>
     <div class="shade"></div>
     <main>
+      <img class="logo" src="logo.png" alt="Spellstorm">
       <p>A tactical deckbuilding duel: pick a card in secret, reveal at once, and outwit the other wizards.</p>
       <button id="start-btn" type="button">Play</button>
       <p class="credit">Design by Keith Burgun · Art by Christina Zhong</p>
