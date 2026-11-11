@@ -39,6 +39,7 @@ jobs:
           ls -la public
       - name: Upload private version
         if: steps.chk.outputs.go == '1'
+        timeout-minutes: 15
         working-directory: reddit
         run: npx devvit upload --version "0.1.${{ github.run_number }}"
       - name: Install in the test subreddit
