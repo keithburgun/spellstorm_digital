@@ -28,5 +28,6 @@ jobs:
         timeout-minutes: 10
         run: |
           npm ci --no-audit --no-fund
+          npm run build
           V="${{ inputs.version }}"
           npx devvit install "${{ inputs.subreddit }}" "spellstorm-digital${V:+@$V}" < /dev/null
