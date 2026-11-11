@@ -1,0 +1,47 @@
+name: Reddit version
+
+# Builds the Reddit (Devvit) version of Spellstorm and uploads it to Reddit's App Directory as a PRIVATE version
+# (only the app owner can see it; it can only be installed in small test subreddits). Installs it in the test subreddit
+# named by the repo variable REDDIT_TEST_SUB, if set. Making the app public (devvit publish) is done by hand, never here.
+# Needs the repo secret DEVVIT_AUTH_TOKEN (the contents of ~/.devvit/token after `npx devvit login` on your computer).
+on:
+  push:
+    branches: [main]
+    paths: ['reddit/**', 'source/**', '.github/workflows/reddit.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: reddit
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    env:
+      DEVVIT_AUTH_TOKEN: ${{ secrets.DEVVIT_AUTH_TOKEN }}
+      DEVVIT_DISABLE_METRICS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Skip if Reddit is not set up yet
+        id: chk
+        run: |
+          if [ -z "$DEVVIT_AUTH_TOKEN" ]; then echo "No DEVVIT_AUTH_TOKEN secret yet: skipping the upload."; echo "go=0" >> "$GITHUB_OUTPUT"; else echo "go=1" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.chk.outputs.go == '1'
+        with:
+          node-version: 24
+      - name: Build
+        if: steps.chk.outputs.go == '1'
+        working-directory: reddit
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          ls -la public
+      - name: Upload private version
+        if: steps.chk.outputs.go == '1'
+        working-directory: reddit
+        run: npx devvit upload --version "0.1.${{ github.run_number }}"
+      - name: Install in the test subreddit
+        if: steps.chk.outputs.go == '1' && vars.REDDIT_TEST_SUB != ''
+        working-directory: reddit
+        run: npx devvit install "${{ vars.REDDIT_TEST_SUB }}" "spellstorm-game@0.1.${{ github.run_number }}"

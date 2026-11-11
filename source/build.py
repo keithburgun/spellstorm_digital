@@ -63,5 +63,26 @@ online = app.replace(DETECT, "const onlInApp=()=>false;", 1).replace('</head>', 
 online = webpkg(online, 'web', 'spellstorm-web-online.zip')
 print(f'zip  dist/spellstorm-itch.zip, dist/spellstorm-web-online.zip')
 
+# ---- Reddit (Devvit Web) version: ../reddit/public/game.html + its scripts as separate files (no inline scripts) ----
+# Same as the offline web package (fonts embedded, no online play, no account login); saves go to the player's Reddit account.
+red = app.replace(DETECT, "const onlInApp=()=>true;   /* Reddit: no online play */", 1).replace('<script>window.SS_SYNC=true;</script>\n', '', 1)
+assert 'SS_SYNC=true' not in red
+red = red.replace('</head>', '<script>' + rd('reddit_bridge.js') + '</script>\n<style>[data-a="t_exit"]{display:none!important}</style>\n</head>', 1)
+red = red.replace('</body>', '<script>try{setVer(' + json.dumps('Reddit ' + (('v' + os.environ['SPELLSTORM_VERSION']) if os.environ.get('SPELLSTORM_VERSION') else now.strftime('%Y-%m-%d'))) + ');}catch(e){}</script>\n</body>', 1)
+RPUB = os.path.join(H, '..', 'reddit', 'public')
+if os.path.isdir(os.path.dirname(RPUB)):
+    os.makedirs(RPUB, exist_ok=True)
+    for f in os.listdir(RPUB):
+        if re.match(r'g\d+\.js$', f): os.remove(os.path.join(RPUB, f))
+    n = [0]
+    def ext(m):
+        i = n[0]; n[0] += 1
+        open(os.path.join(RPUB, f'g{i}.js'), 'w', encoding='utf-8').write(m.group(1))
+        return f'<script src="g{i}.js"></script>'
+    red = re.sub(r'<script>(.*?)</script>', ext, red, flags=re.S)
+    assert '<script>' not in red
+    open(os.path.join(RPUB, 'game.html'), 'w', encoding='utf-8').write(red)
+    print(f'reddit ../reddit/public/game.html + {n[0]} scripts')
+
 wr('tests/eng_all.js', engine + '\nmodule.exports={discOrder,WIZ,CARDS,Game,newState,newStateN,newStateRB,newStateCoop,newState2v2,cpuDecideX,aiChoosePlay,ultDecide,GameOver,RANK_ELO,eloDelta,matchRank,genUsername,pickOppWizard,BOTS,pickBot,botWizard,puzzleState,puzzleJudge,seedRandom,unseedRandom,MXMODE,matrixAnalyze,planScores,PLANS,botBaseElo,applyEdition,wizInfo,WIZ2,JOURNAL2,ED2,determinize,evalAI,SIM_IO,ROLL_IO,cardVal,EVW0,simDepth2,THREAT,THREAT_W,threatEval,threatPlan,roundsToKill,roundsToShards,rateOf,setThreat:v=>{THREAT_ON=v;},GAINRO,rolloutGain,fastPlay,seededRNG,BEATS,DRAFTV,draftVal,KNOWN,markSeen,ENDGAME,featVec,VMODEL,valueNet,evalAI,AGGRO,SMARTRO,PLAYV,playVal,PLAYRO,ULTRO,MIDRO,MIDYN};\n')
 print(f'web  dist/spellstorm.html  {len(web)/1e6:.2f} MB\napp  ../www/index.html      {len(app)/1e6:.2f} MB\ntest tests/eng_all.js')
