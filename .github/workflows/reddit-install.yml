@@ -1,0 +1,32 @@
+name: Reddit install
+
+# Run by hand only: installs (or upgrades to) a given version of the Reddit app in a subreddit you moderate.
+on:
+  workflow_dispatch:
+    inputs:
+      subreddit:
+        description: 'Subreddit (no r/)'
+        required: true
+        default: 'spellstorm'
+      version:
+        description: 'App version, e.g. 1.0.2 (blank = latest)'
+        required: false
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    env:
+      DEVVIT_AUTH_TOKEN: ${{ secrets.DEVVIT_AUTH_TOKEN }}
+      DEVVIT_DISABLE_METRICS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install
+        working-directory: reddit
+        timeout-minutes: 10
+        run: |
+          npm ci --no-audit --no-fund
+          V="${{ inputs.version }}"
+          npx devvit install "${{ inputs.subreddit }}" "spellstorm-digital${V:+@$V}" < /dev/null
