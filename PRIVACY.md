@@ -3,7 +3,7 @@
 **Keith Burgun Games** · Effective November 9, 2026
 Contact: [keithburgungames@gmail.com](mailto:keithburgungames@gmail.com)
 
-This policy covers the Spellstorm digital game on all platforms: Steam (Windows, Linux and Steam Deck), itch.io, Android and the web version. In short, Spellstorm stores your progress on your own device. It contains no ads, no analytics and no tracking, and we never sell your data.
+This policy covers the Spellstorm digital game on all platforms: Steam (Windows, Linux and Steam Deck), itch.io, Android, Reddit and the web version. In short, Spellstorm stores your progress on your own device. It contains no ads, no analytics and no tracking, and we never sell your data.
 
 ## What stays on your device
 
@@ -16,6 +16,8 @@ Your profile, settings, unlocked achievements, puzzle progress, match history an
 **Online play.** Online matches connect the two players directly (peer-to-peer). To find each other, both games briefly contact a public matchmaking server run by [PeerJS](https://peerjs.com). That server, and the other player, can see your IP address, as with any direct connection. Only game moves are exchanged. There is no chat and no profile sharing beyond your chosen wizard and display name.
 
 **Steam features (Steam version only).** On Steam, your save file is kept in Steam Cloud, and Steam receives your achievements and Rich Presence (for example "In a match"). [Valve's privacy policy](https://store.steampowered.com/privacy_agreement/) governs this data. We see only the aggregate statistics that Steam gives every developer.
+
+**Reddit version.** When you play Spellstorm inside a Reddit post while logged in, your save (profile, settings, achievements and match history) is stored with your Reddit account on Reddit's Developer Platform, so your progress follows you across devices. The game uses only your Reddit user ID and username for this. [Reddit's privacy policy](https://www.reddit.com/policies/privacy-policy) covers Reddit's handling of that data. The Reddit version has no online play, account login, update checks or match-log sending.
 
 **Update checks (itch.io and Android versions only).** Before telling you about a new version, the game asks GitHub for the latest release number. GitHub sees your IP address, as with any web request. The Steam version leaves updates to Steam.
 

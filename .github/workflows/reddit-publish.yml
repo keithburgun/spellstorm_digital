@@ -1,0 +1,43 @@
+name: Reddit publish
+
+# Run by hand only. Uploads a new version of the Reddit app, submits it to Reddit for review to be listed publicly
+# (Reddit makes it "unlisted" right away, so it can be installed in your own public subreddit), then installs it
+# in the subreddit given below.
+on:
+  workflow_dispatch:
+    inputs:
+      subreddit:
+        description: 'Public subreddit to install it in (no r/)'
+        required: false
+        default: 'spellstorm'
+
+concurrency:
+  group: reddit
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      DEVVIT_AUTH_TOKEN: ${{ secrets.DEVVIT_AUTH_TOKEN }}
+      DEVVIT_DISABLE_METRICS: '1'
+      DEVVIT_ALLOW_SOURCE_UPLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build
+        working-directory: reddit
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Publish (submit for review)
+        working-directory: reddit
+        timeout-minutes: 15
+        run: npx devvit publish --public --version "1.0.${{ github.run_number }}" < /dev/null
+      - name: Install in the public subreddit
+        if: inputs.subreddit != ''
+        working-directory: reddit
+        continue-on-error: true
+        run: npx devvit install "${{ inputs.subreddit }}" "spellstorm-digital@1.0.${{ github.run_number }}"
