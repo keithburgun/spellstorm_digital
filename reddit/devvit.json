@@ -1,6 +1,6 @@
 {
   "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
-  "name": "spellstorm-game",
+  "name": "spellstorm-digital",
   "post": {
     "entrypoints": {
       "default": {

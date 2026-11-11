@@ -44,4 +44,4 @@ jobs:
       - name: Install in the test subreddit
         if: steps.chk.outputs.go == '1' && vars.REDDIT_TEST_SUB != ''
         working-directory: reddit
-        run: npx devvit install "${{ vars.REDDIT_TEST_SUB }}" "spellstorm-game@0.1.${{ github.run_number }}"
+        run: npx devvit install "${{ vars.REDDIT_TEST_SUB }}" "spellstorm-digital@0.1.${{ github.run_number }}"
