@@ -16,6 +16,7 @@ export const Endpoint = {
   PutSave: 'api/save/put',
   OnAppInstall: 'internal/on/app/install',
   OnMenuNewPost: 'internal/on/menu/new-post',
+  OnFormNewPost: 'internal/form/new-post',
 } as const
 
 export const EndpointMethod = {
@@ -24,7 +25,11 @@ export const EndpointMethod = {
   [Endpoint.PutSave]: 'POST',
   [Endpoint.OnAppInstall]: 'POST',
   [Endpoint.OnMenuNewPost]: 'POST',
+  [Endpoint.OnFormNewPost]: 'POST',
 } as const satisfies {[endpoint: string]: 'GET' | 'POST'}
 
 /** Largest save we accept (characters). A heavy player's save is well under 1 MB. */
 export const MAX_SAVE = 2_000_000
+
+/** Values submitted by the "New Spellstorm post" form. */
+export type NewPostForm = {title?: string}

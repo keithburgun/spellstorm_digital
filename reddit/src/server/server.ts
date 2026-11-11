@@ -12,6 +12,7 @@ import {
   type ErrorRsp,
   type GetSaveRsp,
   MAX_SAVE,
+  type NewPostForm,
   type MeRsp,
   type PutSaveReq,
   type PutSaveRsp,
@@ -63,7 +64,10 @@ async function route(
         rsp = await routePutSave(reqMsg)
         break
       case Endpoint.OnMenuNewPost:
-        rsp = await routeMenuNewPost()
+        rsp = routeMenuNewPost()
+        break
+      case Endpoint.OnFormNewPost:
+        rsp = await routeFormNewPost(reqMsg)
         break
       case Endpoint.OnAppInstall:
         rsp = await routeAppInstall()
@@ -105,8 +109,27 @@ async function routePutSave(reqMsg: IncomingMessage): Promise<PutSaveRsp | Error
   return {ok: true}
 }
 
-async function routeMenuNewPost(): Promise<UiResponse> {
-  const post = await reddit.submitCustomPost({title: POST_TITLE})
+/** The mod menu item asks for the post's title first (Reddit titles can't be edited after posting). */
+function routeMenuNewPost(): UiResponse {
+  return {
+    showForm: {
+      name: 'newPostForm',
+      form: {
+        title: 'New Spellstorm post',
+        description: 'Reddit post titles can\'t be changed later, so pick it carefully.',
+        acceptLabel: 'Post',
+        fields: [
+          {type: 'string', name: 'title', label: 'Post title', required: true, defaultValue: POST_TITLE},
+        ],
+      },
+    },
+  }
+}
+
+async function routeFormNewPost(reqMsg: IncomingMessage): Promise<UiResponse> {
+  const values = await readJson<NewPostForm>(reqMsg).catch(() => ({}) as NewPostForm)
+  const title = (values?.title ?? '').trim().slice(0, 300) || POST_TITLE
+  const post = await reddit.submitCustomPost({title})
   return {
     showToast: {text: `Post ${post.id} created.`, appearance: 'success'},
     navigateTo: post.url,

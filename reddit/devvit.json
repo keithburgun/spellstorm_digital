@@ -28,5 +28,8 @@
   },
   "scripts": {
     "dev": "npm run watch"
+  },
+  "forms": {
+    "newPostForm": "/internal/form/new-post"
   }
 }
