@@ -19,7 +19,7 @@ import {
 } from '../shared/api.ts'
 import {dbGetSave, dbPutSave} from './db.ts'
 
-const POST_TITLE = 'Spellstorm: duel the wizards of the storm'
+const POST_TITLE = 'Spellstorm: a wizard-battler deckbuilder for 2-4 players!'
 
 type AnyRsp =
   | MeRsp
