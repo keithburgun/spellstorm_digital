@@ -4,3 +4,4 @@
 /.env
 /public/game.html
 /public/g*.js
+/public/game-bridge.js*

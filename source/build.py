@@ -67,7 +67,7 @@ print(f'zip  dist/spellstorm-itch.zip, dist/spellstorm-web-online.zip')
 # Same as the offline web package (fonts embedded, no online play, no account login); saves go to the player's Reddit account.
 red = app.replace(DETECT, "const onlInApp=()=>true;   /* Reddit: no online play */", 1).replace('<script>window.SS_SYNC=true;</script>\n', '', 1)
 assert 'SS_SYNC=true' not in red
-red = red.replace('</head>', '<script>' + rd('reddit_bridge.js') + '</script>\n<style>[data-a="t_exit"]{display:none!important}</style>\n</head>', 1)
+red = red.replace('</head>', '<script type="module" src="game-bridge.js"></script>\n<script>' + rd('reddit_bridge.js') + '</script>\n<style>[data-a="t_exit"]{display:none!important}</style>\n</head>', 1)
 red = red.replace('</body>', '<script>try{setVer(' + json.dumps('Reddit ' + (('v' + os.environ['SPELLSTORM_VERSION']) if os.environ.get('SPELLSTORM_VERSION') else now.strftime('%Y-%m-%d'))) + ');}catch(e){}</script>\n</body>', 1)
 RPUB = os.path.join(H, '..', 'reddit', 'public')
 if os.path.isdir(os.path.dirname(RPUB)):
