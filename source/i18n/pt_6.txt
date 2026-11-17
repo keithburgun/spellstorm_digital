@@ -1,0 +1,149 @@
+959	{c} alcançou o Nível II!
+960	{c} alcançou o Nível III!
+961	{c} alcançou o Nível II!
+962	{c} alcançou o Nível III!
+963	{c} pesquisou: +{0} de mana.
+964	{c} pesquisou: +{0} de poder.
+965	{c} pesquisou: Compre uma carta.
+966	{c} pesquisou: Ganhe uma carta.
+967	{c} pesquisou: {c} pode pegar uma carta de Fogo do descarte para a mão.
+968	{c} reembaralha seu descarte.
+969	{c} reembaralha o descarte de {c}.
+970	{c} resolve {c} da mão.
+971	{c} resolve {c}.
+972	{c} resolveu {c} da Nuvem da Tempestade.
+973	{c} resolve {c} da mão.
+974	{c} resolve {c} do baralho de Dragões!
+975	{c} resolve {c} da Nuvem da Tempestade.
+976	{c} resolve {c} do espaço X da Nuvem da Tempestade.
+977	{c} resolve {c}.
+978	Resultado de {c} — {s}
+979	{c} volta {c} para a mão.
+980	{c} volta para a mão.
+981	{c} volta {c} para a mão.
+982	{c} revela sua mão para {c}.
+983	{c} revela {c}!
+984	{c} revelou {c}, então revela mais: {s}.
+985	{c} revela a mão de {c} para {c}.
+986	{c} arma {c} virada para baixo.
+987	{c} arma uma Armadilha virada para baixo.
+988	{c} começa com {0} de mana; seu oponente começa com {0} de mana.
+989	{c} roubou {0} de mana de você.
+990	{c} roubou {0} de mana de {c}.
+991	{c} pega a Iniciativa.
+992	{c} sofre {0} de dano.
+993	{c} pega a Iniciativa.
+994	{c} sofre {0} de dano.
+995	{c} libera {c}
+996	{c} libera {c}!
+997	{c} libera {c}
+998	{c} libera {c}!
+999	{c} baniu {c} da Nuvem da Tempestade.
+1000	{c} contra
+1001	{c} vence a Explosão e ganha {0} Fragmentos da Tempestade.
+1002	{c} vence a Explosão! +{0}
+1003	{c} venceu!
+1004	{c} vence
+1005	{c} vence a Explosão e ganha {0} Fragmentos da Tempestade.
+1006	{c} vence a Explosão! +{0}
+1007	{c} venceu levando o rival a {0} de vida após {0} batalhas.
+1008	{c} venceu juntando {0} Fragmentos da Tempestade após {0} batalhas.
+1009	{c} {c} compra {0} carta do descarte: {c}.
+1010	{c}! {c} é descartada sem ser resolvida.
+1011	{c}, Terra, carta especial, tem efeito de descarte
+1012	{c}, Terra, Nível I
+1013	{c}, Terra, Nível I, tem efeito de descarte
+1014	{c}, Terra, Nível II, tem efeito de descarte
+1015	{c}, Terra, Nível III, tem efeito de descarte
+1016	{c}, Terra, Dragão de Nível IV
+1017	{c}, Fogo, carta especial, tem efeito de descarte
+1018	{c}, Fogo, Nível I
+1019	{c}, Fogo, Nível I, tem efeito de descarte
+1020	{c}, Fogo, Nível II
+1021	{c}, Fogo, Nível II, tem efeito de descarte
+1022	{c}, Fogo, Nível III
+1023	{c}, Fogo, Nível III, tem efeito de descarte
+1024	{c}, Fogo, Dragão de Nível IV
+1025	{c}, Calejado
+1026	{c}, Água, carta especial, tem efeito de descarte
+1027	{c}, Água, Nível I
+1028	{c}, Água, Nível I, tem efeito de descarte
+1029	{c}, Água, Nível II
+1030	{c}, Água, Nível II, tem efeito de descarte
+1031	{c}, Água, Nível III
+1032	{c}, Água, Nível III, tem efeito de descarte
+1033	{c}, Água, Dragão de Nível IV
+1034	{c}, Terra, Nível II
+1035	{c}, Terra, Nível III
+1036	{c}, {c} e {c}
+1037	{c}: {c} revelou Terra.
+1038	{c}: {c} revelou Fogo.
+1039	{c}: {c} revelou Água.
+1040	{c}: …arma uma Armadilha virada para baixo e depois ganha a Iniciativa.
+1041	{c}: …arma uma Armadilha virada para baixo.
+1042	{c}: −{0} na sua Pontuação de Explosão.
+1043	{c}: −{0} na Pontuação de Explosão de {c}.
+1044	Primeira Vitória de {c}
+1045	Primeira Vitória de {c}: Vença uma partida como {c}.
+1046	Diário de {c}
+1047	Poções de {c}
+1048	Armadilhas de {c}
+1049	Baralho de {c}
+1050	Descarte de {c}
+1051	Mão de {c} — contagem
+1052	Mão de {c} — efeitos de descarte
+1053	{c} foi eliminado. A partida continua…
+1054	· Iniciante.
+1055	— Fogo e Terra. Hacker que rouba jogadas com Energia.
+1056	— Fogo e Terra. Testa a sorte com um baralho de poções instável.
+1057	— Fogo e Terra. Agressivo desde o início, acumula poder sem parar. Ótimo para começar.
+1058	— Fogo e Água. Sabotadora agressiva que entope seu baralho com {c} e {c}.
+1059	— Fogo e Água. Vida enorme, não pode se curar, fica mais forte com a RUÍNA.
+1060	— Fogo e Água. Pouca vida, muito bloqueio e armadilhas ocultas.
+1061	— Água e Terra. Pesquisa novos poderes cada vez que sobe de nível.
+1062	— Água e Terra. Vida minúscula, cura rápido e além do limite.
+1063	−{0} Pontuação de Explosão
+1064	−{0} Energia
+1065	−{0} Mana
+1066	−{0} Poder
+1067	▶ Ver replay
+1068	◀ Anterior
+1070	🔇 Sem som
+1071	🔊 Silenciar
+1072	🔒 Bloqueado
+1073	🔥 Sequência:
+1074	Oponente online
+1075	Terceira TÓXICA — a Suprema termina com uma CINZA, uma MALDIÇÃO e um GELO.
+1076	Você ainda não armou uma Armadilha. A Suprema de Omar, Movimento Oculto, arma uma.
+1077	Omar armou uma destas virada para baixo. Você só vai saber qual quando for revelada.
+1078	Omar ainda não armou uma Armadilha.
+1079	Você vai jogar como… eu! E eu tô enfrentando minha parceira, minha MELHOR AMIGA, Eve Williams.
+1080	Como vencer
+1081	No Spellstorm você vence juntando 8 Fragmentos da Tempestade ou zerando a vida do oponente. Esses recursos aparecem… aqui!
+1082	A mana alimenta a Habilidade Suprema de um mago. Você vai querer usar sua Suprema sempre que puder!
+1083	Conforme você joga, vai adicionando mais cartas. Ganhe mais Poder para liberar cartas de níveis mais altos!
+1084	A Nuvem da Tempestade
+1085	Isso aqui? É onde você consegue cartas novas para o seu baralho. Você pode ganhar cartas do seu nível atual ou abaixo.
+1086	São 3 níveis de cartas… na verdade também tem cartas de Nível IV, que são DRAGÕES superpoderosos!
+1087	Cartas de Clima
+1088	Todo turno sai uma carta de Clima nova que faz umas coisas. Por sorte essa é só uma brisa agradável que dá recursos para todo mundo, mas algumas não são tão legais.
+1089	Jogando cartas
+1090	Isso aí! Você pode jogar cartas da sua mão. A cada turno você joga uma, virada para baixo. Depois todas são reveladas ao mesmo tempo e fazem coisas mágicas!
+1091	É tipo um pedra-papel-tesoura de elementos: Fogo vence Terra, Terra vence Água e Água vence Fogo. Se você rebater o oponente, compra uma carta.
+1092	(Comprar cartas é muito importante no Spellstorm, já te conto por quê.)
+1093	Uhuu! Terra vence Água — você acabou de rebater a carta da Eve. Ela vai ficar uma fera. Enfim, você comprou uma carta.
+1094	Agora você está com a ficha de Iniciativa, então sua carta é resolvida primeiro. A Iniciativa importa em várias coisas, principalmente nas cartas de Fogo (minhas favoritas).
+1095	A carta Bloqueio da Eve deu a Iniciativa para ela, então no próximo turno a carta dela será resolvida primeiro.
+1096	Pontuação de Explosão
+1097	Cada batalha tem quatro turnos, e então se conta quantas cartas cada jogador tem na mão. Quem tiver mais ganha 2 Fragmentos da Tempestade!
+1098	Na verdade é um pouco mais complicado, porque cartas com efeitos de descarte (têm borda branca) não contam no seu total (chamamos isso de Pontuação de Explosão).
+1099	A Suprema do Derby
+1100	Cada personagem tem uma habilidade Suprema diferente. A minha é a Régua Flamejante, que causa 2 de dano e custa 6 de mana. Se você usar quando eu estiver com vida ímpar, 2 de mana são devolvidos. REEEEMBOLSOOO!
+1101	Você pode usar sua Suprema sempre que a carta jogada tiver o ícone de Suprema e você tiver a mana necessária. Normalmente vale usar o máximo possível!
+1102	Beleza, chega de tutorial por enquanto. Daqui pra frente é com você. Não esqueça que dá para ler as regras no Menu! <3
+1103	A Explosão
+1104	Ganhar feitiço
+1105	Entre batalhas você adiciona ao baralho uma carta da Nuvem da Tempestade do seu Nível ou abaixo. Ela vai para a sua mão na próxima batalha. Se nada te agradar, você pode pegar uma carta especial.
+1106	Suprema pronta
+1107	Você tem mana suficiente para a Régua Flamejante. Use agora ou diga Não para guardar a mana para um momento melhor.
+1108	Subiu de Nível!

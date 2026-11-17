@@ -1,0 +1,196 @@
+163	(Elo {0})
+164	(¡Última ronda!)
+165	(orden no mostrado)
+166	(elección {0})
+167	(elección {0}: tu primera elección es tu aliado)
+168	({0} de {0}).
+169	+{0} PERDICIÓN
+170	+{0} Energía
+171	+{0} Maná
+172	+{0} Maná, +{0} Poder
+173	+{0} Maná, +{0} Poder, ¡Nivel II!, +{0} carta en mano
+174	+{0} Poder
+175	+{0} Poder, Iniciativa obtenida
+176	+{0} Fragmento de Tormenta
+177	+{0} maná
+178	+{0} poder
+179	+{0}% de vida para cada mago · {0} Fragmentos de Tormenta para ganar
+180	, o pega su texto abajo.
+181	: Roba {0}, gana {0} de maná y {0} de poder.
+182	: Roba {0}, gana {0} de maná. Todos los jugadores descartan {0} cartas al azar.
+183	: Roba {0}, gana {0} de maná. Si revelas Agua esta ronda, gana {0} de maná.
+184	: Roba {0}, gana {0} de maná. Los jugadores con más de {0} de vida reciben {0} de daño.
+185	: Roba {0}, gana {0} de maná. Los jugadores de Nivel II y III pierden {0} de poder.
+186	: Roba {0}, gana {0} de poder.
+187	: Roba {0}, gana {0} de poder. Todos los jugadores descartan una carta al azar.
+188	: Roba {0}. Tras resolverse las cartas, los jugadores pueden usar su {c}.
+189	: Roba {0}. Todos los jugadores pueden ganar una carta (primero la Iniciativa).
+190	: Roba {0}. Todos los jugadores ponen la carta superior del Mazo de Tormenta en su descarte.
+191	: Roba {0}. Descarta la siguiente carta de Clima.
+192	: Roba {0}. Cada jugador puede desterrar una {c}, {c} o {c} de su mano o descarte.
+193	: Roba {0}. Las cartas de Tierra no hacen nada al resolverse, salvo curar {0}.
+194	: Roba {0}. Si revelas Tierra esta ronda, gana {0} de poder.
+195	: Roba {0}. Si revelas Fuego esta ronda, gana {0} de maná.
+196	: Roba {0}. La Iniciativa cambia de manos; quien la obtiene gana una {c} y {0} de maná.
+197	: Roba {0}. Nivel II: gana {0} de maná. Nivel I: gana {0} de poder.
+198	: Roba {0}. Destierra la Nube de Tormenta y saca {0} cartas nuevas.
+199	Una partida simple de {0} contra {0} con alguien que tenga acceso a esta página de Spellstorm. Las partidas en línea no cuentan en tus estadísticas.
+200	Maldito: {c} no puede curarse — en su lugar da una {c}.
+201	Logros desbloqueados
+202	Logros {0}/{0}
+203	Pon una Ficha de Investigación en una casilla del Diario de {c}.
+204	Añade una marca ▲ Fuego, ● Agua, ■ Tierra a cada carta.
+205	Tras esta ronda
+206	Contra todo pronóstico
+207	Todos
+208	Aliados
+209	Siempre Ya: {c} da a todos los jugadores un {c}.
+210	Velocidad de animación
+211	Animaciones
+212	Archimago
+213	Como {c}, roba cartas gracias a la curación desperdiciada.
+214	Como {c}, bebe {0} pociones en un solo {c} sin una tercera TÓXICA.
+215	Como {c}, ten {0} Fichas de PERDICIÓN.
+216	Como {c}, pasa una {c} a tu rival con {c}.
+217	Como {c}, coloca las {0} Fichas de Investigación en una partida.
+218	Como {c}, resuelve una carta rival con Descarga Peligrosa.
+219	Como {c}, revela las tres Trampas en una partida.
+220	Como {c}, usa {c} con vida impar.
+221	PUNTUACIÓN DE EXPLOSIÓN
+222	PUNTUACIÓN DE EXPLOSIÓN:
+223	¡HASTA EL FONDO, SUPONGO!
+224	Atrás
+225	Volver a la carta
+226	Volver a la biblioteca
+227	Registro de batalla
+228	Batalla {0}
+229	Batalla {0}, ronda {0} · paso {0} de {0}
+230	Batalla {0}, ronda {0}: {c}.
+231	Vence a todos los magos en Difícil.
+232	Vence a {c} en Cooperativo.
+233	Vence a {c} en Fácil.
+234	Vence a {c} en Difícil en Cooperativo.
+235	Vence a {c} en Difícil.
+236	Vence a {c} en Media.
+237	Derrotado
+238	Principiante
+239	Mejor Elo clasificatorio
+240	Mejor racha
+241	Gran Explosión
+242	Gran Explosión: Gana una Explosión con {0} puntos o más.
+243	Puntuaciones de Explosión — tú: {0}, {c}: {0}, {c}: {0}, {c}: {0}.
+244	Puntuaciones de Explosión — tú: {0}, {c}: {0}, {c}: {0}.
+245	Puntuaciones de Explosión — tú: {0}, {c}: {0}.
+246	Puntuaciones de Explosión — {c}: {0}, {c}: {0}.
+247	Relámpago
+248	Ambos magos empiezan con maná de reserva, y este rival nunca guarda una {c}.
+249	Bronce
+250	Hacia la Cima
+251	Por un Hilo
+252	Por defecto, la app de Spellstorm usa un equilibrio ajustado según los muchos comentarios recibidos desde el lanzamiento. Aun así, puedes jugar con las reglas originales (Equilibrio de la Primera Edición) si lo prefieres.
+253	CONTRARRESTA → {c}
+254	¡CONTRARRESTADO!
+255	CPU - Fácil
+256	CPU - Normal
+257	Dificultad de la CPU
+258	TRAMPA ACTUAL
+259	Calma antes de la Tormenta (primeras batallas)
+260	Cancelar
+261	Cancelar {c} — lo descarta y roba
+262	No puedes poner la misma Trampa dos veces seguidas
+263	Biblioteca de cartas
+264	Cartas ganadas
+265	Cataclismo
+266	Centurión
+267	Cambios del Reequilibrio de la 2.ª Edición (por defecto):
+268	Personaje
+269	Tramposo
+270	Elige una Trampa
+271	Elige una Trampa para colocar boca abajo. Reemplaza tu Trampa actual.
+272	Elige una carta para jugar boca abajo.
+273	Elige una carta para devolver a tu mano.
+274	Elegir cartas
+275	Elegir archivo…
+276	Elegir magos
+277	Elegir…
+278	Cortacircuitos
+279	En ascenso
+280	Cerrar
+281	Cooperativo contra {c}, {0} jugadores:
+282	Victorias cooperativas
+283	Cooperativo: juegas con {c} junto a {c}, {c} contra {c}.
+284	Sangre Fría
+285	Reúne {0} Fragmentos de Tormenta.
+286	Modo daltónico
+287	Remontada
+288	Remontada: Gana tras caer a {0} de vida o menos.
+289	Confirmar
+290	Confirmar ninguna
+291	Aspirante
+292	Continuar partida
+293	Mando
+294	Contrarresta {0} veces en una partida.
+295	Contrarresta {0} veces.
+296	Contragolpe
+297	Contragolpe: Contrarresta {0} veces en una partida.
+298	Contrarrestos
+299	Cooperativo contra {c}
+300	Racha actual
+301	Cruceta o stick izquierdo
+302	PERDICIÓN
+303	PERDICIÓÓÓÓÓN
+304	Desafío diario
+305	Daño infligido
+306	Descarga Peligrosa
+307	Descarga Peligrosa: Como {c}, resuelve una carta rival con Descarga Peligrosa.
+308	Descarga Peligrosa: ¿gastar {0} de Energía y {0} de maná para resolver {c} para ti?
+309	Oscuro
+310	Inflige {0} de daño
+311	Inflige {0} de daño, gana {0} de maná, gana la Iniciativa.
+312	Inflige {0} de daño. Si tu vida es impar, gana {0} de maná.
+313	Inflige {0} o más de daño en una sola ronda.
+314	Inflige {0} de daño en total.
+315	Inflige {0}.{0} de daño en total.
+316	Decidir luego
+317	Mazo {0}
+318	Derrota a todos los magos.
+319	Derrota a tu primer rival de Torneo en Difícil.
+320	Derrota a tu primer rival de Torneo en Normal.
+321	Derrota a {c} en Difícil.
+322	Derrota a {c}.
+323	Diseño de Keith Burgun - Arte de Christina Zhong
+324	Hizo sus deberes: +{0} Poder al inicio de cada batalla
+325	Hizo sus deberes: {c} gana {0} de Poder.
+326	Dificultad
+327	Efecto de descarte
+328	Descartar {0}
+329	Conexión de Distribución: {c} ganas {c} en tu descarte.
+330	Conexión de Distribución: {c} gana {c} en el descarte de {c}.
+331	Ninguna de las dos
+332	Señor de los Dragones
+333	Domador de Dragones
+334	Domador de Dragones: Gana un Dragón.
+335	Dragones
+336	Dragones y especiales
+337	Dragones (Nivel IV)
+338	Dragones {0}
+339	Robar una carta
+340	Roba la carta superior de tu mazo.
+341	Roba {0}, gana {0} de maná y {0} de poder.
+342	Roba {0}, gana {0} de maná. Si revelas Agua esta ronda, gana {0} de maná.
+343	Roba {0}, gana {0} de maná. Los jugadores con más de {0} de vida reciben {0} de daño.
+344	Roba {0}, gana {0} de maná. Los jugadores de Nivel II y III pierden {0} de poder.
+345	Roba {0}, gana {0} de poder. Todos los jugadores descartan una carta al azar.
+346	Roba {0}. Todos los jugadores pueden ganar una carta (primero la Iniciativa).
+347	Roba {0}. Todos los jugadores ponen la carta superior del Mazo de Tormenta en su descarte.
+348	Roba {0}. Si revelas Fuego esta ronda, gana {0} de maná.
+349	Roba {0}. La Iniciativa cambia de manos; quien la obtiene gana una {c} y {0} de maná.
+350	Roba {0}. Nivel II: gana {0} de maná. Nivel I: gana {0} de poder.
+351	Roba {0}. Destierra la Nube de Tormenta y saca {0} cartas nuevas.
+352	Beber otra
+353	¿Beber otra poción? TÓXICAS hasta ahora: {0} de {0}. Elementos: Fuego {0}, Tierra {0}, Agua {0}.
+354	Dúo Dinámico
+355	La Tierra vence al Agua. El Fuego vence a la Tierra.
+356	Efecto:
+357	Erudito Elemental
+358	Elo

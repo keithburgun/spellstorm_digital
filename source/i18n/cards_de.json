@@ -1,0 +1,958 @@
+{
+ "_subs": {
+  "Basic Spell Card": "Basis-Zauberkarte",
+  "Spell Card": "Zauberkarte",
+  "Special Card": "Spezialkarte",
+  "Derby Pocket's Wizard Spell Card": "Zauberkarte von Derby Pocket",
+  "Eve Williams' Wizard Spell Card": "Zauberkarte von Eve Williams",
+  "Oren Bark's Wizard Spell Card": "Zauberkarte von Oren Bark",
+  "Omar Evans' Wizard Spell Card": "Zauberkarte von Omar Evans",
+  "Croh Vosh's Wizard Spell Card": "Zauberkarte von Croh Vosh",
+  "Abragail's Wizard Spell Card": "Zauberkarte von Abragail",
+  "May Danaris' Wizard Spell Card": "Zauberkarte von May Danaris",
+  "Bunny Wizard's Wizard Spell Card": "Zauberkarte des Hasenzauberers"
+ },
+ "_labels": {
+  "TRIGGER:": "AUSLÖSER:",
+  "EFFECT:": "EFFEKT:"
+ },
+ "_toxic": {
+  "TOXIC": "GIFTIG",
+  "note": "Ist dies deine dritte GIFTIGE Karte, endet deine Ultimative und du erhältst eine ASCHE, ein GIFT und ein EIS."
+ },
+ "_hl": {
+  "Sturmsplitter": "#e8304a",
+  "VERDAMMNIS-Marker": "#aa1eb4",
+  "Energiemarker": "#f0a01e"
+ },
+ "_upper": true,
+ "_weather": "WETTER",
+ "_after": "Lass diese Karte nach dem Aufdecken hier liegen. Sie ist inaktiv.",
+ "dart": {
+  "title": "Magischer Pfeil",
+  "text": [
+   "{mana}. Wenn du {init} hast, verursache 1 Schaden.",
+   "{ult}"
+  ],
+  "flavor": "Feuermagie ist wegen ihrer Unberechenbarkeit vielerorts verboten."
+ },
+ "block": {
+  "title": "Abwehr",
+  "text": [
+   "Erhalte {init}. Heile 1 für jede aufgedeckte {fire}-Karte."
+  ],
+  "flavor": "„Er braucht nur einen kleinen Spritzer, mehr braucht er nicht.“ – Der Spritzmeister"
+ },
+ "pgem": {
+  "title": "Machtjuwel",
+  "text": [
+   "{power} {gain}",
+   "Wenn du eine Karte erhalten hast, wirf sie ab.",
+   "{disc}: {power}"
+  ],
+  "flavor": "Die goldenen Juwelen des Zaubersturms brauchen Zeit, um ihre Macht zu entfalten."
+ },
+ "essF": {
+  "title": "Feueressenz",
+  "text": [
+   "Verursache 1 Schaden. Du darfst eine beliebige {fire}-Karte der Stufe I oder II aus der Sturmwolke erhalten. Verbanne diese Karte."
+  ],
+  "flavor": "Feuermagie wird meist mit Zerstörung verbunden."
+ },
+ "essW": {
+  "title": "Wasseressenz",
+  "text": [
+   "{mana}. Du darfst eine beliebige {water}-Karte der Stufe I oder II aus der Sturmwolke erhalten. Verbanne diese Karte."
+  ],
+  "flavor": "Wassermagie wird meist mit Heilung verbunden."
+ },
+ "essE": {
+  "title": "Erdessenz",
+  "text": [
+   "{power}. Du darfst eine beliebige {earth}-Karte der Stufe I oder II aus der Sturmwolke erhalten. Verbanne diese Karte.",
+   "{disc}: {power}"
+  ],
+  "flavor": "Erdmagie wird meist mit dem Bauen verbunden."
+ },
+ "coffee": {
+  "title": "Kaffeerunde",
+  "text": [
+   "{power}{power}, {gain}.",
+   "Wenn du eine {earth}-Karte erhalten hast, erhalte {init}.",
+   "{ult}"
+  ],
+  "flavor": "„Das wird die beste Kaffeerunde aller Zeiten!“"
+ },
+ "charge": {
+  "title": "Tollkühner Angriff",
+  "text": [
+   "{mana}{mana}{power}",
+   "Verursache 1 Schaden. Erhalte eine ASCHE. Wenn du {init} hast, verursache 1 weiteren Schaden.",
+   "{ult}"
+  ],
+  "flavor": "„Ich weiß, dass wir es zusammen schaffen können!“"
+ },
+ "punch": {
+  "title": "Faustschlag",
+  "text": [
+   "Erhalte {init}. Stiehl einem Spieler 1 Mana; er wirft eine zufällige Karte ab. {ult}"
+  ],
+  "flavor": "„Wir benutzen Worte, damit wir keine Fäuste brauchen. Wir benutzen Fäuste, damit wir keine Bomben brauchen.“"
+ },
+ "riot": {
+  "title": "Aufruhr",
+  "text": [
+   "Wirf deine Hand ab, ohne Abwurfeffekte auszulösen. Verursache 1 Schaden pro abgeworfener {earth}. {draw}{draw}{ult}."
+  ],
+  "flavor": "„Die Zerstörung des Omni-Juwels war nur der erste Schritt in unserem Kampf gegen koloniale Unterdrückung.“"
+ },
+ "twopow": {
+  "title": "Doppelte Macht",
+  "text": [
+   "{power}{power}{gain}",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "Wenn du das Symbol „Karte erhalten“ siehst: Du darfst auch darauf verzichten, eine Karte zu erhalten."
+ },
+ "opal": {
+  "title": "Opal",
+  "text": [
+   "{draw}, {power}{power}, {mana}{mana}, {gain}.",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "Juwelen sind Steine tief aus der Erde, geladen mit geheimnisvoller Macht."
+ },
+ "sift": {
+  "title": "Sieben",
+  "text": [
+   "{power}. Sieh dir die obersten 2 Karten deines Decks an. Du darfst sie abwerfen oder in beliebiger Reihenfolge zurücklegen."
+  ],
+  "flavor": "Fast alle Erdkarten haben Abwurfeffekte."
+ },
+ "diamond": {
+  "title": "Diamant",
+  "text": [
+   "Wirf genau 3 Karten ab. Wenn du das tust,",
+   "{power}{power}{power}",
+   "{disc}: {power}"
+  ],
+  "flavor": "„An 1 Tag im Zaubersturm mehr Zauber gelernt als in den letzten 3 Jahren.“ – Gelehrte aus Azura"
+ },
+ "spirit": {
+  "title": "Geisterkristall",
+  "text": [
+   "{draw}. Decke eine {earth} aus deiner Hand auf. Handle sie ab und wirf sie dann ab.",
+   "{disc}: {power}"
+  ],
+  "flavor": "Erdmagie gilt als die älteste Magie – darum sind so viele Steine mit Kräften erfüllt."
+ },
+ "amber": {
+  "title": "Bernstein",
+  "text": [
+   "{power}{gain}{gain} (du musst zweimal eine Karte erhalten). {disc}: {power}"
+  ],
+  "flavor": "Die Geschäftsdämonen erwogen Bohrungen im Zaubersturm, doch das war zu teuer."
+ },
+ "shatter": {
+  "title": "Zerschmettern",
+  "text": [
+   "Verbanne bis zu 2 Karten aus deiner Hand. {power} für jede verbannte.",
+   "{disc}: {power}"
+  ],
+  "flavor": "„Das Wasser vom Zaubersturm ist VOLLER Gold, sag ich dir!“ – Goldsucher"
+ },
+ "meteor": {
+  "title": "Meteorit",
+  "text": [
+   "Nimm 1 Schaden. Du darfst eine beliebige Karte der Sturmwolke unabhängig von ihrer Stufe abhandeln und dann verbannen.",
+   "{disc}: Nimm 1 Schaden."
+  ],
+  "flavor": "„Mama! Schau! Das ist vom Himmel gefallen!“ – Ein Kind von Tiya Bannet"
+ },
+ "blood": {
+  "title": "Blutstein",
+  "text": [
+   "{mana}",
+   "Nimm 1 Schaden. Du darfst eine Karte aus Hand oder Ablage verbannen.",
+   "{disc}: {mana}"
+  ],
+  "flavor": "„Juwelen in der Wildnis lässt man besser liegen – außer man weiß genau, was man tut.“ – Abragail"
+ },
+ "quake": {
+  "title": "Beben",
+  "text": [
+   "Gegner verlieren 2 Machtmarker und erhalten eine ASCHE. {gain}",
+   "{disc}: {power}."
+  ],
+  "flavor": "Ein gewaltiges Erdbeben im Jahr 1951 wird dem Auftauchen der Geschäftsdämonen zugeschrieben."
+ },
+ "threepow": {
+  "title": "Dreifache Macht",
+  "text": [
+   "{power}{power}{gain}",
+   "Wenn ein Spieler {water} aufgedeckt hat, {power}.",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "Wenn du das Symbol „Karte erhalten“ siehst: Du darfst auch darauf verzichten, eine Karte zu erhalten."
+ },
+ "swamp": {
+  "title": "Sumpfschlick",
+  "text": [
+   "{draw}. Der Spieler mit {init} verliert sie. Gib den Gegnern einen FLUCH."
+  ],
+  "flavor": "Die imperiale Landnahme des Ordens hat viel mit den wachsenden Sümpfen in seinem Gebiet zu tun."
+ },
+ "lavabat": {
+  "title": "Lavafledermaus",
+  "text": [
+   "{mana}. Du darfst eine Nicht-Zauberer-{fire}-Karte von einem Ablagestapel auf einen anderen legen.",
+   "Erhalte {init}."
+  ],
+  "flavor": "Aus der vulkanischen Glut des Zaubersturms sollen gefährliche brennende Fledermäuse fliegen."
+ },
+ "ruby": {
+  "title": "Rubin",
+  "text": [
+   "Wirf die obersten 3 Karten deines Decks ab. Verursache 1 Schaden pro abgeworfener {fire}-Karte",
+   "ODER verbanne eine der abgeworfenen Karten."
+  ],
+  "flavor": "Der Trend zu rubinbesetzter Kleidung wurde für den Großen Brand des Königsballs 1976 verantwortlich gemacht."
+ },
+ "shock": {
+  "title": "Schockwelle",
+  "text": [
+   "Der gewählte Spieler verliert 2 Machtmarker, wirft eine zufällige Karte ab, verliert {init} und erleidet 1 Schaden."
+  ],
+  "flavor": "Der Hit „Schockwelle“ von 1981 gilt oft als Geburtsstunde des Bonepunk."
+ },
+ "rapid": {
+  "title": "Schnellfeuer",
+  "text": [
+   "{draw}",
+   "Wenn du {init} hast, verursache 2 Schaden; du darfst diese Karte auf die Hand zurücknehmen."
+  ],
+  "flavor": "Bei einer Feuerstrategie ist es wichtig, den Druck hochzuhalten."
+ },
+ "obsidian": {
+  "title": "Obsidian",
+  "text": [
+   "Nimm 1 Schaden und verliere 2 Mana. Wenn du das tust, darfst du {ult} ohne Manakosten einsetzen."
+  ],
+  "flavor": "„Immer wenn ich die Augen schließe, sehe ich mein verzerrtes Spiegelbild in diesem schwarzen Juwel.“ – Unbekannt"
+ },
+ "lantern": {
+  "title": "Laterne",
+  "text": [
+   "{mana}{mana}.",
+   "Wenn der nächste Spieler im Uhrzeigersinn {water} aufgedeckt hat, verbanne diese Karte; du erhältst einen FLUCH und nimmst 1 Schaden."
+  ],
+  "flavor": "Sperre niemals, aus keinem Grund, bewusste Feuergeister in eine Laterne."
+ },
+ "heart": {
+  "title": "Herzjuwel",
+  "text": [
+   "Heile 3 und erhalte einen FLUCH.",
+   "{ult}",
+   "{disc}: Nimm 1 Schaden."
+  ],
+  "flavor": "Das Herzjuwel tauchte im Lauf der Geschichte oft auf und verschwand wieder – stets mit einem tödlichen Fluch."
+ },
+ "manafont": {
+  "title": "Manaquelle",
+  "text": [
+   "Verbanne eine {water} in der Sturmwolke. Wenn du das tust, {mana}{mana}{mana}.",
+   "{disc}: Nimm 1 Schaden und {mana}."
+  ],
+  "flavor": "Es gibt viele Theorien, doch niemand weiß, woher die Magie in den Juwelen ursprünglich stammt."
+ },
+ "flame": {
+  "title": "Flamme",
+  "text": [
+   "Verursache 1 Schaden, dann handle eine andere {fire} aus deiner Hand ab und wirf sie ab.",
+   "{ult}"
+  ],
+  "flavor": "Um eine magische Flamme zu löschen, brauchst du *magisches* Wasser."
+ },
+ "fb2": {
+  "title": "Feuerball II",
+  "text": [
+   "Verursache 2 Schaden. Wenn du {init} hast, verursache 2 weiteren Schaden."
+  ],
+  "flavor": "Beim Aufdecken von Feuerball II ruft man traditionell „Schabumm-ja!“."
+ },
+ "cross": {
+  "title": "Kreuzfeuer",
+  "text": [
+   "Wenn du {init} hast, verursache 3 Schaden bei einem gewählten Gegner, verliere {init} und lege diese Karte auf dessen Ablagestapel."
+  ],
+  "flavor": "„Die erste Lektion in Feuermagie muss immer lauten … wie man sich nicht selbst verbrennt.“ – B. Underbrom, Professor für Feuermagie"
+ },
+ "fb": {
+  "title": "Feuerball",
+  "text": [
+   "Verursache 1 Schaden und erhalte eine ASCHE. Wenn du {init} hast, verursache 2 weiteren Schaden und verliere {init}."
+  ],
+  "flavor": "Beim Aufdecken von Feuerball ruft man traditionell „Schabumm!“."
+ },
+ "arctite": {
+  "title": "Arktit",
+  "text": [
+   "{draw}{draw}",
+   "Heile 2 und gib ein EIS."
+  ],
+  "flavor": "Piraten schmuggeln angeblich große Mengen Arktit in Eisbergen."
+ },
+ "iceflume": {
+  "title": "Eisrutsche",
+  "text": [
+   "Gib ein EIS. Du darfst ein EIS aus Hand oder Ablage verbannen. Erhalte {init}."
+  ],
+  "flavor": "„Pass auf, wo du hintrittst!“ – Unbekannt"
+ },
+ "frost": {
+  "title": "Frostmagie",
+  "text": [
+   "Heile 1. Verliere 1 Machtmarker. Gib den Gegnern ein EIS."
+  ],
+  "flavor": "Der Azurorden konzentrierte sich bis in die 1970er auf Wassermagie, dann wurde Eismagie plötzlich viel beliebter."
+ },
+ "lapis": {
+  "title": "Lapislazuli",
+  "text": [
+   "{draw}. Du darfst bis zu 2 Karten abwerfen.",
+   "Heile 1 pro abgeworfener {water}."
+  ],
+  "flavor": "Ärzte in ganz Omia heilen seit Generationen Kranke mit Wassermagie."
+ },
+ "leap": {
+  "title": "Sprung",
+  "text": [
+   "Erhalte {init} und heile 1.",
+   "Wenn ein Gegner {fire} aufgedeckt hat, darfst du eine Karte aus Hand oder Ablage verbannen."
+  ],
+  "flavor": "Azurne Zauberer spezialisierten sich einst auf Wasserjuwelen, haben sich seitdem aber auch andere aus aller Welt angeeignet."
+ },
+ "moon": {
+  "title": "Mondstein",
+  "text": [
+   "Heile 4.",
+   "{disc}: Heile 2."
+  ],
+  "flavor": "Der seltene, wunderschöne Mondstein ist einer der begehrtesten in ganz Omia."
+ },
+ "reflect": {
+  "title": "Reflexion",
+  "text": [
+   "{draw}, erhalte {init}, heile 1.",
+   "Spieler, die {fire} aufgedeckt haben, erleiden 2 Schaden."
+  ],
+  "flavor": "„Er braucht nur einen kleinen Spritzer, mehr braucht er nicht.“ – Der Spritzmeister"
+ },
+ "sapph": {
+  "title": "Saphir",
+  "text": [
+   "{draw}, heile 1 und erhalte eine ASCHE.",
+   "{ult}"
+  ],
+  "flavor": "Viele der beeindruckendsten Zauberer Omias haben einen Markenzeichen-Zug, den manche „Ultimative“ nennen."
+ },
+ "step": {
+  "title": "Schritt",
+  "text": [
+   "Wenn du {init} hast, heile 1.",
+   "Sonst erhalte {init}.",
+   "{disc}: Erhalte {init}."
+  ],
+  "flavor": "Von 366 bis 1182 herrschte das Wasserkönigreich über weite Teile des Ostkontinents."
+ },
+ "twin": {
+  "title": "Zwillingssaphir",
+  "text": [
+   "{draw} und heile 2.",
+   "{ult}"
+  ],
+  "flavor": "„ZWEI Saphire?! Wow, danke!“ – Jemandes Sohn"
+ },
+ "ultw": {
+  "title": "Ultimative",
+  "text": [
+   "Du darfst eine {earth} aus deiner Hand verbannen.",
+   "Wenn du das tust, {mana}{mana}{mana}.",
+   "{ult}"
+  ],
+  "flavor": "„Er braucht nur einen kleinen Spritzer, mehr braucht er nicht.“ – Der Spritzmeister"
+ },
+ "wave": {
+  "title": "Welle",
+  "text": [
+   "{mana}{mana}{mana}. Der gewählte Spieler wirft seine Hand ab und zieht 4 neue Karten."
+  ]
+ },
+ "dEarth": {
+  "title": "Erddrache",
+  "text": [
+   "{gain}{gain}. Verursache 2 Schaden. Erhalte 1 Sturmsplitter. Gegner erhalten eine ASCHE. {ult}"
+  ],
+  "flavor": "Erddrachen horten bekanntlich riesige Schätze in Höhlen."
+ },
+ "dFire": {
+  "title": "Feuerdrache",
+  "text": [
+   "Verursache 4 Schaden bei einem Spieler. {mana}{mana}",
+   "{ult}"
+  ],
+  "flavor": "Kein Drache wird mehr gefürchtet als der zerstörerische, schreckliche Feuerdrache."
+ },
+ "dIce": {
+  "title": "Eisdrache",
+  "text": [
+   "Heile 3. Erhalte 1 Sturmsplitter. Gib ein EIS. {ult}"
+  ],
+  "flavor": "Die schwer fassbaren Sturmdrachen galten bis vor Kurzem als Fabelwesen."
+ },
+ "dStorm": {
+  "title": "Sturmdrache",
+  "text": [
+   "Verursache 3 Schaden und erhalte 1 Sturmsplitter. {ult}"
+  ],
+  "flavor": "Die schwer fassbaren Sturmdrachen galten bis vor Kurzem als Fabelwesen."
+ },
+ "dWind": {
+  "title": "Winddrache",
+  "text": [
+   "Erhalte {init}. Erhalte einen Sturmsplitter. Du darfst bis zu zwei Karten aus deiner Hand abhandeln. {ult}"
+  ],
+  "flavor": "Die schwer fassbaren Sturmdrachen galten bis vor Kurzem als Fabelwesen."
+ },
+ "ice": {
+  "title": "EIS",
+  "text": [
+   "Kann nicht gespielt werden.",
+   "{disc}: −1 auf den Explosionswert (wenn in der Neuformierung abgeworfen).",
+   "(Erhalte sie auf deinen Ablagestapel.)"
+  ],
+  "flavor": "„Würfelförmig geschnittenes Eis ist fast wie ein Juwel.“ – Beosnook"
+ },
+ "ash": {
+  "title": "ASCHE",
+  "text": [
+   "Kann nicht gespielt werden.",
+   "{disc}: Verliere 1 Machtmarker.",
+   "(Erhalte sie auf deinen Ablagestapel.)"
+  ],
+  "flavor": "Der Zaubersturm ist ein stark vulkanisches Gebiet, oft mit Asche bedeckt."
+ },
+ "curse": {
+  "title": "FLUCH",
+  "text": [
+   "Kann nicht gespielt werden.",
+   "{disc}: Nimm 1 Schaden.",
+   "(Erhalte sie auf deinen Ablagestapel.)"
+  ],
+  "flavor": "„Verflucht!“ – H.M.T. Holliganger, ausgezeichneter Professor der Archäologischen Fakultät der Azura-Akademie"
+ },
+ "trap_mud": {
+  "title": "Schlammfalle",
+  "text": [
+   "Verursache 1 Schaden. {mana}, erhalte {init}."
+  ],
+  "flavor": "Omar gehört einem geheimen Kollektiv von Ninja-Assassinen an, das die Klosterwälder durchstreift.",
+  "trigger": "Du darfst sie aufdecken, wenn du mit einer {fire}-Karte KONTERST.",
+  "after": "Lass diese Karte nach dem Aufdecken hier liegen. Sie ist inaktiv."
+ },
+ "trap_dodge": {
+  "title": "Ausweichen!",
+  "text": [
+   "Die ersten 2 Schadenspunkte, die du diese Runde erleidest, werden aufgehoben."
+  ],
+  "flavor": "Omars Spezies, die Zuzuni, sind zweibeinige Insektoiden, die vom Azurorden fast die ganze Geschichte hindurch unterdrückt wurden.",
+  "trigger": "Du darfst sie aufdecken, wenn dir ein Gegner Schaden zufügt.",
+  "after": "Lass diese Karte nach dem Aufdecken hier liegen. Sie ist inaktiv."
+ },
+ "trap_ice": {
+  "title": "Eisbombe",
+  "text": [
+   "Gib ein EIS. {mana}, {ult}."
+  ],
+  "flavor": "Nach einer Vision, in der Croh Vosh die Macht des Zaubersturms an sich reißt, kam Omar, um das zu verhindern.",
+  "trigger": "Du darfst sie aufdecken, wenn du mit einer {water}-Karte KONTERST.",
+  "after": "Lass diese Karte nach dem Aufdecken hier liegen. Sie ist inaktiv."
+ },
+ "potiongun": {
+  "title": "Trankkanone",
+  "text": [
+   "Verursache 1 Schaden. Du darfst eine Nicht-Zauberer-Karte aus deiner Hand in die Hand eines Gegners geben. Wenn du das tust, erhalte 2 vom Element dieser Karte. {ult}"
+  ],
+  "flavor": "„Meinst du, ich treffe das alte Fass da drüben am Hügel?“"
+ },
+ "unstable": {
+  "title": "Instabile Formel",
+  "text": [
+   "{power}{mana}. Senke ein Element um 2, um ein anderes um 2 zu erhöhen. Wenn jemand {water} aufgedeckt hat, +1 Erd-Element. {ult}"
+  ],
+  "flavor": "„Oh, das klappt schon, vertrau mir. Aber, äh … geh lieber ein Stück zurück …“"
+ },
+ "beetle": {
+  "title": "Käferbrecher",
+  "text": [
+   "Wirf eine {fire} aus deiner Hand ab, um 2 Schaden zu verursachen.",
+   "{ult}"
+  ],
+  "flavor": "Für viele ein Held, gilt Omar den Mächtigen als Öko-Terrorist."
+ },
+ "shuriken": {
+  "title": "Shuriken",
+  "text": [
+   "SPEZIAL: Diese Karte ist IMMER zuerst dran.",
+   "Erhalte {init} und {draw}, ODER der gewählte Gegner wirft seine aufgedeckte Karte ab (sie wird nicht abgehandelt) und {draw}. {ult}."
+  ],
+  "flavor": "„…“"
+ },
+ "undertow": {
+  "title": "Sog",
+  "text": [
+   "Gegner werfen eine zufällige Karte ab. Du {draw}. Hast du mindestens 3 Karten mehr als ein anderer Spieler, erhalte einen VERDAMMNIS-Marker. {ult}"
+  ],
+  "flavor": "Croh ist in den Zaubersturm gekommen, um seinen Weg zur Weltherrschaft zu finden."
+ },
+ "sinking": {
+  "title": "Versenkender Schlag",
+  "text": [
+   "{mana}{mana}. Verursache X Schaden; X ist deine Anzahl an VERDAMMNIS-Markern. Ist der FLUCH-Stapel leer, erhalte einen VERDAMMNIS-Marker. {ult}"
+  ],
+  "flavor": "Vor langer Zeit wurde Croh Vosh an der Drachenbrücke von seinem langjährigen Verbündeten Salutaire Ruupart verraten und getötet."
+ },
+ "deepgems": {
+  "title": "Tiefenjuwelen",
+  "text": [
+   "{draw}{mana} Du darfst 1 Machtmarker verlieren. Wenn du das tust, handle eine {water} aus der Sturmwolke ab und verbanne sie. {ult}"
+  ],
+  "flavor": "Die Vorherrschaft des Wasserkönigreichs beruhte teils darauf, Rohstoffe aus der Tiefe zu bergen."
+ },
+ "curriculum": {
+  "title": "Neuer Lehrplan",
+  "text": [
+   "{power} X-mal; X ist deine aktuelle Stufe. Du darfst bis zu 2 Karten in der Sturmwolke verbannen. {gain}. {ult}"
+  ],
+  "flavor": "„Unglaublich, was für einen *Mist* ich manchmal unterrichten soll!“"
+ },
+ "starshot": {
+  "title": "Sternenschuss",
+  "text": [
+   "Wirf eine Karte ab, um 1 Schaden zu verursachen. War sie Stufe II, verursache 1 weiteren Schaden. {mana} pro Energiemarker. Verliere 2 Energiemarker. {ult}"
+  ],
+  "flavor": "„Hey, DU! Friss das!“"
+ },
+ "databreach": {
+  "title": "Datenleck",
+  "text": [
+   "Verliere 1 oder 2 Energiemarker. Wenn du das tust, {power} so oft. Hast du noch 2 Energiemarker, deckt der gewählte Gegner seine Hand auf und wirft eine Karte deiner Wahl ab. {ult}"
+  ],
+  "flavor": "„Ja! Ich bin drin. Mal sehen, was diese Idioten als Nächstes vorhaben …“"
+ },
+ "buddy": {
+  "title": "Buddy-System",
+  "text": [
+   "Spieler auf Stufe I {power}. Du {power}{mana}. Du darfst eine andere aufgedeckte {earth}-Karte abhandeln.",
+   "{ult}"
+  ],
+  "flavor": "„Hase fragt sich, ob er wohl deine Hand halten darf.“ – Hases Betreuer"
+ },
+ "snowday": {
+  "title": "Schneetag",
+  "text": [
+   "Heile 2. Gib allen Gegnern ohne EIS auf dem Ablagestapel ein EIS.",
+   "{ult}."
+  ],
+  "flavor": "Die Plüschis sind eine Art Stofftiere, die durch mächtige Sternenmagie zum Leben erweckt wurden."
+ },
+ "rb_repair": {
+  "title": "Robo-Junge",
+  "text": [
+   "Heile 1/Gegner. {draw}{mana}.",
+   "~Stufe II: Verbanne ein EIS oder einen FLUCH von Robo-Junges Ablagestapel.",
+   "~Stufe III: Heile 3. {draw}."
+  ],
+  "sub": "„Robo-Reparatur“",
+  "bubble": "Ahoi! Ich bin Robo-Junge."
+ },
+ "rb_iceblock": {
+  "title": "Robo-Junge",
+  "text": [
+   "{blast}. Heile 1/Gegner.",
+   "~Stufe II: Gib ein EIS.",
+   "~Stufe III: {draw}. Heile 1/Gegner."
+  ],
+  "sub": "„Eisblock“"
+ },
+ "rb_bounce": {
+  "title": "Robo-Junge",
+  "text": [
+   "Handle die „X“-Karte der Sturmwolke ab und verbanne sie.",
+   "~Stufe II: Hat Robo-Junge {init}, verursache 2 Schaden."
+  ],
+  "sub": "„Robo-Abpraller“",
+  "bubble": "Uff! Sorry!"
+ },
+ "rb_laser": {
+  "title": "Robo-Junge",
+  "text": [
+   "Erhalte {init}. Verursache 1 Schaden. Robo-Junge wirft einen Explosionsmarker ab.",
+   "~Stufe II: Gib einen FLUCH.",
+   "~Stufe III: {mana}"
+  ],
+  "sub": "„Laser-AUGE“"
+ },
+ "rb_fist": {
+  "title": "Robo-Junge",
+  "text": [
+   "{mana}. Robo-Junge wirft einen Explosionsmarker ab. Verursache 1 Schaden.",
+   "~Stufe II: Verursache 1 Schaden.",
+   "~Stufe III: Verursache 1 Schaden."
+  ],
+  "sub": "„Robo-Faust“",
+  "bubble": "Hey! Schau dir meinen Trick an!"
+ },
+ "rb_upgrade": {
+  "title": "Robo-Junge",
+  "text": [
+   "{blast}{blast}{mana}",
+   "Verbanne die „X“-Karte der Sturmwolke.",
+   "~Stufe III: {blast}{mana}."
+  ],
+  "sub": "„Upgrade“"
+ },
+ "rb_hack": {
+  "title": "Robo-Junge",
+  "text": [
+   "{blast}{draw}{mana}",
+   "~Stufe II: Andere Spieler werfen eine zufällige Karte ab.",
+   "~Stufe III: {blast}"
+  ],
+  "sub": "„Fies Gehackt“",
+  "bubble": "!scabbalee BaYTOBORMi Ω ####"
+ },
+ "rb_drill": {
+  "title": "Robo-Junge",
+  "text": [
+   "{blast}{mana}",
+   "Gegner, die {water} aufgedeckt haben, erhalten eine ASCHE.",
+   "~Stufe III: Verursache 1 Schaden."
+  ],
+  "sub": "„Bohr Dich“",
+  "bubble": "Ich bin Robo-Junge!"
+ },
+ "rb_blast": {
+  "title": "Robo-Junge",
+  "text": [
+   "{draw}{draw}",
+   "~Stufe II: Heile 1.",
+   "~Stufe III: Heile 1/Gegner."
+  ],
+  "sub": "„Spreng Dich“",
+  "bubble": "WUUUMM!"
+ },
+ "beetle_2e": {
+  "title": "Käferbrecher",
+  "text": [
+   "Wirf eine {fire}-Karte ab. Wenn du das tust, erleidet der gewählte Spieler 3 Schaden."
+  ],
+  "flavor": "Für viele ein Held, gilt Omar den Mächtigen als Öko-Terrorist."
+ },
+ "databreach_2e": {
+  "title": "Datenleck",
+  "text": [
+   "{power}{power} Der gewählte Gegner deckt seine Hand auf und wirft eine Karte deiner Wahl ab. Wenn jemand {water} aufgedeckt hat, erhalte einen Energiemarker.",
+   "{ult}"
+  ],
+  "flavor": "„Ja! Ich bin drin. Mal sehen, was diese Idioten als Nächstes vorhaben …“"
+ },
+ "starshot_2e": {
+  "title": "Sternenschuss",
+  "text": [
+   "Verursache 1 Schaden. Du darfst 2 Energiemarker verlieren, um eine andere {fire}-Karte aus deiner Hand abzuhandeln.",
+   "{ult}"
+  ],
+  "flavor": "„Hey, DU! Friss das!“"
+ },
+ "undertow_2e": {
+  "title": "Sog",
+  "text": [
+   "{draw}. Gegner werfen zwei zufällige Karten ab. Wenn du GEKONTERT hast, erhalte einen VERDAMMNIS-Marker. {ult}"
+  ],
+  "flavor": "Croh ist in den Zaubersturm gekommen, um seinen Weg zur Weltherrschaft zu finden."
+ },
+ "sinking_2e": {
+  "title": "Versenkender Schlag",
+  "text": [
+   "{mana}{mana}. Verursache X + 1 Schaden; X ist deine Anzahl an VERDAMMNIS-Markern. Ist der FLUCH-Stapel leer, erhalte einen VERDAMMNIS-Marker.",
+   "{ult}"
+  ],
+  "flavor": "Vor langer Zeit wurde Croh Vosh an der Drachenbrücke von seinem langjährigen Verbündeten Salutaire Ruupart verraten und getötet."
+ },
+ "charge_2e": {
+  "title": "Tollkühner Angriff",
+  "text": [
+   "{mana}{power}",
+   "Verursache 1 Schaden. Erhalte eine ASCHE. Wenn du {init} hast, {mana} und verursache 1 weiteren Schaden.",
+   "{ult}"
+  ],
+  "flavor": "„Ich weiß, dass wir es zusammen schaffen können!“"
+ },
+ "coffee_2e": {
+  "title": "Kaffeerunde",
+  "text": [
+   "{power}, {gain}.",
+   "Wenn du eine {earth}-Karte erhalten hast, {power} und erhalte {init}.",
+   "{ult}"
+  ],
+  "flavor": "„Das wird die beste Kaffeerunde aller Zeiten!“"
+ },
+ "lantern_2e": {
+  "title": "Laterne",
+  "text": [
+   "{mana}{mana}.",
+   "Wenn jemand {water} aufgedeckt hat, erleiden alle Spieler 1 Schaden und erhalten einen FLUCH."
+  ],
+  "flavor": "Sperre niemals, aus keinem Grund, bewusste Feuergeister in eine Laterne."
+ },
+ "rapid_2e": {
+  "title": "Schnellfeuer",
+  "text": [
+   "Wenn du {init} hast, verursache 2 Schaden, erhalte eine ASCHE und nimm diese Karte auf die Hand zurück."
+  ],
+  "flavor": "Bei einer Feuerstrategie ist es wichtig, den Druck hochzuhalten."
+ },
+ "leap_2e": {
+  "title": "Sprung",
+  "text": [
+   "Erhalte {init}. Heile 1.",
+   "Verbanne eine Karte aus Hand oder Ablage."
+  ],
+  "flavor": "Azurne Zauberer spezialisierten sich einst auf Wasserjuwelen, haben sich seitdem aber auch andere aus aller Welt angeeignet."
+ },
+ "manafont_2e": {
+  "title": "Manaquelle",
+  "text": [
+   "Wirf eine {water}-Karte ab.",
+   "Wenn du das tust, {mana}{mana}{mana}.",
+   "{disc}: {mana}."
+  ],
+  "flavor": "Es gibt viele Theorien, doch niemand weiß, woher die Magie in den Juwelen ursprünglich stammt."
+ },
+ "shock_2e": {
+  "title": "Schockwelle",
+  "text": [
+   "Der gewählte Spieler erleidet 1 Schaden und verliert 2 Machtmarker und 2 Mana."
+  ],
+  "flavor": "Der Hit „Schockwelle“ von 1981 gilt oft als Geburtsstunde des Bonepunk."
+ },
+ "amber_2e": {
+  "title": "Bernstein",
+  "text": [
+   "Du darfst bis zu zweimal {gain}, aber nur {earth}-Karten.",
+   "{disc}: {power}"
+  ],
+  "flavor": "Die Geschäftsdämonen erwogen Bohrungen im Zaubersturm, doch das war zu teuer."
+ },
+ "ruby_2e": {
+  "title": "Rubin",
+  "text": [
+   "Wirf die obersten 3 Karten deines Decks ab.",
+   "Verursache 1 Schaden pro abgeworfener {fire}-Karte."
+  ],
+  "flavor": "Der Trend zu rubinbesetzter Kleidung wurde für den Großen Brand des Königsballs 1976 verantwortlich gemacht."
+ },
+ "arctite_2e": {
+  "title": "Arktit",
+  "text": [
+   "{draw}{draw}",
+   "Gegner werfen 2 zufällige Karten ab."
+  ],
+  "flavor": "Piraten schmuggeln angeblich große Mengen Arktit in Eisbergen."
+ },
+ "blood_2e": {
+  "title": "Blutstein",
+  "text": [
+   "Du darfst 1 oder 2 Schaden nehmen und dann so viele Karten ziehen.",
+   "{disc}: Nimm 1 Schaden."
+  ],
+  "flavor": "„Juwelen in der Wildnis lässt man besser liegen – außer man weiß genau, was man tut.“ – Abragail"
+ },
+ "potiongun_2e": {
+  "title": "Trankkanone",
+  "text": [
+   "Gib eine Nicht-Zauberer-Karte aus deiner Hand in die Hand eines Gegners. Erhalte 2 vom Element dieser Karte. War es {fire}, verursache 2 Schaden. {ult}"
+  ],
+  "flavor": "„Meinst du, ich treffe das alte Fass da drüben am Hügel?“"
+ },
+ "w_blizz": {
+  "title": "Brennender Schneesturm",
+  "text": [
+   "{draw}. Wenn du diese Runde {fire} aufdeckst, {mana}{mana}."
+  ]
+ },
+ "w_breeze": {
+  "title": "Laue Brise",
+  "text": [
+   "{draw}{mana}{power}"
+  ]
+ },
+ "w_dust": {
+  "title": "Staubwolke",
+  "text": [
+   "{draw}. {power}. Alle Spieler werfen eine zufällige Karte ab."
+  ]
+ },
+ "w_ewave": {
+  "title": "Energiewelle",
+  "text": [
+   "{draw}. Nachdem sie hier ihre Karten abgehandelt haben, dürfen Spieler ihre Ultimative einsetzen (Mana nötig)."
+  ]
+ },
+ "w_fearth": {
+  "title": "Fallende Erde",
+  "text": [
+   "{draw}. Wenn du diese Runde {earth} aufdeckst, {power}."
+  ]
+ },
+ "w_flurry": {
+  "title": "Kristallgestöber",
+  "text": [
+   "{draw}{mana}. Wenn du diese Runde {water} aufdeckst, {mana}."
+  ]
+ },
+ "w_fstar": {
+  "title": "Fallender Stern",
+  "text": [
+   "{draw}. Alle Spieler dürfen {gain} (wer {init} hat, zuerst)."
+  ]
+ },
+ "w_glitter": {
+  "title": "Glitzerstaub",
+  "text": [
+   "{draw}{draw}. {earth}-Karten bewirken beim Abhandeln nichts, außer 2 zu heilen."
+  ]
+ },
+ "w_heat": {
+  "title": "Hitzewelle",
+  "text": [
+   "{draw}. Wenn du diese Runde {fire} aufdeckst, {mana}."
+  ]
+ },
+ "w_ionic": {
+  "title": "Ionische Atmosphäre",
+  "text": [
+   "{draw}{draw}. Alle Spieler {mana}. Spieler auf Stufe II und III verlieren 2 Machtmarker."
+  ]
+ },
+ "w_lightning": {
+  "title": "Blitzschlag!",
+  "text": [
+   "{draw}. Alle Spieler {mana}. Spieler mit mehr als 8 Leben erleiden 1 Schaden."
+  ]
+ },
+ "w_omen": {
+  "title": "Juwelenlicht-Omen",
+  "text": [
+   "{draw}. Spieler auf Stufe 2: {mana}. Spieler auf Stufe 1: {power}{power}{power}."
+  ]
+ },
+ "w_shoot": {
+  "title": "Sternschnuppe",
+  "text": [
+   "{draw}{draw} und {power}{power}."
+  ]
+ },
+ "w_soothe": {
+  "title": "Lindernder Regen",
+  "text": [
+   "{draw}. Jeder Spieler darf eine ASCHE, einen FLUCH oder ein EIS aus Hand oder Ablage verbannen."
+  ]
+ },
+ "w_strange": {
+  "title": "Seltsames Wetter",
+  "text": [
+   "{draw}, {draw}. Wirf die nächste Karte des Wetterstapels ab."
+  ]
+ },
+ "w_tidal": {
+  "title": "Flutwelle",
+  "text": [
+   "{draw}{draw}, {mana}. Alle Spieler werfen 2 zufällige Karten ab."
+  ]
+ },
+ "w_toads": {
+  "title": "Krötenregen",
+  "text": [
+   "{draw}. Der Spieler mit {init} verliert sie. Wer sie bekommt, erhält einen FLUCH und {mana}."
+  ]
+ },
+ "w_warp": {
+  "title": "Magnetische Verzerrung",
+  "text": [
+   "{draw}{draw}. Verbanne alle Karten der Sturmwolke und decke 5 neue auf."
+  ]
+ },
+ "w_wild": {
+  "title": "Farbwirbelwinde",
+  "text": [
+   "{draw}. Alle ziehen eine Karte vom Sturmstapel und legen sie offen auf ihren Ablagestapel (ohne Abwurfeffekte)."
+  ]
+ },
+ "pot_delixir": {
+  "title": "„Drachenelixier“",
+  "text": [
+   "Handle die oberste Karte des Drachenstapels ab."
+  ]
+ },
+ "pot_devil": {
+  "title": "„Teufelsatem“",
+  "text": [
+   "{power}. Gib eine ASCHE."
+  ]
+ },
+ "pot_explo": {
+  "title": "„Eine Kleine… Explosion“",
+  "text": [
+   "Verursache 1 Schaden. Erhalte 1 von jedem Element."
+  ]
+ },
+ "pot_frostb": {
+  "title": "„Frostbombe“",
+  "text": [
+   "Gegner verlieren 1 Mana.",
+   "Gib ein EIS."
+  ]
+ },
+ "pot_gas": {
+  "title": "„Ich Glaub, Ich Hab Benzin Getrunken“",
+  "text": [
+   "Nimm 1 Schaden. Der Effekt deines nächsten Tranks tritt zweimal ein (Kosten nur einmal zahlen)."
+  ]
+ },
+ "pot_haste": {
+  "title": "„Eiltrank“",
+  "text": [
+   "Wenn du {init} hast, verursache 1 Schaden. Sonst erhalte {init}."
+  ]
+ },
+ "pot_purple": {
+  "title": "„Ich Nenn’s… Lila Zeug“",
+  "text": [
+   "{power}{mana}{mana}"
+  ]
+ },
+ "pot_soda": {
+  "title": "„Gesundheitslimo“",
+  "text": [
+   "Heile 2."
+  ]
+ },
+ "pot_storm": {
+  "title": "„Sturmsaft“",
+  "text": [
+   "{draw}{power}"
+  ]
+ }
+}

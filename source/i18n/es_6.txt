@@ -1,0 +1,149 @@
+959	¡{c} alcanzas el Nivel II!
+960	¡{c} alcanzas el Nivel III!
+961	¡{c} alcanza el Nivel II!
+962	¡{c} alcanza el Nivel III!
+963	{c} investigó: +{0} de maná.
+964	{c} investigó: +{0} de poder.
+965	{c} investigó: Roba una carta.
+966	{c} investigó: Gana una carta.
+967	{c} investigó: {c} puedes tomar una carta de Fuego de tu descarte a tu mano.
+968	{c} barajas tu descarte en el mazo.
+969	{c} baraja el descarte de {c} en el mazo.
+970	{c} resuelves {c} desde la mano.
+971	{c} resuelves {c}.
+972	{c} resolvió {c} desde la Nube de Tormenta.
+973	{c} resuelve {c} desde la mano.
+974	¡{c} resuelve {c} del mazo de Dragones!
+975	{c} resuelve {c} desde la Nube de Tormenta.
+976	{c} resuelve {c} de la casilla X de la Nube de Tormenta.
+977	{c} resuelve {c}.
+978	Resultado de {c} — {s}
+979	{c} devuelves {c} a la mano.
+980	{c} vuelve a la mano.
+981	{c} devuelve {c} a la mano.
+982	{c} revelas tu mano a {c}.
+983	¡{c} revelas {c}!
+984	{c} reveló {c}, así que revela más: {s}.
+985	{c} revela la mano de {c} a {c}.
+986	{c} colocas {c} boca abajo.
+987	{c} coloca una Trampa boca abajo.
+988	{c} empiezas con {0} de maná; tu rival empieza con {0} de maná.
+989	{c} te robó {0} de maná.
+990	{c} robó {0} de maná a {c}.
+991	{c} tomas la Iniciativa.
+992	{c} recibes {0} de daño.
+993	{c} toma la Iniciativa.
+994	{c} recibe {0} de daño.
+995	{c} desatas {c}
+996	¡{c} desatas {c}!
+997	{c} desata {c}
+998	¡{c} desata {c}!
+999	{c} desterró {c} de la Nube de Tormenta.
+1000	{c} contra
+1001	{c} ganas la Explosión y obtienes {0} Fragmentos de Tormenta.
+1002	¡{c} ganas la Explosión! +{0}
+1003	¡{c} ganas!
+1004	{c} gana
+1005	{c} gana la Explosión y obtiene {0} Fragmentos de Tormenta.
+1006	¡{c} gana la Explosión! +{0}
+1007	{c} ganó dejando a su rival con {0} de vida tras {0} batallas.
+1008	{c} ganó reuniendo {0} Fragmentos de Tormenta tras {0} batallas.
+1009	{c} {c} roba {0} carta del descarte: {c}.
+1010	¡{c}! {c} se descarta sin resolverse.
+1011	{c}, Tierra, carta especial, tiene efecto de descarte
+1012	{c}, Tierra, Nivel I
+1013	{c}, Tierra, Nivel I, tiene efecto de descarte
+1014	{c}, Tierra, Nivel II, tiene efecto de descarte
+1015	{c}, Tierra, Nivel III, tiene efecto de descarte
+1016	{c}, Tierra, Dragón de Nivel IV
+1017	{c}, Fuego, carta especial, tiene efecto de descarte
+1018	{c}, Fuego, Nivel I
+1019	{c}, Fuego, Nivel I, tiene efecto de descarte
+1020	{c}, Fuego, Nivel II
+1021	{c}, Fuego, Nivel II, tiene efecto de descarte
+1022	{c}, Fuego, Nivel III
+1023	{c}, Fuego, Nivel III, tiene efecto de descarte
+1024	{c}, Fuego, Dragón de Nivel IV
+1025	{c}, Curtido
+1026	{c}, Agua, carta especial, tiene efecto de descarte
+1027	{c}, Agua, Nivel I
+1028	{c}, Agua, Nivel I, tiene efecto de descarte
+1029	{c}, Agua, Nivel II
+1030	{c}, Agua, Nivel II, tiene efecto de descarte
+1031	{c}, Agua, Nivel III
+1032	{c}, Agua, Nivel III, tiene efecto de descarte
+1033	{c}, Agua, Dragón de Nivel IV
+1034	{c}, Tierra, Nivel II
+1035	{c}, Tierra, Nivel III
+1036	{c}, {c} y {c}
+1037	{c}: {c} reveló Tierra.
+1038	{c}: {c} reveló Fuego.
+1039	{c}: {c} reveló Agua.
+1040	{c}: …coloca una Trampa boca abajo y gana la Iniciativa.
+1041	{c}: …coloca una Trampa boca abajo.
+1042	{c}: −{0} a tu Puntuación de Explosión.
+1043	{c}: −{0} a la Puntuación de Explosión de {c}.
+1044	Primera Victoria de {c}
+1045	Primera Victoria de {c}: Gana una partida como {c}.
+1046	Diario de {c}
+1047	Pociones de {c}
+1048	Trampas de {c}
+1049	Mazo de {c}
+1050	Descarte de {c}
+1051	Mano de {c} — recuento
+1052	Mano de {c} — efectos de descarte
+1053	{c} has sido eliminado. La partida continúa…
+1054	· Principiante.
+1055	— Fuego y Tierra. Hacker que roba jugadas con Energía.
+1056	— Fuego y Tierra. Tienta a la suerte con un mazo de pociones volátil.
+1057	— Fuego y Tierra. Agresivo desde el principio, acumula poder sin pausa. Ideal para empezar.
+1058	— Fuego y Agua. Saboteadora agresiva que atasca tu mazo con {c} y {c}.
+1059	— Fuego y Agua. Muchísima vida, no puede curarse, se fortalece con la PERDICIÓN.
+1060	— Fuego y Agua. Poca vida, mucho bloqueo y trampas ocultas.
+1061	— Agua y Tierra. Investiga nuevos poderes cada vez que sube de nivel.
+1062	— Agua y Tierra. Vida diminuta, se cura rápido y más allá de su límite.
+1063	−{0} Puntuación de Explosión
+1064	−{0} Energía
+1065	−{0} Maná
+1066	−{0} Poder
+1067	▶ Ver repetición
+1068	◀ Anterior
+1070	🔇 Silenciado
+1071	🔊 Silenciar
+1072	🔒 Bloqueado
+1073	🔥 Racha:
+1074	Rival en línea
+1075	Tercera TÓXICA — la Definitiva termina con una CENIZA, una MALDICIÓN y un HIELO.
+1076	Aún no has colocado una Trampa. La Definitiva de Omar, Movimiento Oculto, coloca una.
+1077	Omar tiene una de estas boca abajo. No sabrás cuál hasta que se revele.
+1078	Omar aún no ha colocado una Trampa.
+1079	Vas a jugar como… ¡yo! Y me enfrento a mi colega, mi mejor AMIGA, Eve Williams.
+1080	Cómo ganar
+1081	En Spellstorm ganas reuniendo 8 Fragmentos de Tormenta o dejando a tu rival sin vida. Estos recursos se muestran… ¡aquí!
+1082	El maná alimenta la Habilidad Definitiva de un mago. ¡Querrás usar tu Definitiva tan a menudo como puedas!
+1083	Mientras juegas, irás añadiendo más cartas. ¡Gana más Poder para desbloquear cartas de nivel superior!
+1084	La Nube de Tormenta
+1085	¿Esto? Aquí es donde consigues cartas nuevas para tu mazo. Puedes ganar cartas de tu nivel actual o inferior.
+1086	Hay 3 niveles de cartas… bueno, en realidad también hay cartas de Nivel IV, ¡que son DRAGONES superpoderosos!
+1087	Cartas de Clima
+1088	Cada turno sale una nueva carta de Clima que hace cosas. Por suerte esta es solo una brisa agradable que nos da recursos a todos, pero algunas no son tan agradables.
+1089	Jugar cartas
+1090	¡Eso es! Puedes jugar cartas de tu mano. Cada turno juegas una, boca abajo. Luego se revelan a la vez, ¡y hacen cosas mágicas!
+1091	Es como un piedra, papel o tijera elemental: el Fuego vence a la Tierra, la Tierra vence al Agua y el Agua vence al Fuego. Si contrarrestas a tu rival, robas una carta.
+1092	(Robar cartas es muy importante en Spellstorm, luego te cuento por qué.)
+1093	¡Toma ya! La Tierra vence al Agua: acabas de contrarrestar la carta de Eve. Se va a enfadar un montón. En fin, robaste una carta.
+1094	Ahora mismo tienes la ficha de Iniciativa, así que tu carta se resuelve primero. La Iniciativa importa en varias cosas, sobre todo en las cartas de Fuego (mis favoritas).
+1095	La carta Bloqueo de Eve le dio la Iniciativa, así que el próximo turno su carta se resolverá primero.
+1096	Puntuación de Explosión
+1097	Cada batalla tiene cuatro turnos y luego se mira cuántas cartas tiene cada jugador en la mano. ¡Quien tenga más gana 2 Fragmentos de Tormenta!
+1098	En realidad es un poco más complicado, porque las cartas con efectos de descarte (tienen borde blanco) no cuentan para tu total (lo llamamos tu Puntuación de Explosión).
+1099	La Definitiva de Derby
+1100	Cada personaje tiene una habilidad Definitiva distinta. La mía es Vara Llameante, que inflige 2 de daño y cuesta 6 de maná. Si la usas cuando tengo vida impar, se devuelven 2 de maná. ¡REEEMBOLSOOO!
+1101	Puedes usar tu Definitiva siempre que la carta jugada tenga el icono de Definitiva y tengas el maná necesario. ¡Normalmente conviene usarla todo lo que puedas!
+1102	Vale, suficiente tutorial por ahora. A partir de aquí vas por tu cuenta. ¡No olvides que puedes leer las reglas en el Menú! <3
+1103	La Explosión
+1104	Ganar hechizo
+1105	Entre batallas añades a tu mazo una carta de la Nube de Tormenta de tu Nivel o inferior. Va a tu mano para la siguiente batalla. Si ninguna te convence, puedes tomar una carta especial.
+1106	Definitiva lista
+1107	Tienes maná suficiente para Vara Llameante. Úsala ahora o di No para guardar el maná para un momento mejor.
+1108	¡Subes de Nivel!

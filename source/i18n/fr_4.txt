@@ -1,0 +1,200 @@
+559	Débuts en Classé
+560	Elo classé
+561	Classé :
+562	Atteignez le Rang II.
+563	Atteignez le Rang III.
+564	Atteignez {0} Elo en Classé.
+565	Atteignez {0} victoires sur {0} dans un Tournoi Difficile.
+566	Atteignez {0} victoires sur {0} dans un Tournoi Normal.
+567	Lire
+568	Lire la carte
+569	Bilan
+570	Réduites
+571	Regroupement
+572	Regroupement après le combat {0}.
+573	Tranquille
+574	Replay : {c} contre {c}
+575	Replay : {c} contre {c}, {c}, {c}
+576	Signaler un problème
+577	Abandonner et quitter
+578	Reprenez une carte de votre défausse en main ou piochez. Posez un Piège face cachée (pas le même deux fois de suite). Gagnez l’Initiative.
+579	Reprendre de la défausse
+580	Révélez une carte non-Sorcier de votre main. Résolvez-la deux fois et bannissez-la. Tous les joueurs soignent {0}.
+581	Révélez-le si vous CONTREZ avec une carte Feu.
+582	Révélez-le si vous CONTREZ avec une carte Eau.
+583	Révélez-le quand un adversaire vous inflige des dégâts.
+584	Révéler {c} ? Infligez {0} dégâts, gagnez {0} mana, gagnez l’Initiative.
+585	Révélation : vous n’avez rien joué ; {c} a joué {c}.
+586	Révélation : vous avez joué {c} ; {c} n’a rien joué.
+587	Révélation : vous avez joué {c} ; {c} a joué {c}.
+588	Puissance Montante
+589	Puissance Montante : Atteignez le Rang II.
+590	Réparateur de Robots
+591	Dresseurs de Robots
+592	Résumé de la manche
+593	Manche {0} sur {0}
+594	Manches
+595	Livret de règles
+596	Règles
+597	Règles :
+598	Saboteur
+599	Saboteur : Donnez à votre adversaire {0} {c}, {c} ou {c} en une partie.
+600	Sauvegarder et revenir au titre
+601	Duelliste Chevronné
+602	Saisir l’Instant
+603	Sélectionnez jusqu’à {0}. Sélection : {0}
+604	Sélectionnez {0}. Sélection : {0}
+605	Envoyer le rapport
+606	Poser un Piège
+607	Poser {c}
+608	Collectionneur d’Éclats
+609	Collectionneur d’Éclats : Gagnez en récupérant {0} Éclats de Tempête.
+610	Amasseur d’Éclats
+611	Magnat des Éclats
+612	Ruée sur les Éclats
+613	Ruée sur les Éclats : Gagnez une mêlée générale en récupérant {0} Éclats de Tempête.
+614	Éclats
+615	Clou du Spectacle
+616	Clou du Spectacle : Utilisez votre {c} {0} fois en une partie.
+617	Mélangez la Pioche de Potions et buvez les potions une à une en payant leur coût en Élément. Une troisième TOXIQUE y met fin avec une {c}, une {c} et une {c}. Les Éléments reviennent ensuite à {0}.
+618	Mélange de la Pioche de Potions…
+619	Blanchissage
+620	Coup Signature
+621	Passer
+622	Passer le tutoriel
+623	Son
+624	Espace
+625	Cartes Sort
+626	Lanceur de Sorts
+627	Champion de la Flèche
+628	Habitué de la Flèche
+629	Météo Standard
+630	Commencer
+631	Lancer le défi
+632	Lancer l’énigme {0}
+633	Déchaîner la tempête
+634	Lancer le tournoi
+635	Cartes de départ et Essences
+636	Statistiques
+637	Voler {0} mana à quel joueur ? Il défausse aussi une carte au hasard.
+638	S’arrêter là
+639	Bagarreur de la Tempête
+640	Chasseur de Tempêtes
+641	Nuage de Tempête
+642	Élite de la Tempête
+643	Légende de la Tempête
+644	Sage de la Tempête
+645	Éclats de Tempête
+646	Client de la Tempête
+647	Client de la Tempête : Gagnez {0} cartes du Nuage de Tempête en une partie.
+648	Souverain de la Tempête
+649	Vétéran de la Tempête
+650	L’Union Fait la Force
+651	RI
+652	RII
+653	RIII
+654	TOXIQUE
+655	Champions en Duo
+656	Prendre dans la défausse
+657	Subissez {0} dégâts !
+658	Prenez :
+659	Touchez une carte en surbrillance du Nuage de Tempête.
+660	Touchez un succès pour voir comment l’obtenir.
+661	Taille de l’équipe
+662	Travail d’Équipe
+663	Travail d’Équipe : Battez {c} en Coopération.
+664	Dompteur de Tempêtes
+665	Titulaire
+666	L’IA ne regarde jamais votre main ni votre carte face cachée.
+667	Le Nuage de Tempête est balayé et renouvelé.
+668	Le NÉANT
+669	Le NÉANT est remélangé dans la Pioche Spellstorm.
+670	Le Rang de la carte. {c} pouvez la gagner du Nuage de Tempête une fois ce Rang atteint. Les cartes de base n’ont pas de badge.
+671	Les {0} premiers dégâts que vous subissez cette manche sont annulés.
+672	L’icône en haut à gauche d’une carte est son élément. Survolez ou touchez une icône sur une carte agrandie pour voir sa signification.
+673	{c} s’embrase !
+674	Thème
+675	Sur la Glace
+676	C’est une carte de départ de ce Sorcier. Elle ne peut pas être bannie.
+677	Cela efface définitivement vos statistiques, tous vos succès, trophées de tournoi, tout tournoi en cours et vos réglages sur cet appareil.
+678	Vainqueur à Trois
+679	Égalité au Score de Déflagration — chacun gagne {0} Éclat de Tempête.
+680	Égalité au Score de Déflagration — {c}, {c} gagnent chacun {0} Éclat de Tempête.
+681	Égalité ! Chacun gagne {0}
+682	Égalité ! {c}, {c} gagnent chacun {0}
+683	Rang
+684	Rang II !
+685	Rang III !
+686	Badge de Rang
+687	Écran titre
+688	Défi du jour · {s}
+689	Renverser {c}
+690	Total
+691	Tournoi
+692	Champion du Tournoi
+693	Débuts en Tournoi
+694	Mode Tournoi :
+695	Pièges, Potions et Journal
+696	Pièges : aucun posé
+697	Pièges : {c}
+698	Pièges : {c} (utilisé)
+699	Déclencheur :
+700	Triple Couture
+701	Tutoriel
+702	Victoires en Deux contre Deux
+703	Deux contre Deux :
+704	Deux contre Deux
+705	Ultimes
+706	Sous le Feu
+707	Lame Invisible
+708	Inarrêtable
+709	Intouchable
+710	Intouchable : Gagnez avec tous vos PV.
+711	Mise à jour disponible !
+712	Utilisez votre {c} {0} fois en une partie.
+713	Utilisez votre {c} {0} fois.
+714	Utilisez votre {c}.
+715	Utiliser {c} pour {0} mana ?
+716	Utiliser {c} sans payer de mana ?
+717	En bannir une
+718	NÉANT {0}
+719	Duel
+720	Voir
+721	Voir le plateau
+722	Volume
+723	En attente
+724	Regarder
+725	L’Eau bat le Feu. La Terre bat l’Eau.
+726	De l’Eau a été révélée, mais {c} a déjà {0} jetons Énergie.
+727	De l’Eau a été révélée : {c} gagne un jeton Énergie.
+728	Météo
+729	Pioche Météo
+730	Endurci par les Éléments
+731	Bienvenue dans Spellstorm
+732	Ce qui s’est passé
+733	Qu’est-ce qui n’a pas marché ? Une phrase ou deux suffisent.
+734	Ouah ! C’est moi qui t’apprends Spellstorm ? Trop bien ! Je m’appelle {c}, et je suis ton guide pour ce petit tutoriel. Ce sera rapide, t’inquiète.
+735	Remportez une Déflagration avec un score de {0} ou plus.
+736	Gagnez une mêlée générale en récupérant {0} Éclats de Tempête.
+737	Gagnez une partie en mêlée générale.
+738	Gagnez un Tournoi Difficile : les {0} adversaires, sans défaite.
+739	Gagnez un Tournoi Normal : les {0} adversaires, sans défaite.
+740	Gagnez une partie en Deux contre Deux.
+741	Gagnez une partie avec {c}.
+742	Gagnez une partie où vous avez eu une main injouable.
+743	Gagnez une partie en Expert.
+744	Gagnez une partie en Difficile.
+745	Gagnez une partie qui dure {0} combats ou plus.
+746	Gagnez une partie avec chaque sorcier.
+747	Gagnez une partie.
+748	Gagnez une partie en {0} contre {0} face à un autre sorcier pour obtenir une médaille pour le sorcier joué :
+749	Gagnez une partie en coopération à {0} joueurs.
+750	Gagnez une mêlée générale à {0} joueurs.
+751	Gagnez après être tombé à {0} PV ou moins.
+752	Gagnez les {0} affrontements de sorciers en Difficile.
+753	Gagnez les {0} affrontements de sorciers.
+754	Gagnez un Tournoi Expert : les {0} adversaires, sans défaite.
+755	Gagnez avec {c} en Difficile.
+756	Gagnez avec tous vos PV.
+757	Gagnez aux Éclats de Tempête alors que votre adversaire n’en a aucun.
+758	Gagnez en réduisant la vie de votre adversaire à {0}.

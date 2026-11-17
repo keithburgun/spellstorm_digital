@@ -1,0 +1,150 @@
+# Spanish. ID<TAB>translation (IDs from strings.txt). Missing IDs stay in English.
+1	Tú
+2	tú
+3	Aliado
+4	Ti mismo
+5	Chico Robot
+15	Mago Conejito
+16	Conejito
+21	Vara Llameante
+22	Bola del Fin
+23	¡Subir de nivel!
+24	¡PERDICIÓÓÓÓÓN!
+25	Movimiento Oculto
+26	¡Hacer un truco de magia!
+27	¡Hasta el fondo, supongo!
+28	Viajera del Vacío
+29	C4sC4dA El3mEnT4l#%$
+30	Dardo Mágico
+31	Bloqueo
+32	Gema de Poder
+33	Esencia de Fuego
+34	Esencia de Agua
+35	Esencia de Tierra
+36	Ronda de Café
+37	Carga Temeraria
+38	Puñetazo
+39	Disturbio
+40	Doble Poder
+41	Ópalo
+42	Cribar
+43	Diamante
+44	Cristal Espiritual
+45	Ámbar
+46	Romper
+47	Meteorito
+48	Piedra de Sangre
+49	Terremoto
+50	Triple Poder
+51	Limo de Pantano
+52	Murciélago de Lava
+53	Rubí
+54	Onda Expansiva
+55	Fuego Rápido
+56	Obsidiana
+57	Farol
+58	Gema Corazón
+59	Fuente de Maná
+60	Llama
+61	Bola de Fuego II
+62	Fuego Cruzado
+63	Bola de Fuego
+64	Arctita
+65	Tobogán de Hielo
+66	Magia de Escarcha
+67	Lapislázuli
+68	Salto
+69	Piedra Lunar
+70	Reflejo
+71	Zafiro
+72	Paso
+73	Zafiro Gemelo
+74	Definitiva
+75	Ola
+76	Dragón de Tierra
+77	Dragón de Fuego
+78	Dragón de Hielo
+79	Dragón de la Tormenta
+80	Dragón del Viento
+81	HIELO
+82	CENIZA
+83	MALDICIÓN
+84	VENENO
+85	Pistola de Pociones
+86	Fórmula Inestable
+87	Revientaescarabajos
+88	Shuriken
+89	Resaca
+90	Golpe Hundido
+91	Gemas Profundas
+92	Nuevo Plan de Estudios
+93	Disparo Estelar
+94	Filtración de Datos
+95	Sistema de Compañeros
+96	Día de Nieve
+97	Robo-Reparación
+98	Bloque de Hielo
+99	Robo-Rebote
+100	OJO Láser
+101	Robo-Puño
+102	Mejora
+103	Hackeo Brutal
+104	Taladrazo
+105	Explosión
+106	Brisa Agradable
+107	Clima Extraño
+108	Tierra que Cae
+109	Nube de Polvo
+110	Ola de Calor
+111	Ráfagas de Cristal
+112	Estrella Caída
+113	Lluvia Calmante
+114	Ventisca Ardiente
+115	Ola de Energía
+116	Presagio de Gemas
+117	Polvo Brillante
+118	Atmósfera Iónica
+119	¡Rayo!
+120	Distorsión Magnética
+121	Lluvia de Sapos
+122	Estrella Fugaz
+123	Maremoto
+124	Vientos Multicolor
+125	Una Pequeña… Explosión
+126	Poción de Prisa
+127	Lo Llamo… Cosa Morada
+128	Elixir de Dragón
+129	Aliento del Diablo
+130	Creo que Me Bebí Gasolina
+131	Bomba de Escarcha
+132	Refresco de Salud
+133	Zumo de Tormenta
+134	Trampa de Barro
+135	¡Esquivar!
+136	Bomba de Hielo
+137	Fuego
+138	Agua
+139	Tierra
+140	Fácil
+141	Normal
+142	Media
+143	Difícil
+144	Experto
+145	lunes
+146	martes
+147	miércoles
+148	jueves
+149	viernes
+150	sábado
+151	domingo
+152	enero
+153	febrero
+154	marzo
+155	abril
+156	junio
+157	julio
+158	agosto
+159	septiembre
+160	octubre
+161	noviembre
+162	diciembre

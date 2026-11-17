@@ -1,0 +1,960 @@
+{
+ "_subs": {
+  "Basic Spell Card": "Carta de Feitiço Básica",
+  "Spell Card": "Carta de Feitiço",
+  "Special Card": "Carta Especial",
+  "Derby Pocket's Wizard Spell Card": "Feitiço de Mago de Derby Pocket",
+  "Eve Williams' Wizard Spell Card": "Feitiço de Mago de Eve Williams",
+  "Oren Bark's Wizard Spell Card": "Feitiço de Mago de Oren Bark",
+  "Omar Evans' Wizard Spell Card": "Feitiço de Mago de Omar Evans",
+  "Croh Vosh's Wizard Spell Card": "Feitiço de Mago de Croh Vosh",
+  "Abragail's Wizard Spell Card": "Feitiço de Mago de Abragail",
+  "May Danaris' Wizard Spell Card": "Feitiço de Mago de May Danaris",
+  "Bunny Wizard's Wizard Spell Card": "Feitiço de Mago do Mago Coelhinho"
+ },
+ "_labels": {
+  "TRIGGER:": "GATILHO:",
+  "EFFECT:": "EFEITO:"
+ },
+ "_toxic": {
+  "TOXIC": "TÓXICA",
+  "note": "Se esta for sua terceira carta TÓXICA, sua Suprema termina e você ganha uma CINZA, um VENENO e um GELO."
+ },
+ "_hl": {
+  "Fragmento da Tempestade": "#e8304a",
+  "Ficha de RUÍNA": "#aa1eb4",
+  "Fichas de RUÍNA": "#aa1eb4",
+  "Fichas de Energia": "#f0a01e",
+  "Ficha de Energia": "#f0a01e"
+ },
+ "_upper": true,
+ "_weather": "CLIMA",
+ "_after": "Depois de revelar, deixe esta carta aqui. Ela fica inativa.",
+ "dart": {
+  "title": "Dardo Mágico",
+  "text": [
+   "{mana}. Se tiver {init}, cause 1 de dano.",
+   "{ult}"
+  ],
+  "flavor": "A magia de fogo é proibida em muitas partes do mundo por ser imprevisível."
+ },
+ "block": {
+  "title": "Bloqueio",
+  "text": [
+   "Ganhe {init}. Cure 1 para cada carta de {fire} revelada."
+  ],
+  "flavor": "“Ele só precisa de um respingo, é só disso que ele precisa.” – O Mestre do Respingo"
+ },
+ "pgem": {
+  "title": "Gema de Poder",
+  "text": [
+   "{power} {gain}",
+   "Se ganhou uma carta, descarte-a.",
+   "{disc}: {power}"
+  ],
+  "flavor": "As gemas douradas da Tempestade de Feitiços levam tempo para desenvolver seu poder."
+ },
+ "essF": {
+  "title": "Essência de Fogo",
+  "text": [
+   "Cause 1 de dano. Você pode ganhar qualquer carta de {fire} de Nível I ou II da Nuvem da Tempestade. Bana esta carta."
+  ],
+  "flavor": "A magia de fogo costuma ser associada à destruição."
+ },
+ "essW": {
+  "title": "Essência de Água",
+  "text": [
+   "{mana}. Você pode ganhar qualquer carta de {water} de Nível I ou II da Nuvem da Tempestade. Bana esta carta."
+  ],
+  "flavor": "A magia de água costuma ser associada à cura."
+ },
+ "essE": {
+  "title": "Essência de Terra",
+  "text": [
+   "{power}. Você pode ganhar qualquer carta de {earth} de Nível I ou II da Nuvem da Tempestade. Bana esta carta.",
+   "{disc}: {power}"
+  ],
+  "flavor": "A magia de terra costuma ser associada à construção."
+ },
+ "coffee": {
+  "title": "Corrida do Café",
+  "text": [
+   "{power}{power}, {gain}.",
+   "Se ganhou uma carta de {earth}, ganhe {init}.",
+   "{ult}"
+  ],
+  "flavor": "“Essa vai ser a melhor corrida do café de todos os tempos!”"
+ },
+ "charge": {
+  "title": "Investida Imprudente",
+  "text": [
+   "{mana}{mana}{power}",
+   "Cause 1 de dano. Ganhe uma CINZA. Se tiver {init}, cause mais 1 de dano.",
+   "{ult}"
+  ],
+  "flavor": "“Eu sei que a gente consegue se trabalhar junto!”"
+ },
+ "punch": {
+  "title": "Soco na Cara",
+  "text": [
+   "Ganhe {init}. Roube 1 de mana de um jogador; ele descarta uma carta aleatória. {ult}"
+  ],
+  "flavor": "“Usamos a voz para não ter que usar os punhos. Usamos os punhos para não ter que usar bombas.”"
+ },
+ "riot": {
+  "title": "Tumulto",
+  "text": [
+   "Descarte sua mão sem ativar efeitos de descarte. Cause 1 de dano para cada {earth} descartada. {draw}{draw}{ult}."
+  ],
+  "flavor": "“Destruir a Onigema foi só o primeiro passo da nossa luta contra a opressão colonial.”"
+ },
+ "twopow": {
+  "title": "Poder Duplo",
+  "text": [
+   "{power}{power}{gain}",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "Quando vir o ícone “Ganhar carta”, lembre-se de que você pode escolher não ganhar nenhuma."
+ },
+ "opal": {
+  "title": "Opala",
+  "text": [
+   "{draw}, {power}{power}, {mana}{mana}, {gain}.",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "Gemas são rochas encontradas nas profundezas da terra, carregadas de um poder misterioso."
+ },
+ "sift": {
+  "title": "Peneirar",
+  "text": [
+   "{power}. Olhe as 2 cartas do topo do seu baralho. Você pode descartá-las ou devolvê-las ao topo em qualquer ordem."
+  ],
+  "flavor": "Quase todas as cartas de Terra têm efeitos de descarte."
+ },
+ "diamond": {
+  "title": "Diamante",
+  "text": [
+   "Descarte exatamente 3 cartas. Se fizer isso,",
+   "{power}{power}{power}",
+   "{disc}: {power}"
+  ],
+  "flavor": "“Aprendi mais feitiços em 1 dia na Tempestade de Feitiços do que nos últimos 3 anos.” – Estudiosa de Azura"
+ },
+ "spirit": {
+  "title": "Cristal Espiritual",
+  "text": [
+   "{draw}. Revele uma {earth} da sua mão. Resolva-a e depois descarte-a.",
+   "{disc}: {power}"
+  ],
+  "flavor": "Dizem que a magia de terra é a mais antiga, por isso tantas pedras têm poderes."
+ },
+ "amber": {
+  "title": "Âmbar",
+  "text": [
+   "{power}{gain}{gain} (você precisa ganhar uma carta duas vezes). {disc}: {power}"
+  ],
+  "flavor": "Os Demônios Empresariais pensaram em perfurar a Tempestade de Feitiços, mas saía caro demais."
+ },
+ "shatter": {
+  "title": "Estilhaçar",
+  "text": [
+   "Bana até 2 cartas da sua mão. {power} para cada carta banida.",
+   "{disc}: {power}"
+  ],
+  "flavor": "“A água dessa tempestade tá CHEINHA de ouro, tô te falando!” – Garimpeiro"
+ },
+ "meteor": {
+  "title": "Meteorito",
+  "text": [
+   "Sofra 1 de dano. Você pode resolver qualquer carta da Nuvem da Tempestade, de qualquer nível, e depois bani-la.",
+   "{disc}: Sofra 1 de dano."
+  ],
+  "flavor": "“Mãe! Olha! Isso caiu do céu!” – Filho de Tiya Bannet"
+ },
+ "blood": {
+  "title": "Pedra de Sangue",
+  "text": [
+   "{mana}",
+   "Sofra 1 de dano. Você pode banir uma carta da mão ou do descarte.",
+   "{disc}: {mana}"
+  ],
+  "flavor": "“Melhor deixar quietas as gemas que você encontra na natureza, a menos que saiba muito bem o que está fazendo.” – Abragail"
+ },
+ "quake": {
+  "title": "Terremoto",
+  "text": [
+   "Os oponentes perdem 2 Fichas de Poder e ganham uma CINZA. {gain}",
+   "{disc}: {power}."
+  ],
+  "flavor": "Um enorme terremoto em 1951 é atribuído ao surgimento dos Demônios Empresariais."
+ },
+ "threepow": {
+  "title": "Poder Triplo",
+  "text": [
+   "{power}{power}{gain}",
+   "Se algum jogador revelou {water}, {power}.",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "Quando vir o ícone “Ganhar carta”, lembre-se de que você pode escolher não ganhar nenhuma."
+ },
+ "swamp": {
+  "title": "Lodo do Pântano",
+  "text": [
+   "{draw}. O jogador com {init} a perde. Dê uma MALDIÇÃO aos oponentes."
+  ],
+  "flavor": "A grilagem imperial da Ordem tem muito a ver com o avanço dos pântanos em seu território."
+ },
+ "lavabat": {
+  "title": "Morcego de Lava",
+  "text": [
+   "{mana}. Você pode mover uma carta de {fire} que não seja de Mago de um descarte para outro.",
+   "Ganhe {init}."
+  ],
+  "flavor": "Dizem que perigosos morcegos flamejantes saem da atividade vulcânica da Tempestade de Feitiços."
+ },
+ "ruby": {
+  "title": "Rubi",
+  "text": [
+   "Descarte as 3 cartas do topo do seu baralho. Cause 1 de dano por carta de {fire} descartada",
+   "OU você pode banir uma das cartas descartadas."
+  ],
+  "flavor": "A moda das roupas com rubis foi culpada pelo Grande Incêndio do Baile Real de 1976."
+ },
+ "shock": {
+  "title": "Onda de Choque",
+  "text": [
+   "O jogador escolhido perde 2 Fichas de Poder, descarta uma carta aleatória, perde {init} e sofre 1 de dano."
+  ],
+  "flavor": "O sucesso de 1981 “Onda de Choque” é tido como a origem do gênero Bonepunk."
+ },
+ "rapid": {
+  "title": "Fogo Rápido",
+  "text": [
+   "{draw}",
+   "Se tiver {init}, cause 2 de dano e você pode voltar esta carta para a mão."
+  ],
+  "flavor": "Numa estratégia de fogo, é importante manter a pressão."
+ },
+ "obsidian": {
+  "title": "Obsidiana",
+  "text": [
+   "Sofra 1 de dano e perca 2 de mana. Se fizer isso, pode usar {ult} sem pagar o custo de mana."
+  ],
+  "flavor": "“Sempre que fecho os olhos, vejo meu reflexo distorcido naquela gema negra espelhada.” – Desconhecido"
+ },
+ "lantern": {
+  "title": "Lanterna",
+  "text": [
+   "{mana}{mana}.",
+   "Se o próximo jogador em sentido horário revelou {water}, bana esta carta; você ganha uma MALDIÇÃO e sofre 1 de dano."
+  ],
+  "flavor": "Não prenda espíritos de fogo conscientes numa lanterna, por motivo nenhum."
+ },
+ "heart": {
+  "title": "Gema Coração",
+  "text": [
+   "Cure 3 e ganhe uma MALDIÇÃO.",
+   "{ult}",
+   "{disc}: Sofra 1 de dano."
+  ],
+  "flavor": "A Gema Coração surgiu e sumiu muitas vezes ao longo da história, sempre trazendo uma maldição mortal."
+ },
+ "manafont": {
+  "title": "Fonte de Mana",
+  "text": [
+   "Bana uma {water} da Nuvem da Tempestade. Se fizer isso, {mana}{mana}{mana}.",
+   "{disc}: Sofra 1 de dano e {mana}."
+  ],
+  "flavor": "Há muitas teorias, mas ninguém sabe de onde vem a magia das gemas."
+ },
+ "flame": {
+  "title": "Chama",
+  "text": [
+   "Cause 1 de dano e depois resolva e descarte outra {fire} da sua mão.",
+   "{ult}"
+  ],
+  "flavor": "Para apagar uma chama mágica, é preciso água *mágica*."
+ },
+ "fb2": {
+  "title": "Bola de Fogo II",
+  "text": [
+   "Cause 2 de dano. Se tiver {init}, cause mais 2 de dano."
+  ],
+  "flavor": "É costume gritar “bum-iá!” ao revelar a carta Bola de Fogo II."
+ },
+ "cross": {
+  "title": "Fogo Cruzado",
+  "text": [
+   "Se tiver {init}, cause 3 de dano a um oponente escolhido, perca {init} e coloque esta carta no descarte desse oponente."
+  ],
+  "flavor": "“A primeira lição da magia de fogo sempre deve ser… como não se queimar.” – B. Underbrom, professor de Magia de Fogo"
+ },
+ "fb": {
+  "title": "Bola de Fogo",
+  "text": [
+   "Cause 1 de dano e ganhe uma CINZA. Se tiver {init}, cause mais 2 de dano e perca {init}."
+  ],
+  "flavor": "É costume gritar “bum!” ao revelar a carta Bola de Fogo."
+ },
+ "arctite": {
+  "title": "Arctita",
+  "text": [
+   "{draw}{draw}",
+   "Cure 2 e dê um GELO."
+  ],
+  "flavor": "Dizem que piratas contrabandeiam grandes quantidades de Arctita dentro de icebergs."
+ },
+ "iceflume": {
+  "title": "Tobogã de Gelo",
+  "text": [
+   "Dê um GELO. Você pode banir um GELO da mão ou do descarte. Ganhe {init}."
+  ],
+  "flavor": "“Cuidado onde pisa!” – Desconhecido"
+ },
+ "frost": {
+  "title": "Magia de Geada",
+  "text": [
+   "Cure 1. Perca 1 Ficha de Poder. Dê um GELO aos oponentes."
+  ],
+  "flavor": "A Ordem Azul se dedicava à magia de água até os anos 1970, quando a magia de gelo ficou muito mais popular."
+ },
+ "lapis": {
+  "title": "Lápis-lazúli",
+  "text": [
+   "{draw}. Você pode descartar até 2 cartas.",
+   "Cure 1 para cada {water} descartada."
+  ],
+  "flavor": "Há gerações, médicos de toda Ômia curam doentes com magia de água."
+ },
+ "leap": {
+  "title": "Salto",
+  "text": [
+   "Ganhe {init} e cure 1.",
+   "Se um oponente revelou {fire}, você pode banir uma carta da mão ou do descarte."
+  ],
+  "flavor": "Os magos azuis se especializaram em Gemas de Água, mas desde então tomaram outras de todo o mundo."
+ },
+ "moon": {
+  "title": "Pedra da Lua",
+  "text": [
+   "Cure 4.",
+   "{disc}: Cure 2."
+  ],
+  "flavor": "A rara e bela Pedra da Lua é uma das mais cobiçadas de toda Ômia."
+ },
+ "reflect": {
+  "title": "Reflexo",
+  "text": [
+   "{draw}, ganhe {init}, cure 1.",
+   "Jogadores que revelaram {fire} sofrem 2 de dano."
+  ],
+  "flavor": "“Ele só precisa de um respingo, é só disso que ele precisa.” – O Mestre do Respingo"
+ },
+ "sapph": {
+  "title": "Safira",
+  "text": [
+   "{draw}, cure 1 e ganhe uma CINZA.",
+   "{ult}"
+  ],
+  "flavor": "Muitos dos magos mais impressionantes de Ômia têm um golpe característico, que alguns chamam de “Suprema”."
+ },
+ "step": {
+  "title": "Passo",
+  "text": [
+   "Se tiver {init}, cure 1.",
+   "Caso contrário, ganhe {init}.",
+   "{disc}: Ganhe {init}."
+  ],
+  "flavor": "De 366 a 1182, o Reino da Água dominou grande parte do Continente Oriental."
+ },
+ "twin": {
+  "title": "Safira Gêmea",
+  "text": [
+   "{draw} e cure 2.",
+   "{ult}"
+  ],
+  "flavor": "“DUAS safiras?! Nossa, valeu!” – O filho de alguém"
+ },
+ "ultw": {
+  "title": "Suprema",
+  "text": [
+   "Você pode banir uma {earth} da sua mão.",
+   "Se fizer isso, {mana}{mana}{mana}.",
+   "{ult}"
+  ],
+  "flavor": "“Ele só precisa de um respingo, é só disso que ele precisa.” – O Mestre do Respingo"
+ },
+ "wave": {
+  "title": "Onda",
+  "text": [
+   "{mana}{mana}{mana}. O jogador escolhido descarta a mão e compra uma nova mão de 4 cartas."
+  ]
+ },
+ "dEarth": {
+  "title": "Dragão da Terra",
+  "text": [
+   "{gain}{gain}. Cause 2 de dano. Ganhe 1 Fragmento da Tempestade. Os oponentes ganham uma CINZA. {ult}"
+  ],
+  "flavor": "Os Dragões da Terra são conhecidos por acumular tesouros enormes em cavernas."
+ },
+ "dFire": {
+  "title": "Dragão de Fogo",
+  "text": [
+   "Cause 4 de dano a um jogador. {mana}{mana}",
+   "{ult}"
+  ],
+  "flavor": "Nenhum dragão é mais temido que o destrutivo e terrível Dragão de Fogo."
+ },
+ "dIce": {
+  "title": "Dragão de Gelo",
+  "text": [
+   "Cure 3. Ganhe 1 Fragmento da Tempestade. Dê um GELO. {ult}"
+  ],
+  "flavor": "Até muito pouco tempo atrás, os esquivos Dragões da Tempestade eram considerados criaturas lendárias."
+ },
+ "dStorm": {
+  "title": "Dragão da Tempestade",
+  "text": [
+   "Cause 3 de dano e ganhe 1 Fragmento da Tempestade. {ult}"
+  ],
+  "flavor": "Até muito pouco tempo atrás, os esquivos Dragões da Tempestade eram considerados criaturas lendárias."
+ },
+ "dWind": {
+  "title": "Dragão do Vento",
+  "text": [
+   "Ganhe {init}. Ganhe um Fragmento da Tempestade. Você pode resolver até duas cartas da sua mão. {ult}"
+  ],
+  "flavor": "Até muito pouco tempo atrás, os esquivos Dragões da Tempestade eram considerados criaturas lendárias."
+ },
+ "ice": {
+  "title": "GELO",
+  "text": [
+   "Não pode ser jogada.",
+   "{disc}: −1 na Pontuação de Explosão (se descartada na fase de Reagrupamento).",
+   "(Ganhe esta carta no seu descarte.)"
+  ],
+  "flavor": "“Gelo cortado em cubo é meio que uma gema.” – Beosnook"
+ },
+ "ash": {
+  "title": "CINZA",
+  "text": [
+   "Não pode ser jogada.",
+   "{disc}: Perca 1 Ficha de Poder.",
+   "(Ganhe esta carta no seu descarte.)"
+  ],
+  "flavor": "A Tempestade de Feitiços é uma área muito vulcânica, muitas vezes coberta de cinzas."
+ },
+ "curse": {
+  "title": "MALDIÇÃO",
+  "text": [
+   "Não pode ser jogada.",
+   "{disc}: Sofra 1 de dano.",
+   "(Ganhe esta carta no seu descarte.)"
+  ],
+  "flavor": "“Maldição!” – H.M.T. Holliganger, ilustre professor da Escola de Arqueologia da Academia Azura"
+ },
+ "trap_mud": {
+  "title": "Armadilha de Lama",
+  "text": [
+   "Cause 1 de dano. {mana}, ganhe {init}."
+  ],
+  "flavor": "Omar faz parte de um coletivo secreto de assassinos ninjas que percorre as florestas do Claustro.",
+  "trigger": "Você pode revelá-la se REBATER com uma carta de {fire}.",
+  "after": "Depois de revelar, deixe esta carta aqui. Ela fica inativa."
+ },
+ "trap_dodge": {
+  "title": "Esquiva!",
+  "text": [
+   "Os primeiros 2 pontos de dano que você sofrer nesta rodada são anulados."
+  ],
+  "flavor": "A espécie de Omar, os zuzuni, são insetoides bípedes oprimidos pela Ordem Azul durante quase toda a história.",
+  "trigger": "Você pode revelá-la quando um oponente estiver causando dano a você.",
+  "after": "Depois de revelar, deixe esta carta aqui. Ela fica inativa."
+ },
+ "trap_ice": {
+  "title": "Bomba de Gelo",
+  "text": [
+   "Dê um GELO. {mana}, {ult}."
+  ],
+  "flavor": "Depois de ter uma visão de Croh Vosh tomando o poder da Tempestade de Feitiços, Omar veio impedir que isso aconteça.",
+  "trigger": "Você pode revelá-la se REBATER com uma carta de {water}.",
+  "after": "Depois de revelar, deixe esta carta aqui. Ela fica inativa."
+ },
+ "potiongun": {
+  "title": "Pistola de Poções",
+  "text": [
+   "Cause 1 de dano. Você pode dar uma carta que não seja de Mago da sua mão para a mão de um oponente. Se fizer isso, ganhe 2 do Elemento dessa carta. {ult}"
+  ],
+  "flavor": "“Acha que eu acerto aquele barril velho lá perto do morro?”"
+ },
+ "unstable": {
+  "title": "Fórmula Instável",
+  "text": [
+   "{power}{mana}. Diminua um Elemento em 2 para aumentar outro em 2. Se alguém revelou {water}, +1 Elemento Terra. {ult}"
+  ],
+  "flavor": "“Ah, vai funcionar, pode confiar. Mas, é… melhor você se afastar um pouco…”"
+ },
+ "beetle": {
+  "title": "Esmaga-Besouro",
+  "text": [
+   "Descarte uma {fire} da sua mão para causar 2 de dano.",
+   "{ult}"
+  ],
+  "flavor": "Herói para muitos, Omar é visto pelos poderosos como um ecoterrorista."
+ },
+ "shuriken": {
+  "title": "Shuriken",
+  "text": [
+   "ESPECIAL: esta carta SEMPRE vem primeiro.",
+   "Ganhe {init} e {draw}, OU o oponente escolhido descarta a carta revelada (ela não é resolvida) e {draw}. {ult}."
+  ],
+  "flavor": "“…”"
+ },
+ "undertow": {
+  "title": "Ressaca",
+  "text": [
+   "Os oponentes descartam uma carta aleatória. Você {draw}. Se tiver pelo menos 3 cartas a mais que outro jogador, ganhe uma Ficha de RUÍNA. {ult}"
+  ],
+  "flavor": "Croh veio à Tempestade de Feitiços em busca do caminho para dominar o mundo."
+ },
+ "sinking": {
+  "title": "Golpe Afundado",
+  "text": [
+   "{mana}{mana}. Cause X de dano, onde X é seu número de Fichas de RUÍNA. Se a pilha de MALDIÇÕES estiver vazia, ganhe uma Ficha de RUÍNA. {ult}"
+  ],
+  "flavor": "Há muito tempo, Croh Vosh foi traído e morto na Ponte do Dragão por seu velho aliado, Salutaire Ruupart."
+ },
+ "deepgems": {
+  "title": "Gemas Profundas",
+  "text": [
+   "{draw}{mana} Você pode perder 1 Ficha de Poder. Se fizer isso, resolva e depois bana uma {water} da Nuvem da Tempestade. {ult}"
+  ],
+  "flavor": "O domínio do Reino da Água se deveu, em parte, à sua capacidade de extrair recursos das profundezas."
+ },
+ "curriculum": {
+  "title": "Novo Currículo",
+  "text": [
+   "{power} X vezes, onde X é seu Nível atual. Você pode banir até 2 cartas da Nuvem da Tempestade. {gain}. {ult}"
+  ],
+  "flavor": "“Não acredito no *lixo* que às vezes me pedem para ensinar!”"
+ },
+ "starshot": {
+  "title": "Tiro Estelar",
+  "text": [
+   "Descarte uma carta para causar 1 de dano. Se era de Nível II, cause mais 1 de dano. {mana} para cada Ficha de Energia que tiver. Perca 2 Fichas de Energia. {ult}"
+  ],
+  "flavor": "“Ei, VOCÊ! Toma essa!”"
+ },
+ "databreach": {
+  "title": "Vazamento de Dados",
+  "text": [
+   "Perca 1 ou 2 Fichas de Energia. Se fizer isso, {power} essa quantidade de vezes. Se ainda tiver 2 Fichas de Energia, o oponente escolhido revela a mão e descarta uma carta à sua escolha. {ult}"
+  ],
+  "flavor": "“Isso! Entrei. Agora vamos ver o que esses idiotas estão tramando…”"
+ },
+ "buddy": {
+  "title": "Sistema de Duplas",
+  "text": [
+   "Jogadores de Nível I {power}. Você {power}{mana}. Você pode resolver outra carta de {earth} revelada.",
+   "{ult}"
+  ],
+  "flavor": "“O Coelhinho quer saber se pode segurar sua mão.” – Cuidador do Coelhinho"
+ },
+ "snowday": {
+  "title": "Dia de Neve",
+  "text": [
+   "Cure 2. Dê um GELO a todos os oponentes que não tenham nenhum no descarte.",
+   "{ult}."
+  ],
+  "flavor": "Os Pelúcias são uma espécie de bichos de pelúcia que ganharam vida graças a uma poderosa magia estelar."
+ },
+ "rb_repair": {
+  "title": "Garoto Robô",
+  "text": [
+   "Cura 1 por oponente. {draw}{mana}.",
+   "~Nível II: Bana um GELO ou MALDIÇÃO do descarte do Garoto Robô.",
+   "~Nível III: Cura 3. {draw}."
+  ],
+  "sub": "“Robô-Reparo”",
+  "bubble": "Olá! Sou o Garoto Robô."
+ },
+ "rb_iceblock": {
+  "title": "Garoto Robô",
+  "text": [
+   "{blast}. Cura 1 por oponente.",
+   "~Nível II: Dê um GELO.",
+   "~Nível III: {draw}. Cura 1 por oponente."
+  ],
+  "sub": "“Bloco de Gelo”"
+ },
+ "rb_bounce": {
+  "title": "Garoto Robô",
+  "text": [
+   "Resolva e depois bana a carta “X” da Nuvem da Tempestade.",
+   "~Nível II: Se o Garoto Robô tiver {init}, cause 2 de dano."
+  ],
+  "sub": "“Robô-Quique”",
+  "bubble": "Ops! Foi mal!"
+ },
+ "rb_laser": {
+  "title": "Garoto Robô",
+  "text": [
+   "Ganhe {init}. Cause 1 de dano. O Garoto Robô descarta uma Ficha de Explosão.",
+   "~Nível II: Dê uma MALDIÇÃO.",
+   "~Nível III: {mana}"
+  ],
+  "sub": "“OLHO Laser”"
+ },
+ "rb_fist": {
+  "title": "Garoto Robô",
+  "text": [
+   "{mana}. O Garoto Robô descarta uma Ficha de Explosão. Cause 1 de dano.",
+   "~Nível II: Cause 1 de dano.",
+   "~Nível III: Cause 1 de dano."
+  ],
+  "sub": "“Robô-Punho”",
+  "bubble": "Ei! Olha o meu truque!"
+ },
+ "rb_upgrade": {
+  "title": "Garoto Robô",
+  "text": [
+   "{blast}{blast}{mana}",
+   "Bana a carta “X” da Nuvem da Tempestade.",
+   "~Nível III: {blast}{mana}."
+  ],
+  "sub": "“Melhoria”"
+ },
+ "rb_hack": {
+  "title": "Garoto Robô",
+  "text": [
+   "{blast}{draw}{mana}",
+   "~Nível II: Os outros jogadores descartam uma carta aleatória.",
+   "~Nível III: {blast}"
+  ],
+  "sub": "“Hackear Feio”",
+  "bubble": "!scabbalee BaYTOBORMi Ω ####"
+ },
+ "rb_drill": {
+  "title": "Garoto Robô",
+  "text": [
+   "{blast}{mana}",
+   "Os oponentes que revelaram {water} ganham uma CINZA.",
+   "~Nível III: Cause 1 de dano."
+  ],
+  "sub": "“Te Furar”",
+  "bubble": "Eu sou o Garoto Robô!"
+ },
+ "rb_blast": {
+  "title": "Garoto Robô",
+  "text": [
+   "{draw}{draw}",
+   "~Nível II: Cura 1.",
+   "~Nível III: Cura 1 por oponente."
+  ],
+  "sub": "“Te Explodir”",
+  "bubble": "BUUUM!"
+ },
+ "beetle_2e": {
+  "title": "Esmaga-Besouro",
+  "text": [
+   "Descarte uma carta de {fire}. Se fizer isso, o jogador escolhido sofre 3 de dano."
+  ],
+  "flavor": "Herói para muitos, Omar é visto pelos poderosos como um ecoterrorista."
+ },
+ "databreach_2e": {
+  "title": "Vazamento de Dados",
+  "text": [
+   "{power}{power} O oponente escolhido revela a mão e descarta uma carta à sua escolha. Se alguém revelou {water}, ganhe uma Ficha de Energia.",
+   "{ult}"
+  ],
+  "flavor": "“Isso! Entrei. Agora vamos ver o que esses idiotas estão tramando…”"
+ },
+ "starshot_2e": {
+  "title": "Tiro Estelar",
+  "text": [
+   "Cause 1 de dano. Você pode perder 2 Fichas de Energia para resolver outra carta de {fire} da sua mão.",
+   "{ult}"
+  ],
+  "flavor": "“Ei, VOCÊ! Toma essa!”"
+ },
+ "undertow_2e": {
+  "title": "Ressaca",
+  "text": [
+   "{draw}. Os oponentes descartam duas cartas aleatórias. Se você REBATEU, ganhe uma Ficha de RUÍNA. {ult}"
+  ],
+  "flavor": "Croh veio à Tempestade de Feitiços em busca do caminho para dominar o mundo."
+ },
+ "sinking_2e": {
+  "title": "Golpe Afundado",
+  "text": [
+   "{mana}{mana}. Cause X + 1 de dano, onde X é seu número de Fichas de RUÍNA. Se a pilha de MALDIÇÕES estiver vazia, ganhe uma Ficha de RUÍNA.",
+   "{ult}"
+  ],
+  "flavor": "Há muito tempo, Croh Vosh foi traído e morto na Ponte do Dragão por seu velho aliado, Salutaire Ruupart."
+ },
+ "charge_2e": {
+  "title": "Investida Imprudente",
+  "text": [
+   "{mana}{power}",
+   "Cause 1 de dano. Ganhe uma CINZA. Se tiver {init}, {mana} e cause mais 1 de dano.",
+   "{ult}"
+  ],
+  "flavor": "“Eu sei que a gente consegue se trabalhar junto!”"
+ },
+ "coffee_2e": {
+  "title": "Corrida do Café",
+  "text": [
+   "{power}, {gain}.",
+   "Se ganhou uma carta de {earth}, {power} e ganhe {init}.",
+   "{ult}"
+  ],
+  "flavor": "“Essa vai ser a melhor corrida do café de todos os tempos!”"
+ },
+ "lantern_2e": {
+  "title": "Lanterna",
+  "text": [
+   "{mana}{mana}.",
+   "Se alguém revelou {water}, todos os jogadores sofrem 1 de dano e ganham uma MALDIÇÃO."
+  ],
+  "flavor": "Não prenda espíritos de fogo conscientes numa lanterna, por motivo nenhum."
+ },
+ "rapid_2e": {
+  "title": "Fogo Rápido",
+  "text": [
+   "Se tiver {init}, cause 2 de dano, ganhe uma CINZA e volte esta carta para a mão."
+  ],
+  "flavor": "Numa estratégia de fogo, é importante manter a pressão."
+ },
+ "leap_2e": {
+  "title": "Salto",
+  "text": [
+   "Ganhe {init}. Cure 1.",
+   "Bana uma carta da mão ou do descarte."
+  ],
+  "flavor": "Os magos azuis se especializaram em Gemas de Água, mas desde então tomaram outras de todo o mundo."
+ },
+ "manafont_2e": {
+  "title": "Fonte de Mana",
+  "text": [
+   "Descarte uma carta de {water}.",
+   "Se fizer isso, {mana}{mana}{mana}.",
+   "{disc}: {mana}."
+  ],
+  "flavor": "Há muitas teorias, mas ninguém sabe de onde vem a magia das gemas."
+ },
+ "shock_2e": {
+  "title": "Onda de Choque",
+  "text": [
+   "O jogador escolhido sofre 1 de dano, perde 2 Fichas de Poder e 2 de Mana."
+  ],
+  "flavor": "O sucesso de 1981 “Onda de Choque” é tido como a origem do gênero Bonepunk."
+ },
+ "amber_2e": {
+  "title": "Âmbar",
+  "text": [
+   "Você pode {gain} até duas vezes, mas só cartas de {earth}.",
+   "{disc}: {power}"
+  ],
+  "flavor": "Os Demônios Empresariais pensaram em perfurar a Tempestade de Feitiços, mas saía caro demais."
+ },
+ "ruby_2e": {
+  "title": "Rubi",
+  "text": [
+   "Descarte as 3 cartas do topo do seu baralho.",
+   "Cause 1 de dano por carta de {fire} descartada."
+  ],
+  "flavor": "A moda das roupas com rubis foi culpada pelo Grande Incêndio do Baile Real de 1976."
+ },
+ "arctite_2e": {
+  "title": "Arctita",
+  "text": [
+   "{draw}{draw}",
+   "Os oponentes descartam 2 cartas aleatórias."
+  ],
+  "flavor": "Dizem que piratas contrabandeiam grandes quantidades de Arctita dentro de icebergs."
+ },
+ "blood_2e": {
+  "title": "Pedra de Sangue",
+  "text": [
+   "Você pode sofrer 1 ou 2 de dano e depois comprar essa quantidade de cartas.",
+   "{disc}: Sofra 1 de dano."
+  ],
+  "flavor": "“Melhor deixar quietas as gemas que você encontra na natureza, a menos que saiba muito bem o que está fazendo.” – Abragail"
+ },
+ "potiongun_2e": {
+  "title": "Pistola de Poções",
+  "text": [
+   "Dê uma carta que não seja de Mago da sua mão para a mão de um oponente. Ganhe 2 do Elemento dessa carta. Se era de {fire}, cause 2 de dano. {ult}"
+  ],
+  "flavor": "“Acha que eu acerto aquele barril velho lá perto do morro?”"
+ },
+ "w_blizz": {
+  "title": "Nevasca Ardente",
+  "text": [
+   "{draw}. Se você revelar {fire} nesta rodada, {mana}{mana}."
+  ]
+ },
+ "w_breeze": {
+  "title": "Brisa Agradável",
+  "text": [
+   "{draw}{mana}{power}"
+  ]
+ },
+ "w_dust": {
+  "title": "Nuvem de Poeira",
+  "text": [
+   "{draw}. {power}. Todos os jogadores descartam uma carta aleatória."
+  ]
+ },
+ "w_ewave": {
+  "title": "Onda de Energia",
+  "text": [
+   "{draw}. Depois de resolverem suas cartas aqui, os jogadores podem usar sua Suprema (pagando a mana necessária)."
+  ]
+ },
+ "w_fearth": {
+  "title": "Terra Caindo",
+  "text": [
+   "{draw}. Se você revelar {earth} nesta rodada, {power}."
+  ]
+ },
+ "w_flurry": {
+  "title": "Rajadas de Cristal",
+  "text": [
+   "{draw}{mana}. Se você revelar {water} nesta rodada, {mana}."
+  ]
+ },
+ "w_fstar": {
+  "title": "Estrela Cadente",
+  "text": [
+   "{draw}. Todos os jogadores podem {gain} (quem tem {init} primeiro)."
+  ]
+ },
+ "w_glitter": {
+  "title": "Poeira Cintilante",
+  "text": [
+   "{draw}{draw}. Cartas de {earth} não fazem nada ao serem resolvidas, exceto curar 2."
+  ]
+ },
+ "w_heat": {
+  "title": "Onda de Calor",
+  "text": [
+   "{draw}. Se você revelar {fire} nesta rodada, {mana}."
+  ]
+ },
+ "w_ionic": {
+  "title": "Atmosfera Iônica",
+  "text": [
+   "{draw}{draw}. Todos os jogadores {mana}. Jogadores de Nível II e III perdem 2 Fichas de Poder."
+  ]
+ },
+ "w_lightning": {
+  "title": "Relâmpago!",
+  "text": [
+   "{draw}. Todos os jogadores {mana}. Jogadores com mais de 8 de vida sofrem 1 de dano."
+  ]
+ },
+ "w_omen": {
+  "title": "Presságio das Gemas",
+  "text": [
+   "{draw}. Jogadores de Nível 2: {mana}. Jogadores de Nível 1: {power}{power}{power}."
+  ]
+ },
+ "w_shoot": {
+  "title": "Estrela Candente",
+  "text": [
+   "{draw}{draw} e {power}{power}."
+  ]
+ },
+ "w_soothe": {
+  "title": "Chuva Calmante",
+  "text": [
+   "{draw}. Cada jogador pode banir uma CINZA, MALDIÇÃO ou GELO da mão ou do descarte."
+  ]
+ },
+ "w_strange": {
+  "title": "Clima Estranho",
+  "text": [
+   "{draw}, {draw}. Descarte a próxima carta do Baralho de Clima."
+  ]
+ },
+ "w_tidal": {
+  "title": "Maremoto",
+  "text": [
+   "{draw}{draw}, {mana}. Todos os jogadores descartam 2 cartas aleatórias."
+  ]
+ },
+ "w_toads": {
+  "title": "Chuva de Sapos",
+  "text": [
+   "{draw}. O jogador com {init} a perde. Quem a receber ganha uma MALDIÇÃO e {mana}."
+  ]
+ },
+ "w_warp": {
+  "title": "Distorção Magnética",
+  "text": [
+   "{draw}{draw}. Bana todas as cartas da Nuvem da Tempestade e revele 5 novas."
+  ]
+ },
+ "w_wild": {
+  "title": "Ventos Multicores",
+  "text": [
+   "{draw}. Todos compram uma carta do Baralho da Tempestade e a colocam virada para cima no descarte (sem efeitos de descarte)."
+  ]
+ },
+ "pot_delixir": {
+  "title": "“Elixir de Dragão”",
+  "text": [
+   "Resolva a carta do topo do Baralho de Dragões."
+  ]
+ },
+ "pot_devil": {
+  "title": "“Bafo do Diabo”",
+  "text": [
+   "{power}. Dê uma CINZA."
+  ]
+ },
+ "pot_explo": {
+  "title": "“Uma Pequena… Explosão”",
+  "text": [
+   "Cause 1 de dano. Ganhe 1 de cada elemento."
+  ]
+ },
+ "pot_frostb": {
+  "title": "“Bomba de Geada”",
+  "text": [
+   "Os oponentes perdem 1 de mana.",
+   "Dê um GELO."
+  ]
+ },
+ "pot_gas": {
+  "title": "“Acho que Bebi Gasolina”",
+  "text": [
+   "Sofra 1 de dano. O efeito da sua próxima Poção acontece duas vezes (pague o custo uma vez)."
+  ]
+ },
+ "pot_haste": {
+  "title": "“Poção de Pressa”",
+  "text": [
+   "Se tiver {init}, cause 1 de dano. Caso contrário, ganhe {init}."
+  ]
+ },
+ "pot_purple": {
+  "title": "“Eu Chamo de… Coisa Roxa”",
+  "text": [
+   "{power}{mana}{mana}"
+  ]
+ },
+ "pot_soda": {
+  "title": "“Refri de Saúde”",
+  "text": [
+   "Cure 2."
+  ]
+ },
+ "pot_storm": {
+  "title": "“Suco da Tempestade”",
+  "text": [
+   "{draw}{power}"
+  ]
+ }
+}

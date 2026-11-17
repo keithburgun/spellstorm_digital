@@ -1,0 +1,192 @@
+164	(Letzte Runde!)
+165	(Reihenfolge nicht angezeigt)
+166	(Wahl {0})
+167	(Wahl {0}: deine erste Wahl ist dein Verbündeter)
+168	({0} von {0}).
+169	+{0} VERDAMMNIS
+170	+{0} Energie
+171	+{0} Mana
+172	+{0} Mana, +{0} Macht
+173	+{0} Mana, +{0} Macht, Stufe II!, +{0} Karte auf der Hand
+174	+{0} Macht
+175	+{0} Macht, Initiative erhalten
+176	+{0} Sturmsplitter
+177	+{0} Mana
+178	+{0} Macht
+179	+{0} % Leben für jeden Zauberer · {0} Sturmsplitter zum Sieg
+180	, oder füge den Text unten ein.
+181	: Ziehe {0}, erhalte {0} Mana und {0} Macht.
+182	: Ziehe {0}, erhalte {0} Mana. Alle Spieler werfen {0} zufällige Karten ab.
+183	: Ziehe {0}, erhalte {0} Mana. Wenn du diese Runde Wasser aufdeckst, erhalte {0} Mana.
+184	: Ziehe {0}, erhalte {0} Mana. Spieler mit mehr als {0} Leben erleiden {0} Schaden.
+185	: Ziehe {0}, erhalte {0} Mana. Spieler auf Stufe II und III verlieren {0} Macht.
+186	: Ziehe {0}, erhalte {0} Macht.
+187	: Ziehe {0}, erhalte {0} Macht. Alle Spieler werfen eine zufällige Karte ab.
+188	: Ziehe {0}. Nachdem die Karten abgehandelt sind, dürfen Spieler ihre {c} einsetzen.
+189	: Ziehe {0}. Alle Spieler dürfen eine Karte erhalten (Initiative zuerst).
+190	: Ziehe {0}. Alle Spieler legen die oberste Karte des Sturmstapels auf ihren Ablagestapel.
+191	: Ziehe {0}. Wirf die nächste Wetterkarte ab.
+192	: Ziehe {0}. Jeder Spieler darf ein {c}, {c} oder {c} aus Hand oder Ablage verbannen.
+193	: Ziehe {0}. Erdkarten bewirken beim Abhandeln nichts außer {0} Heilung.
+194	: Ziehe {0}. Wenn du diese Runde Erde aufdeckst, erhalte {0} Macht.
+195	: Ziehe {0}. Wenn du diese Runde Feuer aufdeckst, erhalte {0} Mana.
+196	: Ziehe {0}. Die Initiative wechselt; wer sie erhält, bekommt einen {c} und {0} Mana.
+197	: Ziehe {0}. Stufe II: erhalte {0} Mana. Stufe I: erhalte {0} Macht.
+198	: Ziehe {0}. Verbanne die Sturmwolke und decke {0} neue Karten auf.
+199	Eine einfache {0}-gegen-{0}-Partie gegen jemanden mit Zugang zu dieser Spellstorm-Seite. Online-Partien zählen nicht in deiner Statistik.
+200	Verflucht: {c} kann nicht heilen — er gibt stattdessen einen {c}.
+201	Erfolge freigeschaltet
+202	Erfolge {0}/{0}
+203	Lege einen Forschungsmarker auf ein Feld in {c}s Tagebuch.
+204	Fügt jeder Karte ein ▲ Feuer-, ● Wasser-, ■ Erde-Symbol hinzu.
+205	Nach dieser Runde
+206	Allen Widrigkeiten zum Trotz
+207	Alle
+208	Verbündete
+209	Immer Schon: {c} gibt allen Spielern ein {c}.
+210	Animationstempo
+211	Animationen
+212	Erzmagier
+213	Ziehe als {c} Karten durch überschüssige Heilung.
+214	Trinke als {c} {0} Tränke in einer einzigen {c}, ohne einen dritten GIFTIGEN.
+215	Besitze als {c} {0} VERDAMMNIS-Marker.
+216	Gib als {c0} deinem Gegner mit {c2} einen {c1}.
+217	Lege als {c} alle {0} Forschungsmarker in einer Partie.
+218	Handle als {c} eine gegnerische Karte mit Gefährlicher Download ab.
+219	Decke als {c} alle drei Fallen in einer Partie auf.
+220	Setze als {c} {c} bei ungeradem Leben ein.
+221	EXPLOSIONSWERT
+222	EXPLOSIONSWERT:
+223	PROST, SCHÄTZE ICH!
+224	Zurück
+225	Zurück zur Karte
+226	Zurück zur Bibliothek
+227	Kampfprotokoll
+228	Kampf {0}
+229	Kampf {0}, Runde {0} · Schritt {0} von {0}
+230	Kampf {0}, Runde {0}: {c}.
+231	Besiege jeden Zauberer auf Schwer.
+232	Besiege {c} im Koop.
+233	Besiege {c} auf Leicht.
+234	Besiege {c} auf Schwer im Koop.
+235	Besiege {c} auf Schwer.
+236	Besiege {c} auf Mittel.
+237	Besiegt
+238	Anfänger
+239	Bester Ranglisten-Elo
+240	Beste Serie
+241	Große Explosion
+242	Große Explosion: Gewinne eine Explosion mit {0} oder mehr Punkten.
+243	Explosionswerte — du: {0}, {c}: {0}, {c}: {0}, {c}: {0}.
+244	Explosionswerte — du: {0}, {c}: {0}, {c}: {0}.
+245	Explosionswerte — du: {0}, {c}: {0}.
+246	Explosionswerte — {c}: {0}, {c}: {0}.
+248	Beide Zauberer starten mit Mana im Tank, und dieser Gegner spart nie ein {c} auf.
+250	Auf zum Gipfel
+251	Am Seidenen Faden
+252	Standardmäßig nutzt die Spellstorm-App eine angepasste Balance, die auf dem vielen Feedback seit dem Start beruht. Du kannst aber auch mit den Originalregeln (Balance der 1. Edition) spielen.
+253	KONTER → {c}
+254	KONTER!
+255	KI - Leicht
+256	KI - Normal
+257	KI-Schwierigkeit
+258	AKTUELLE FALLE
+259	Ruhe vor dem Sturm (erste Kämpfe)
+260	Abbrechen
+261	{c} annullieren — er wirft sie ab und zieht
+262	Dieselbe Falle kann nicht zweimal hintereinander gelegt werden
+263	Kartenbibliothek
+264	Erhaltene Karten
+265	Kataklysmus
+266	Zenturio
+267	Änderungen der Neubalance der 2. Edition (Standard):
+268	Charakter
+269	Schummler
+270	Wähle eine Falle
+271	Wähle eine Falle, die du verdeckt legst. Sie ersetzt deine aktuelle Falle.
+272	Wähle eine Karte, die du verdeckt spielst.
+273	Wähle eine Karte, die du auf die Hand zurücknimmst.
+274	Karten wählen
+275	Datei wählen…
+276	Zauberer wählen
+277	Wählen…
+278	Schutzschalter
+279	Im Aufstieg
+280	Schließen
+281	Koop gegen {c}, {0} Spieler:
+282	Koop-Siege
+283	Koop: Du spielst {c} mit {c}, {c} gegen {c}.
+284	Kaltblütig
+285	Sammle {0} Sturmsplitter.
+286	Farbenblind-Modus
+287	Comeback
+288	Comeback: Gewinne, nachdem du auf {0} Leben oder weniger gefallen bist.
+289	Bestätigen
+290	Keine bestätigen
+291	Herausforderer
+292	Partie fortsetzen
+293	Controller
+294	Kontere {0}-mal in einer Partie.
+295	Kontere {0}-mal.
+296	Konterschlag
+297	Konterschlag: Kontere {0}-mal in einer Partie.
+298	Konter
+299	Koop gegen {c}
+300	Aktuelle Serie
+301	Steuerkreuz oder linker Stick
+302	VERDAMMNIS
+303	VERDAAAAAMMNIS
+304	Tägliche Herausforderung
+305	Verursachter Schaden
+306	Gefährlicher Download
+307	Gefährlicher Download: Handle als {c} eine gegnerische Karte mit Gefährlicher Download ab.
+308	Gefährlicher Download: {0} Energie und {0} Mana ausgeben, um {c} für dich abzuhandeln?
+309	Dunkel
+310	Verursache {0} Schaden
+311	Verursache {0} Schaden, erhalte {0} Mana, erhalte die Initiative.
+312	Verursache {0} Schaden. Wenn dein Leben ungerade ist, erhalte {0} Mana.
+313	Verursache {0} oder mehr Schaden in einer einzigen Runde.
+314	Verursache insgesamt {0} Schaden.
+315	Verursache insgesamt {0}.{0} Schaden.
+316	Später entscheiden
+317	Deck {0}
+318	Besiege jeden Zauberer.
+319	Besiege deinen ersten Turniergegner auf Schwer.
+320	Besiege deinen ersten Turniergegner auf Normal.
+321	Besiege {c} auf Schwer.
+322	Besiege {c}.
+323	Design von Keith Burgun - Grafik von Christina Zhong
+324	Gut Recherchiert: +{0} Macht zu Beginn jedes Kampfes
+325	Gut Recherchiert: {c} erhält {0} Macht.
+326	Schwierigkeit
+327	Abwurfeffekt
+328	{0} abwerfen
+329	Vertriebskontakt: {c} legst {c} auf deinen Ablagestapel.
+330	Vertriebskontakt: {c} legt {c} auf {c}s Ablagestapel.
+331	Keins von beiden
+332	Drachenfürst
+333	Drachenbändiger
+334	Drachenbändiger: Erhalte einen Drachen.
+335	Drachen
+336	Drachen & Spezialkarten
+337	Drachen (Stufe IV)
+338	Drachen {0}
+339	Eine Karte ziehen
+340	Ziehe die oberste Karte deines Decks.
+341	Ziehe {0}, erhalte {0} Mana und {0} Macht.
+342	Ziehe {0}, erhalte {0} Mana. Wenn du diese Runde Wasser aufdeckst, erhalte {0} Mana.
+343	Ziehe {0}, erhalte {0} Mana. Spieler mit mehr als {0} Leben erleiden {0} Schaden.
+344	Ziehe {0}, erhalte {0} Mana. Spieler auf Stufe II und III verlieren {0} Macht.
+345	Ziehe {0}, erhalte {0} Macht. Alle Spieler werfen eine zufällige Karte ab.
+346	Ziehe {0}. Alle Spieler dürfen eine Karte erhalten (Initiative zuerst).
+347	Ziehe {0}. Alle Spieler legen die oberste Karte des Sturmstapels auf ihren Ablagestapel.
+348	Ziehe {0}. Wenn du diese Runde Feuer aufdeckst, erhalte {0} Mana.
+349	Ziehe {0}. Die Initiative wechselt; wer sie erhält, bekommt einen {c} und {0} Mana.
+350	Ziehe {0}. Stufe II: erhalte {0} Mana. Stufe I: erhalte {0} Macht.
+351	Ziehe {0}. Verbanne die Sturmwolke und decke {0} neue Karten auf.
+352	Noch einen trinken
+353	Noch einen Trank trinken? Bisher GIFTIG: {0} von {0}. Elemente: Feuer {0}, Erde {0}, Wasser {0}.
+354	Dynamisches Duo
+355	Erde schlägt Wasser. Feuer schlägt Erde.
+356	Effekt:
+357	Elementargelehrter

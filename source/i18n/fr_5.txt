@@ -1,0 +1,200 @@
+759	Gagnez en récupérant {0} Éclats de Tempête.
+760	Gagnez en {0} combats ou moins.
+761	Gagnez en Difficile avec tous vos PV.
+762	Taux de victoire
+763	Gagnez la partie.
+764	Gagnez ce tour-ci.
+765	Gagnez avec chaque sorcier en Difficile.
+766	Gagnez avec exactement {0} PV.
+767	Gagnez {0} parties en coopération.
+768	Gagnez {0} parties en mêlée générale.
+769	Gagnez {0} parties en Difficile d’affilée.
+770	Gagnez {0} parties classées d’affilée.
+771	Gagnez {0} parties en Deux contre Deux.
+772	Gagnez {0} parties avec {c}.
+773	Gagnez {0} parties aux Éclats de Tempête.
+774	Gagnez {0} parties par K.-O.
+775	Gagnez {0} parties d’affilée.
+776	Gagnez {0} parties en Difficile.
+777	Gagnez {0} parties.
+778	Victoires
+779	Victoires/parties. Les lignes sont le sorcier joué ; les colonnes, l’adversaire.
+780	Effacer toutes les données
+781	Effacer toutes les données ?
+782	Tout effacer
+783	Carte de sorcier
+784	Sorciers
+785	Des sorciers s’affrontent dans ce deckbuilder tactique et magique original ! Conçu par Keith Burgun.
+786	Oui
+787	Votre Elo — {c}
+788	Votre Journal
+789	Vos Pièges
+790	Votre carte
+791	Votre deck ({0})
+792	Votre défausse
+793	Votre main
+794	Votre main est vide
+795	Votre main — décompte
+796	Votre main — effets de défausse
+797	Votre puissance déborde au Rang III. Gagner {c} ?
+798	Votre équipe gagne !
+799	Votre sorcier
+800	une fois cette carte résolue, vous pouvez utiliser l’{c} de votre sorcier si vous avez assez de mana.
+801	changent aussi d’onglet. Les indications à l’écran s’adaptent au dernier appareil utilisé.
+802	flèches
+803	demandez à l’IA Experte ce qu’elle jouerait
+804	retour ou menu ·
+805	retour ·
+806	journal de combat ·
+807	battez les {0} autres sorciers dans l’ordre sans jamais perdre. Une défaite et le tournoi s’arrête. La progression est sauvegardée, vous pouvez donc jouer une partie à la fois.
+808	bronze
+809	jours
+810	chaque personnage a son propre Elo, tout comme Aléatoire. Vous affrontez une suite sans fin d’adversaires proches de votre classement, chacun avec son style. Gagnez pour monter ; perdez et vous descendez. Abandonner une partie compte comme une défaite.
+811	vide
+812	chacun pour soi. Tout le monde commence avec {0} Éclats de Tempête. Un sorcier à {0} PV est éliminé et ses cartes vont au NÉANT. Le dernier sorcier debout, ou le premier à {0} Éclats de Tempête, gagne.
+813	pour {c} contre {c}
+814	gagnez {0} Puissance. Atteindre {0} Puissance augmente votre Rang.
+815	gagnez {0} mana. Le mana paie l’{c} de votre sorcier.
+816	or
+817	se déclenche quand cette carte est défaussée de votre main, y compris lors de la Déflagration.
+818	regarder une carte ·
+819	menu ·
+820	déplacer ·
+821	indisponible en Tournoi
+822	en Expert. En Classé, battre un adversaire classé {0} / {0} / {0} ou plus rapporte bronze / argent / or. Une meilleure médaille remplace une moins bonne. {0} % signifie que chaque sorcier a battu les {0} autres en Expert.
+823	en Difficile,
+824	en Normal,
+825	stick droit
+826	défiler. Au clavier :
+827	sélectionner ou jouer une carte ·
+828	sélectionner ·
+829	argent
+830	changer d’onglet ou de manche du replay ·
+831	changer d’onglet, ou de manche dans un replay ·
+832	prenez une carte du Nuage de Tempête de votre Rang ou inférieur.
+833	le joueur qui a l’Initiative résout sa carte en premier.
+834	a subi {0} dégâts
+835	a subi {0} dégâts, +{0} Mana, +{0} Puissance, +{0} carte en main, Initiative obtenue
+836	a subi {0} dégâts, +{0} Mana, +{0} Puissance, Initiative obtenue
+837	a subi {0} dégâts, +{0} Puissance, Initiative obtenue
+838	a subi {0} dégâts, −{0} Mana, +{0} {c}
+839	a subi {0} dégâts, −{0} Mana, +{0} {c}, +{0} {c}
+840	a subi {0} dégâts, −{0} Mana, −{0} cartes en main, −{0} {c}, +{0} {c}
+841	contre
+842	vous et un allié contre deux adversaires, assis en alternance. {c} n’infligez des dégâts qu’aux adversaires, vous pouvez soigner votre allié plutôt que vous, et si l’un de vous gagne, vous gagnez tous les deux. Chaque joueur contre l’adversaire suivant dans le sens horaire.
+843	vous et un allié affrontez {c} ensemble. {c} ne lui infligez des dégâts et ne lui donnez {c}, {c} et {c} qu’à lui, et quand vous vous soignez, vous pouvez soigner un allié à la place. Si quelqu’un de votre équipe gagne, toute l’équipe gagne, et l’équipe continue si quelqu’un est éliminé.
+844	vous et {0} alliés affrontez {c} ensemble. {c} ne lui infligez des dégâts et ne lui donnez {c}, {c} et {c} qu’à lui, et quand vous vous soignez, vous pouvez soigner un allié à la place. Si quelqu’un de votre équipe gagne, toute l’équipe gagne, et l’équipe continue si quelqu’un est éliminé.
+845	{0} cartes
+846	{0} cartes, face cachée. Les cartes d’un deck restent cachées jusqu’à être piochées.
+847	{0} cartes, triées par Rang.
+848	{0} PV
+849	{0} victoires · {0} défaites
+850	{0}. Saisir l’Instant
+851	{0}/{0} or
+852	{0}/{0} résolues · résolvez-en une pour débloquer la suivante
+853	{c} (adversaire)
+854	{c} ({0} sur {0}) : prendre une carte de votre défausse ou piocher ?
+855	{c} vous a CONTRÉ et pioche une carte.
+856	{c} vous a CONTRÉ et gagne un jeton Déflagration.
+857	{c} avez CONTRÉ {c} et piochez une carte.
+858	{c} a CONTRÉ {c} et pioche une carte.
+859	{c} Choisissez une carte non-Sorcier de votre main à résoudre deux fois, puis bannissez-la.
+860	Maître {c}
+861	{c} Placez un jeton Recherche. Les pouvoirs étudiés s’activent au début de chaque combat.
+862	Puissance de {c}
+863	Puissance de {c} : Utilisez votre {c}.
+864	Duel {c}
+865	{c} bannissez {c} du Nuage de Tempête.
+866	{c} bannissez {c}.
+867	{c} bannit {c}.
+868	{c} ajoutez {c} de la Pioche de Tempête à votre défausse.
+869	{c} ajoute {c} de la Pioche de Tempête à la défausse de {c}.
+870	{c} et adversaires
+871	{c} êtes éliminé ! Vos cartes vont au NÉANT.
+872	{c} ne peut pas être jouée — rien ne se passe.
+873	{c} lancez {c} deux fois !
+874	{c} lance {c} deux fois !
+875	{c} vous chargez à {0} Énergie.
+876	{c} se charge à {0} Énergie.
+877	{c} n’a pas pu défausser {0} cartes.
+878	{c} défaussez {c} — son effet de défausse se déclenche.
+879	{c} a défaussé {0} cartes ({0} Terre).
+880	{c} a défaussé {c}, {c}, {c} du dessus du deck.
+881	{c} défausse un jeton Déflagration.
+882	{c} défausse {c} de la Pioche Météo.
+883	{c} défausse {c} — son effet de défausse se déclenche.
+884	{c} téléchargez {c} !
+885	{c} télécharge {c} !
+886	{c} a bu {0} potions. Les Éléments reviennent à {0}.
+887	{c} buvez dans la Pioche de Potions. Chaque potion coûte son Élément ; une troisième TOXIQUE finit mal.
+888	{c} buvez « {c} » (Terre {0}).
+889	{c} buvez « {c} » (Terre {0}, TOXIQUE).
+890	{c} buvez « {c} » (Feu {0}).
+891	{c} buvez « {c} » (Feu {0}, TOXIQUE).
+892	{c} buvez « {c} » (Eau {0}).
+893	{c} buvez « {c} » (Eau {0}, TOXIQUE).
+894	{c} boit dans la Pioche de Potions. Chaque potion coûte son Élément ; une troisième TOXIQUE finit mal.
+895	{c} boit « {c} » (Terre {0}).
+896	{c} boit « {c} » (Terre {0}, TOXIQUE).
+897	{c} boit « {c} » (Feu {0}).
+898	{c} boit « {c} » (Feu {0}, TOXIQUE).
+899	{c} boit « {c} » (Eau {0}).
+900	{c} boit « {c} » (Eau {0}, TOXIQUE).
+901	{c} tirez {c} dans la main de {c} : +{0} Élément Feu.
+902	{c} tire {c} dans la main de {c} : +{0} Élément Feu.
+903	{c} gagnez un jeton FUNESTE ({0}/{0}).
+904	{c} gagnez une {c}.
+905	{c} gagnez une {c}.
+906	{c} gagnez {0} Éclat de Tempête.
+907	{c} gagnez {c} !
+908	{c} gagnez {c}.
+909	{c} gagne +{0} Élément Terre.
+910	{c} gagne un jeton FUNESTE ({0}/{0}).
+911	{c} gagne une {c}.
+912	{c} gagne une {c}.
+913	{c} gagne {0} Éclat de Tempête.
+914	{c} gagne {c} !
+915	{c} gagne {c}.
+916	{c} obtenez un lien et un code à envoyer à votre ami. Héberger nécessite un accès en modification ou Contributeur à cette page.
+917	{c} obtenez l’Initiative.
+918	{c} obtient l’Initiative.
+919	{c} soignez un allié à la place.
+920	{c} soignez {0}.
+921	{c} soigne un allié à la place.
+922	{c} soigne {0}.
+923	{c} est bannie du Nuage de Tempête.
+924	{c} réfléchit…
+925	{c} est éliminé ! Les cartes de {c} vont au NÉANT.
+926	{c} réfléchit
+927	{c} perdez l’Initiative.
+928	{c} perdez {0} Énergie.
+929	{c} perdez {0} Puissance.
+930	{c} perdez {0} mana.
+931	{c} perd un jeton Déflagration.
+932	{c} perd l’Initiative.
+933	{c} perd {0} jeton Déflagration.
+934	{c} perd {0} jetons Déflagration.
+935	{c} perd {0} Énergie.
+936	{c} perd {0} Puissance.
+937	{c} perd {0} mana.
+938	{c} a perdu {0} mana.
+939	{c} pouvez bannir une carte de votre main
+940	{c} pouvez reprendre en main une carte Feu de votre défausse
+941	{c} pouvez gagner une carte Terre de Rang I ou II du Nuage de Tempête.
+942	{c} pouvez gagner une carte Feu de Rang I ou II du Nuage de Tempête.
+943	{c} pouvez gagner une carte Eau de Rang I ou II du Nuage de Tempête.
+944	{c} pouvez gagner une carte du Nuage de Tempête.
+945	{c} pouvez gagner une carte Terre de votre Rang ou inférieur du Nuage de Tempête.
+946	{c} pouvez déplacer une {c} ou une {c} de votre défausse ou main vers la défausse d’un adversaire. Piochez {0}.
+947	{c} a déplacé une {c} dans votre défausse.
+948	{c} a déplacé une {c} dans la défausse de {c}.
+949	{c} a déplacé {c} dans la défausse de {c}.
+950	{c} devez gagner une carte du Nuage de Tempête.
+951	{c} vise désormais à accumuler de la Puissance.
+952	{c} vise désormais à jouer défensivement.
+953	{c} vise désormais à gagner par les dégâts.
+954	{c} vise désormais à gagner la course à la Déflagration.
+955	{c} jouez {c} ; l’IA joue {c}. {c} a l’Initiative.
+956	{c} jouez {c} ; l’IA joue {c}. {c} avez l’Initiative.
+957	{c} défaussez {c} au hasard.
+958	{c} défausse {c} au hasard.

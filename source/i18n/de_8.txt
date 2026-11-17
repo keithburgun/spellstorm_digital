@@ -1,0 +1,200 @@
+1309	Neue Konten sind momentan deaktiviert.
+1310	Etwas ist schiefgelaufen. Bitte versuche es erneut.
+1311	Nicht angemeldet.
+1312	Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an.
+1313	Dein Fortschritt konnte nicht gespeichert werden, weil ein anderes Gerät ihn ständig änderte. Es wird erneut versucht.
+1314	Synchronisiere…
+1315	Noch nicht synchronisiert
+1316	Gerade synchronisiert
+1317	Vor {0} Min. synchronisiert
+1318	Der Fortschritt dieses Geräts wurde mit deinem Konto zusammengeführt.
+1319	Synchronisierung fehlgeschlagen. Es wird erneut versucht.
+1320	Steam Cloud:
+1321	Melde dich bei Reddit an, um deinen Fortschritt in deinem Konto zu speichern. Vorerst wird er nur in diesem Browser gespeichert.
+1322	☁ Steam Cloud ist an: Dein Fortschritt wird automatisch bei Steam gespeichert und folgt dir auf jeden Computer und jedes Steam Deck.
+1323	Steam Cloud ist in deinen Steam-Einstellungen für Spellstorm aus, daher wird der Fortschritt nur auf diesem Computer gespeichert. Schalte sie in Steam ein (Spellstorm › Eigenschaften › Allgemein), um ihn zu sichern.
+1324	Optional: Ein Spellstorm-Konto synchronisiert deinen Fortschritt auch mit der Handy- und Browserversion.
+1325	Anmelden oder Spellstorm-Konto erstellen
+1326	Angemeldet als
+1327	Jetzt synchronisieren
+1328	Melde dich an, um deinen Fortschritt auf all deinen Geräten zu synchronisieren.
+1329	Anmelden oder Konto erstellen
+1330	Konto erstellt. Bestätige es per E-Mail und melde dich dann an.
+1331	Anmeldung fehlgeschlagen. Bitte versuche es erneut.
+1332	gegen Robo-Junge
+1333	durch Sturmsplitter
+1334	durch Leben
+1335	durch Aufgabe
+1336	Du ({c})
+1337	Letzte {0} Partien
+1338	Durchschnittliche Länge
+1339	Am meisten gespielt
+1340	Gespeicherte Partien
+1341	Turnier läuft: {0}/7 als {c} ({c}).
+1342	Dein Spellstorm-Konto
+1343	Melde dich auf jedem Gerät an, um Statistik, Verlauf, Ranglistenwertungen, Erfolge und Einstellungen zu synchronisieren. Wiederholungen bleiben auf dem Gerät, auf dem sie gespielt wurden.
+1344	Anmelden
+1345	Konto erstellen
+1346	Passwort vergessen?
+1347	Bitte gib deine E-Mail-Adresse ein.
+1348	Angemeldet — der Fortschritt dieses Geräts wurde mit deinem Konto zusammengeführt.
+1349	Konto erstellt — dein Fortschritt wird jetzt synchronisiert.
+1350	Angemeldet — dein Fortschritt wird jetzt synchronisiert.
+1351	Gib oben deine E-Mail-Adresse ein und tippe dann erneut auf „Passwort vergessen?“.
+1352	Falls es zu dieser E-Mail ein Konto gibt, ist ein Link zum Zurücksetzen unterwegs.
+1353	Neues Passwort wählen
+1354	Neues Passwort
+1355	Passwort speichern
+1356	Passwort geändert. Du bist angemeldet.
+1357	Willkommen bei Spellstorm!
+1358	Möchtest du ein interaktives Tutorial spielen? (Du kannst die Regeln auch im Menü lesen oder das Tutorial später über die Schaltfläche Tutorial spielen.)
+1359	Tutorial spielen
+1360	Jetzt nicht
+1361	Lange Partie: Jeder Zauberer hat 50 % mehr Leben, und {0} Sturmsplitter gewinnen.
+1362	Partie fortgesetzt bei Kampf {0}, Runde {0}.
+1363	Online-Partie: Du spielst {c} gegen {c}.
+1364	Ranglistenpartie: Du spielst {c} gegen {s} (Elo {0}), der {c} spielt.
+1365	Zwei gegen Zwei: du und {c} gegen {c} und {c}.
+1366	Etwas ist schiefgelaufen
+1367	Danke fürs Spielen!
+1368	Ein Browser-Tab kann sich nicht selbst schließen, schließ ihn also, wann du willst. In der Desktop- und Handy-App beendet „Beenden“ das Spiel.
+1369	Ein Freund
+1370	wartet in Spellstorm auf einen Gegner.
+1371	Konnte nicht nach Updates suchen. Prüfe deine Internetverbindung und versuche es erneut.
+1372	Das Update hat nicht funktioniert.
+1373	Suche nach Updates…
+1374	Version {s} ist verfügbar.
+1375	Du hast {s}.
+1376	Lade Version {s} herunter… {0} %
+1377	Tippe auf Installieren
+1378	auf dem Android-Bildschirm. Spellstorm startet mit Version {s} neu.
+1379	Neustart mit Version {s}…
+1380	Du hast die neueste Version ({s}).
+1381	Du hast Version {s}.
+1382	Sieben: Keine Karten mehr im Deck zum Ansehen.
+1383	Sieben: Wähle Karten oben von deinem Deck zum Abwerfen. Der Rest bleibt oben.
+1384	Diamant: Wirf genau 3 Karten ab.
+1385	Zerschmettern: Keine Karten auf der Hand zum Verbannen.
+1386	Zerschmettern: Verbanne bis zu 2 Karten aus deiner Hand. +1 Macht für jede.
+1387	Meteorit: Die Sturmwolke ist leer.
+1388	1 Schaden nehmen, 1 ziehen
+1389	2 Schaden nehmen, 2 ziehen
+1390	Blutstein: Du darfst 1 oder 2 Schaden nehmen und dann so viele Karten ziehen.
+1391	Blutstein: Du darfst eine Karte aus deiner Hand oder deinem Ablagestapel verbannen.
+1392	Lavafledermaus: Keine Feuerkarten zum Verschieben in einem Ablagestapel.
+1393	Lavafledermaus: Auf den Ablagestapel welches Gegners verschieben?
+1394	Rubin: Keine Feuerkarten und nichts zu verbannen.
+1395	Rubin: Wähle eine Karte zum Verbannen.
+1396	{c} hatte keine 2 Mana zum Verlieren.
+1397	Die Laterne erlischt.
+1398	Manaquelle: Keine Wasserkarte zum Abwerfen.
+1399	Manaquelle: Wirf eine Wasserkarte ab. Wenn du das tust, erhalte 3 Mana.
+1400	Manaquelle: Keine Wasserkarte in der Sturmwolke.
+1401	Flamme: Keine andere Feuerkarte auf der Hand zum Abhandeln.
+1402	Kreuzfeuer: Welchem Gegner 3 Schaden zufügen?
+1403	Feuerball: Keine Initiative, kein Zusatzschaden.
+1404	Eisrutsche: Du darfst ein EIS aus deiner Hand oder deinem Ablagestapel verbannen.
+1405	Lapislazuli: Du darfst bis zu 2 Karten abwerfen. Heile 1 pro abgeworfener Wasserkarte.
+1406	Sprung: Kein Gegner hat Feuer aufgedeckt, also keine Verbannung.
+1407	Ultimative: Du darfst eine Erdkarte aus deiner Hand verbannen, um 3 Mana zu erhalten.
+1408	Winddrache: Keine Karten auf der Hand zum Abhandeln.
+1409	Winddrache: Keine Karte auf der Hand zum Abhandeln.
+1410	Vertriebskontakt: legt eine Erdessenz auf den eigenen Ablagestapel.
+1411	Immer Schon: gibt allen Spielern ein EIS.
+1412	Unheilskugel: Welchem Gegner geben?
+1413	Ziehe 2. Wirf die nächste Wetterkarte ab.
+1414	Ziehe 1. Wenn du diese Runde Erde aufdeckst, erhalte 1 Macht.
+1415	Ziehe 1. Jeder Spieler darf eine ASCHE, einen FLUCH oder ein EIS aus Hand oder Ablage verbannen.
+1416	Ziehe 1. Nachdem die Karten abgehandelt sind, dürfen Spieler ihre Ultimative einsetzen.
+1417	Ziehe 2. Erdkarten bewirken beim Abhandeln nichts außer 2 Heilung.
+1418	Ziehe 2, erhalte 2 Macht.
+1419	Ziehe 2, erhalte 1 Mana. Alle Spieler werfen 2 zufällige Karten ab.
+1420	{c}: Keine Karten in Hand oder Ablage zum Verbannen.
+1421	Verbanne ein {c} aus deiner Hand oder deinem Ablagestapel.
+1422	Der Drachenstapel ist leer: Verursache 2 Schaden und erhalte 2 Sturmsplitter.
+1423	eine Erdkarte bis zu deiner Stufe
+1424	eine Feuerkarte bis zu deiner Stufe
+1425	eine Wasserkarte bis zu deiner Stufe
+1426	eine Karte
+1427	{c} ohne Manakosten einsetzen? ({s})
+1428	{c} für {0} Mana einsetzen? ({s})
+1429	{c} hast eine unspielbare Hand — wirf sie ab, nimm 1 Schaden und ziehe 4.
+1430	{c} hat eine unspielbare Hand — wirft sie ab, nimmt 1 Schaden und zieht 4.
+1431	{c}: +1 Leben und +1 Karte durch Schummeln.
+1432	Zauber erhalten: Nimm eine Karte aus der Sturmwolke oder eine kostenlose Spezialkarte.
+1433	Gib einem gewählten Gegner einen FLUCH. Du darfst pro VERDAMMNIS-Marker bis zu eine Karte von deinem Ablagestapel ziehen.
+1434	Trankkanone: Keine Nicht-Zauberer-Karte zum Abgeben.
+1435	Trankkanone: Welcher Gegner?
+1436	{c} wird verbannt — Robo-Junge kann sie nicht behalten.
+1437	Trankkanone: Du darfst eine Nicht-Zauberer-Karte aus deiner Hand in die Hand deines Gegners geben und 2 ihres Elements erhalten.
+1438	Keine Änderung
+1439	keine Änderung
+1440	Instabile Formel: Senke eins deiner Elemente um 2, um ein anderes um 2 zu erhöhen. (Feuer {0}, Erde {0}, Wasser {0})
+1441	Instabile Formel: Senke eins von {c}s Elementen um 2, um ein anderes um 2 zu erhöhen. (Feuer {0}, Erde {0}, Wasser {0})
+1442	Käferbrecher: Welcher Spieler erleidet 3 Schaden?
+1443	Käferbrecher: Du darfst eine Feuerkarte aus deiner Hand abwerfen, um 2 Schaden zu verursachen.
+1444	Die aufgedeckte Karte eines Gegners annullieren — er wirft sie ab und zieht
+1445	Shuriken: Wessen Karte annullieren?
+1446	Keine VERDAMMNIS-Marker — Versenkender Schlag verursacht keinen Schaden.
+1447	Tiefenjuwelen: Keine Macht zum Verlieren.
+1448	Tiefenjuwelen: 1 Macht verlieren, um eine Wasserkarte aus der Sturmwolke abzuhandeln und dann zu verbannen?
+1449	Tiefenjuwelen: Wähle eine Wasserkarte in der Sturmwolke zum Abhandeln, dann verbanne sie.
+1450	Sternenschuss: Keine andere Feuerkarte auf der Hand.
+1451	Sternenschuss: Du darfst 2 Energiemarker verlieren, um eine andere Feuerkarte aus deiner Hand abzuhandeln.
+1452	Datenleck: Welcher Gegner?
+1453	Datenleck: {s} Hand ist leer.
+1454	Datenleck: Wähle eine Karte aus der Hand deines Gegners, die er abwerfen muss.
+1455	Datenleck: Verliere 1 oder 2 Energie, um so oft Macht zu erhalten. (Du hast {0}.)
+1456	1 verlieren
+1457	2 verlieren
+1458	Gut Recherchiert: erhält zu Beginn jedes Kampfes 1 Macht, plus alle in ihrem Tagebuch erforschten Kräfte.
+1459	Alle sechs Forschungsmarker sind bereits gelegt.
+1460	Verflucht: kann nie heilen. Wann immer er heilen würde, gibt er stattdessen 1 FLUCH.
+1461	VERDAAAAAMMNIS!: Welchem Gegner einen FLUCH geben?
+1462	VERDAAAAAMMNIS! Du darfst bis zu {0} Karte von deinem Ablagestapel ziehen (eine pro VERDAMMNIS-Marker).
+1463	VERDAAAAAMMNIS! Du darfst bis zu {0} Karten von deinem Ablagestapel ziehen (eine pro VERDAMMNIS-Marker).
+1464	Hat 3 versteckte Fallen. Seine Ultimative legt eine verdeckt.
+1465	Nimm eine Karte von deinem Ablagestapel auf die Hand oder ziehe. Lege eine Falle verdeckt (nicht zweimal hintereinander dieselbe).
+1466	Lege eine Falle verdeckt. Sie ersetzt deine aktuelle Falle.
+1467	Doppelstich: kann bis auf 10 Leben heilen. Dreifachstich: Heilung bei 10 zieht stattdessen eine Karte pro Punkt.
+1468	Ein Zaubertrick!: Keine Nicht-Zauberer-Karte auf der Hand zum Wirken.
+1469	Chemiker: Feuer-, Erd- und Wasser-Element beginnen bei 3 (max. 6) und bezahlen Tränke.
+1470	Dritter GIFTIGER Trank! Die Ultimative endet — erhalte eine ASCHE, einen FLUCH und ein EIS.
+1471	Oren hat {0} Trank getrunken. Die Elemente werden auf 3 zurückgesetzt.
+1472	Oren hat {0} Tränke getrunken. Die Elemente werden auf 3 zurückgesetzt.
+1473	Oren hat {0} Tränke getrunken und einen dritten GIFTIGEN erwischt. Die Elemente werden auf 3 zurückgesetzt.
+1474	Aufladen: beginnt mit 2 Energie (max. 3). Gefährlicher Download: kann am Rundenende 1 Energie und 1 Mana ausgeben, um die aufgedeckte Stufe-II-Karte des Gegners abzuhandeln.
+1475	Leerenreisende: Keine Karte in Hand oder LEERE zum Abhandeln.
+1476	Dreifachstich: {c} ziehst {0} durch überschüssige Heilung.
+1477	Dreifachstich: {c} zieht {0} durch überschüssige Heilung.
+1478	Ausweichen! aufdecken? Die ersten 2 Schaden, die du diese Runde erleidest, werden aufgehoben.
+1479	Ausweichen! hebt {0} Schaden auf.
+1480	Tagebuch: Du darfst eine Feuerkarte von deinem Ablagestapel auf die Hand nehmen.
+1481	{c} nimmst {c} vom Ablagestapel auf die Hand.
+1482	{c} nimmt {c} vom Ablagestapel auf die Hand.
+1483	Tagebuch: Du darfst eine Karte aus deiner Hand verbannen.
+1484	Tagebuch: Du darfst ein EIS, eine ASCHE oder einen FLUCH von deinem Ablagestapel auf den deines Gegners legen.
+1485	Tagebuch: Zu welchem Gegner verschieben?
+1486	Gefährlicher Download: Du darfst 1 Energie und 1 Mana ausgeben, um die aufgedeckte Stufe-II-Karte eines anderen Spielers abzuhandeln.
+1487	Keine Wirkung
+1488	durch Schaden gewinnen
+1489	das Explosionsrennen gewinnen
+1490	Macht aufbauen
+1491	defensiv spielen
+1492	Moduswechsel: eine Karte offen und eine verdeckt auf seiner Karte. Kein Halt: verliert einen Explosionsmarker, wann immer er ein EIS aufdeckt.
+1493	Handelt die offene, dann die verdeckte Karte auf seiner Karte ab, wirft beide ab und zieht ein neues Paar.
+1494	Robo-Junge handelt {c} ab!
+1495	Leser: studiert mehr deiner möglichen Züge und wägt beim Aufdecken den schlimmsten Fall ab.
+1496	Zocker: sprunghaft und viel zufälliger, gelegentlich brillant.
+1497	Drachenjäger: stürmt auf Stufe III und die Drachen zu.
+1498	Gewinne innerhalb von {0} Zügen.
+1499	Überlebe diesen Zug.
+1500	Überlebe die nächsten {0} Züge.
+1501	Erreiche diese Runde Stufe {s}.
+1502	Gewinne den Explosionswert dieses Kampfes.
+1503	← → Anpassen
+1504	◀ ▶ Anpassen
+1505	An Seite anpassen
+1506	Wiederholung beenden
+1507	kein Ziel
+1508	Über die Balance der 1. Edition

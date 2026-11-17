@@ -1,0 +1,194 @@
+360	Vide.
+361	Énergie
+362	Entrée
+363	Saisissez le code que votre ami vous a envoyé.
+365	Essences (commencent dans le Nuage de Tempête)
+366	Tempête Éternelle
+367	Tous les Affrontements
+368	Chaque sorcier commence avec
+369	Quitter
+370	Conseils de l’Expert
+371	Tournoi Expert
+372	Conseil d’expert ·
+373	Exporter la partie
+374	Œil de la Tempête
+375	Réinitialisation
+376	Rapide
+377	Médecin de Terrain
+378	Médecin de Terrain : Soignez un allié dans une partie en équipe.
+382	Le Feu bat la Terre. L’Eau bat le Feu.
+383	Équilibrage Première Édition
+384	Première Victoire
+385	Première Victoire : Gagnez une partie.
+386	Tempête Parfaite
+387	Pour chaque jeton FUNESTE, reprenez une carte de votre défausse en main ou piochez. Sans jeton FUNESTE, gagnez-en un.
+388	Vainqueur à Quatre
+389	Victoires en Mêlée
+390	Mêlée générale, {0} joueurs :
+391	Mêlée générale : vous jouez {c} contre {c}, {c}, {c}.
+392	Mêlée générale
+393	Complètes
+394	Équipe au Complet
+395	Équipe au Complet : Gagnez une partie en coopération à {0} joueurs.
+396	Effectif Complet
+397	Gagner l’Initiative
+398	Gagner l’Initiative et piocher une carte
+399	Gagner un sort : touchez une carte en surbrillance du Nuage de Tempête.
+400	Gagnez un Dragon.
+401	Gagner une carte
+402	Gagnez les cinq Dragons en une partie.
+403	Gagner une carte Terre
+404	Gagnez {0} Énergie. {c} pouvez résoudre une carte non-Sorcier de votre main ou du NÉANT, puis la placer sous la Pioche Spellstorm.
+405	Gagnez {0} cartes du Nuage de Tempête en une partie.
+406	Gagner {c}
+407	Initiative obtenue
+408	Rapport de partie
+409	Début de partie
+410	Tueur de Géants
+411	Donnez une {c}, gagnez {0} mana, puis vous pouvez utiliser votre {c}.
+412	Donnez à votre adversaire {0} {c}, {c} ou {c} en une partie.
+413	Objectif :
+414	Grand Champion
+415	Grand Final
+416	Grand Grimoire
+417	À Mi-chemin de la Gloire
+418	Main
+419	Prétendant Difficile
+420	Dure Leçon
+421	Tournoi Difficile
+422	Victoires en Difficile
+423	Aguerri
+424	Il résout {c}, puis le {c} face cachée.
+425	Soignez un allié dans une partie en équipe.
+426	Soignez {0}
+427	Soignez {0} PV au total.
+428	Soin de {0} : vous ou un allié ?
+429	Soins
+430	Vie
+431	PV soignés
+432	Vie {0}
+433	Gros Cogneur
+434	Métal Lourd
+435	Puissance Cachée
+436	Les pouvoirs en surbrillance s’activent au début de chaque combat.
+437	Historique
+438	Héberger une partie
+439	Série Brûlante
+440	Légende des icônes
+441	Importer un replay
+442	Importer un replay…
+443	En Classé, battez un adversaire classé {0} points ou plus au-dessus de vous.
+444	Dans votre défausse
+445	Dans votre main
+446	Inclure les détails (version, mode, les {0} dernières lignes du journal et un instantané de la partie)
+447	Initiative
+448	Dans la Tempête
+449	Gantelet de Fer
+450	Estomac d’Acier
+451	Volonté de Fer
+452	Rejoindre
+453	Rejoindre une partie
+454	Journal
+455	Journal {0}/{0}
+456	Journal : +{0} puissance
+457	Journal : Piochez une carte
+458	Journal : Gagnez une carte
+459	Journal : Gagnez une carte (ce doit être une carte Terre)
+460	Journal : {c} pouvez reprendre en main une carte Feu de votre défausse
+461	Petit Bois
+462	K.-O.
+463	K.-O. : Gagnez en réduisant la vie de votre adversaire à {0}.
+465	Dernier Sorcier Debout
+466	Dernier Sorcier Debout : Gagnez une partie en mêlée générale.
+467	Disposition
+468	Aperçu de la disposition
+469	Quitter la partie
+470	Durée
+471	Clair
+472	Journal
+473	Partie Longue
+474	Perdez {0} Puissance
+475	Défaites
+476	Initiative perdue
+477	Mana
+478	Mana +{0}
+479	Marathon
+480	Comme l’appareil
+481	Parties jouées
+482	Médailles complétées (or)
+483	Médailles
+484	Rafistoleur
+485	Menu
+486	Mode
+487	Changement de Mode : {c} pose {c} face visible et une autre carte face cachée sur sa carte.
+488	Déplacez une {c}, {c} ou {c} de votre défausse vers une autre défausse
+489	NOUVEAU COMBAT !
+490	Nécessite {0} Terre
+491	Nécessite {0} Feu
+492	Nécessite {0} Eau
+493	Nouvelle médaille :
+494	Suivant
+495	Prochain adversaire :
+496	Suivant ▶
+497	Non
+498	Aucun jeton Déflagration
+499	Aucune carte du Nuage de Tempête n’est de votre Rang. {c} pouvez prendre une carte spéciale.
+500	Pas d’Adhérence : {c} a révélé une {c} et perd un jeton Déflagration.
+501	Aucune carte en main
+502	Aucune partie pour l’instant. Les parties terminées apparaissent ici (le tutoriel et les parties en ligne ne sont pas enregistrés).
+503	Plus de {c} — l’effet du plateau s’applique à vous.
+504	Plus de {c} — l’effet du plateau s’applique à {c}.
+505	Tournoi Normal
+506	Pas assez d’Élément Terre — aucun effet.
+507	Pas assez d’Élément Feu — aucun effet.
+508	Pas assez d’Élément Eau — aucun effet.
+509	Pas encore gagné
+510	OK
+511	ÉLIMINÉ
+512	Heures Impaires
+513	Heures Impaires : Avec {c}, utilisez {c} avec des PV impairs.
+514	Non
+515	Oui
+516	En Feu
+517	À l’Attaque
+518	Une fois connectés, vous choisirez tous les deux vos sorciers dans le salon en ligne.
+519	Un Dernier Effort
+520	Ouvrir un fichier de partie enregistré avec
+521	Adversaire
+522	Adversaires
+523	Options
+524	Ou prenez :
+525	Original
+526	Déjouer {c}
+527	Déjouer {c} : Battez {c}.
+528	Surpuissance
+529	JOUER
+530	Page préc./suiv.
+531	{0} Terre payée
+532	{0} Feu payé
+533	{0} Eau payée
+534	Sommet
+535	Puissance Maximale
+536	Puissance Maximale : Atteignez le Rang III.
+537	Sommet {0}
+538	Aperçu téléphone (test) désactivé
+539	Vue téléphone désactivée
+540	Jouer
+541	Jouer en ligne
+542	Jouez une partie classée.
+543	Jouer avec un ami en ligne
+544	Rejouer
+545	Jouez {0} parties.
+546	Joueurs
+547	Branchez ou associez une manette (Xbox, PlayStation, Steam Deck, consoles portables Android) et appuyez sur un bouton.
+548	Potion
+549	Puissance +{0}
+550	Progression
+551	Énigmes
+552	R&D : +{0} Puissance en début de combat seulement si elle n’a pas l’Initiative
+553	R&D : {c} n’avez pas l’Initiative, vous gagnez donc {0} Puissance.
+554	Aléatoire
+555	Adversaire aléatoire
+556	Personnage aléatoire
+557	Rang {0}
+558	Classé

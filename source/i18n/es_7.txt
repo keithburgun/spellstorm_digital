@@ -1,0 +1,200 @@
+1109	Tu Poder se desbordó y alcanzaste el Nivel II. Ahora puedes ganar cartas de Nivel II de la Nube de Tormenta, que son más fuertes.
+1110	Tu turno
+1111	En fin, juguemos una carta. Toca Gema de Poder y luego toca «Jugar boca abajo».
+1112	Vale, esta carta te da +1 de Poder y luego te deja ganar una carta de la Nube de Tormenta. Las cartas que ganas suelen ir a tu mano, pero Gema de Poder te hace descartar la carta nueva enseguida.
+1113	Algunas cartas tienen un Efecto de Descarte, que se activa cuando se descartan. Ese Diamante dice: Efecto de Descarte: +1 Poder. Así que si lo compramos, obtendremos otro poder al instante. ¡Hagámoslo!
+1114	Ese código de partida ya está en uso. Intenta crear la partida de nuevo.
+1115	No se encontró esa partida. Revisa el código y asegúrate de que tu amigo sigue esperando.
+1116	No se pudo conectar con el servicio de emparejamiento. Revisa tu conexión a internet e inténtalo de nuevo.
+1117	No se pudo conectar (
+1118	error desconocido
+1119	). Inténtalo de nuevo.
+1120	No se pudo conectar con el anfitrión. Revisa el código y asegúrate de que tu amigo sigue esperando.
+1121	El juego en línea no está disponible en esta vista. Asegúrate de haber iniciado sesión en Claude y de abrir Spellstorm desde su enlace de claude.ai.
+1122	Copiar enlace de invitación
+1123	o pídele que introduzca el código
+1124	Sala de juego en línea
+1125	Elige tu mago
+1126	Salir de la sala
+1127	Introduce el código de 6 caracteres.
+1128	Tu rival se desconectó. Esperando a que vuelva…
+1129	Partida en línea contra {c}. Las partidas en línea no se registran.
+1130	Volver al título
+1131	ganar por vida
+1132	ganar por Fragmentos de Tormenta
+1133	acumular Poder
+1134	sobrevivir
+1135	Estás en el Nivel {s} con {0} de Poder.
+1136	Tienes {0}/{0} de vida.
+1137	Gana la revelación: {s}.
+1138	Revelación: {s}. Contrarrestar roba una carta, y las cartas en mano son tu Puntuación de Explosión.
+1139	Cura unos {0} esta ronda.
+1140	Recibes unos {0} de daño esta ronda.
+1141	Consejo del Experto
+1142	El Experto está pensando
+1143	Jugada del Experto
+1144	Casi igual de buena
+1145	Plan: {s}.
+1146	Ronda inicial.
+1147	Aún no hay mucho que planear, así que se trata sobre todo de ganar la revelación.
+1148	El Experto simula cada carta contra las jugadas probables de {c} hasta el final de la batalla y puntúa el resultado según su plan.
+1149	El Experto haría
+1150	Tomaste {c}.
+1151	Ganaste {c}.
+1152	Te saltaste la ganancia.
+1153	¡Usaste tu Definitiva!
+1154	Guardaste tu maná.
+1155	Elegiste Sí.
+1156	Elegiste No.
+1157	Te elegiste a ti.
+1158	Elegiste {s}.
+1159	Esta repetición se desincronizó en la decisión {0} (turno {0}), así que se detiene aquí. Usa Exportar partida para que Keith pueda revisarlo.
+1160	se grabó en una versión anterior de Spellstorm ({s}), y las actualizaciones desde entonces cambian cómo se desarrolla.
+1161	se grabó antes de que las repeticiones guardaran las decisiones de los bots, así que una actualización de los bots cambia cómo se desarrolla.
+1162	Primera Edición
+1163	Archivo de partida listo
+1164	Enviar a Keith
+1165	Copiar al portapapeles
+1166	Descargar archivo
+1167	▶ Repetición
+1168	Cambiar de jugador
+1169	Viendo una repetición…
+1170	💡 Consejo del Experto
+1171	💡 Consejo
+1172	Movimiento Oculto: coloca una Trampa.
+1173	Ha salido Polvo Brillante.
+1174	Esta ronda, las cartas de Tierra no hacen nada salvo curar 2.
+1175	Has sido eliminado. Tu equipo sigue jugando…
+1176	Has sido eliminado. La partida continúa…
+1177	Elemento de esta carta:
+1178	Esta carta tiene efecto de descarte.
+1179	Efecto de descarte:
+1180	Dragón de Nivel IV
+1181	Carta especial
+1182	En tu mazo
+1183	Elige {0}.
+1184	Elige de {0} a {0}.
+1185	Elige hasta {0}.
+1186	Tu pila de descarte
+1187	Pila de descarte de {c}
+1188	Cómo es una partida
+1189	Esta es la versión corta.
+1190	Leer el reglamento completo
+1191	Spellstorm en BoardGameGeek
+1192	Consigue 8 Fragmentos de Tormenta o deja a tu rival con 0 de vida.
+1193	Todos contra todos (3–4 jugadores)
+1194	Una opción: cada mago tiene un 50 % más de vida (redondeado) y necesitas 12 Fragmentos de Tormenta para ganar en lugar de 8.
+1195	Cooperativo contra Chico Robot y Dos contra Dos
+1196	Solo infliges daño, y das HIELO, CENIZA y MALDICIÓN, al otro bando. Al curarte, puedes curar a un aliado en su lugar. Contrarrestas al siguiente
+1197	rival en sentido horario, saltando a los aliados. Si alguien de un equipo gana, gana todo el equipo, y el equipo sigue jugando cuando un miembro queda eliminado.
+1198	Página {0} de {0}
+1199	Reglamento de Spellstorm
+1200	Abandonar partida en línea
+1201	Enviando…
+1202	Tu informe se guardó. Se añadirá al archivo de informes de problemas del proyecto.
+1203	Enviar tu informe por correo
+1204	El informe completo se copió al portapapeles. Toca abajo para abrir un correo al desarrollador y pégalo si aparece cortado.
+1205	Abrir correo
+1206	O envíalo tú mismo a {s}.
+1207	reuniendo 8 Fragmentos de Tormenta
+1208	dejando a su rival con 0 de vida
+1209	en el desempate
+1210	A continuación:
+1211	. Tu progreso está guardado.
+1212	¡CAMPEÓN DEL TORNEO!
+1213	Venciste a los 7 rivales en {c}. Tu trofeo está en la pantalla de Estadísticas.
+1214	TORNEO TERMINADO
+1215	{c} acabó con tu racha. Derrotaste a {0} de 7 rivales.
+1216	Sala clasificatoria
+1217	En esta ronda del tutorial, juega Gema de Poder.
+1218	Jugar boca abajo
+1219	Tu progreso está sincronizado.
+1220	¿Cerrar sesión?
+1221	Tu progreso queda a salvo en tu cuenta. Este dispositivo vuelve a un perfil de invitado nuevo, y al iniciar sesión de nuevo lo recuperas todo.
+1222	Cerrar sesión
+1223	Cerrando sesión…
+1224	Sesión cerrada.
+1225	Progreso restablecido
+1226	¿Abandonar el torneo?
+1227	Tu progreso ({0}/7 como {c}) se perderá.
+1228	Seguir
+1229	¿Salir del torneo?
+1230	Esto termina tu torneo ({0}/7 como {c}). Puedes empezar otro cuando quieras.
+1231	Salir del torneo
+1232	Has iniciado sesión, así que esto también borra el progreso guardado en tu cuenta.
+1233	Todos los datos borrados
+1234	¿Rendirte en esta partida?
+1235	Cuenta como derrota. Tu partida guardada se borrará.
+1236	Cuenta como derrota y termina tu torneo. Tu partida guardada se borrará.
+1237	Seguir jugando
+1238	Enlace de invitación copiado — envíaselo a tu amigo.
+1239	Copia este enlace de invitación:
+1240	Saliste de la sala en línea. Puedes jugar una partida normal cuando quieras.
+1241	Primero elige un archivo o pega el texto de la partida.
+1242	Ese archivo es demasiado grande para ser una repetición de Spellstorm.
+1243	No se pudo abrir ese archivo.
+1244	Archivo de partida copiado — pégalo en un mensaje a Keith.
+1245	Descargando el archivo de partida…
+1246	Enviado a Keith. ¡Gracias!
+1247	¿Empezar un torneo nuevo?
+1248	Terminar esta racha
+1249	Torneo terminado. Empieza otro cuando quieras.
+1250	Volver a las opciones
+1251	Rival para un jugador del reglamento: sin mano, con Fichas de Explosión, y una Definitiva automática. Fácil, Media o Difícil fija su Poder inicial.
+1252	Fuego y Tierra. Agresivo desde el principio, acumula poder sin pausa. Ideal para empezar.
+1253	Fuego y Agua. Saboteadora agresiva que atasca tu mazo con HIELO y MALDICIÓN.
+1254	Agua y Tierra. Investiga nuevos poderes cada vez que sube de nivel.
+1255	Fuego y Agua. Muchísima vida, no puede curarse, se fortalece con la PERDICIÓN.
+1256	Fuego y Agua. Poca vida, mucho bloqueo y trampas ocultas.
+1257	Agua y Tierra. Vida diminuta, se cura rápido y más allá de su límite.
+1258	Fuego y Tierra. Tienta a la suerte con un mazo de pociones volátil.
+1259	Fuego y Tierra. Hacker que roba jugadas con Energía.
+1260	Torneo en curso como
+1261	Torneo: {0}/7 victorias
+1262	Tendrás un mago aleatorio.
+1263	Tendrás un mago aleatorio en este torneo.
+1264	Tu rival será aleatorio.
+1265	Luchar contra {c}
+1266	Salir del Torneo
+1267	Nuevo torneo
+1268	Empezar una partida nueva reemplaza tu partida guardada en curso.
+1269	Rendirse y jugar una partida nueva
+1270	Tienes una partida clasificatoria en curso. Empezar otra la cuenta como derrota.
+1271	Partidas recientes
+1272	Tu partida clasificatoria abandonada contó como derrota ({s}).
+1273	Buscando rival
+1274	Buscando cerca de Elo {0}
+1275	¡Rival encontrado!
+1276	Gana reuniendo Fragmentos de Tormenta.
+1277	Gana en {0} batallas.
+1278	Gana y termina con al menos {0} de vida.
+1279	Partida Larga (+50 % de vida, 12 Fragmentos de Tormenta para ganar)
+1280	empiezas con la Iniciativa
+1281	tu rival empieza con la Iniciativa
+1282	tu rival
+1283	empiezas con {0} de vida extra
+1284	empiezas con {0} de vida menos
+1285	tu rival empieza con {0} de vida extra
+1286	tu rival empieza con {0} de vida menos
+1287	Perdiste la partida.
+1288	La idea: {s}.
+1289	{c} jugará:
+1290	Todo en un rompecabezas sucede igual cada vez.
+1291	Vamos
+1292	¡Resuelto! ✓
+1293	Rompecabezas {0},
+1294	La idea:
+1295	Ese era el último rompecabezas. ¡Bien hecho!
+1296	Siguiente rompecabezas
+1297	Todos los rompecabezas
+1298	Casi
+1299	Reintentar
+1300	No se pudo conectar con el servicio de sincronización. Revisa tu conexión a internet.
+1301	Correo o contraseña incorrectos.
+1302	Ya existe una cuenta con ese correo. Prueba a iniciar sesión.
+1303	Las contraseñas necesitan al menos 6 caracteres.
+1304	Esa dirección de correo no parece correcta.
+1305	Revisa lo que has introducido.
+1306	Primero confirma tu correo (revisa tu bandeja de entrada) y luego inicia sesión.
+1307	Se enviaron demasiados correos. Espera unos minutos e inténtalo de nuevo.
+1308	Demasiados intentos. Espera un minuto e inténtalo de nuevo.

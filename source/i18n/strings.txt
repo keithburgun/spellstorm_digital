@@ -1,0 +1,1698 @@
+# Every English string the dictionaries translate. ID<TAB>kind (N = name inside sentences, U = text)<TAB>English.
+# Other languages: <lang>.txt with lines ID<TAB>translation (see README).
+1	N	You
+2	N	you
+3	N	Ally
+4	N	Yourself
+5	N	Robot Boy
+6	N	Derby Pocket
+7	N	Derby
+8	N	Eve Williams
+9	N	Eve
+10	N	Abragail
+11	N	Croh Vosh
+12	N	Croh
+13	N	Omar Evans
+14	N	Omar
+15	N	Bunny Wizard
+16	N	Bunny
+17	N	Oren Bark
+18	N	Oren
+19	N	May Danaris
+20	N	May
+21	N	Flaming Yardstick
+22	N	Doom Bauble
+23	N	Level Up!
+24	N	DOOOOOOOM!
+25	N	Hidden Movement
+26	N	Cast a Magic Trick!
+27	N	Bottoms up, I guess!
+28	N	Void Traveler
+29	N	El3mEnt4l CaScAdE#%$
+30	N	Magic Dart
+31	N	Block
+32	N	Power Gem
+33	N	Fire Essence
+34	N	Water Essence
+35	N	Earth Essence
+36	N	Coffee Run
+37	N	Reckless Charge
+38	N	Face Punch
+39	N	Riot
+40	N	Two Power
+41	N	Opal
+42	N	Sift
+43	N	Diamond
+44	N	Spirit Crystal
+45	N	Amber
+46	N	Shatter
+47	N	Meteorite
+48	N	Bloodstone
+49	N	Quake
+50	N	Three Power
+51	N	Swamp Silt
+52	N	Lava Bat
+53	N	Ruby
+54	N	Shockwave
+55	N	Rapid Fire
+56	N	Obsidian
+57	N	Lantern
+58	N	Heart Gem
+59	N	Mana Font
+60	N	Flame
+61	N	Fireball II
+62	N	Crossfire
+63	N	Fireball
+64	N	Arctite
+65	N	Ice Flume
+66	N	Frost Magic
+67	N	Lapis
+68	N	Leap
+69	N	Moonstone
+70	N	Reflect
+71	N	Sapphire
+72	N	Step
+73	N	Twin Sapphire
+74	N	Ultimate
+75	N	Wave
+76	N	Earth Dragon
+77	N	Fire Dragon
+78	N	Ice Dragon
+79	N	Storm Dragon
+80	N	Wind Dragon
+81	N	ICE
+82	N	ASH
+83	N	CURSE
+84	N	POISON
+85	N	Potion Gun
+86	N	Unstable Formula
+87	N	Beetle Buster
+88	N	Shuriken
+89	N	Undertow
+90	N	Sinking Strike
+91	N	Deep Gems
+92	N	New Curriculum
+93	N	Star Shot
+94	N	Data Breach
+95	N	Buddy System
+96	N	Snow Day
+97	N	Robot Repair
+98	N	Ice Block
+99	N	Robo Bounce
+100	N	Laser EYE
+101	N	Robo-Fist
+102	N	Upgrade
+103	N	Hack You Badly
+104	N	Drill Ya
+105	N	Blast You
+106	N	Nice Breeze
+107	N	Strange Weather
+108	N	Falling Earth
+109	N	Dust Cloud
+110	N	Heatwave
+111	N	Crystal Flurries
+112	N	Falling Star
+113	N	Soothing Rain
+114	N	Burning Blizzard
+115	N	Energy Wave
+116	N	Gemlight Omen
+117	N	Glittering Dust
+118	N	Ionic Atmosphere
+119	N	Lightning Strike!
+120	N	Magnetic Warp
+121	N	Rain of Toads
+122	N	Shooting Star
+123	N	Tidal Wave
+124	N	Wildcolor Winds
+125	N	A Slight… Explosion
+126	N	Haste Potion
+127	N	I Call It… Purple Stuff
+128	N	Dragon Elixir
+129	N	Devil’s Breath
+130	N	I Think I Just Drank Gasoline
+131	N	Frost Bomb
+132	N	Health Soda
+133	N	Storm Juice
+134	N	Mud Trap
+135	N	Dodge!
+136	N	Ice Bomb
+137	N	Fire
+138	N	Water
+139	N	Earth
+140	N	Easy
+141	N	Normal
+142	N	Medium
+143	N	Hard
+144	N	Expert
+145	N	Monday
+146	N	Tuesday
+147	N	Wednesday
+148	N	Thursday
+149	N	Friday
+150	N	Saturday
+151	N	Sunday
+152	N	January
+153	N	February
+154	N	March
+155	N	April
+156	N	June
+157	N	July
+158	N	August
+159	N	September
+160	N	October
+161	N	November
+162	N	December
+163	U	(Elo {0})
+164	U	(Last round!)
+165	U	(order not shown)
+166	U	(pick {0})
+167	U	(pick {0}: your first pick is your ally)
+168	U	({0} of {0}).
+169	U	+{0} DOOM
+170	U	+{0} Energy
+171	U	+{0} Mana
+172	U	+{0} Mana, +{0} Power
+173	U	+{0} Mana, +{0} Power, Tier II!, +{0} card in hand
+174	U	+{0} Power
+175	U	+{0} Power, Gained Initiative
+176	U	+{0} Storm Shard
+177	U	+{0} mana
+178	U	+{0} power
+179	U	+{0}% health for every wizard · {0} Storm Shards to win
+180	U	, or paste its text below.
+181	U	: Draw {0}, gain {0} mana and {0} power.
+182	U	: Draw {0}, gain {0} mana. All players randomly discard {0} cards.
+183	U	: Draw {0}, gain {0} mana. If you reveal Water this round, gain {0} mana.
+184	U	: Draw {0}, gain {0} mana. Players above {0} health take {0} damage.
+185	U	: Draw {0}, gain {0} mana. Tier II and III players lose {0} power.
+186	U	: Draw {0}, gain {0} power.
+187	U	: Draw {0}, gain {0} power. All players discard a random card.
+188	U	: Draw {0}. After cards resolve, players may use their {c}.
+189	U	: Draw {0}. All players may gain a card (Initiative first).
+190	U	: Draw {0}. All players put the top Storm Deck card into their discard.
+191	U	: Draw {0}. Discard the next Weather card.
+192	U	: Draw {0}. Each player may VOID an {c}, {c} or {c} from hand or discard.
+193	U	: Draw {0}. Earth cards do nothing when resolved but Heal {0}.
+194	U	: Draw {0}. If you reveal Earth this round, gain {0} power.
+195	U	: Draw {0}. If you reveal Fire this round, gain {0} mana.
+196	U	: Draw {0}. Initiative changes hands; whoever gets it gains a {c} and {0} mana.
+197	U	: Draw {0}. Tier II: gain {0} mana. Tier I: gain {0} power.
+198	U	: Draw {0}. VOID the Storm Cloud and draw {0} new cards.
+199	U	A simple {0}-vs-{0} match against someone with access to this Spellstorm page. Online matches aren’t recorded in your stats.
+200	U	Accursed: {c} can’t heal — he gives a {c} instead.
+201	U	Achievements unlocked
+202	U	Achievements {0}/{0}
+203	U	Add a Research Token to a space in {c}’s Journal.
+204	U	Adds a ▲ Fire, ● Water, ■ Earth tag to every card.
+205	U	After this round
+206	U	Against the Odds
+207	U	All
+208	U	Allies
+209	U	Always Already: {c} gives all players an {c}.
+210	U	Animation speed
+211	U	Animations
+212	U	Archmage
+213	U	As {c}, draw cards from wasted healing.
+214	U	As {c}, drink {0} potions in one {c} without a third TOXIC.
+215	U	As {c}, hold {0} DOOM Tokens.
+216	U	As {c}, move a {c} to your opponent with {c}.
+217	U	As {c}, place all {0} Research Tokens in one match.
+218	U	As {c}, resolve an opponent’s card with Dangerous Download.
+219	U	As {c}, reveal all three Traps in one match.
+220	U	As {c}, use {c} at odd health.
+221	U	BLAST SCORE
+222	U	BLAST SCORE:
+223	U	BOTTOMS UP, I GUESS!
+224	U	Back
+225	U	Back to card
+226	U	Back to library
+227	U	Battle log
+228	U	Battle {0}
+229	U	Battle {0}, round {0} · step {0} of {0}
+230	U	Battle {0}, round {0}: {c}.
+231	U	Beat every wizard on Hard.
+232	U	Beat {c} in Co-op.
+233	U	Beat {c} on Easy.
+234	U	Beat {c} on Hard in Co-op.
+235	U	Beat {c} on Hard.
+236	U	Beat {c} on Medium.
+237	U	Beaten
+238	U	Beginner
+239	U	Best Ranked Elo
+240	U	Best streak
+241	U	Big Blast
+242	U	Big Blast: Win a Blast with a score of {0} or more.
+243	U	Blast Scores — you: {0}, {c}: {0}, {c}: {0}, {c}: {0}.
+244	U	Blast Scores — you: {0}, {c}: {0}, {c}: {0}.
+245	U	Blast Scores — you: {0}, {c}: {0}.
+246	U	Blast Scores — {c}: {0}, {c}: {0}.
+247	U	Blitz
+248	U	Both wizards start with mana in the tank, and this opponent never saves an {c}.
+249	U	Bronze
+250	U	Build to the Peak
+251	U	By a Thread
+252	U	By default, the Spellstorm app has adjusted balance based on an increased level of feedback since launch. However, you can also play with the original rules (First Edition Balance) if you prefer.
+253	U	COUNTER → {c}
+254	U	COUNTER!
+255	U	CPU - Easy
+256	U	CPU - Normal
+257	U	CPU difficulty
+258	U	CURRENT TRAP
+259	U	Calm Before the Storm (first battles)
+260	U	Cancel
+261	U	Cancel {c} — they discard it and draw
+262	U	Can’t set the same Trap twice in a row
+263	U	Card Library
+264	U	Cards gained
+265	U	Cataclysm
+266	U	Centurion
+267	U	Changes in the 2nd Edition Rebalance (the default):
+268	U	Character
+269	U	Cheater
+270	U	Choose a Trap
+271	U	Choose a Trap to set face-down. It replaces your current Trap.
+272	U	Choose a card to play face-down.
+273	U	Choose a card to return to your hand.
+274	U	Choose cards
+275	U	Choose file…
+276	U	Choose wizards
+277	U	Choose…
+278	U	Circuit Breaker
+279	U	Climbing
+280	U	Close
+281	U	Co-op vs {c}, {0} players:
+282	U	Co-op wins
+283	U	Co-op: you play {c} with {c}, {c} against {c}.
+284	U	Cold Blooded
+285	U	Collect {0} Storm Shards.
+286	U	Colorblind mode
+287	U	Comeback
+288	U	Comeback: Win after dropping to {0} health or less.
+289	U	Confirm
+290	U	Confirm none
+291	U	Contender
+292	U	Continue match
+293	U	Controller
+294	U	Counter {0} times in one match.
+295	U	Counter {0} times.
+296	U	Counterpunch
+297	U	Counterpunch: Counter {0} times in one match.
+298	U	Counters
+299	U	Co‑op vs {c}
+300	U	Current streak
+301	U	D-pad or left stick
+302	U	DOOM
+303	U	DOOOOOOOOM
+304	U	Daily Challenge
+305	U	Damage dealt
+306	U	Dangerous Download
+307	U	Dangerous Download: As {c}, resolve an opponent’s card with Dangerous Download.
+308	U	Dangerous Download: spend {0} Energy and {0} mana to resolve {c} for yourself?
+309	U	Dark
+310	U	Deal {0} damage
+311	U	Deal {0} damage, gain {0} mana, gain Initiative.
+312	U	Deal {0} damage. If you have an odd number of health, gain {0} mana.
+313	U	Deal {0} or more damage in a single round.
+314	U	Deal {0} total damage.
+315	U	Deal {0},{0} total damage.
+316	U	Decide later
+317	U	Deck {0}
+318	U	Defeat every wizard.
+319	U	Defeat your first Tournament opponent on Hard.
+320	U	Defeat your first Tournament opponent on Normal.
+321	U	Defeat {c} on Hard.
+322	U	Defeat {c}.
+323	U	Design by Keith Burgun - Art by Christina Zhong
+324	U	Did Her Research: +{0} Power at every battle start
+325	U	Did Her Research: {c} gains {0} Power.
+326	U	Difficulty
+327	U	Discard effect
+328	U	Discard {0}
+329	U	Distributor Connection: {c} gain {c} into your discard.
+330	U	Distributor Connection: {c} gains {c} into {c}’s discard.
+331	U	Do neither
+332	U	Dragon Lord
+333	U	Dragon Tamer
+334	U	Dragon Tamer: Gain a Dragon.
+335	U	Dragons
+336	U	Dragons & Specials
+337	U	Dragons (Tier IV)
+338	U	Dragons {0}
+339	U	Draw a card
+340	U	Draw the top card of your deck.
+341	U	Draw {0}, gain {0} mana and {0} power.
+342	U	Draw {0}, gain {0} mana. If you reveal Water this round, gain {0} mana.
+343	U	Draw {0}, gain {0} mana. Players above {0} health take {0} damage.
+344	U	Draw {0}, gain {0} mana. Tier II and III players lose {0} power.
+345	U	Draw {0}, gain {0} power. All players discard a random card.
+346	U	Draw {0}. All players may gain a card (Initiative first).
+347	U	Draw {0}. All players put the top Storm Deck card into their discard.
+348	U	Draw {0}. If you reveal Fire this round, gain {0} mana.
+349	U	Draw {0}. Initiative changes hands; whoever gets it gains a {c} and {0} mana.
+350	U	Draw {0}. Tier II: gain {0} mana. Tier I: gain {0} power.
+351	U	Draw {0}. VOID the Storm Cloud and draw {0} new cards.
+352	U	Drink another
+353	U	Drink another potion? TOXIC so far: {0} of {0}. Elements: Fire {0}, Earth {0}, Water {0}.
+354	U	Dynamic Duo
+355	U	Earth beats Water. Fire beats Earth.
+356	U	Effect:
+357	U	Elemental Scholar
+358	U	Elo
+359	U	Elo {0}
+360	U	Empty.
+361	U	Energy
+362	U	Enter
+363	U	Enter the code your friend sent you.
+364	U	Esc
+365	U	Essences (start in the Storm Cloud)
+366	U	Eternal Storm
+367	U	Every Matchup
+368	U	Every wizard starts with
+369	U	Exit
+370	U	Expert Tips
+371	U	Expert Tournament
+372	U	Expert tip ·
+373	U	Export match
+374	U	Eye of the Storm
+375	U	Factory Reset
+376	U	Fast
+377	U	Field Medic
+378	U	Field Medic: Heal an ally in a team match.
+379	U	Final: you {0} health, {0} shards; {c} eliminated, {0} shards; {c} eliminated, {0} shards; {c} {0} health, {0} shards. Normal difficulty.
+380	U	Final: you {0} health, {0} shards; {c} {0} health, {0} shards. Normal difficulty.
+381	U	Final: you {0} health, {0} shards; {c} {0} health, {0} shards; {c} {0} health, {0} shards; {c} eliminated, {0} shards. Medium difficulty.
+382	U	Fire beats Earth. Water beats Fire.
+383	U	First Edition Balance
+384	U	First Victory
+385	U	First Victory: Win a match.
+386	U	Flawless Storm
+387	U	For each DOOM Token, take a card from your discard into your hand or draw. With no DOOM Tokens, gain one.
+388	U	Four-Way Victor
+389	U	Free-for-All wins
+390	U	Free-for-All, {0} players:
+391	U	Free-for-All: you play {c} against {c}, {c}, {c}.
+392	U	Free‑for‑All
+393	U	Full
+394	U	Full Party
+395	U	Full Party: Win a {0}-player Co-op match.
+396	U	Full Roster
+397	U	Gain Initiative
+398	U	Gain Initiative and draw a card
+399	U	Gain Spell: tap a highlighted Storm Cloud card.
+400	U	Gain a Dragon.
+401	U	Gain a card
+402	U	Gain all five Dragons in one match.
+403	U	Gain an Earth card
+404	U	Gain {0} Energy. {c} may resolve a non-Wizard card from your hand or the VOID, then put it on the bottom of the Spellstorm Deck.
+405	U	Gain {0} cards from the Storm Cloud in one match.
+406	U	Gain {c}
+407	U	Gained Initiative
+408	U	Game Report
+409	U	Game start
+410	U	Giant Slayer
+411	U	Give an {c}, gain {0} mana, then you may use your {c}.
+412	U	Give your opponent {0} {c}, {c} or {c} in one match.
+413	U	Goal:
+414	U	Grand Champion
+415	U	Grand Finale
+416	U	Grand Grimoire
+417	U	Halfway to Glory
+418	U	Hand
+419	U	Hard Contender
+420	U	Hard Lesson
+421	U	Hard Tournament
+422	U	Hard wins
+423	U	Hardened
+424	U	He resolves {c}, then the face-down {c}.
+425	U	Heal an ally in a team match.
+426	U	Heal {0}
+427	U	Heal {0} total health.
+428	U	Heal {0}: heal yourself or an ally?
+429	U	Healing
+430	U	Health
+431	U	Health healed
+432	U	Health {0}
+433	U	Heavy Hitter
+434	U	Heavy Metal
+435	U	Hidden Power
+436	U	Highlighted powers activate at the start of every battle.
+437	U	History
+438	U	Host a game
+439	U	Hot Streak
+440	U	Icon Key
+441	U	Import replay
+442	U	Import replay…
+443	U	In Ranked, beat an opponent rated {0} or more above you.
+444	U	In your discard
+445	U	In your hand
+446	U	Include game details (version, mode, the last {0} log lines and a snapshot of the game)
+447	U	Initiative
+448	U	Into the Storm
+449	U	Iron Gauntlet
+450	U	Iron Stomach
+451	U	Iron Will
+452	U	Join
+453	U	Join a game
+454	U	Journal
+455	U	Journal {0}/{0}
+456	U	Journal: +{0} power
+457	U	Journal: Draw a card
+458	U	Journal: Gain a card
+459	U	Journal: Gain a card (it must be an Earth card)
+460	U	Journal: {c} may draw a Fire card from your discard to your hand
+461	U	Kindling
+462	U	Knockout
+463	U	Knockout: Win by bringing your opponent to {0} health.
+464	U	LB/RB
+465	U	Last Wizard Standing
+466	U	Last Wizard Standing: Win a Free-for-All match.
+467	U	Layout
+468	U	Layout preview
+469	U	Leave match
+470	U	Length
+471	U	Light
+472	U	Log
+473	U	Long Match
+474	U	Lose {0} Power
+475	U	Losses
+476	U	Lost Initiative
+477	U	Mana
+478	U	Mana +{0}
+479	U	Marathon
+480	U	Match device
+481	U	Matches played
+482	U	Medal Completion (gold)
+483	U	Medals
+484	U	Mender
+485	U	Menu
+486	U	Mode
+487	U	Mode Switch: {c} places {c} face-up and another card face-down on his card.
+488	U	Move an {c}, {c} or {c} from your discard to another discard
+489	U	NEW BATTLE!
+490	U	Needs {0} Earth
+491	U	Needs {0} Fire
+492	U	Needs {0} Water
+493	U	New medal:
+494	U	Next
+495	U	Next opponent:
+496	U	Next ▶
+497	U	No
+498	U	No Blast Tokens
+499	U	No Storm Cloud card is at your Tier. {c} can take a special card.
+500	U	No Traction: {c} revealed an {c} and loses a Blast Token.
+501	U	No cards in hand
+502	U	No matches yet. Finished matches appear here (the tutorial and online matches aren’t recorded).
+503	U	No {c} left — the board effect applies to you.
+504	U	No {c} left — the board effect applies to {c}.
+505	U	Normal Tournament
+506	U	Not enough Earth Element — no effect.
+507	U	Not enough Fire Element — no effect.
+508	U	Not enough Water Element — no effect.
+509	U	Not won yet
+510	U	OK
+511	U	OUT
+512	U	Odd Hours
+513	U	Odd Hours: As {c}, use {c} at odd health.
+514	U	Off
+515	U	On
+516	U	On Fire
+517	U	On the Attack
+518	U	Once you’re connected, you’ll both choose your wizards in the online play lobby.
+519	U	One Last Push
+520	U	Open a match file saved with
+521	U	Opponent
+522	U	Opponents
+523	U	Options
+524	U	Or take:
+525	U	Original
+526	U	Outwit {c}
+527	U	Outwit {c}: Defeat {c}.
+528	U	Overkill
+529	U	PLAY GAME
+530	U	Page Up/Down
+531	U	Paid {0} Earth
+532	U	Paid {0} Fire
+533	U	Paid {0} Water
+534	U	Peak
+535	U	Peak Power
+536	U	Peak Power: Reach Tier III.
+537	U	Peak {0}
+538	U	Phone preview (for testing) off
+539	U	Phone view off
+540	U	Play
+541	U	Play Online
+542	U	Play a Ranked match.
+543	U	Play a friend online
+544	U	Play again
+545	U	Play {0} matches.
+546	U	Players
+547	U	Plug in or pair a controller (Xbox, PlayStation, Steam Deck, Android handhelds) and press any button.
+548	U	Potion
+549	U	Power +{0}
+550	U	Progress
+551	U	Puzzles
+552	U	R&D: +{0} Power at battle start only if she doesn’t have the Initiative
+553	U	R&D: {c} don’t have the Initiative, so you gain {0} Power.
+554	U	Random
+555	U	Random opponent
+556	U	Random player character
+557	U	Rank {0}
+558	U	Ranked
+559	U	Ranked Debut
+560	U	Ranked Elo
+561	U	Ranked:
+562	U	Reach Tier II.
+563	U	Reach Tier III.
+564	U	Reach {0} Elo in Ranked.
+565	U	Reach {0} of {0} wins in a Hard Tournament.
+566	U	Reach {0} of {0} wins in a Normal Tournament.
+567	U	Read
+568	U	Read card
+569	U	Record
+570	U	Reduced
+571	U	Regroup
+572	U	Regroup after battle {0}.
+573	U	Relaxed
+574	U	Replay: {c} vs {c}
+575	U	Replay: {c} vs {c}, {c}, {c}
+576	U	Report a problem
+577	U	Resign & quit
+578	U	Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.
+579	U	Return from discard
+580	U	Reveal a non-Wizard card from your hand. Resolve it twice and VOID it. All players heal {0}.
+581	U	Reveal if you COUNTER with a Fire card.
+582	U	Reveal if you COUNTER with a Water card.
+583	U	Reveal when an opponent deals damage to you.
+584	U	Reveal {c}? Deal {0} damage, gain {0} mana, gain Initiative.
+585	U	Reveal: you played nothing; {c} played {c}.
+586	U	Reveal: you played {c}; {c} played nothing.
+587	U	Reveal: you played {c}; {c} played {c}.
+588	U	Rising Power
+589	U	Rising Power: Reach Tier II.
+590	U	Robot Repairman
+591	U	Robot Wranglers
+592	U	Round summary
+593	U	Round {0} of {0}
+594	U	Rounds
+595	U	Rulebook
+596	U	Rules
+597	U	Rules:
+598	U	Saboteur
+599	U	Saboteur: Give your opponent {0} {c}, {c} or {c} in one match.
+600	U	Save & quit to title
+601	U	Seasoned Duelist
+602	U	Seize the Moment
+603	U	Select up to {0}. Selected: {0}
+604	U	Select {0}. Selected: {0}
+605	U	Send report
+606	U	Set a Trap
+607	U	Set {c}
+608	U	Shard Collector
+609	U	Shard Collector: Win by collecting {0} Storm Shards.
+610	U	Shard Hoarder
+611	U	Shard Magnate
+612	U	Shard Rush
+613	U	Shard Rush: Win a Free-for-All by collecting {0} Storm Shards.
+614	U	Shards
+615	U	Showstopper
+616	U	Showstopper: Use your {c} {0} times in one match.
+617	U	Shuffle the Potion Deck and drink potions one at a time, paying their Element cost. A third TOXIC ends it with an {c}, {c} and {c}. Elements reset to {0} after.
+618	U	Shuffling the Potion Deck…
+619	U	Shutout
+620	U	Signature Move
+621	U	Skip
+622	U	Skip tutorial
+623	U	Sound
+624	U	Space
+625	U	Spell Cards
+626	U	Spellslinger
+627	U	Spire Champion
+628	U	Spire Regular
+629	U	Standard Weather
+630	U	Start
+631	U	Start challenge
+632	U	Start puzzle {0}
+633	U	Start the storm
+634	U	Start the tournament
+635	U	Starters & Essences
+636	U	Stats
+637	U	Steal {0} mana from which player? They also discard a random card.
+638	U	Stop here
+639	U	Storm Brawler
+640	U	Storm Chaser
+641	U	Storm Cloud
+642	U	Storm Elite
+643	U	Storm Legend
+644	U	Storm Sage
+645	U	Storm Shards
+646	U	Storm Shopper
+647	U	Storm Shopper: Gain {0} cards from the Storm Cloud in one match.
+648	U	Storm Sovereign
+649	U	Storm Veteran
+650	U	Strength in Numbers
+651	U	TI
+652	U	TII
+653	U	TIII
+654	U	TOXIC
+655	U	Tag Team Champions
+656	U	Take from discard
+657	U	Take {0} Damage!
+658	U	Take:
+659	U	Tap a highlighted Storm Cloud card.
+660	U	Tap an achievement to see what it’s for.
+661	U	Team size
+662	U	Teamwork
+663	U	Teamwork: Beat {c} in Co-op.
+664	U	Tempest Tamer
+665	U	Tenured
+666	U	The CPU never looks at your hand or your face-down card.
+667	U	The Storm Cloud is swept away and redrawn.
+668	U	The VOID
+669	U	The VOID is reshuffled into the Spellstorm Deck.
+670	U	The card’s Tier. {c} can gain it from the Storm Cloud once you reach that Tier. Basic cards have no badge.
+671	U	The first {0} damage you take this round is negated.
+672	U	The icon in a card’s top-left corner is its element. Hover or tap any icon on a zoomed card to see what it means.
+673	U	The {c} flares!
+674	U	Theme
+675	U	Thin Ice
+676	U	This is a starting card for this Wizard. This card can not be VOIDed.
+677	U	This permanently erases your stats, all achievements, tournament trophies, any tournament in progress, and your settings on this device.
+678	U	Three-Way Victor
+679	U	Tied Blast Score — both gain {0} Storm Shard.
+680	U	Tied Blast Score — {c}, {c} each gain {0} Storm Shard.
+681	U	Tied! Both gain {0}
+682	U	Tied! {c}, {c} each gain {0}
+683	U	Tier
+684	U	Tier II!
+685	U	Tier III!
+686	U	Tier badge
+687	U	Title screen
+688	U	Today’s challenge · {s}
+689	U	Topple {c}
+690	U	Total
+691	U	Tournament
+692	U	Tournament Champion
+693	U	Tournament Debut
+694	U	Tournament Mode:
+695	U	Traps, Potions & Journal
+696	U	Traps: none set
+697	U	Traps: {c}
+698	U	Traps: {c} (used)
+699	U	Trigger:
+700	U	Triple Stitch
+701	U	Tutorial
+702	U	Two-on-Two wins
+703	U	Two-on-Two:
+704	U	Two‑on‑Two
+705	U	Ultimates
+706	U	Under Fire
+707	U	Unseen Blade
+708	U	Unstoppable
+709	U	Untouchable
+710	U	Untouchable: Win at full health.
+711	U	Update Available!
+712	U	Use your {c} {0} times in one match.
+713	U	Use your {c} {0} times.
+714	U	Use your {c}.
+715	U	Use {c} for {0} mana?
+716	U	Use {c} without paying mana?
+717	U	VOID one of them
+718	U	VOID {0}
+719	U	Versus
+720	U	View
+721	U	View board
+722	U	Volume
+723	U	Waiting
+724	U	Watch
+725	U	Water beats Fire. Earth beats Water.
+726	U	Water was revealed, but {c} already has {0} Energy Tokens.
+727	U	Water was revealed: {c} gains an Energy Token.
+728	U	Weather
+729	U	Weather deck
+730	U	Weathered
+731	U	Welcome to Spellstorm
+732	U	What happened
+733	U	What went wrong? A sentence or two is plenty.
+734	U	Whoa! I’m teaching you Spellstorm? Sweet! The name’s {c}, and I’m your guide for this little tutorial thing. It’ll be quick, don’t worry.
+735	U	Win a Blast with a score of {0} or more.
+736	U	Win a Free-for-All by collecting {0} Storm Shards.
+737	U	Win a Free-for-All match.
+738	U	Win a Hard Tournament: all {0} opponents, no losses.
+739	U	Win a Normal Tournament: all {0} opponents, no losses.
+740	U	Win a Two-on-Two match.
+741	U	Win a match as {c}.
+742	U	Win a match in which you had an unplayable hand.
+743	U	Win a match on Expert.
+744	U	Win a match on Hard.
+745	U	Win a match that lasts {0} or more battles.
+746	U	Win a match with every wizard.
+747	U	Win a match.
+748	U	Win a {0}-on-{0} match against another wizard to earn a medal for the wizard you played:
+749	U	Win a {0}-player Co-op match.
+750	U	Win a {0}-player Free-for-All.
+751	U	Win after dropping to {0} health or less.
+752	U	Win all {0} wizard matchups on Hard.
+753	U	Win all {0} wizard matchups.
+754	U	Win an Expert Tournament: all {0} opponents, no losses.
+755	U	Win as {c} on Hard.
+756	U	Win at full health.
+757	U	Win by Storm Shards while your opponent has none.
+758	U	Win by bringing your opponent to {0} health.
+759	U	Win by collecting {0} Storm Shards.
+760	U	Win in {0} battles or fewer.
+761	U	Win on Hard at full health.
+762	U	Win rate
+763	U	Win the match.
+764	U	Win this turn.
+765	U	Win with every wizard on Hard.
+766	U	Win with exactly {0} health.
+767	U	Win {0} Co-op matches.
+768	U	Win {0} Free-for-All matches.
+769	U	Win {0} Hard matches in a row.
+770	U	Win {0} Ranked matches in a row.
+771	U	Win {0} Two-on-Two matches.
+772	U	Win {0} matches as {c}.
+773	U	Win {0} matches by Storm Shards.
+774	U	Win {0} matches by knockout.
+775	U	Win {0} matches in a row.
+776	U	Win {0} matches on Hard.
+777	U	Win {0} matches.
+778	U	Wins
+779	U	Wins/matches. Rows are the wizard you played; columns are the opponent.
+780	U	Wipe all data
+781	U	Wipe all data?
+782	U	Wipe everything
+783	U	Wizard card
+784	U	Wizards
+785	U	Wizards do battle in this original magical tactical deckbuilder! Designed by Keith Burgun.
+786	U	Yes
+787	U	Your Elo — {c}
+788	U	Your Journal
+789	U	Your Traps
+790	U	Your card
+791	U	Your deck ({0})
+792	U	Your discard
+793	U	Your hand
+794	U	Your hand is empty
+795	U	Your hand — counting
+796	U	Your hand — discard effects
+797	U	Your power overflows at Tier III. Gain {c}?
+798	U	Your team wins!
+799	U	Your wizard
+800	U	after this card resolves, you may use your wizard’s {c} if you have enough mana.
+801	U	also switch tabs. The on-screen prompts switch to whichever you used last.
+802	U	arrow keys
+803	U	ask the Expert AI what it would play
+804	U	back or menu ·
+805	U	back ·
+806	U	battle log ·
+807	U	beat all {0} other wizards in order without losing once. Lose a match and the tournament is over. Progress is saved, so you can play one match at a time.
+808	U	bronze
+809	U	days
+810	U	each character has its own Elo, and so does Random. you’re matched against an endless stream of opponents near your rating, each with their own style. Win to climb; lose and you drop. Resigning or abandoning a match counts as a loss.
+811	U	empty
+812	U	every wizard for themselves. Everyone starts with {0} Storm Shards. A wizard at {0} health is eliminated, and their cards go to the VOID. The last wizard standing, or the first to {0} Storm Shards, wins.
+813	U	for {c} vs {c}
+814	U	gain {0} Power. Reaching {0} Power raises your Tier.
+815	U	gain {0} mana. Mana pays for your wizard’s {c}.
+816	U	gold
+817	U	happens when this card is discarded from your hand, including at the Blast.
+818	U	look at a card ·
+819	U	menu ·
+820	U	move ·
+821	U	not available in Tournaments
+822	U	on Expert. In Ranked, beating an opponent rated {0} / {0} / {0} or more earns bronze / silver / gold. A better medal replaces a lower one. {0}% means every wizard has beaten all {0} others on Expert.
+823	U	on Hard,
+824	U	on Normal,
+825	U	right stick
+826	U	scroll. On a keyboard:
+827	U	select or play a card ·
+828	U	select ·
+829	U	silver
+830	U	switch tabs or replay rounds ·
+831	U	switch tabs, or rounds in a replay ·
+832	U	take a card from the Storm Cloud at or below your Tier.
+833	U	the player with the Initiative resolves their card first.
+834	U	took {0} damage
+835	U	took {0} damage, +{0} Mana, +{0} Power, +{0} card in hand, Gained Initiative
+836	U	took {0} damage, +{0} Mana, +{0} Power, Gained Initiative
+837	U	took {0} damage, +{0} Power, Gained Initiative
+838	U	took {0} damage, −{0} Mana, +{0} {c}
+839	U	took {0} damage, −{0} Mana, +{0} {c}, +{0} {c}
+840	U	took {0} damage, −{0} Mana, −{0} cards in hand, −{0} {c}, +{0} {c}
+841	U	vs
+842	U	you and an ally against two opponents, seated alternately. {c} only damage your opponents, you may heal your ally instead of yourself, and if either of you wins, you both win. Each player counters the next opponent clockwise.
+843	U	you and an ally take on {c} together. {c} only damage and give {c}, {c} and {c} to him, and when you heal you may heal an ally instead. If anyone on your team wins, your whole team wins, and the team plays on if someone is eliminated.
+844	U	you and {0} allies take on {c} together. {c} only damage and give {c}, {c} and {c} to him, and when you heal you may heal an ally instead. If anyone on your team wins, your whole team wins, and the team plays on if someone is eliminated.
+845	U	{0} cards
+846	U	{0} cards, face-down. Cards in a deck stay hidden until drawn.
+847	U	{0} cards, sorted by Tier.
+848	U	{0} health
+849	U	{0} wins · {0} losses
+850	U	{0}. Seize the Moment
+851	U	{0}/{0} gold
+852	U	{0}/{0} solved · solve one to unlock the next
+853	U	{c} (opponent)
+854	U	{c} ({0} of {0}): take a card from your discard or draw?
+855	U	{c} COUNTERED you and draws a card.
+856	U	{c} COUNTERED you and gains a Blast Token.
+857	U	{c} COUNTERED {c} and draw a card.
+858	U	{c} COUNTERED {c} and draws a card.
+859	U	{c} Choose a non-Wizard card from your hand to resolve twice, then VOID it.
+860	U	{c} Master
+861	U	{c} Place a Research Token. Researched powers activate at the start of every battle.
+862	U	{c} Power
+863	U	{c} Power: Use your {c}.
+864	U	{c} Showdown
+865	U	{c} VOID {c} from the Storm Cloud.
+866	U	{c} VOID {c}.
+867	U	{c} VOIDs {c}.
+868	U	{c} add {c} from the Storm Deck to your discard.
+869	U	{c} adds {c} from the Storm Deck to {c}’s discard.
+870	U	{c} and opponents
+871	U	{c} are eliminated! Your cards go to the VOID.
+872	U	{c} can’t be played — nothing happens.
+873	U	{c} cast {c} twice!
+874	U	{c} casts {c} twice!
+875	U	{c} charge to {0} Energy.
+876	U	{c} charges to {0} Energy.
+877	U	{c} couldn't discard {0} cards.
+878	U	{c} discard {c} — its discard effect triggers.
+879	U	{c} discarded {0} cards ({0} Earth).
+880	U	{c} discarded {c}, {c}, {c} from the top of the deck.
+881	U	{c} discards a Blast Token.
+882	U	{c} discards {c} from the Weather Deck.
+883	U	{c} discards {c} — its discard effect triggers.
+884	U	{c} download {c}!
+885	U	{c} downloads {c}!
+886	U	{c} drank {0} potions. Elements reset to {0}.
+887	U	{c} drink from the Potion Deck. Each potion costs its Element; a third TOXIC ends it badly.
+888	U	{c} drink “{c}” (Earth {0}).
+889	U	{c} drink “{c}” (Earth {0}, TOXIC).
+890	U	{c} drink “{c}” (Fire {0}).
+891	U	{c} drink “{c}” (Fire {0}, TOXIC).
+892	U	{c} drink “{c}” (Water {0}).
+893	U	{c} drink “{c}” (Water {0}, TOXIC).
+894	U	{c} drinks from the Potion Deck. Each potion costs its Element; a third TOXIC ends it badly.
+895	U	{c} drinks “{c}” (Earth {0}).
+896	U	{c} drinks “{c}” (Earth {0}, TOXIC).
+897	U	{c} drinks “{c}” (Fire {0}).
+898	U	{c} drinks “{c}” (Fire {0}, TOXIC).
+899	U	{c} drinks “{c}” (Water {0}).
+900	U	{c} drinks “{c}” (Water {0}, TOXIC).
+901	U	{c} fire {c} into {c}’s hand: +{0} Fire Element.
+902	U	{c} fires {c} into {c}’s hand: +{0} Fire Element.
+903	U	{c} gain a DOOM Token ({0}/{0}).
+904	U	{c} gain a {c}.
+905	U	{c} gain an {c}.
+906	U	{c} gain {0} Storm Shard.
+907	U	{c} gain {c}!
+908	U	{c} gain {c}.
+909	U	{c} gains +{0} Earth Element.
+910	U	{c} gains a DOOM Token ({0}/{0}).
+911	U	{c} gains a {c}.
+912	U	{c} gains an {c}.
+913	U	{c} gains {0} Storm Shard.
+914	U	{c} gains {c}!
+915	U	{c} gains {c}.
+916	U	{c} get a link and a code to send your friend. Hosting needs edit or Contributor access to this page.
+917	U	{c} get the Initiative.
+918	U	{c} gets the Initiative.
+919	U	{c} heal an ally instead.
+920	U	{c} heal {0}.
+921	U	{c} heals an ally instead.
+922	U	{c} heals {0}.
+923	U	{c} is VOIDED from the Storm Cloud.
+924	U	{c} is deciding…
+925	U	{c} is eliminated! {c}’s cards go to the VOID.
+926	U	{c} is thinking
+927	U	{c} lose the Initiative.
+928	U	{c} lose {0} Energy.
+929	U	{c} lose {0} Power.
+930	U	{c} lose {0} mana.
+931	U	{c} loses a Blast Token.
+932	U	{c} loses the Initiative.
+933	U	{c} loses {0} Blast Token.
+934	U	{c} loses {0} Blast Tokens.
+935	U	{c} loses {0} Energy.
+936	U	{c} loses {0} Power.
+937	U	{c} loses {0} mana.
+938	U	{c} lost {0} mana.
+939	U	{c} may VOID a card from your hand
+940	U	{c} may draw a Fire card from your discard to your hand
+941	U	{c} may gain a Tier I or II Earth card from the Storm Cloud.
+942	U	{c} may gain a Tier I or II Fire card from the Storm Cloud.
+943	U	{c} may gain a Tier I or II Water card from the Storm Cloud.
+944	U	{c} may gain a card from the Storm Cloud.
+945	U	{c} may gain an Earth card of your Tier or lower from the Storm Cloud.
+946	U	{c} may move a {c} or {c} from your discard or hand to an opponent’s discard. Draw {0}.
+947	U	{c} moved a {c} to your discard.
+948	U	{c} moved a {c} to {c}’s discard.
+949	U	{c} moved {c} to {c}’s discard.
+950	U	{c} must gain a card from the Storm Cloud.
+951	U	{c} now aims to build up Power.
+952	U	{c} now aims to play defensively.
+953	U	{c} now aims to win by damage.
+954	U	{c} now aims to win the Blast race.
+955	U	{c} play {c}; the CPU plays {c}. {c} has the Initiative.
+956	U	{c} play {c}; the CPU plays {c}. {c} have the Initiative.
+957	U	{c} randomly discard {c}.
+958	U	{c} randomly discards {c}.
+959	U	{c} reach Tier II!
+960	U	{c} reach Tier III!
+961	U	{c} reaches Tier II!
+962	U	{c} reaches Tier III!
+963	U	{c} researched: +{0} mana.
+964	U	{c} researched: +{0} power.
+965	U	{c} researched: Draw a card.
+966	U	{c} researched: Gain a card.
+967	U	{c} researched: {c} may draw a Fire card from your discard to your hand.
+968	U	{c} reshuffle your discard pile.
+969	U	{c} reshuffles {c}’s discard pile.
+970	U	{c} resolve {c} from hand.
+971	U	{c} resolve {c}.
+972	U	{c} resolved {c} from the Storm Cloud.
+973	U	{c} resolves {c} from hand.
+974	U	{c} resolves {c} from the Dragon deck!
+975	U	{c} resolves {c} from the Storm Cloud.
+976	U	{c} resolves {c} from the Storm Cloud’s X slot.
+977	U	{c} resolves {c}.
+978	U	{c} result — {s}
+979	U	{c} return {c} to hand.
+980	U	{c} returns to the hand.
+981	U	{c} returns {c} to hand.
+982	U	{c} reveal your hand to {c}.
+983	U	{c} reveal {c}!
+984	U	{c} revealed {c}, so he reveals more: {s}.
+985	U	{c} reveals {c}’s hand to {c}.
+986	U	{c} set {c} face-down.
+987	U	{c} sets a Trap face-down.
+988	U	{c} start with {0} mana; your opponent starts with {0} mana.
+989	U	{c} stole {0} mana from you.
+990	U	{c} stole {0} mana from {c}.
+991	U	{c} take the Initiative.
+992	U	{c} take {0} damage.
+993	U	{c} takes the Initiative.
+994	U	{c} takes {0} damage.
+995	U	{c} unleash {c}
+996	U	{c} unleash {c}!
+997	U	{c} unleashes {c}
+998	U	{c} unleashes {c}!
+999	U	{c} voided {c} from the Storm Cloud.
+1000	U	{c} vs
+1001	U	{c} win the Blast and gain {0} Storm Shards.
+1002	U	{c} win the Blast! +{0}
+1003	U	{c} win!
+1004	U	{c} wins
+1005	U	{c} wins the Blast and gains {0} Storm Shards.
+1006	U	{c} wins the Blast! +{0}
+1007	U	{c} won by bringing their rival to {0} health after {0} battles.
+1008	U	{c} won by collecting {0} Storm Shards after {0} battles.
+1009	U	{c} {c} draws {0} card from the discard: {c}.
+1010	U	{c}! {c} is discarded without resolving.
+1011	U	{c}, Earth, Special card, has a discard effect
+1012	U	{c}, Earth, Tier I
+1013	U	{c}, Earth, Tier I, has a discard effect
+1014	U	{c}, Earth, Tier II, has a discard effect
+1015	U	{c}, Earth, Tier III, has a discard effect
+1016	U	{c}, Earth, Tier IV Dragon
+1017	U	{c}, Fire, Special card, has a discard effect
+1018	U	{c}, Fire, Tier I
+1019	U	{c}, Fire, Tier I, has a discard effect
+1020	U	{c}, Fire, Tier II
+1021	U	{c}, Fire, Tier II, has a discard effect
+1022	U	{c}, Fire, Tier III
+1023	U	{c}, Fire, Tier III, has a discard effect
+1024	U	{c}, Fire, Tier IV Dragon
+1025	U	{c}, Hardened
+1026	U	{c}, Water, Special card, has a discard effect
+1027	U	{c}, Water, Tier I
+1028	U	{c}, Water, Tier I, has a discard effect
+1029	U	{c}, Water, Tier II
+1030	U	{c}, Water, Tier II, has a discard effect
+1031	U	{c}, Water, Tier III
+1032	U	{c}, Water, Tier III, has a discard effect
+1033	U	{c}, Water, Tier IV Dragon
+1034	U	{c}, Earth, Tier II
+1035	U	{c}, Earth, Tier III
+1036	U	{c}, {c} and {c}
+1037	U	{c}: {c} revealed Earth.
+1038	U	{c}: {c} revealed Fire.
+1039	U	{c}: {c} revealed Water.
+1040	U	{c}: …set a Trap face-down, then gain the Initiative.
+1041	U	{c}: …set a Trap face-down.
+1042	U	{c}: −{0} to your Blast Score.
+1043	U	{c}: −{0} to {c}’s Blast Score.
+1044	U	{c}’s First Win
+1045	U	{c}’s First Win: Win a match as {c}.
+1046	U	{c}’s Journal
+1047	U	{c}’s Potions
+1048	U	{c}’s Traps
+1049	U	{c}’s deck
+1050	U	{c}’s discard
+1051	U	{c}’s hand — counting
+1052	U	{c}’s hand — discard effects
+1053	U	{c}’ve been eliminated. The match plays on…
+1054	U	· Beginner.
+1055	U	— Fire & Earth. Hacker who steals plays with Energy.
+1056	U	— Fire & Earth. Pushes his luck with a volatile potion deck.
+1057	U	— Fire & Earth. Strong early aggression, builds power steadily. Great first pick.
+1058	U	— Fire & Water. Aggressive saboteur who clogs your deck with {c} and {c}.
+1059	U	— Fire & Water. Huge health, can’t heal, grows stronger with DOOM.
+1060	U	— Fire & Water. Low health, lots of blocking and hidden traps.
+1061	U	— Water & Earth. Researches new powers every time she levels up.
+1062	U	— Water & Earth. Tiny health, heals fast and past his limit.
+1063	U	−{0} Blast Score
+1064	U	−{0} Energy
+1065	U	−{0} Mana
+1066	U	−{0} Power
+1067	U	▶ Watch replay
+1068	U	◀ Previous
+1069	U	🏆 {s}
+1070	U	🔇 Muted
+1071	U	🔊 Mute
+1072	U	🔒 Locked
+1073	U	🔥 Streak:
+1074	U	Online opponent
+1075	U	Third TOXIC — the Ultimate ends with an ASH, CURSE and ICE.
+1076	U	You haven’t set a Trap yet. Omar’s Ultimate, Hidden Movement, sets one.
+1077	U	Omar has one of these set face-down. You won’t know which until it’s revealed.
+1078	U	Omar hasn’t set a Trap yet.
+1079	U	You’re playing as… me! And I’m battling my buddy, my absolute PAL, Eve Williams.
+1080	U	How to Win
+1081	U	You can win at Spellstorm by gatherin’ up 8 Storm Shards, or by bringing your opponent to zero health. These resources are shown… here!
+1082	U	Mana fuels a wizard’s Ultimate Ability. You’ll wanna use your Ultimate as frequently as possible!
+1083	U	As you play, you’ll be adding more cards. Gain more Power to unlock higher tiers of cards!
+1084	U	The Storm Cloud
+1085	U	Oh, this? This is where you can obtain new cards for your deck. You can gain cards that are at or below your current tier.
+1086	U	There are 3 tiers of cards… actually there’s also Tier IV cards, which are super powerful DRAGONS!
+1087	U	Weather Cards
+1088	U	Each turn a new Weather card’ll pop out, doing some stuff. Luckily this one’s just a nice breeze, givin’ all of us some resources, but some aren’t so nice.
+1089	U	Playing Cards
+1090	U	Oh yeah! You can play cards from your hand. Each turn you play one, face-down. Then they get revealed at the same time, and do some magic stuff!
+1091	U	There’s like an elemental rock paper scissors thing: Fire beats Earth, Earth beats Water and Water beats Fire. If you counter the opponent, you draw a card.
+1092	U	(Drawing cards is a big deal actually in Spellstorm, I’ll tell you why in a bit.)
+1093	U	Hell yeah! Earth beats Water - you just countered Eve’s card. She’s gonna be pissed. Anyway, you drew a card.
+1094	U	Right now you have the Initiative token, so your card resolves first. Initiative matters for a few things, especially Fire cards (my favorite).
+1095	U	Eve’s Block card let her take the Initiative, so next turn, her card will resolve first.
+1096	U	Blast Score
+1097	U	Each battle has four turns, and then you check how many cards each player has in hand. Whoever has more cards in hand gains 2 Storm Shards!
+1098	U	Actually, it’s a little more complicated than that, because cards with discard effects (they have a white border) aren’t counted towards your total (we call this your Blast Score).
+1099	U	Derby’s Ultimate
+1100	U	Each character has a different Ultimate ability. Mine is Flaming Yardstick, which deals 2 damage, and costs 6 mana. If you play it when I have an odd amount of health, 2 mana are refunded. REFUNNNDDDDD
+1101	U	You can use your Ultimate whenever the Ultimate icon is on an action card, and you have the required amount of mana. Usually good to do it as much as you can!
+1102	U	Okay, that’s enough Tutorial for now. You’re on your own from here. Don’t forget you can read the rules in the Menu! <3
+1103	U	The Blast
+1104	U	Gain Spell
+1105	U	Between battles you add one Storm Cloud card at or below your Tier to your deck. It goes into your hand for the next battle. If nothing suits you, you can take a special card instead.
+1106	U	Ultimate ready
+1107	U	You have enough mana for Flaming Yardstick. Use it now, or say No to save your mana for a better moment.
+1108	U	Tier up!
+1109	U	Your Power overflowed and you reached Tier II. You can now gain Tier II cards from the Storm Cloud, which are stronger.
+1110	U	Your Move
+1111	U	Anyway, let’s play a card. Tap Power Gem, and then tap “Play face-down”.
+1112	U	Okay so this card gives you +1 Power, and then it lets you gain a card from the Storm Cloud. Cards you gain typically go to your hand, but Power Gem makes you discard the new card right away.
+1113	U	Some cards have a Discard Effect, which triggers when the card is discarded. That Diamond there says, Discard Effect: +1 Power. So if we buy that, we’ll immediately get another power. Let’s do that!
+1114	U	That game code is already in use. Please try hosting again.
+1115	U	Couldn’t find that game. Check the code, and make sure your friend is still hosting.
+1116	U	Couldn’t reach the matchmaking service. Check your internet connection and try again.
+1117	U	Couldn’t connect (
+1118	U	unknown error
+1119	U	). Please try again.
+1120	U	Couldn’t reach the host. Check the code, and make sure your friend is still hosting.
+1121	U	Online play isn’t available in this view. Make sure you’re signed in to Claude and opening Spellstorm from its claude.ai link.
+1122	U	Copy invite link
+1123	U	or have them enter the code
+1124	U	Online play lobby
+1125	U	Choose your wizard
+1126	U	Leave lobby
+1127	U	Enter the 6-character code.
+1128	U	Your opponent disconnected. Waiting for them to come back…
+1129	U	Online match against {c}. Online matches aren’t recorded.
+1130	U	Back to title
+1131	U	win on health
+1132	U	win on Storm Shards
+1133	U	build Power
+1134	U	stay alive
+1135	U	You’re at Tier {s} with {0} Power.
+1136	U	You’re at {0}/{0} health.
+1137	U	Wins the reveal: {s}.
+1138	U	Reveal: {s}. Countering draws a card, and cards in hand are your Blast Score.
+1139	U	Heals about {0} this round.
+1140	U	You take about {0} damage this round.
+1141	U	Expert Tip
+1142	U	The Expert is thinking
+1143	U	Expert’s play
+1144	U	Nearly as good
+1145	U	Plan: {s}.
+1146	U	Opening round.
+1147	U	There’s not much to plan around yet, so this is mostly about winning the reveal.
+1148	U	Expert plays out each card against {c}’s likely plays, through to the end of the battle, and scores the result with its plan in mind.
+1149	U	The Expert would
+1150	U	You took {c}.
+1151	U	You gained {c}.
+1152	U	You skipped the gain.
+1153	U	You used your Ultimate!
+1154	U	You saved your mana.
+1155	U	You chose Yes.
+1156	U	You chose No.
+1157	U	You chose yourself.
+1158	U	You chose {s}.
+1159	U	This replay went out of sync at decision {0} (turn {0}), so it stops here. Please use Export match so Keith can look into it.
+1160	U	it was recorded on an older version of Spellstorm ({s}), and updates since then change how it plays out.
+1161	U	it was recorded before replays saved the bots’ choices, so an update to the bots changes how it plays out.
+1162	U	First Edition
+1163	U	Match file ready
+1164	U	Send to Keith
+1165	U	Copy to clipboard
+1166	U	Download file
+1167	U	▶ Replay
+1168	U	Switch player
+1169	U	Watching a replay…
+1170	U	💡 Expert Tip
+1171	U	💡 Tip
+1172	U	Hidden Movement: set a Trap.
+1173	U	Glittering Dust is out.
+1174	U	Earth cards do nothing this round except heal 2.
+1175	U	You’ve been eliminated. Your team plays on…
+1176	U	You’ve been eliminated. The match plays on…
+1177	U	This card’s element:
+1178	U	This card has a discard effect.
+1179	U	Discard effect:
+1180	U	Tier IV Dragon
+1181	U	Special card
+1182	U	In your deck
+1183	U	Select {0}.
+1184	U	Select {0} to {0}.
+1185	U	Select up to {0}.
+1186	U	Your discard pile
+1187	U	{c}’s discard pile
+1188	U	How a game goes
+1189	U	This is the short version.
+1190	U	Read the full rulebook
+1191	U	Spellstorm on BoardGameGeek
+1192	U	Reach 8 Storm Shards, or bring your opponent to 0 health.
+1193	U	Free-for-All (3–4 players)
+1194	U	An optional setting: every wizard has 50% more health (rounded), and you need 12 Storm Shards to win instead of 8.
+1195	U	Co-op vs Robot Boy and Two-on-Two
+1196	U	You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next
+1197	U	clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.
+1198	U	Page {0} of {0}
+1199	U	Spellstorm Rulebook
+1200	U	Leave online match
+1201	U	Sending…
+1202	U	Your report was saved. It will be collected into the project’s problem-report file.
+1203	U	Send your report by email
+1204	U	The full report has been copied to your clipboard. Tap below to open an email to the developer, then paste it in if it’s cut short.
+1205	U	Open email
+1206	U	Or email it yourself to {s}.
+1207	U	by collecting 8 Storm Shards
+1208	U	by bringing their rival to 0 health
+1209	U	on the tiebreak
+1210	U	Next up:
+1211	U	. Your progress is saved.
+1212	U	TOURNAMENT CHAMPION!
+1213	U	You beat all 7 opponents on {c}. Your trophy is on the Stats screen.
+1214	U	TOURNAMENT OVER
+1215	U	{c} ended your run. You defeated {0} of 7 opponents.
+1216	U	Ranked lobby
+1217	U	For this tutorial round, play Power Gem.
+1218	U	Play face-down
+1219	U	Your progress is synced.
+1220	U	Sign out?
+1221	U	Your progress stays safe in your account. This device goes back to a fresh guest profile, and signing in again brings everything back.
+1222	U	Sign out
+1223	U	Signing out…
+1224	U	Signed out.
+1225	U	Progress reset
+1226	U	Abandon tournament?
+1227	U	Your progress ({0}/7 as {c}) will be lost.
+1228	U	Keep going
+1229	U	Exit tournament?
+1230	U	This ends your tournament run ({0}/7 as {c}). You can start a new one any time.
+1231	U	Exit tournament
+1232	U	You’re signed in, so this also erases the progress saved in your account.
+1233	U	All data wiped
+1234	U	Resign this match?
+1235	U	It counts as a loss. Your saved match will be cleared.
+1236	U	It counts as a loss, and it ends your tournament run. Your saved match will be cleared.
+1237	U	Keep playing
+1238	U	Invite link copied — send it to your friend.
+1239	U	Copy this invite link:
+1240	U	You left the online lobby. You can play a normal game any time.
+1241	U	Choose a file or paste the match text first.
+1242	U	That file is too big to be a Spellstorm replay.
+1243	U	That file couldn’t be opened.
+1244	U	Match file copied — paste it into a message to Keith.
+1245	U	Downloading the match file…
+1246	U	Sent to Keith. Thank you!
+1247	U	Start a new tournament?
+1248	U	End this run
+1249	U	Tournament ended. Start a new one whenever you like.
+1250	U	Back to choices
+1251	U	Single-player opponent from the rulebook: no hand, Blast Tokens instead, and an automatic Ultimate. Easy, Medium or Hard sets his starting Power.
+1252	U	Fire & Earth. Strong early aggression, builds power steadily. Great first pick.
+1253	U	Fire & Water. Aggressive saboteur who clogs your deck with ICE and CURSE.
+1254	U	Water & Earth. Researches new powers every time she levels up.
+1255	U	Fire & Water. Huge health, can’t heal, grows stronger with DOOM.
+1256	U	Fire & Water. Low health, lots of blocking and hidden traps.
+1257	U	Water & Earth. Tiny health, heals fast and past his limit.
+1258	U	Fire & Earth. Pushes his luck with a volatile potion deck.
+1259	U	Fire & Earth. Hacker who steals plays with Energy.
+1260	U	Tournament in progress as
+1261	U	Tournament: {0}/7 wins
+1262	U	You’ll get a random wizard.
+1263	U	You’ll get a random wizard for this tournament.
+1264	U	Your opponent will be random.
+1265	U	Fight {c}
+1266	U	Exit Tournament
+1267	U	New tournament
+1268	U	Starting a new match replaces your saved match in progress.
+1269	U	Forfeit and play a new match
+1270	U	You have a ranked match in progress. Starting a new one counts that match as a loss.
+1271	U	Recent matches
+1272	U	Your abandoned ranked match counted as a loss ({s}).
+1273	U	Finding an opponent
+1274	U	Searching near Elo {0}
+1275	U	Opponent found!
+1276	U	Win by collecting Storm Shards.
+1277	U	Win within {0} battles.
+1278	U	Win and finish with at least {0} health.
+1279	U	Long Match (+50% health, 12 Storm Shards to win)
+1280	U	you start with the Initiative
+1281	U	your opponent starts with the Initiative
+1282	U	your opponent
+1283	U	you start with {0} extra health
+1284	U	you start with {0} less health
+1285	U	your opponent starts with {0} extra health
+1286	U	your opponent starts with {0} less health
+1287	U	You lost the match.
+1288	U	The idea: {s}.
+1289	U	{c} will play:
+1290	U	Everything in a puzzle plays out the same way every time.
+1291	U	Let’s go
+1292	U	Solved! ✓
+1293	U	Puzzle {0},
+1294	U	The idea:
+1295	U	That was the last puzzle. Well done!
+1296	U	Next puzzle
+1297	U	All puzzles
+1298	U	Not quite
+1299	U	Try again
+1300	U	Couldn’t reach the sync service. Check your internet connection.
+1301	U	Wrong email or password.
+1302	U	An account with that email already exists. Try signing in.
+1303	U	Passwords need at least 6 characters.
+1304	U	That email address doesn’t look right.
+1305	U	Please check what you entered.
+1306	U	Please confirm your email address first (check your inbox), then sign in.
+1307	U	Too many emails sent. Please wait a few minutes and try again.
+1308	U	Too many attempts. Please wait a minute and try again.
+1309	U	New accounts are turned off at the moment.
+1310	U	Something went wrong. Please try again.
+1311	U	Not signed in.
+1312	U	Your sign-in expired. Please sign in again.
+1313	U	Couldn’t save your progress because another device kept changing it. It will retry.
+1314	U	Syncing…
+1315	U	Not synced yet
+1316	U	Synced just now
+1317	U	Synced {0} min ago
+1318	U	This device’s progress was combined with your account.
+1319	U	Sync failed. It will retry.
+1320	U	Steam Cloud:
+1321	U	Log in to Reddit to save your progress to your account. For now it's saved in this browser only.
+1322	U	☁ Steam Cloud is on: your progress is saved to Steam automatically and follows you to any computer or Steam Deck you play on.
+1323	U	Steam Cloud is turned off for Spellstorm in your Steam settings, so progress is saved on this computer only. Turn it on in Steam (Spellstorm › Properties › General) to back it up.
+1324	U	Optional: a Spellstorm account also syncs your progress with the phone and browser versions.
+1325	U	Sign in or create a Spellstorm account
+1326	U	Signed in as
+1327	U	Sync now
+1328	U	Sign in to keep your progress in sync on all your devices.
+1329	U	Sign in or create an account
+1330	U	Account created. Check your email to confirm it, then sign in.
+1331	U	Couldn’t sign in. Please try again.
+1332	U	vs Robot Boy
+1333	U	by Storm Shards
+1334	U	by health
+1335	U	by resignation
+1336	U	You ({c})
+1337	U	Last {0} matches
+1338	U	Average length
+1339	U	Most played
+1340	U	Matches saved
+1341	U	Tournament in progress: {0}/7 as {c} ({c}).
+1342	U	Your Spellstorm account
+1343	U	Sign in on each device to keep your stats, history, Ranked ratings, achievements and settings in sync. Replays stay on the device that played them.
+1344	U	Sign in
+1345	U	Create account
+1346	U	Forgot your password?
+1347	U	Please enter your email address.
+1348	U	Signed in — this device’s progress was combined with your account.
+1349	U	Account created — your progress now syncs.
+1350	U	Signed in — your progress now syncs.
+1351	U	Enter your email address above, then tap “Forgot your password?” again.
+1352	U	If that email has an account, a password-reset link is on its way.
+1353	U	Choose a new password
+1354	U	New password
+1355	U	Save password
+1356	U	Password changed. You’re signed in.
+1357	U	Welcome to Spellstorm!
+1358	U	Do you want to play an interactive tutorial? (You can also read the rules in the menu, or play the tutorial later via the Tutorial button.)
+1359	U	Play the tutorial
+1360	U	Not now
+1361	U	Long Match: every wizard has 50% more health, and {0} Storm Shards win.
+1362	U	Match resumed at battle {0}, round {0}.
+1363	U	Online match: you play {c} against {c}.
+1364	U	Ranked match: you play {c} against {s} (Elo {0}), who plays {c}.
+1365	U	Two-on-Two: you and {c} against {c} and {c}.
+1366	U	Something went wrong
+1367	U	Thanks for playing!
+1368	U	A browser tab can’t be closed by the page itself, so close this tab whenever you like. In the desktop and phone apps, Exit will quit the game.
+1369	U	A friend
+1370	U	is waiting for an opponent in Spellstorm.
+1371	U	Couldn’t check for updates. Check your internet connection and try again.
+1372	U	The update didn’t work.
+1373	U	Checking for updates…
+1374	U	Version {s} is available.
+1375	U	You have {s}.
+1376	U	Downloading version {s}… {0}%
+1377	U	Tap Install
+1378	U	on Android’s screen. Spellstorm opens again with version {s}.
+1379	U	Restarting with version {s}…
+1380	U	You have the latest version ({s}).
+1381	U	You have version {s}.
+1382	U	Sift: no cards left in the deck to look at.
+1383	U	Sift: choose cards from the top of your deck to discard. The rest stay on top.
+1384	U	Diamond: discard exactly 3 cards.
+1385	U	Shatter: no cards in hand to VOID.
+1386	U	Shatter: VOID up to 2 cards from your hand. Power Up for each.
+1387	U	Meteorite: the Storm Cloud is empty.
+1388	U	Take 1 damage, draw 1
+1389	U	Take 2 damage, draw 2
+1390	U	Bloodstone: you may take 1 or 2 damage, then draw that many cards.
+1391	U	Bloodstone: you may VOID a card from your hand or discard pile.
+1392	U	Lava Bat: no Fire cards in any discard pile to move.
+1393	U	Lava Bat: move it to which opponent’s discard pile?
+1394	U	Ruby: no Fire cards and nothing to VOID.
+1395	U	Ruby: choose a card to VOID.
+1396	U	{c} didn't have 2 mana to lose.
+1397	U	The Lantern goes out.
+1398	U	Mana Font: no Water card to discard.
+1399	U	Mana Font: discard a Water card. If you did, gain 3 mana.
+1400	U	Mana Font: no Water card in the Storm Cloud.
+1401	U	Flame: no other Fire card in hand to resolve.
+1402	U	Crossfire: deal 3 damage to which opponent?
+1403	U	Fireball: no Initiative, no extra damage.
+1404	U	Ice Flume: you may VOID an ICE from your hand or discard pile.
+1405	U	Lapis: you may discard up to 2 cards. Heal 1 for each Water card discarded.
+1406	U	Leap: no opponent revealed Fire, so no VOID.
+1407	U	Ultimate: you may VOID an Earth card from your hand to gain 3 mana.
+1408	U	Wind Dragon: no cards in hand to resolve.
+1409	U	Wind Dragon: no card in hand to resolve.
+1410	U	Distributor Connection: gains Earth Essence into their discard.
+1411	U	Always Already: gives all players an ICE.
+1412	U	Doom Bauble: give it to which opponent?
+1413	U	Draw 2. Discard the next Weather card.
+1414	U	Draw 1. If you reveal Earth this round, gain 1 power.
+1415	U	Draw 1. Each player may VOID an ASH, CURSE or ICE from hand or discard.
+1416	U	Draw 1. After cards resolve, players may use their Ultimate.
+1417	U	Draw 2. Earth cards do nothing when resolved but Heal 2.
+1418	U	Draw 2, gain 2 power.
+1419	U	Draw 2, gain 1 mana. All players randomly discard 2 cards.
+1420	U	{c}: no cards in hand or discard to VOID.
+1421	U	VOID a {c} from your hand or discard pile.
+1422	U	The Dragon deck is empty: deal 2 damage and gain 2 Storm Shards.
+1423	U	an Earth card of your Tier or lower
+1424	U	a Fire card of your Tier or lower
+1425	U	a Water card of your Tier or lower
+1426	U	a card
+1427	U	Use {c} without paying mana? ({s})
+1428	U	Use {c} for {0} mana? ({s})
+1429	U	{c} have an unplayable hand — discard it, take 1 damage and draw 4.
+1430	U	{c} has an unplayable hand — discard it, take 1 damage and draw 4.
+1431	U	{c}: Got +1 health and drew +1 card from cheating.
+1432	U	Gain Spell: take one card from the Storm Cloud, or a free special card.
+1433	U	Give a chosen opponent a CURSE. You may draw up to one card from your discard for each DOOM Token you have.
+1434	U	Potion Gun: no non-Wizard card to give.
+1435	U	Potion Gun: which opponent?
+1436	U	{c} is VOIDED — Robot Boy can’t keep it.
+1437	U	Potion Gun: you may give a non-Wizard card from your hand to your opponent’s hand, gaining 2 of its Element.
+1438	U	No change
+1439	U	no change
+1440	U	Unstable Formula: lower one of your Elements by 2 to raise another by 2. (Fire {0}, Earth {0}, Water {0})
+1441	U	Unstable Formula: lower one of {c}’s Elements by 2 to raise another by 2. (Fire {0}, Earth {0}, Water {0})
+1442	U	Beetle Buster: which player takes 3 damage?
+1443	U	Beetle Buster: you may discard a Fire card from your hand to deal 2 damage.
+1444	U	Cancel an opponent’s revealed card — they discard it and draw
+1445	U	Shuriken: cancel whose card?
+1446	U	No DOOM Tokens — Sinking Strike deals no damage.
+1447	U	Deep Gems: no Power to lose.
+1448	U	Deep Gems: lose 1 Power to resolve a Water card from the Storm Cloud, then VOID it?
+1449	U	Deep Gems: choose a Water card in the Storm Cloud to resolve, then VOID.
+1450	U	Star Shot: no other Fire card in hand.
+1451	U	Star Shot: you may lose 2 Energy Tokens to resolve a different Fire card from your hand.
+1452	U	Data Breach: which opponent?
+1453	U	Data Breach: {s} hand is empty.
+1454	U	Data Breach: choose a card from your opponent’s hand for them to discard.
+1455	U	Data Breach: lose 1 or 2 Energy to Power Up that many times. (You have {0}.)
+1456	U	Lose 1
+1457	U	Lose 2
+1458	U	Did Her Research: gains 1 Power at every battle start, plus any powers researched in her Journal.
+1459	U	All six Research Tokens are already placed.
+1460	U	Accursed: can never heal. Whenever he would heal, he gives 1 CURSE instead.
+1461	U	DOOOOOOOM!: give which opponent a CURSE?
+1462	U	DOOOOOOOM! You may draw up to {0} card from your discard (one per DOOM Token).
+1463	U	DOOOOOOOM! You may draw up to {0} cards from your discard (one per DOOM Token).
+1464	U	Has 3 hidden Traps. His Ultimate sets one face-down.
+1465	U	Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row).
+1466	U	Set a Trap face-down. It replaces your current Trap.
+1467	U	Double Stitch: can heal up to 10 health. Triple Stitch: healing at 10 draws a card per point instead.
+1468	U	Cast a Magic Trick!: no non-Wizard card in hand to cast.
+1469	U	Chemist: Fire, Earth and Water Elements start at 3 (max 6) and pay for potions.
+1470	U	Third TOXIC potion! The Ultimate ends — gain an ASH, a CURSE and an ICE.
+1471	U	Oren drank {0} potion. Elements reset to 3.
+1472	U	Oren drank {0} potions. Elements reset to 3.
+1473	U	Oren drank {0} potions and hit a third TOXIC. Elements reset to 3.
+1474	U	Energize: starts with 2 Energy (max 3). Dangerous Download: at round end, may spend 1 Energy and 1 mana to resolve the opponent’s revealed Tier II card.
+1475	U	Void Traveler: no card in hand or the VOID to resolve.
+1476	U	Triple Stitch: {c} draw {0} for wasted healing.
+1477	U	Triple Stitch: {c} draws {0} for wasted healing.
+1478	U	Reveal Dodge!? The first 2 damage you take this round is negated.
+1479	U	Dodge! negates {0} damage.
+1480	U	Journal: you may draw a Fire card from your discard to your hand.
+1481	U	{c} take {c} from the discard into hand.
+1482	U	{c} takes {c} from the discard into hand.
+1483	U	Journal: you may VOID a card from your hand.
+1484	U	Journal: you may move an ICE, ASH or CURSE from your discard to your opponent’s discard.
+1485	U	Journal: move it to which opponent?
+1486	U	Dangerous Download: you may spend 1 Energy and 1 mana to resolve another player’s revealed Tier II card.
+1487	U	No effect
+1488	U	win by damage
+1489	U	win the Blast race
+1490	U	build up Power
+1491	U	play defensively
+1492	U	Mode Switch: one card face-up and one face-down on his card. No Traction: loses a Blast Token whenever he reveals an ICE.
+1493	U	Resolve the face-up, then the face-down card on his card, discard both, then draw a new pair.
+1494	U	Robot Boy resolves {c}!
+1495	U	Reader: studies more of your possible plays and weighs the worst case at the reveal.
+1496	U	Gambler: erratic and much more random, occasionally brilliant.
+1497	U	Dragon Chaser: rushes Tier III and the Dragons.
+1498	U	Win within {0} turns.
+1499	U	Survive this turn.
+1500	U	Survive the next {0} turns.
+1501	U	Reach Tier {s} this turn.
+1502	U	Win this battle’s Blast Score.
+1503	U	← → Adjust
+1504	U	◀ ▶ Adjust
+1505	U	Fit page
+1506	U	Exit replay
+1507	U	no target
+1508	U	About First Edition Balance
+1509	U	Battle
+1510	U	Beat {c} on Normal, Hard or Expert
+1511	U	Chemistry Board Elements
+1512	U	Counter wheel
+1513	U	Counter wheel: Fire beats Earth, Earth beats Water, Water beats Fire
+1514	U	DOOM Tokens
+1515	U	Discard effect: happens when this card is discarded from your hand, including at the Blast.
+1516	U	Draw a card.
+1517	U	Earth. Earth beats Water; Fire beats Earth.
+1518	U	Edition
+1519	U	Energy Tokens
+1520	U	Fire. Fire beats Earth; Water beats Fire.
+1521	U	Gain a card: take a card from the Storm Cloud at or below your Tier.
+1522	U	Has the Initiative
+1523	U	Health {0} of {0}
+1524	U	Health {0} of {0} (can heal to {0})
+1525	U	Initiative: the player with the Initiative resolves their card first.
+1526	U	Join the Spellstorm Discord
+1527	U	Main menu
+1528	U	Mana +{0}: gain {0} mana. Mana pays for your wizard’s {c}.
+1529	U	Mana {0}. {c} costs {0} mana.
+1530	U	Mute sound
+1531	U	None left: the board effect applies
+1532	U	Power +{0}: gain {0} Power. Reaching {0} Power raises your Tier.
+1533	U	Replay controls
+1534	U	Replay position
+1535	U	See the top Dragon
+1536	U	Sound off — click to unmute
+1537	U	Sound on — click to mute
+1538	U	Spellstorm
+1539	U	Spellstorm Deck
+1540	U	Spellstorm on Discord
+1541	U	Storm Shards — first to {0} wins
+1542	U	This card has a discard effect. It happens when this card is discarded from your hand, including at the Blast.
+1543	U	This card’s element: Earth. Earth beats Water; Fire beats Earth.
+1544	U	This card’s element: Fire. Fire beats Earth; Water beats Fire.
+1545	U	This card’s element: Water. Water beats Fire; Earth beats Water.
+1546	U	This potion’s effect happens twice
+1547	U	Tier I
+1548	U	Tier I card: you can gain it from the Storm Cloud at any Tier.
+1549	U	Tier I · Power {0} — reaching {0} raises your Tier
+1550	U	Tier II
+1551	U	Tier II card: you can gain it once you reach Tier II.
+1552	U	Tier II · Power {0} — reaching {0} raises your Tier
+1553	U	Tier III
+1554	U	Tier III card: you can gain it once you reach Tier III.
+1555	U	Tier III · Power {0} — reaching {0} raises your Tier
+1556	U	Tier IV: a Dragon.
+1557	U	Unmute sound
+1558	U	View {c}’s wizard card
+1559	U	Water. Water beats Fire; Earth beats Water.
+1560	U	code
+1561	U	{0} cards in hand
+1562	U	{0} left
+1563	U	{c} counter {c}
+1564	U	{c} counter {c} if the element beats it
+1565	U	{c} counters {c}
+1566	U	{c} counters {c} if the element beats it
+1567	U	{c}!
+1568	U	{c}: after this card resolves, you may use your wizard’s {c} if you have enough mana.
+1569	U	{c}: {0} health, {0} shards, {0} cards
+1570	U	{c}: {s}
+1571	U	+{0} card in hand
+1572	U	+{0} cards in hand
+1573	U	−{0} card in hand
+1574	U	−{0} cards in hand
+1575	U	healed {0}
+1576	U	+{0} {c}
+1577	U	−{0} {c}
+1578	U	{c}: +{0} Mana, +{0} Power. Deal {0} damage. Gain an {c}. If you have the Initiative, +{0} Mana and deal {0} more damage.
+1579	U	{c}: +{0} Mana, +{0} Power. Deal {0} damage. Gain an {c}. If you have the Initiative, deal {0} more damage.
+1580	U	{c}: +{0} Mana, take {0} damage, and you may VOID a card from your hand or discard. Discard effect: +{0} Mana.
+1581	U	{c}: +{0} Mana. If anyone revealed Water, all players take {0} damage and gain a {c}.
+1582	U	{c}: +{0} Mana. If the next clockwise player revealed Water, VOID this, you gain a {c} and take {0} damage.
+1583	U	{c}: +{0} Power, gain a card. If you gained an Earth card, +{0} Power and gain the Initiative.
+1584	U	{c}: +{0} Power, gain a card. If you gained an Earth card, gain the Initiative.
+1585	U	{c}: +{0} Power, then you must gain a card twice. Discard effect: +{0} Power.
+1586	U	{c}: Chosen player loses {0} Power, discards a random card, loses the Initiative and takes {0} damage.
+1587	U	{c}: Chosen player takes {0} damage, loses {0} Power Tokens, and {0} Mana.
+1588	U	{c}: Deal X + {0} damage, where X is your number of DOOM Tokens.
+1589	U	{c}: Deal X damage, where X is your number of DOOM Tokens.
+1590	U	{c}: Deal {0} damage. {c} may give a non-Wizard card from your hand to an opponent’s hand. If you did, gain {0} of the Element matching that card.
+1591	U	{c}: Deal {0} damage. {c} may lose {0} Energy Tokens to resolve a different Fire card from your hand.
+1592	U	{c}: Discard a Fire card. If you did, chosen player takes {0} damage.
+1593	U	{c}: Discard a Water card. If you did, +{0} Mana. Discard effect: +{0} Mana.
+1594	U	{c}: Discard a card to deal {0} damage ({0} if it was Tier II). Gain {0} mana per Energy Token. Lose {0} Energy Tokens.
+1595	U	{c}: Discard the top {0} cards of your deck. Deal {0} damage per Fire card discarded, OR you may VOID one of them.
+1596	U	{c}: Discard the top {0} cards of your deck. Deal {0} damage per Fire card discarded.
+1597	U	{c}: Draw a card. If you have the Initiative, deal {0} damage and you may return this to your hand.
+1598	U	{c}: Draw a card. Opponents discard two random cards. If you COUNTERED, gain a DOOM Token.
+1599	U	{c}: Draw {0} cards. Heal {0} and give an {c}.
+1600	U	{c}: Draw {0} cards. Opponents discard {0} random cards.
+1601	U	{c}: For each DOOM Token, take a card from your discard into your hand or draw. With no DOOM Tokens, gain one.
+1602	U	{c}: Gain the Initiative and heal {0}. If an opponent revealed Fire, you may VOID a card from your hand or discard.
+1603	U	{c}: Gain the Initiative. Heal {0}. VOID a card from your hand or discard.
+1604	U	{c}: Give a chosen opponent a {c}. {c} may draw up to one card from your discard for each DOOM Token you have.
+1605	U	{c}: Give a non-Wizard card from your hand to an opponent’s hand. Gain {0} of that card’s Element. If it was Fire, deal {0} damage.
+1606	U	{c}: If you have the Initiative, deal {0} damage, gain an {c} and return this to your hand.
+1607	U	{c}: Lose {0} or {0} Energy Tokens and Power Up that many times. If you still have {0} Energy Tokens, the chosen opponent reveals their hand and discards a card of your choice.
+1608	U	{c}: Opponents discard a random card. {c} draw a card. If you have at least {0} more cards than another player, gain a DOOM Token.
+1609	U	{c}: Power Up twice. The chosen opponent reveals their hand and discards a card of your choice. If anyone revealed Water, gain an Energy Token.
+1610	U	{c}: VOID a Water card in the Storm Cloud.
+1611	U	{c}: VOID a Water card in the Storm Cloud. If you did, +{0} Mana. Discard effect: take {0} damage and +{0} Mana.
+1612	U	{c}: VOID a card from your hand or discard pile.
+1613	U	{c}: choose a player to discard their hand and draw a new hand of {0}.
+1614	U	{c}: choose a player. They lose {0} Power, discard a random card, lose Initiative and take {0} damage.
+1615	U	{c}: choose a player. They take {0} damage and lose {0} Power and {0} Mana.
+1616	U	{c}: choose one.
+1617	U	{c}: deal {0} damage to which player?
+1618	U	{c}: discard a Fire card. If you did, a chosen player takes {0} damage.
+1619	U	{c}: discard a card to deal {0} damage ({0} if it’s Tier II).
+1620	U	{c}: fewer than {0} Energy, no bonus.
+1621	U	{c}: give a non-Wizard card from your hand to an opponent. Gain {0} of its Element; if it’s Fire, deal {0} damage.
+1622	U	{c}: no DOOM Tokens, so no cards from the discard.
+1623	U	{c}: no Earth card in hand to VOID.
+1624	U	{c}: no Earth card in hand to resolve.
+1625	U	{c}: no Fire card to discard.
+1626	U	{c}: no Initiative, no extra damage.
+1627	U	{c}: no Initiative, so no damage.
+1628	U	{c}: no Initiative, so no effect.
+1629	U	{c}: no Water card in the Storm Cloud.
+1630	U	{c}: no cards in hand to discard.
+1631	U	{c}: no {c} in hand or discard to VOID.
+1632	U	{c}: pick the first card to resolve (it stays in your hand). {c} may skip.
+1633	U	{c}: pick the second card to resolve (it stays in your hand). {c} may skip.
+1634	U	{c}: resolve and discard a different Fire card from your hand.
+1635	U	{c}: resolve the revealed {c} for yourself?
+1636	U	{c}: return a card from your discard to your hand, or draw?
+1637	U	{c}: return it to your hand?
+1638	U	{c}: reveal an Earth card from your hand to resolve, then discard it.
+1639	U	{c}: set a Trap.
+1640	U	{c}: you may VOID a card from your hand or discard pile.
+1641	U	{c}: you may VOID an {c}, {c} or {c} from your hand or discard pile.
+1642	U	{c}: you may VOID up to {0} cards in the Storm Cloud.
+1643	U	{c}: you may move a Fire card to the other discard pile.
+1644	U	{c}: you may move a {c} or {c} to your opponent’s discard.
+1645	U	{c}: you may resolve a card from your hand or the VOID, then put it on the bottom of the Spellstorm Deck.
+1646	U	{c}: you may resolve a different revealed Earth card for yourself.
+1647	U	{c}: you may resolve any Storm Cloud card (any Tier), then VOID it.
+1648	U	{c}: {c} does nothing but heal {0}.
+1649	U	{c}: {c} may discard a Fire card to deal {0} damage.
+1650	U	{c}: {c} may gain a card up to two times, but only Earth cards. Discard effect: +{0} Power.
+1651	U	{c}: {c} may take {0} or {0} damage, then draw that many cards. Discard effect: take {0} damage.
+1652	U	{c}: {c} resolve {c} (first); it stays in hand.
+1653	U	{c}: {c} resolve {c} (second); it stays in hand.
+1654	U	{c}: {c} resolves {c} (first); it stays in hand.
+1655	U	{c}: {c} resolves {c} (second); it stays in hand.
+1656	U	Spell card
+1657	U	ICE {0}
+1658	U	ASH {0}
+1659	U	CURSE {0}
+1660	U	R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.
+1661	U	{0} mana
+1662	U	R&D: {c} doesn’t have the Initiative, so she gains {0} Power.
+1663	U	→ {c}
+1664	U	{c} → {c}
+1665	U	{c} resolve {c} from the Storm Cloud.
+1666	U	{c} VOIDs {c} from the Storm Cloud.
+1667	U	{c} reveals {c}!
+1668	U	{c} fire {c} into {c}’s hand: +{0} Water Element.
+1669	U	{c} fires {c} into {c}’s hand: +{0} Water Element.
+1670	U	{c} fire {c} into {c}’s hand: +{0} Earth Element.
+1671	U	{c} fires {c} into {c}’s hand: +{0} Earth Element.
+1672	U	Blast Scores — {c}: {0}, {c}: {0}, {c}: {0}.
+1673	U	Blast Scores — {c}: {0}, {c}: {0}, {c}: {0}, {c}: {0}.
+1674	U	{c} researched: Gain an Earth card.
+1675	U	{c} researched: {s}
+1676	U	Gain an Earth card.
+1677	U	Traps: one set face-down
+1678	U	{c} ×{0}
+1679	U	{c} ⚡
+1680	U	{c}:
+1681	U	{c}, {c} {0}
+1682	U	Match text
+1683	U	…or paste the match text here
+1684	U	e.g. Shuriken cancelled the wrong card in round 3
+1685	U	you {0} health
+1686	U	{c} {0} health
+1687	U	{0} shards
+1688	U	{c} eliminated
+1689	U	Normal difficulty
+1690	U	Medium difficulty
+1691	U	Hard difficulty
+1692	U	Easy difficulty
+1693	U	Expert difficulty
+1694	U	{c}, May {0}
+1695	U	Final: you {0} health
+1696	U	{0} shards. {s}.

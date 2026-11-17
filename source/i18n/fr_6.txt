@@ -1,0 +1,149 @@
+959	{c} atteignez le Rang II !
+960	{c} atteignez le Rang III !
+961	{c} atteint le Rang II !
+962	{c} atteint le Rang III !
+963	{c} a étudié : +{0} mana.
+964	{c} a étudié : +{0} puissance.
+965	{c} a étudié : Piochez une carte.
+966	{c} a étudié : Gagnez une carte.
+967	{c} a étudié : {c} pouvez reprendre en main une carte Feu de votre défausse.
+968	{c} remélangez votre défausse.
+969	{c} remélange la défausse de {c}.
+970	{c} résolvez {c} depuis votre main.
+971	{c} résolvez {c}.
+972	{c} a résolu {c} depuis le Nuage de Tempête.
+973	{c} résout {c} depuis sa main.
+974	{c} résout {c} depuis la pioche des Dragons !
+975	{c} résout {c} depuis le Nuage de Tempête.
+976	{c} résout {c} depuis la case X du Nuage de Tempête.
+977	{c} résout {c}.
+978	Résultat de {c} — {s}
+979	{c} reprenez {c} en main.
+980	{c} revient en main.
+981	{c} reprend {c} en main.
+982	{c} révélez votre main à {c}.
+983	{c} révélez {c} !
+984	{c} a révélé {c}, il en révèle donc d’autres : {s}.
+985	{c} révèle la main de {c} à {c}.
+986	{c} posez {c} face cachée.
+987	{c} pose un Piège face cachée.
+988	{c} commencez avec {0} mana ; votre adversaire commence avec {0} mana.
+989	{c} vous a volé {0} mana.
+990	{c} a volé {0} mana à {c}.
+991	{c} prenez l’Initiative.
+992	{c} subissez {0} dégâts.
+993	{c} prend l’Initiative.
+994	{c} subit {0} dégâts.
+995	{c} déchaînez {c}
+996	{c} déchaînez {c} !
+997	{c} déchaîne {c}
+998	{c} déchaîne {c} !
+999	{c} a banni {c} du Nuage de Tempête.
+1000	{c} contre
+1001	{c} remportez la Déflagration et gagnez {0} Éclats de Tempête.
+1002	{c} remportez la Déflagration ! +{0}
+1003	{c} gagnez !
+1004	{c} gagne
+1005	{c} remporte la Déflagration et gagne {0} Éclats de Tempête.
+1006	{c} remporte la Déflagration ! +{0}
+1007	{c} a gagné en réduisant son rival à {0} PV après {0} combats.
+1008	{c} a gagné en récupérant {0} Éclats de Tempête après {0} combats.
+1009	{c} {c} pioche {0} carte de la défausse : {c}.
+1010	{c} ! {c} est défaussée sans être résolue.
+1011	{c}, Terre, carte spéciale, a un effet de défausse
+1012	{c}, Terre, Rang I
+1013	{c}, Terre, Rang I, a un effet de défausse
+1014	{c}, Terre, Rang II, a un effet de défausse
+1015	{c}, Terre, Rang III, a un effet de défausse
+1016	{c}, Terre, Dragon de Rang IV
+1017	{c}, Feu, carte spéciale, a un effet de défausse
+1018	{c}, Feu, Rang I
+1019	{c}, Feu, Rang I, a un effet de défausse
+1020	{c}, Feu, Rang II
+1021	{c}, Feu, Rang II, a un effet de défausse
+1022	{c}, Feu, Rang III
+1023	{c}, Feu, Rang III, a un effet de défausse
+1024	{c}, Feu, Dragon de Rang IV
+1025	{c}, Aguerri
+1026	{c}, Eau, carte spéciale, a un effet de défausse
+1027	{c}, Eau, Rang I
+1028	{c}, Eau, Rang I, a un effet de défausse
+1029	{c}, Eau, Rang II
+1030	{c}, Eau, Rang II, a un effet de défausse
+1031	{c}, Eau, Rang III
+1032	{c}, Eau, Rang III, a un effet de défausse
+1033	{c}, Eau, Dragon de Rang IV
+1034	{c}, Terre, Rang II
+1035	{c}, Terre, Rang III
+1036	{c}, {c} et {c}
+1037	{c} : {c} a révélé de la Terre.
+1038	{c} : {c} a révélé du Feu.
+1039	{c} : {c} a révélé de l’Eau.
+1040	{c} : …pose un Piège face cachée, puis gagne l’Initiative.
+1041	{c} : …pose un Piège face cachée.
+1042	{c} : −{0} à votre Score de Déflagration.
+1043	{c} : −{0} au Score de Déflagration de {c}.
+1044	Première Victoire de {c}
+1045	Première Victoire de {c} : Gagnez une partie avec {c}.
+1046	Journal de {c}
+1047	Potions de {c}
+1048	Pièges de {c}
+1049	Deck de {c}
+1050	Défausse de {c}
+1051	Main de {c} — décompte
+1052	Main de {c} — effets de défausse
+1053	{c} avez été éliminé. La partie continue…
+1054	· Débutant.
+1055	— Feu et Terre. Hackeuse qui vole des actions avec l’Énergie.
+1056	— Feu et Terre. Tente sa chance avec une pioche de potions instable.
+1057	— Feu et Terre. Agressif dès le début, gagne en puissance régulièrement. Idéal pour débuter.
+1058	— Feu et Eau. Saboteuse agressive qui encombre votre deck de {c} et de {c}.
+1059	— Feu et Eau. Énormément de vie, ne peut pas se soigner, se renforce avec FUNESTE.
+1060	— Feu et Eau. Peu de vie, beaucoup de parades et des pièges cachés.
+1061	— Eau et Terre. Étudie de nouveaux pouvoirs à chaque niveau.
+1062	— Eau et Terre. Vie minuscule, se soigne vite et au-delà de sa limite.
+1063	−{0} Score de Déflagration
+1064	−{0} Énergie
+1065	−{0} Mana
+1066	−{0} Puissance
+1067	▶ Voir le replay
+1068	◀ Précédent
+1070	🔇 Muet
+1071	🔊 Couper le son
+1072	🔒 Verrouillé
+1073	🔥 Série :
+1074	Adversaire en ligne
+1075	Troisième TOXIQUE — l’Ultime se termine avec une CENDRE, une MALÉDICTION et une GLACE.
+1076	Vous n’avez pas encore posé de Piège. L’Ultime d’Omar, Mouvement Caché, en pose un.
+1077	Omar en a posé un face cachée. Vous ne saurez lequel qu’au moment où il sera révélé.
+1078	Omar n’a pas encore posé de Piège.
+1079	Tu vas jouer… moi ! Et j’affronte ma pote, ma meilleure COPINE, Eve Williams.
+1080	Comment gagner
+1081	À Spellstorm, tu gagnes en réunissant 8 Éclats de Tempête, ou en faisant tomber ton adversaire à zéro PV. Ces ressources sont affichées… ici !
+1082	Le mana alimente la Capacité Ultime d’un sorcier. Tu vas vouloir utiliser ton Ultime le plus souvent possible !
+1083	Au fil de la partie, tu vas ajouter des cartes. Gagne de la Puissance pour débloquer des cartes de rang supérieur !
+1084	Le Nuage de Tempête
+1085	Ça ? C’est là que tu obtiens de nouvelles cartes pour ton deck. Tu peux gagner des cartes de ton rang actuel ou inférieur.
+1086	Il y a 3 rangs de cartes… enfin, il y a aussi des cartes de Rang IV, qui sont des DRAGONS super puissants !
+1087	Cartes Météo
+1088	À chaque tour, une nouvelle carte Météo sort et fait des trucs. Heureusement, celle-ci n’est qu’une douce brise qui nous donne des ressources à tous, mais certaines sont moins sympas.
+1089	Jouer des cartes
+1090	Ouais ! Tu peux jouer des cartes de ta main. À chaque tour, tu en joues une, face cachée. Puis elles sont révélées en même temps, et font des trucs magiques !
+1091	C’est un genre de pierre-feuille-ciseaux élémentaire : le Feu bat la Terre, la Terre bat l’Eau et l’Eau bat le Feu. Si tu contres ton adversaire, tu pioches une carte.
+1092	(Piocher des cartes, c’est super important à Spellstorm, je t’explique pourquoi tout à l’heure.)
+1093	Trop bien ! La Terre bat l’Eau — tu viens de contrer la carte d’Eve. Elle va être furax. Bref, tu as pioché une carte.
+1094	Là, tu as le jeton d’Initiative, donc ta carte se résout en premier. L’Initiative compte pour plusieurs choses, surtout les cartes Feu (mes préférées).
+1095	La carte Parade d’Eve lui a donné l’Initiative, donc au prochain tour, sa carte se résoudra en premier.
+1096	Score de Déflagration
+1097	Chaque combat dure quatre tours, puis on compte les cartes en main de chaque joueur. Celui qui en a le plus gagne 2 Éclats de Tempête !
+1098	En fait, c’est un peu plus compliqué, parce que les cartes avec effet de défausse (elles ont un bord blanc) ne comptent pas dans ton total (on appelle ça ton Score de Déflagration).
+1099	L’Ultime de Derby
+1100	Chaque personnage a une capacité Ultime différente. La mienne, c’est Mètre Enflammé : 2 dégâts pour 6 mana. Si tu l’utilises quand j’ai des PV impairs, 2 mana sont remboursés. REMBOURSÉÉÉÉ !
+1101	Tu peux utiliser ton Ultime chaque fois que l’icône Ultime est sur la carte jouée et que tu as le mana nécessaire. En général, autant le faire le plus possible !
+1102	Bon, assez de tutoriel pour l’instant. À partir d’ici, tu te débrouilles. N’oublie pas que tu peux lire les règles dans le Menu ! <3
+1103	La Déflagration
+1104	Gagner un sort
+1105	Entre les combats, vous ajoutez à votre deck une carte du Nuage de Tempête de votre Rang ou inférieur. Elle va dans votre main pour le combat suivant. Si rien ne vous convient, vous pouvez prendre une carte spéciale.
+1106	Ultime prêt
+1107	Vous avez assez de mana pour Mètre Enflammé. Utilisez-le maintenant, ou dites Non pour garder votre mana pour un meilleur moment.
+1108	Rang supérieur !

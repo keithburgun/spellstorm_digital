@@ -1,0 +1,193 @@
+164	(Última rodada!)
+165	(ordem não mostrada)
+166	(escolha {0})
+167	(escolha {0}: sua primeira escolha é seu aliado)
+168	({0} de {0}).
+169	+{0} RUÍNA
+170	+{0} Energia
+171	+{0} Mana
+172	+{0} Mana, +{0} Poder
+173	+{0} Mana, +{0} Poder, Nível II!, +{0} carta na mão
+174	+{0} Poder
+175	+{0} Poder, ganhou a Iniciativa
+176	+{0} Fragmento da Tempestade
+177	+{0} de mana
+178	+{0} de poder
+179	+{0}% de vida para cada mago · {0} Fragmentos da Tempestade para vencer
+180	, ou cole o texto abaixo.
+181	: Compre {0}, ganhe {0} de mana e {0} de poder.
+182	: Compre {0}, ganhe {0} de mana. Todos os jogadores descartam {0} cartas aleatórias.
+183	: Compre {0}, ganhe {0} de mana. Se você revelar Água nesta rodada, ganhe {0} de mana.
+184	: Compre {0}, ganhe {0} de mana. Jogadores com mais de {0} de vida sofrem {0} de dano.
+185	: Compre {0}, ganhe {0} de mana. Jogadores de Nível II e III perdem {0} de poder.
+186	: Compre {0}, ganhe {0} de poder.
+187	: Compre {0}, ganhe {0} de poder. Todos os jogadores descartam uma carta aleatória.
+188	: Compre {0}. Após as cartas serem resolvidas, os jogadores podem usar sua {c}.
+189	: Compre {0}. Todos os jogadores podem ganhar uma carta (Iniciativa primeiro).
+190	: Compre {0}. Todos os jogadores colocam a carta do topo do Baralho da Tempestade no seu descarte.
+191	: Compre {0}. Descarte a próxima carta de Clima.
+192	: Compre {0}. Cada jogador pode banir um {c}, {c} ou {c} da mão ou do descarte.
+193	: Compre {0}. Cartas de Terra não fazem nada ao serem resolvidas, exceto curar {0}.
+194	: Compre {0}. Se você revelar Terra nesta rodada, ganhe {0} de poder.
+195	: Compre {0}. Se você revelar Fogo nesta rodada, ganhe {0} de mana.
+196	: Compre {0}. A Iniciativa troca de mãos; quem a recebe ganha uma {c} e {0} de mana.
+197	: Compre {0}. Nível II: ganhe {0} de mana. Nível I: ganhe {0} de poder.
+198	: Compre {0}. Bana a Nuvem da Tempestade e revele {0} cartas novas.
+199	Uma partida simples de {0} contra {0} com alguém que tenha acesso a esta página do Spellstorm. Partidas online não contam nas suas estatísticas.
+200	Amaldiçoado: {c} não pode se curar — em vez disso, dá uma {c}.
+201	Conquistas desbloqueadas
+202	Conquistas {0}/{0}
+203	Coloque uma Ficha de Pesquisa em um espaço do Diário de {c}.
+204	Adiciona uma marca ▲ Fogo, ● Água, ■ Terra a cada carta.
+205	Depois desta rodada
+206	Contra Todas as Chances
+207	Todos
+208	Aliados
+209	Sempre Já: {c} dá um {c} a todos os jogadores.
+210	Velocidade da animação
+211	Animações
+212	Arquimago
+213	Como {c}, compre cartas com cura desperdiçada.
+214	Como {c}, beba {0} poções em uma única {c} sem uma terceira TÓXICA.
+215	Como {c}, tenha {0} Fichas de RUÍNA.
+216	Como {c}, passe uma {c} ao oponente com {c}.
+217	Como {c}, coloque todas as {0} Fichas de Pesquisa em uma partida.
+218	Como {c}, resolva uma carta do oponente com Download Perigoso.
+219	Como {c}, revele as três Armadilhas em uma partida.
+220	Como {c}, use {c} com vida ímpar.
+221	PONTUAÇÃO DE EXPLOSÃO
+222	PONTUAÇÃO DE EXPLOSÃO:
+223	VIRANDO O COPO, EU ACHO!
+224	Voltar
+225	Voltar à carta
+226	Voltar à biblioteca
+227	Registro da batalha
+228	Batalha {0}
+229	Batalha {0}, rodada {0} · passo {0} de {0}
+230	Batalha {0}, rodada {0}: {c}.
+231	Vença todos os magos no Difícil.
+232	Vença {c} no Cooperativo.
+233	Vença {c} no Fácil.
+234	Vença {c} no Difícil no Cooperativo.
+235	Vença {c} no Difícil.
+236	Vença {c} no Médio.
+237	Derrotado
+238	Iniciante
+239	Melhor Elo ranqueado
+240	Melhor sequência
+241	Grande Explosão
+242	Grande Explosão: Vença uma Explosão com {0} pontos ou mais.
+243	Pontuações de Explosão — você: {0}, {c}: {0}, {c}: {0}, {c}: {0}.
+244	Pontuações de Explosão — você: {0}, {c}: {0}, {c}: {0}.
+245	Pontuações de Explosão — você: {0}, {c}: {0}.
+246	Pontuações de Explosão — {c}: {0}, {c}: {0}.
+248	Os dois magos começam com mana no tanque, e este oponente nunca guarda um {c}.
+249	Bronze
+250	Rumo ao Topo
+251	Por um Fio
+252	Por padrão, o app Spellstorm usa um balanceamento ajustado com base no grande volume de feedback desde o lançamento. Mas você também pode jogar com as regras originais (Balanceamento da Primeira Edição), se preferir.
+253	REBATE → {c}
+254	REBATIDO!
+255	CPU - Fácil
+256	CPU - Normal
+257	Dificuldade da CPU
+258	ARMADILHA ATUAL
+259	Calmaria antes da Tempestade (primeiras batalhas)
+260	Cancelar
+261	Cancelar {c} — ele descarta e compra
+262	Não é possível armar a mesma Armadilha duas vezes seguidas
+263	Biblioteca de cartas
+264	Cartas ganhas
+265	Cataclismo
+266	Centurião
+267	Mudanças do Rebalanceamento da 2ª Edição (padrão):
+268	Personagem
+269	Trapaceiro
+270	Escolha uma Armadilha
+271	Escolha uma Armadilha para armar virada para baixo. Ela substitui sua Armadilha atual.
+272	Escolha uma carta para jogar virada para baixo.
+273	Escolha uma carta para voltar à sua mão.
+274	Escolher cartas
+275	Escolher arquivo…
+276	Escolher magos
+277	Escolher…
+278	Disjuntor
+279	Subindo
+280	Fechar
+281	Cooperativo contra {c}, {0} jogadores:
+282	Vitórias no cooperativo
+283	Cooperativo: você joga com {c} ao lado de {c}, {c} contra {c}.
+284	Sangue-Frio
+285	Junte {0} Fragmentos da Tempestade.
+286	Modo daltônico
+287	Virada
+288	Virada: Vença depois de cair para {0} de vida ou menos.
+289	Confirmar
+290	Confirmar nenhuma
+291	Desafiante
+292	Continuar partida
+293	Controle
+294	Rebata {0} vezes em uma partida.
+295	Rebata {0} vezes.
+296	Contragolpe
+297	Contragolpe: Rebata {0} vezes em uma partida.
+298	Rebatidas
+299	Cooperativo contra {c}
+300	Sequência atual
+301	Direcional ou analógico esquerdo
+302	RUÍNA
+303	RUÍÍÍÍÍNA
+304	Desafio diário
+305	Dano causado
+306	Download Perigoso
+307	Download Perigoso: Como {c}, resolva uma carta do oponente com Download Perigoso.
+308	Download Perigoso: gastar {0} de Energia e {0} de mana para resolver {c} para você?
+309	Escuro
+310	Cause {0} de dano
+311	Cause {0} de dano, ganhe {0} de mana, ganhe a Iniciativa.
+312	Cause {0} de dano. Se sua vida for ímpar, ganhe {0} de mana.
+313	Cause {0} ou mais de dano em uma única rodada.
+314	Cause {0} de dano no total.
+315	Cause {0}.{0} de dano no total.
+316	Decidir depois
+317	Baralho {0}
+318	Derrote todos os magos.
+319	Derrote seu primeiro oponente do Torneio no Difícil.
+320	Derrote seu primeiro oponente do Torneio no Normal.
+321	Derrote {c} no Difícil.
+322	Derrote {c}.
+323	Design de Keith Burgun - Arte de Christina Zhong
+324	Fez a Lição de Casa: +{0} Poder no início de cada batalha
+325	Fez a Lição de Casa: {c} ganha {0} de Poder.
+326	Dificuldade
+327	Efeito de descarte
+328	Descartar {0}
+329	Conexão de Distribuição: {c} ganha {c} no seu descarte.
+330	Conexão de Distribuição: {c} coloca {c} no descarte de {c}.
+331	Nenhum dos dois
+332	Senhor dos Dragões
+333	Domador de Dragões
+334	Domador de Dragões: Ganhe um Dragão.
+335	Dragões
+336	Dragões e especiais
+337	Dragões (Nível IV)
+338	Dragões {0}
+339	Comprar uma carta
+340	Compre a carta do topo do seu baralho.
+341	Compre {0}, ganhe {0} de mana e {0} de poder.
+342	Compre {0}, ganhe {0} de mana. Se você revelar Água nesta rodada, ganhe {0} de mana.
+343	Compre {0}, ganhe {0} de mana. Jogadores com mais de {0} de vida sofrem {0} de dano.
+344	Compre {0}, ganhe {0} de mana. Jogadores de Nível II e III perdem {0} de poder.
+345	Compre {0}, ganhe {0} de poder. Todos os jogadores descartam uma carta aleatória.
+346	Compre {0}. Todos os jogadores podem ganhar uma carta (Iniciativa primeiro).
+347	Compre {0}. Todos os jogadores colocam a carta do topo do Baralho da Tempestade no seu descarte.
+348	Compre {0}. Se você revelar Fogo nesta rodada, ganhe {0} de mana.
+349	Compre {0}. A Iniciativa troca de mãos; quem a recebe ganha uma {c} e {0} de mana.
+350	Compre {0}. Nível II: ganhe {0} de mana. Nível I: ganhe {0} de poder.
+351	Compre {0}. Bana a Nuvem da Tempestade e revele {0} cartas novas.
+352	Beber outra
+353	Beber outra poção? TÓXICAS até agora: {0} de {0}. Elementos: Fogo {0}, Terra {0}, Água {0}.
+354	Dupla Dinâmica
+355	Terra vence Água. Fogo vence Terra.
+356	Efeito:
+357	Estudioso Elemental

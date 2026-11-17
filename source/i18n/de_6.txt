@@ -1,0 +1,149 @@
+959	{c} erreichst Stufe II!
+960	{c} erreichst Stufe III!
+961	{c} erreicht Stufe II!
+962	{c} erreicht Stufe III!
+963	{c} hat erforscht: +{0} Mana.
+964	{c} hat erforscht: +{0} Macht.
+965	{c} hat erforscht: Ziehe eine Karte.
+966	{c} hat erforscht: Erhalte eine Karte.
+967	{c} hat erforscht: {c} darfst eine Feuerkarte von deinem Ablagestapel auf die Hand nehmen.
+968	{c} mischst deinen Ablagestapel neu.
+969	{c} mischt {c}s Ablagestapel neu.
+970	{c} handelst {c} aus der Hand ab.
+971	{c} handelst {c} ab.
+972	{c} hat {c} aus der Sturmwolke abgehandelt.
+973	{c} handelt {c} aus der Hand ab.
+974	{c} handelt {c} aus dem Drachenstapel ab!
+975	{c} handelt {c} aus der Sturmwolke ab.
+976	{c} handelt {c} aus dem X-Feld der Sturmwolke ab.
+977	{c} handelt {c} ab.
+978	Ergebnis von {c} — {s}
+979	{c} nimmst {c} auf die Hand zurück.
+980	{c} kehrt auf die Hand zurück.
+981	{c} nimmt {c} auf die Hand zurück.
+982	{c} zeigst {c} deine Hand.
+983	{c} deckst {c} auf!
+984	{c} hat {c} aufgedeckt, also deckt er weitere auf: {s}.
+985	{c} zeigt {c2} {c1}s Hand.
+986	{c} legst {c} verdeckt.
+987	{c} legt eine Falle verdeckt.
+988	{c} beginnst mit {0} Mana; dein Gegner beginnt mit {0} Mana.
+989	{c} hat dir {0} Mana gestohlen.
+990	{c} hat {c} {0} Mana gestohlen.
+991	{c} nimmst die Initiative.
+992	{c} erleidest {0} Schaden.
+993	{c} nimmt die Initiative.
+994	{c} erleidet {0} Schaden.
+995	{c} entfesselst {c}
+996	{c} entfesselst {c}!
+997	{c} entfesselt {c}
+998	{c} entfesselt {c}!
+999	{c} hat {c} aus der Sturmwolke verbannt.
+1000	{c} gegen
+1001	{c} gewinnst die Explosion und erhältst {0} Sturmsplitter.
+1002	{c} gewinnst die Explosion! +{0}
+1003	{c} gewinnst!
+1004	{c} gewinnt
+1005	{c} gewinnt die Explosion und erhält {0} Sturmsplitter.
+1006	{c} gewinnt die Explosion! +{0}
+1007	{c} gewann, indem der Rivale nach {1} Kämpfen auf {0} Leben gebracht wurde.
+1008	{c} gewann mit {0} gesammelten Sturmsplittern nach {1} Kämpfen.
+1009	{c} {c} zieht {0} Karte vom Ablagestapel: {c}.
+1010	{c}! {c} wird abgeworfen, ohne abgehandelt zu werden.
+1011	{c}, Erde, Spezialkarte, mit Abwurfeffekt
+1012	{c}, Erde, Stufe I
+1013	{c}, Erde, Stufe I, mit Abwurfeffekt
+1014	{c}, Erde, Stufe II, mit Abwurfeffekt
+1015	{c}, Erde, Stufe III, mit Abwurfeffekt
+1016	{c}, Erde, Drache der Stufe IV
+1017	{c}, Feuer, Spezialkarte, mit Abwurfeffekt
+1018	{c}, Feuer, Stufe I
+1019	{c}, Feuer, Stufe I, mit Abwurfeffekt
+1020	{c}, Feuer, Stufe II
+1021	{c}, Feuer, Stufe II, mit Abwurfeffekt
+1022	{c}, Feuer, Stufe III
+1023	{c}, Feuer, Stufe III, mit Abwurfeffekt
+1024	{c}, Feuer, Drache der Stufe IV
+1025	{c}, Abgehärtet
+1026	{c}, Wasser, Spezialkarte, mit Abwurfeffekt
+1027	{c}, Wasser, Stufe I
+1028	{c}, Wasser, Stufe I, mit Abwurfeffekt
+1029	{c}, Wasser, Stufe II
+1030	{c}, Wasser, Stufe II, mit Abwurfeffekt
+1031	{c}, Wasser, Stufe III
+1032	{c}, Wasser, Stufe III, mit Abwurfeffekt
+1033	{c}, Wasser, Drache der Stufe IV
+1034	{c}, Erde, Stufe II
+1035	{c}, Erde, Stufe III
+1036	{c}, {c} und {c}
+1037	{c}: {c} hat Erde aufgedeckt.
+1038	{c}: {c} hat Feuer aufgedeckt.
+1039	{c}: {c} hat Wasser aufgedeckt.
+1040	{c}: …legt eine Falle verdeckt und erhält dann die Initiative.
+1041	{c}: …legt eine Falle verdeckt.
+1042	{c}: −{0} auf deinen Explosionswert.
+1043	{c}: −{0} auf {c}s Explosionswert.
+1044	{c}s Erster Sieg
+1045	{c}s Erster Sieg: Gewinne eine Partie als {c}.
+1046	{c}s Tagebuch
+1047	{c}s Tränke
+1048	{c}s Fallen
+1049	{c}s Deck
+1050	{c}s Ablagestapel
+1051	{c}s Hand — Zählung
+1052	{c}s Hand — Abwurfeffekte
+1053	{c} bist ausgeschieden. Die Partie geht weiter…
+1054	· Anfänger.
+1055	— Feuer & Erde. Hackerin, die mit Energie Spielzüge stiehlt.
+1056	— Feuer & Erde. Fordert mit einem launischen Trankstapel sein Glück heraus.
+1057	— Feuer & Erde. Starker früher Angriff, baut stetig Macht auf. Ideal für den Einstieg.
+1058	— Feuer & Wasser. Aggressive Saboteurin, die dein Deck mit {c} und {c} verstopft.
+1059	— Feuer & Wasser. Riesiges Leben, kann nicht heilen, wird mit VERDAMMNIS stärker.
+1060	— Feuer & Wasser. Wenig Leben, viel Abwehr und versteckte Fallen.
+1061	— Wasser & Erde. Erforscht bei jedem Stufenaufstieg neue Kräfte.
+1062	— Wasser & Erde. Winziges Leben, heilt schnell und über sein Limit hinaus.
+1063	−{0} Explosionswert
+1064	−{0} Energie
+1065	−{0} Mana
+1066	−{0} Macht
+1067	▶ Wiederholung ansehen
+1068	◀ Zurück
+1070	🔇 Stumm
+1071	🔊 Stummschalten
+1072	🔒 Gesperrt
+1073	🔥 Serie:
+1074	Online-Gegner
+1075	Dritter GIFTIGER — die Ultimative endet mit einer ASCHE, einem FLUCH und einem EIS.
+1076	Du hast noch keine Falle gelegt. Omars Ultimative, Verborgene Bewegung, legt eine.
+1077	Omar hat eine davon verdeckt gelegt. Welche, erfährst du erst, wenn sie aufgedeckt wird.
+1078	Omar hat noch keine Falle gelegt.
+1079	Du spielst… mich! Und ich kämpfe gegen meine beste Kumpeline, meine allerbeste FREUNDIN, Eve Williams.
+1080	So gewinnst du
+1081	In Spellstorm gewinnst du, wenn du 8 Sturmsplitter sammelst oder deinen Gegner auf null Leben bringst. Diese Ressourcen siehst du… hier!
+1082	Mana treibt die Ultimative Fähigkeit eines Zauberers an. Du willst deine Ultimative so oft wie möglich einsetzen!
+1083	Im Lauf des Spiels kommen mehr Karten dazu. Sammle mehr Macht, um Karten höherer Stufen freizuschalten!
+1084	Die Sturmwolke
+1085	Das hier? Hier bekommst du neue Karten für dein Deck. Du kannst Karten bis zu deiner aktuellen Stufe erhalten.
+1086	Es gibt 3 Kartenstufen… na ja, eigentlich auch Karten der Stufe IV, und das sind superstarke DRACHEN!
+1087	Wetterkarten
+1088	Jeden Zug taucht eine neue Wetterkarte auf und macht irgendwas. Zum Glück ist das hier nur eine laue Brise, die uns allen Ressourcen gibt, aber manche sind nicht so nett.
+1089	Karten spielen
+1090	Oh ja! Du kannst Karten aus deiner Hand spielen. Jeden Zug spielst du eine, verdeckt. Dann werden alle gleichzeitig aufgedeckt und machen magisches Zeug!
+1091	Das ist wie ein Schere-Stein-Papier mit Elementen: Feuer schlägt Erde, Erde schlägt Wasser und Wasser schlägt Feuer. Wenn du deinen Gegner konterst, ziehst du eine Karte.
+1092	(Karten ziehen ist in Spellstorm echt wichtig, warum, erzähl ich dir gleich.)
+1093	Hammer! Erde schlägt Wasser — du hast gerade Eves Karte gekontert. Die wird sauer sein. Egal, du hast eine Karte gezogen.
+1094	Gerade hast du den Initiativemarker, also wird deine Karte zuerst abgehandelt. Die Initiative ist bei einigen Dingen wichtig, vor allem bei Feuerkarten (meine Lieblinge).
+1095	Mit ihrer Abwehr-Karte hat Eve die Initiative bekommen, also wird nächsten Zug ihre Karte zuerst abgehandelt.
+1096	Explosionswert
+1097	Jeder Kampf hat vier Züge, dann wird gezählt, wie viele Karten jeder auf der Hand hat. Wer mehr hat, bekommt 2 Sturmsplitter!
+1098	Eigentlich ist es ein bisschen komplizierter, denn Karten mit Abwurfeffekt (sie haben einen weißen Rand) zählen nicht mit (das nennen wir deinen Explosionswert).
+1099	Derbys Ultimative
+1100	Jeder Charakter hat eine andere Ultimative Fähigkeit. Meine ist der Flammende Zollstock: 2 Schaden für 6 Mana. Wenn du ihn einsetzt, während ich ungerades Leben habe, gibt’s 2 Mana zurück. ERSTAAATTUUUNG!
+1101	Du kannst deine Ultimative einsetzen, wann immer die gespielte Karte das Ultimative-Symbol hat und du genug Mana hast. Meist ist es gut, das so oft wie möglich zu tun!
+1102	Okay, genug Tutorial fürs Erste. Ab hier bist du auf dich gestellt. Vergiss nicht: Die Regeln kannst du im Menü nachlesen! <3
+1103	Die Explosion
+1104	Zauber erhalten
+1105	Zwischen den Kämpfen fügst du deinem Deck eine Karte der Sturmwolke bis zu deiner Stufe hinzu. Sie kommt für den nächsten Kampf auf deine Hand. Wenn nichts passt, kannst du stattdessen eine Spezialkarte nehmen.
+1106	Ultimative bereit
+1107	Du hast genug Mana für den Flammenden Zollstock. Setz ihn jetzt ein oder sag Nein, um dein Mana für einen besseren Moment aufzuheben.
+1108	Stufenaufstieg!

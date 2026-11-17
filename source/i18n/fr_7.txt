@@ -1,0 +1,200 @@
+1109	Votre Puissance a débordé et vous avez atteint le Rang II. Vous pouvez désormais gagner des cartes de Rang II du Nuage de Tempête, plus fortes.
+1110	À vous de jouer
+1111	Bref, jouons une carte. Touche Gemme de Puissance, puis touche « Jouer face cachée ».
+1112	Bon, cette carte te donne +1 Puissance, puis te laisse gagner une carte du Nuage de Tempête. Les cartes gagnées vont d’habitude dans ta main, mais Gemme de Puissance te fait défausser la nouvelle carte tout de suite.
+1113	Certaines cartes ont un Effet de défausse, qui se déclenche quand la carte est défaussée. Ce Diamant dit : Effet de défausse : +1 Puissance. Donc si on le prend, on gagne tout de suite une autre puissance. Allons-y !
+1114	Ce code de partie est déjà utilisé. Réessayez d’héberger.
+1115	Partie introuvable. Vérifiez le code et assurez-vous que votre ami héberge toujours.
+1116	Impossible de joindre le service de mise en relation. Vérifiez votre connexion Internet et réessayez.
+1117	Connexion impossible (
+1118	erreur inconnue
+1119	). Veuillez réessayer.
+1120	Impossible de joindre l’hôte. Vérifiez le code et assurez-vous que votre ami héberge toujours.
+1121	Le jeu en ligne n’est pas disponible dans cette vue. Vérifiez que vous êtes connecté à Claude et que vous ouvrez Spellstorm depuis son lien claude.ai.
+1122	Copier le lien d’invitation
+1123	ou faites-lui saisir le code
+1124	Salon de jeu en ligne
+1125	Choisissez votre sorcier
+1126	Quitter le salon
+1127	Saisissez le code à 6 caractères.
+1128	Votre adversaire s’est déconnecté. En attente de son retour…
+1129	Partie en ligne contre {c}. Les parties en ligne ne sont pas enregistrées.
+1130	Retour au titre
+1131	gagner par la vie
+1132	gagner aux Éclats de Tempête
+1133	accumuler de la Puissance
+1134	survivre
+1135	Vous êtes au Rang {s} avec {0} Puissance.
+1136	Vous avez {0}/{0} PV.
+1137	Remporte la révélation : {s}.
+1138	Révélation : {s}. Contrer fait piocher une carte, et les cartes en main forment votre Score de Déflagration.
+1139	Soigne environ {0} cette manche.
+1140	Vous subissez environ {0} dégâts cette manche.
+1141	Conseil d’expert
+1142	L’Expert réfléchit
+1143	Le choix de l’Expert
+1144	Presque aussi bon
+1145	Plan : {s}.
+1146	Manche d’ouverture.
+1147	Il n’y a pas encore grand-chose à planifier, il s’agit surtout de remporter la révélation.
+1148	L’Expert simule chaque carte face aux coups probables de {c} jusqu’à la fin du combat, et note le résultat selon son plan.
+1149	L’Expert jouerait
+1150	Vous avez pris {c}.
+1151	Vous avez gagné {c}.
+1152	Vous avez passé le gain.
+1153	Vous avez utilisé votre Ultime !
+1154	Vous avez gardé votre mana.
+1155	Vous avez choisi Oui.
+1156	Vous avez choisi Non.
+1157	Vous vous êtes choisi.
+1158	Vous avez choisi {s}.
+1159	Ce replay s’est désynchronisé à la décision {0} (tour {0}), il s’arrête donc ici. Utilisez Exporter la partie pour que Keith puisse regarder.
+1160	il a été enregistré sur une ancienne version de Spellstorm ({s}), et les mises à jour depuis changent son déroulement.
+1161	il a été enregistré avant que les replays ne sauvegardent les choix des bots, donc une mise à jour des bots change son déroulement.
+1162	Première Édition
+1163	Fichier de partie prêt
+1164	Envoyer à Keith
+1165	Copier dans le presse-papiers
+1166	Télécharger le fichier
+1167	▶ Replay
+1168	Changer de joueur
+1169	Visionnage d’un replay…
+1170	💡 Conseil d’expert
+1171	💡 Astuce
+1172	Mouvement Caché : posez un Piège.
+1173	Poussière Scintillante est en jeu.
+1174	Cette manche, les cartes Terre ne font rien sauf soigner 2.
+1175	Vous avez été éliminé. Votre équipe continue…
+1176	Vous avez été éliminé. La partie continue…
+1177	Élément de cette carte :
+1178	Cette carte a un effet de défausse.
+1179	Effet de défausse :
+1180	Dragon de Rang IV
+1181	Carte spéciale
+1182	Dans votre deck
+1183	Sélectionnez {0}.
+1184	Sélectionnez de {0} à {0}.
+1185	Sélectionnez jusqu’à {0}.
+1186	Votre défausse
+1187	Défausse de {c}
+1188	Déroulement d’une partie
+1189	Voici la version courte.
+1190	Lire le livret de règles complet
+1191	Spellstorm sur BoardGameGeek
+1192	Atteignez 8 Éclats de Tempête, ou réduisez la vie de votre adversaire à 0.
+1193	Mêlée générale (3–4 joueurs)
+1194	Une option : chaque sorcier a 50 % de vie en plus (arrondi), et il faut 12 Éclats de Tempête pour gagner au lieu de 8.
+1195	Coopération contre Robot Boy et Deux contre Deux
+1196	Vous n’infligez des dégâts, et ne donnez GLACE, CENDRE et MALÉDICTION, qu’au camp adverse. Quand vous vous soignez, vous pouvez soigner un allié à la place. Vous contrez le prochain
+1197	adversaire dans le sens horaire, en sautant les alliés. Si quelqu’un d’une équipe gagne, toute l’équipe gagne, et une équipe continue quand un membre est éliminé.
+1198	Page {0} sur {0}
+1199	Livret de règles Spellstorm
+1200	Quitter la partie en ligne
+1201	Envoi…
+1202	Votre rapport a été enregistré. Il sera ajouté au fichier des signalements du projet.
+1203	Envoyer votre rapport par e-mail
+1204	Le rapport complet a été copié dans le presse-papiers. Touchez ci-dessous pour ouvrir un e-mail au développeur, puis collez-le s’il est tronqué.
+1205	Ouvrir l’e-mail
+1206	Ou envoyez-le vous-même à {s}.
+1207	en récupérant 8 Éclats de Tempête
+1208	en réduisant son rival à 0 PV
+1209	au départage
+1210	Ensuite :
+1211	. Votre progression est sauvegardée.
+1212	CHAMPION DU TOURNOI !
+1213	Vous avez battu les 7 adversaires en {c}. Votre trophée est sur l’écran Statistiques.
+1214	TOURNOI TERMINÉ
+1215	{c} a mis fin à votre parcours. Vous avez battu {0} adversaires sur 7.
+1216	Salon classé
+1217	Pour cette manche de tutoriel, jouez Gemme de Puissance.
+1218	Jouer face cachée
+1219	Votre progression est synchronisée.
+1220	Se déconnecter ?
+1221	Votre progression reste en sécurité dans votre compte. Cet appareil revient à un profil invité vierge, et vous retrouverez tout en vous reconnectant.
+1222	Se déconnecter
+1223	Déconnexion…
+1224	Déconnecté.
+1225	Progression réinitialisée
+1226	Abandonner le tournoi ?
+1227	Votre progression ({0}/7 avec {c}) sera perdue.
+1228	Continuer
+1229	Quitter le tournoi ?
+1230	Cela met fin à votre tournoi ({0}/7 avec {c}). Vous pouvez en commencer un nouveau à tout moment.
+1231	Quitter le tournoi
+1232	Vous êtes connecté, cela efface donc aussi la progression enregistrée dans votre compte.
+1233	Toutes les données ont été effacées
+1234	Abandonner cette partie ?
+1235	Cela compte comme une défaite. Votre partie sauvegardée sera effacée.
+1236	Cela compte comme une défaite et met fin à votre tournoi. Votre partie sauvegardée sera effacée.
+1237	Continuer à jouer
+1238	Lien d’invitation copié — envoyez-le à votre ami.
+1239	Copiez ce lien d’invitation :
+1240	Vous avez quitté le salon en ligne. Vous pouvez jouer une partie normale à tout moment.
+1241	Choisissez d’abord un fichier ou collez le texte de la partie.
+1242	Ce fichier est trop volumineux pour être un replay Spellstorm.
+1243	Impossible d’ouvrir ce fichier.
+1244	Fichier de partie copié — collez-le dans un message à Keith.
+1245	Téléchargement du fichier de partie…
+1246	Envoyé à Keith. Merci !
+1247	Commencer un nouveau tournoi ?
+1248	Mettre fin à ce parcours
+1249	Tournoi terminé. Commencez-en un nouveau quand vous voulez.
+1250	Retour aux choix
+1251	Adversaire solo du livret de règles : pas de main, des jetons Déflagration à la place, et un Ultime automatique. Facile, Moyen ou Difficile fixe sa Puissance de départ.
+1252	Feu et Terre. Agressif dès le début, gagne en puissance régulièrement. Idéal pour débuter.
+1253	Feu et Eau. Saboteuse agressive qui encombre votre deck de GLACE et de MALÉDICTIONS.
+1254	Eau et Terre. Étudie de nouveaux pouvoirs à chaque niveau.
+1255	Feu et Eau. Énormément de vie, ne peut pas se soigner, se renforce avec FUNESTE.
+1256	Feu et Eau. Peu de vie, beaucoup de parades et des pièges cachés.
+1257	Eau et Terre. Vie minuscule, se soigne vite et au-delà de sa limite.
+1258	Feu et Terre. Tente sa chance avec une pioche de potions instable.
+1259	Feu et Terre. Hackeuse qui vole des actions avec l’Énergie.
+1260	Tournoi en cours avec
+1261	Tournoi : {0}/7 victoires
+1262	Vous aurez un sorcier aléatoire.
+1263	Vous aurez un sorcier aléatoire pour ce tournoi.
+1264	Votre adversaire sera aléatoire.
+1265	Affronter {c}
+1266	Quitter le Tournoi
+1267	Nouveau tournoi
+1268	Commencer une nouvelle partie remplace votre partie sauvegardée en cours.
+1269	Abandonner et jouer une nouvelle partie
+1270	Vous avez une partie classée en cours. En commencer une nouvelle la compte comme une défaite.
+1271	Parties récentes
+1272	Votre partie classée abandonnée compte comme une défaite ({s}).
+1273	Recherche d’un adversaire
+1274	Recherche autour de {0} Elo
+1275	Adversaire trouvé !
+1276	Gagnez en récupérant des Éclats de Tempête.
+1277	Gagnez en {0} combats.
+1278	Gagnez et terminez avec au moins {0} PV.
+1279	Partie Longue (+50 % de vie, 12 Éclats de Tempête pour gagner)
+1280	vous commencez avec l’Initiative
+1281	votre adversaire commence avec l’Initiative
+1282	votre adversaire
+1283	vous commencez avec {0} PV de plus
+1284	vous commencez avec {0} PV de moins
+1285	votre adversaire commence avec {0} PV de plus
+1286	votre adversaire commence avec {0} PV de moins
+1287	Vous avez perdu la partie.
+1288	L’idée : {s}.
+1289	{c} jouera :
+1290	Dans une énigme, tout se déroule toujours de la même façon.
+1291	C’est parti
+1292	Résolue ! ✓
+1293	Énigme {0},
+1294	L’idée :
+1295	C’était la dernière énigme. Bravo !
+1296	Énigme suivante
+1297	Toutes les énigmes
+1298	Pas tout à fait
+1299	Réessayer
+1300	Impossible de joindre le service de synchronisation. Vérifiez votre connexion Internet.
+1301	E-mail ou mot de passe incorrect.
+1302	Un compte existe déjà avec cet e-mail. Essayez de vous connecter.
+1303	Le mot de passe doit contenir au moins 6 caractères.
+1304	Cette adresse e-mail ne semble pas correcte.
+1305	Vérifiez ce que vous avez saisi.
+1306	Confirmez d’abord votre adresse e-mail (vérifiez votre boîte de réception), puis connectez-vous.
+1307	Trop d’e-mails envoyés. Patientez quelques minutes et réessayez.
+1308	Trop de tentatives. Patientez une minute et réessayez.

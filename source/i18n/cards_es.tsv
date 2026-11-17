@@ -1,0 +1,147 @@
+@upper		1
+@quote	«	»
+@weather		CLIMA
+@label	TRIGGER:	ACTIVACIÓN:
+@label	EFFECT:	EFECTO:
+@toxic	TOXIC	TÓXICA
+@toxicnote		Si es tu tercera carta TÓXICA, tu Definitiva termina y ganas una CENIZA, un VENENO y un HIELO.
+@after		Tras revelarla, deja esta carta aquí. Queda inactiva.
+@hl	Fragmento de Tormenta	#e8304a
+@hl	Ficha de PERDICIÓN	#aa1eb4
+@hl	Fichas de PERDICIÓN	#aa1eb4
+@hl	Fichas de Energía	#f0a01e
+@hl	Ficha de Energía	#f0a01e
+@sub	Basic Spell Card	Carta de Hechizo Básica
+@sub	Spell Card	Carta de Hechizo
+@sub	Special Card	Carta Especial
+@sub	Derby Pocket's Wizard Spell Card	Hechizo de Mago de Derby Pocket
+@sub	Eve Williams' Wizard Spell Card	Hechizo de Mago de Eve Williams
+@sub	Oren Bark's Wizard Spell Card	Hechizo de Mago de Oren Bark
+@sub	Omar Evans' Wizard Spell Card	Hechizo de Mago de Omar Evans
+@sub	Croh Vosh's Wizard Spell Card	Hechizo de Mago de Croh Vosh
+@sub	Abragail's Wizard Spell Card	Hechizo de Mago de Abragail
+@sub	May Danaris' Wizard Spell Card	Hechizo de Mago de May Danaris
+@sub	Bunny Wizard's Wizard Spell Card	Hechizo de Mago del Mago Conejito
+dart	{mana}. Si tienes {init}, inflige 1 de daño. / {ult}	La magia de fuego está prohibida en muchas partes del mundo por su naturaleza impredecible.
+block	Gana {init}. Cúrate 1 por cada carta de {fire} revelada.	«Solo necesita un chapuzón, nada más.» – El Maestro del Chapuzón
+pgem	{power} {gain} / Si ganaste una carta, descártala. / {disc}: {power}	Las gemas doradas de la Tormenta de Hechizos tardan en desarrollar su poder.
+essF	Inflige 1 de daño. Puedes ganar cualquier carta de {fire} de Nivel I o II de la Nube de Tormenta. Destierra esta carta.	La magia de fuego suele asociarse con la destrucción.
+essW	{mana}. Puedes ganar cualquier carta de {water} de Nivel I o II de la Nube de Tormenta. Destierra esta carta.	La magia de agua suele asociarse con la curación.
+essE	{power}. Puedes ganar cualquier carta de {earth} de Nivel I o II de la Nube de Tormenta. Destierra esta carta. / {disc}: {power}	La magia de tierra suele asociarse con la construcción.
+coffee	{power}{power}, {gain}. / Si ganaste una carta de {earth}, gana {init}. / {ult}	«¡Esta va a ser la mejor ronda de café de la historia!»
+charge	{mana}{mana}{power} / Inflige 1 de daño. Gana una CENIZA. Si tienes {init}, inflige 1 de daño más. / {ult}	«¡Sé que podemos lograrlo si trabajamos juntos!»
+punch	Gana {init}. Roba 1 de maná a un jugador y este descarta una carta al azar. {ult}	«Usamos la voz para no tener que usar los puños. Usamos los puños para no tener que usar bombas.»
+riot	Descarta tu mano sin activar efectos de descarte. Inflige 1 de daño por cada {earth} descartada. {draw}{draw}{ult}.	«Destruir la Omnigema fue solo el primer paso de nuestra lucha contra la opresión colonial.»
+twopow	{power}{power}{gain} / {disc}: {power}{power}	Cuando veas el icono «Ganar carta», recuerda que puedes elegir no ganar ninguna.
+opal	{draw}, {power}{power}, {mana}{mana}, {gain}. / {disc}: {power}{power}	Las gemas son rocas halladas en lo profundo de la tierra, cargadas de un poder misterioso.
+sift	{power}. Mira las 2 cartas superiores de tu mazo. Puedes descartarlas o devolverlas encima en cualquier orden.	Casi todas las cartas de Tierra tienen efectos de descarte.
+diamond	Descarta exactamente 3 cartas. Si lo haces, / {power}{power}{power} / {disc}: {power}	«Aprendí más hechizos en 1 día en la Tormenta de Hechizos que en los últimos 3 años.» – Estudiosa de Azura
+spirit	{draw}. Revela una {earth} de tu mano. Resuélvela y luego descártala. / {disc}: {power}	Se dice que la magia de tierra es la más antigua, por eso tantas piedras están imbuidas de poder.
+amber	{power}{gain}{gain} (debes ganar una carta dos veces). {disc}: {power}	Los Demonios Empresariales pensaron en perforar la Tormenta de Hechizos, pero salía demasiado caro.
+shatter	Destierra hasta 2 cartas de tu mano. {power} por cada una desterrada. / {disc}: {power}	«¡Esa agua de la tormenta está LLENA de oro, te lo digo yo!» – Buscador de oro
+meteor	Recibe 1 de daño. Puedes resolver cualquier carta de la Nube de Tormenta sin importar su nivel y luego desterrarla. / {disc}: Recibe 1 de daño.	«¡Mamá! ¡Mira! ¡Esto cayó del cielo!» – Hijo de Tiya Bannet
+blood	{mana} / Recibe 1 de daño. Puedes desterrar una carta de tu mano o descarte. / {disc}: {mana}	«Mejor deja en paz las gemas que encuentres en la naturaleza, a menos que sepas lo que haces.» – Abragail
+quake	Los rivales pierden 2 Fichas de Poder y ganan una CENIZA. {gain} / {disc}: {power}.	Un enorme terremoto de 1951 se atribuye a la aparición de los Demonios Empresariales.
+threepow	{power}{power}{gain} / Si algún jugador reveló {water}, {power}. / {disc}: {power}{power}	Cuando veas el icono «Ganar carta», recuerda que puedes elegir no ganar ninguna.
+swamp	{draw}. El jugador con {init} la pierde. Da a los rivales una MALDICIÓN.	La anexión imperial de tierras de la Orden tiene mucho que ver con el avance de los pantanos en su territorio.
+lavabat	{mana}. Puedes mover una carta de {fire} que no sea de Mago de cualquier descarte a otro. / Gana {init}.	Se sabe que peligrosos murciélagos llameantes salen de la actividad volcánica de la Tormenta de Hechizos.
+ruby	Descarta las 3 cartas superiores de tu mazo. Inflige 1 de daño por cada carta de {fire} descartada / O puedes desterrar una de las cartas descartadas.	La moda de las prendas con rubíes fue culpada del Gran Incendio del Baile Real de 1976.
+shock	El jugador elegido pierde 2 Fichas de Poder, descarta una carta al azar, pierde {init} y recibe 1 de daño.	El éxito de 1981 «Onda Expansiva» suele considerarse el origen del género Bonepunk.
+rapid	{draw} / Si tienes {init}, inflige 2 de daño y puedes devolver esta carta a tu mano.	Con una estrategia de fuego, es importante mantener la presión.
+obsidian	Recibe 1 de daño y pierde 2 de maná. Si lo haces, puedes usar {ult} sin pagar su coste de maná.	«Cada vez que cierro los ojos, veo mi reflejo retorcido en esa gema negra como un espejo.» – Anónimo
+lantern	{mana}{mana}. / Si el siguiente jugador en sentido horario reveló {water}, destierra esta carta, ganas una MALDICIÓN y recibes 1 de daño.	No encierres espíritus de fuego conscientes en un farol, bajo ningún concepto.
+heart	Cúrate 3 y gana una MALDICIÓN. / {ult} / {disc}: Recibe 1 de daño.	La Gema Corazón ha aparecido y desaparecido muchas veces en la historia, siempre trayendo una maldición mortal.
+manafont	Destierra un {water} de la Nube de Tormenta. Si lo haces, {mana}{mana}{mana}. / {disc}: Recibe 1 de daño y {mana}.	Hay muchas teorías, pero nadie sabe de dónde viene la magia de las gemas.
+flame	Inflige 1 de daño y luego resuelve y descarta otra {fire} de tu mano. / {ult}	Para apagar una llama mágica hace falta agua *mágica*.
+fb2	Inflige 2 de daño. Si tienes {init}, inflige 2 de daño más.	Es costumbre gritar «¡bum-ya!» al revelar la carta Bola de Fuego II.
+cross	Si tienes {init}, inflige 3 de daño a un rival elegido, pierde {init} y pon esta carta en el descarte de ese rival.	«La primera lección de la magia de fuego siempre debe ser… cómo no quemarse uno mismo.» – B. Underbrom, profesor de Magia de Fuego
+fb	Inflige 1 de daño y gana una CENIZA. Si tienes {init}, inflige 2 de daño más y pierde {init}.	Es costumbre gritar «¡bum!» al revelar la carta Bola de Fuego.
+arctite	{draw}{draw} / Cúrate 2 y da un HIELO.	Se sabe que los piratas contrabandean grandes cantidades de Arctita dentro de icebergs.
+iceflume	Da un HIELO. Puedes desterrar un HIELO de tu mano o descarte. Gana {init}.	«¡Cuidado dónde pisas!» – Anónimo
+frost	Cúrate 1. Pierde 1 Ficha de Poder. Da a los rivales un HIELO.	La Orden Azur se centraba en la magia de agua hasta los años 70, cuando la de hielo se volvió mucho más popular.
+lapis	{draw}. Puedes descartar hasta 2 cartas. / Cúrate 1 por cada {water} descartada.	Los médicos de toda Omia llevan generaciones curando con magia de agua.
+leap	Gana {init} y cúrate 1. / Si un rival reveló {fire}, puedes desterrar una carta de tu mano o descarte.	Los magos azures se especializaron en Gemas de Agua, pero desde entonces se han apropiado de otras de todo el mundo.
+moon	Cúrate 4. / {disc}: Cúrate 2.	La rara y hermosa Piedra Lunar es una de las más codiciadas de toda Omia.
+reflect	{draw}, gana {init}, cúrate 1. / Los jugadores que revelaron {fire} reciben 2 de daño.	«Solo necesita un chapuzón, nada más.» – El Maestro del Chapuzón
+sapph	{draw}, cúrate 1 y gana una CENIZA. / {ult}	Muchos de los magos más impresionantes de Omia tienen un movimiento estrella al que algunos llaman «Definitiva».
+step	Si tienes {init}, cúrate 1. / Si no, gana {init}. / {disc}: Gana {init}.	Del año 366 al 1182, el Reino del Agua dominó gran parte del Continente Oriental.
+twin	{draw} y cúrate 2. / {ult}	«¿¡DOS zafiros!? ¡Vaya, gracias!» – El hijo de alguien
+ultw	Puedes desterrar una {earth} de tu mano. / Si lo haces, {mana}{mana}{mana}. / {ult}	«Solo necesita un chapuzón, nada más.» – El Maestro del Chapuzón
+wave	{mana}{mana}{mana}. El jugador elegido descarta su mano y roba una nueva de 4 cartas.
+dEarth	{gain}{gain}. Inflige 2 de daño. Gana 1 Fragmento de Tormenta. Los rivales ganan una CENIZA. {ult}	Se sabe que los Dragones de Tierra acumulan enormes tesoros en cuevas.
+dFire	Inflige 4 de daño a un jugador. {mana}{mana} / {ult}	Ningún dragón es más temido que el destructivo y terrible Dragón de Fuego.
+dIce	Cúrate 3. Gana 1 Fragmento de Tormenta. Da un HIELO. {ult}	Hasta hace muy poco, los esquivos Dragones de la Tormenta se consideraban criaturas de leyenda.
+dStorm	Inflige 3 de daño y gana 1 Fragmento de Tormenta. {ult}	Hasta hace muy poco, los esquivos Dragones de la Tormenta se consideraban criaturas de leyenda.
+dWind	Gana {init}. Gana un Fragmento de Tormenta. Puedes resolver hasta dos cartas de tu mano. {ult}	Hasta hace muy poco, los esquivos Dragones de la Tormenta se consideraban criaturas de leyenda.
+ice	No se puede jugar. / {disc}: −1 a la Puntuación de Explosión (si se descarta en la fase de Reagrupamiento). / (Gana esta carta en tu descarte.)	«El hielo cortado en cubos es casi como una gema.» – Beosnook
+ash	No se puede jugar. / {disc}: Pierde 1 Ficha de Poder. / (Gana esta carta en tu descarte.)	La Tormenta de Hechizos es una zona muy volcánica, a menudo cubierta de ceniza.
+curse	No se puede jugar. / {disc}: Recibe 1 de daño. / (Gana esta carta en tu descarte.)	«¡Maldición!» – H.M.T. Holliganger, distinguido profesor de la Escuela de Arqueología de la Academia Azura
+trap_mud	Inflige 1 de daño. {mana}, gana {init}.	Omar forma parte de un colectivo secreto de asesinos ninja que recorre los bosques del Claustro.	Puedes revelarla si CONTRARRESTAS con una carta de {fire}.
+trap_dodge	Los primeros 2 puntos de daño que recibas esta ronda se anulan.	La especie de Omar, los zuzuni, son insectoides bípedos oprimidos por la Orden Azur durante casi toda la historia.	Puedes revelarla cuando un rival te esté infligiendo daño.
+trap_ice	Da un HIELO. {mana}, {ult}.	Tras ver en una visión a Croh Vosh tomando el poder de la Tormenta de Hechizos, Omar ha venido a impedirlo.	Puedes revelarla si CONTRARRESTAS con una carta de {water}.
+potiongun	Inflige 1 de daño. Puedes dar una carta que no sea de Mago de tu mano a la mano de un rival. Si lo haces, gana 2 del Elemento de esa carta. {ult}	«¿Crees que puedo darle a ese barril viejo de la colina?»
+unstable	{power}{mana}. Baja un Elemento en 2 para subir otro en 2. Si alguien reveló {water}, +1 Elemento Tierra. {ult}	«Oh, funcionará, créeme. Pero, eh… mejor apártate un poco…»
+beetle	Descarta una {fire} de tu mano para infligir 2 de daño. / {ult}	Héroe para muchos, Omar es considerado un ecoterrorista por los poderosos.
+shuriken	ESPECIAL: esta carta SIEMPRE va primero. / Gana {init} y {draw}, O el rival elegido descarta su carta revelada (no se resuelve) y {draw}. {ult}.	«…»
+undertow	Los rivales descartan una carta al azar. Tú {draw}. Si tienes al menos 3 cartas más que otro jugador, gana una Ficha de PERDICIÓN. {ult}	Croh ha venido a la Tormenta de Hechizos buscando su camino hacia la dominación mundial.
+sinking	{mana}{mana}. Inflige X de daño, donde X es tu número de Fichas de PERDICIÓN. Si la pila de MALDICIONES está vacía, gana una Ficha de PERDICIÓN. {ult}	Hace mucho, Croh Vosh fue traicionado y asesinado en el Puente del Dragón por su viejo aliado, Salutaire Ruupart.
+deepgems	{draw}{mana} Puedes perder 1 Ficha de Poder. Si lo haces, resuelve y luego destierra una {water} de la Nube de Tormenta. {ult}	El dominio del Reino del Agua se debió en parte a su capacidad para extraer recursos de las profundidades.
+curriculum	{power} X veces, donde X es tu Nivel actual. Puedes desterrar hasta 2 cartas de la Nube de Tormenta. {gain}. {ult}	«¡No me puedo creer la *basura* que me piden enseñar a veces!»
+starshot	Descarta una carta para infligir 1 de daño. Si era de Nivel II, inflige 1 de daño más. {mana} por cada Ficha de Energía que tengas. Pierde 2 Fichas de Energía. {ult}	«¡Eh, TÚ! ¡Toma esto!»
+databreach	Pierde 1 o 2 Fichas de Energía. Si lo haces, {power} esa cantidad de veces. Si aún tienes 2 Fichas de Energía, el rival elegido revela su mano y descarta una carta a tu elección. {ult}	«¡Sí! Estoy dentro. A ver qué traman ahora estos idiotas…»
+buddy	Los jugadores de Nivel I {power}. Tú {power}{mana}. Puedes resolver otra carta de {earth} revelada. / {ult}	«Conejito se pregunta si puede darte la mano.» – Cuidador de Conejito
+snowday	Cúrate 2. Da un HIELO a todos los rivales que no tengan ninguno en su descarte. / {ult}.	Los Peluches son una especie de muñecos de peluche que cobraron vida gracias a una poderosa magia estelar.
+rb_repair	Cura 1 por rival. {draw}{mana}. / ~Nivel II: Destierra un HIELO o una MALDICIÓN del descarte de Chico Robot. / ~Nivel III: Cura 3. {draw}.		¡Hola! Soy Chico Robot.
+rb_iceblock	{blast}. Cura 1 por rival. / ~Nivel II: Da un HIELO. / ~Nivel III: {draw}. Cura 1 por rival.
+rb_bounce	Resuelve y luego destierra la carta «X» de la Nube de Tormenta. / ~Nivel II: Si Chico Robot tiene {init}, inflige 2 de daño.		¡Uy! ¡Perdón!
+rb_laser	Gana {init}. Inflige 1 de daño. Chico Robot descarta una Ficha de Explosión. / ~Nivel II: Da una MALDICIÓN. / ~Nivel III: {mana}
+rb_fist	{mana}. Chico Robot descarta una Ficha de Explosión. Inflige 1 de daño. / ~Nivel II: Inflige 1 de daño. / ~Nivel III: Inflige 1 de daño.		¡Eh! ¡Mira mi truco!
+rb_upgrade	{blast}{blast}{mana} / Destierra la carta «X» de la Nube de Tormenta. / ~Nivel III: {blast}{mana}.
+rb_hack	{blast}{draw}{mana} / ~Nivel II: Los demás jugadores descartan una carta al azar. / ~Nivel III: {blast}		!scabbalee BaYTOBORMi Ω ####
+rb_drill	{blast}{mana} / Los rivales que revelaron {water} ganan una CENIZA. / ~Nivel III: Inflige 1 de daño.		¡Soy Chico Robot!
+rb_blast	{draw}{draw} / ~Nivel II: Cura 1. / ~Nivel III: Cura 1 por rival.		¡BUUUM!
+beetle_2e	Descarta una carta de {fire}. Si lo haces, el jugador elegido recibe 3 de daño.	Héroe para muchos, Omar es considerado un ecoterrorista por los poderosos.
+databreach_2e	{power}{power} El rival elegido revela su mano y descarta una carta a tu elección. Si alguien reveló {water}, gana una Ficha de Energía. / {ult}	«¡Sí! Estoy dentro. A ver qué traman ahora estos idiotas…»
+starshot_2e	Inflige 1 de daño. Puedes perder 2 Fichas de Energía para resolver otra carta de {fire} de tu mano. / {ult}	«¡Eh, TÚ! ¡Toma esto!»
+undertow_2e	{draw}. Los rivales descartan dos cartas al azar. Si CONTRARRESTASTE, gana una Ficha de PERDICIÓN. {ult}	Croh ha venido a la Tormenta de Hechizos buscando su camino hacia la dominación mundial.
+sinking_2e	{mana}{mana}. Inflige X + 1 de daño, donde X es tu número de Fichas de PERDICIÓN. Si la pila de MALDICIONES está vacía, gana una Ficha de PERDICIÓN. / {ult}	Hace mucho, Croh Vosh fue traicionado y asesinado en el Puente del Dragón por su viejo aliado, Salutaire Ruupart.
+charge_2e	{mana}{power} / Inflige 1 de daño. Gana una CENIZA. Si tienes {init}, {mana} e inflige 1 de daño más. / {ult}	«¡Sé que podemos lograrlo si trabajamos juntos!»
+coffee_2e	{power}, {gain}. / Si ganaste una carta de {earth}, {power} y gana {init}. / {ult}	«¡Esta va a ser la mejor ronda de café de la historia!»
+lantern_2e	{mana}{mana}. / Si alguien reveló {water}, todos los jugadores reciben 1 de daño y ganan una MALDICIÓN.	No encierres espíritus de fuego conscientes en un farol, bajo ningún concepto.
+rapid_2e	Si tienes {init}, inflige 2 de daño, gana una CENIZA y devuelve esta carta a tu mano.	Con una estrategia de fuego, es importante mantener la presión.
+leap_2e	Gana {init}. Cúrate 1. / Destierra una carta de tu mano o descarte.	Los magos azures se especializaron en Gemas de Agua, pero desde entonces se han apropiado de otras de todo el mundo.
+manafont_2e	Descarta una carta de {water}. / Si lo haces, {mana}{mana}{mana}. / {disc}: {mana}.	Hay muchas teorías, pero nadie sabe de dónde viene la magia de las gemas.
+shock_2e	El jugador elegido recibe 1 de daño, pierde 2 Fichas de Poder y 2 de Maná.	El éxito de 1981 «Onda Expansiva» suele considerarse el origen del género Bonepunk.
+amber_2e	Puedes {gain} hasta dos veces, pero solo cartas de {earth}. / {disc}: {power}	Los Demonios Empresariales pensaron en perforar la Tormenta de Hechizos, pero salía demasiado caro.
+ruby_2e	Descarta las 3 cartas superiores de tu mazo. / Inflige 1 de daño por cada carta de {fire} descartada.	La moda de las prendas con rubíes fue culpada del Gran Incendio del Baile Real de 1976.
+arctite_2e	{draw}{draw} / Los rivales descartan 2 cartas al azar.	Se sabe que los piratas contrabandean grandes cantidades de Arctita dentro de icebergs.
+blood_2e	Puedes recibir 1 o 2 de daño y luego robar esa cantidad de cartas. / {disc}: Recibe 1 de daño.	«Mejor deja en paz las gemas que encuentres en la naturaleza, a menos que sepas lo que haces.» – Abragail
+potiongun_2e	Da una carta que no sea de Mago de tu mano a la mano de un rival. Gana 2 del Elemento de esa carta. Si era de {fire}, inflige 2 de daño. {ult}	«¿Crees que puedo darle a ese barril viejo de la colina?»
+w_blizz	{draw}. Si revelas {fire} esta ronda, {mana}{mana}.
+w_breeze	{draw}{mana}{power}
+w_dust	{draw}. {power}. Todos los jugadores descartan una carta al azar.
+w_ewave	{draw}. Tras resolver aquí sus cartas, los jugadores pueden usar su Definitiva (aún pagando el maná necesario).
+w_fearth	{draw}. Si revelas {earth} esta ronda, {power}.
+w_flurry	{draw}{mana}. Si revelas {water} esta ronda, {mana}.
+w_fstar	{draw}. Todos los jugadores pueden {gain} (primero quien tenga {init}).
+w_glitter	{draw}{draw}. Las cartas de {earth} no hacen nada al resolverse, salvo curar 2.
+w_heat	{draw}. Si revelas {fire} esta ronda, {mana}.
+w_ionic	{draw}{draw}. Todos los jugadores {mana}. Los jugadores de Nivel II y III pierden 2 Fichas de Poder.
+w_lightning	{draw}. Todos los jugadores {mana}. Los jugadores con más de 8 de vida reciben 1 de daño.
+w_omen	{draw}. Los jugadores de Nivel 2 {mana}. Los de Nivel 1 {power}{power}{power}.
+w_shoot	{draw}{draw} y {power}{power}.
+w_soothe	{draw}. Cada jugador puede desterrar una CENIZA, MALDICIÓN o HIELO de su mano o descarte.
+w_strange	{draw}, {draw}. Descarta la siguiente carta del Mazo de Clima.
+w_tidal	{draw}{draw}, {mana}. Todos los jugadores descartan 2 cartas al azar.
+w_toads	{draw}. El jugador con {init} la pierde. Quien la obtenga gana una MALDICIÓN y {mana}.
+w_warp	{draw}{draw}. Destierra todas las cartas de la Nube de Tormenta y saca 5 nuevas.
+w_wild	{draw}. Todos roban una carta del Mazo de Tormenta y la ponen boca arriba en su descarte (sin activar efectos de descarte).
+pot_delixir	Resuelve la carta superior del Mazo de Dragones.
+pot_devil	{power}. Da una CENIZA.
+pot_explo	Inflige 1 de daño. Gana 1 de cada elemento.
+pot_frostb	Los rivales pierden 1 de maná. / Da un HIELO.
+pot_gas	Recibe 1 de daño. El efecto de tu próxima Poción ocurre dos veces (pagas el coste una vez).
+pot_haste	Si tienes {init}, inflige 1 de daño. Si no, gana {init}.
+pot_purple	{power}{mana}{mana}
+pot_soda	Cúrate 2.
+pot_storm	{draw}{power}

@@ -1,0 +1,145 @@
+@upper		1
+@quote	„	“
+@weather		WETTER
+@label	TRIGGER:	AUSLÖSER:
+@label	EFFECT:	EFFEKT:
+@toxic	TOXIC	GIFTIG
+@toxicnote		Ist dies deine dritte GIFTIGE Karte, endet deine Ultimative und du erhältst eine ASCHE, ein GIFT und ein EIS.
+@after		Lass diese Karte nach dem Aufdecken hier liegen. Sie ist inaktiv.
+@hl	Sturmsplitter	#e8304a
+@hl	VERDAMMNIS-Marker	#aa1eb4
+@hl	Energiemarker	#f0a01e
+@sub	Basic Spell Card	Basis-Zauberkarte
+@sub	Spell Card	Zauberkarte
+@sub	Special Card	Spezialkarte
+@sub	Derby Pocket's Wizard Spell Card	Zauberkarte von Derby Pocket
+@sub	Eve Williams' Wizard Spell Card	Zauberkarte von Eve Williams
+@sub	Oren Bark's Wizard Spell Card	Zauberkarte von Oren Bark
+@sub	Omar Evans' Wizard Spell Card	Zauberkarte von Omar Evans
+@sub	Croh Vosh's Wizard Spell Card	Zauberkarte von Croh Vosh
+@sub	Abragail's Wizard Spell Card	Zauberkarte von Abragail
+@sub	May Danaris' Wizard Spell Card	Zauberkarte von May Danaris
+@sub	Bunny Wizard's Wizard Spell Card	Zauberkarte des Hasenzauberers
+dart	{mana}. Wenn du {init} hast, verursache 1 Schaden. / {ult}	Feuermagie ist wegen ihrer Unberechenbarkeit vielerorts verboten.
+block	Erhalte {init}. Heile 1 für jede aufgedeckte {fire}-Karte.	„Er braucht nur einen kleinen Spritzer, mehr braucht er nicht.“ – Der Spritzmeister
+pgem	{power} {gain} / Wenn du eine Karte erhalten hast, wirf sie ab. / {disc}: {power}	Die goldenen Juwelen des Zaubersturms brauchen Zeit, um ihre Macht zu entfalten.
+essF	Verursache 1 Schaden. Du darfst eine beliebige {fire}-Karte der Stufe I oder II aus der Sturmwolke erhalten. Verbanne diese Karte.	Feuermagie wird meist mit Zerstörung verbunden.
+essW	{mana}. Du darfst eine beliebige {water}-Karte der Stufe I oder II aus der Sturmwolke erhalten. Verbanne diese Karte.	Wassermagie wird meist mit Heilung verbunden.
+essE	{power}. Du darfst eine beliebige {earth}-Karte der Stufe I oder II aus der Sturmwolke erhalten. Verbanne diese Karte. / {disc}: {power}	Erdmagie wird meist mit dem Bauen verbunden.
+coffee	{power}{power}, {gain}. / Wenn du eine {earth}-Karte erhalten hast, erhalte {init}. / {ult}	„Das wird die beste Kaffeerunde aller Zeiten!“
+charge	{mana}{mana}{power} / Verursache 1 Schaden. Erhalte eine ASCHE. Wenn du {init} hast, verursache 1 weiteren Schaden. / {ult}	„Ich weiß, dass wir es zusammen schaffen können!“
+punch	Erhalte {init}. Stiehl einem Spieler 1 Mana; er wirft eine zufällige Karte ab. {ult}	„Wir benutzen Worte, damit wir keine Fäuste brauchen. Wir benutzen Fäuste, damit wir keine Bomben brauchen.“
+riot	Wirf deine Hand ab, ohne Abwurfeffekte auszulösen. Verursache 1 Schaden pro abgeworfener {earth}. {draw}{draw}{ult}.	„Die Zerstörung des Omni-Juwels war nur der erste Schritt in unserem Kampf gegen koloniale Unterdrückung.“
+twopow	{power}{power}{gain} / {disc}: {power}{power}	Wenn du das Symbol „Karte erhalten“ siehst: Du darfst auch darauf verzichten, eine Karte zu erhalten.
+opal	{draw}, {power}{power}, {mana}{mana}, {gain}. / {disc}: {power}{power}	Juwelen sind Steine tief aus der Erde, geladen mit geheimnisvoller Macht.
+sift	{power}. Sieh dir die obersten 2 Karten deines Decks an. Du darfst sie abwerfen oder in beliebiger Reihenfolge zurücklegen.	Fast alle Erdkarten haben Abwurfeffekte.
+diamond	Wirf genau 3 Karten ab. Wenn du das tust, / {power}{power}{power} / {disc}: {power}	„An 1 Tag im Zaubersturm mehr Zauber gelernt als in den letzten 3 Jahren.“ – Gelehrte aus Azura
+spirit	{draw}. Decke eine {earth} aus deiner Hand auf. Handle sie ab und wirf sie dann ab. / {disc}: {power}	Erdmagie gilt als die älteste Magie – darum sind so viele Steine mit Kräften erfüllt.
+amber	{power}{gain}{gain} (du musst zweimal eine Karte erhalten). {disc}: {power}	Die Geschäftsdämonen erwogen Bohrungen im Zaubersturm, doch das war zu teuer.
+shatter	Verbanne bis zu 2 Karten aus deiner Hand. {power} für jede verbannte. / {disc}: {power}	„Das Wasser vom Zaubersturm ist VOLLER Gold, sag ich dir!“ – Goldsucher
+meteor	Nimm 1 Schaden. Du darfst eine beliebige Karte der Sturmwolke unabhängig von ihrer Stufe abhandeln und dann verbannen. / {disc}: Nimm 1 Schaden.	„Mama! Schau! Das ist vom Himmel gefallen!“ – Ein Kind von Tiya Bannet
+blood	{mana} / Nimm 1 Schaden. Du darfst eine Karte aus Hand oder Ablage verbannen. / {disc}: {mana}	„Juwelen in der Wildnis lässt man besser liegen – außer man weiß genau, was man tut.“ – Abragail
+quake	Gegner verlieren 2 Machtmarker und erhalten eine ASCHE. {gain} / {disc}: {power}.	Ein gewaltiges Erdbeben im Jahr 1951 wird dem Auftauchen der Geschäftsdämonen zugeschrieben.
+threepow	{power}{power}{gain} / Wenn ein Spieler {water} aufgedeckt hat, {power}. / {disc}: {power}{power}	Wenn du das Symbol „Karte erhalten“ siehst: Du darfst auch darauf verzichten, eine Karte zu erhalten.
+swamp	{draw}. Der Spieler mit {init} verliert sie. Gib den Gegnern einen FLUCH.	Die imperiale Landnahme des Ordens hat viel mit den wachsenden Sümpfen in seinem Gebiet zu tun.
+lavabat	{mana}. Du darfst eine Nicht-Zauberer-{fire}-Karte von einem Ablagestapel auf einen anderen legen. / Erhalte {init}.	Aus der vulkanischen Glut des Zaubersturms sollen gefährliche brennende Fledermäuse fliegen.
+ruby	Wirf die obersten 3 Karten deines Decks ab. Verursache 1 Schaden pro abgeworfener {fire}-Karte / ODER verbanne eine der abgeworfenen Karten.	Der Trend zu rubinbesetzter Kleidung wurde für den Großen Brand des Königsballs 1976 verantwortlich gemacht.
+shock	Der gewählte Spieler verliert 2 Machtmarker, wirft eine zufällige Karte ab, verliert {init} und erleidet 1 Schaden.	Der Hit „Schockwelle“ von 1981 gilt oft als Geburtsstunde des Bonepunk.
+rapid	{draw} / Wenn du {init} hast, verursache 2 Schaden; du darfst diese Karte auf die Hand zurücknehmen.	Bei einer Feuerstrategie ist es wichtig, den Druck hochzuhalten.
+obsidian	Nimm 1 Schaden und verliere 2 Mana. Wenn du das tust, darfst du {ult} ohne Manakosten einsetzen.	„Immer wenn ich die Augen schließe, sehe ich mein verzerrtes Spiegelbild in diesem schwarzen Juwel.“ – Unbekannt
+lantern	{mana}{mana}. / Wenn der nächste Spieler im Uhrzeigersinn {water} aufgedeckt hat, verbanne diese Karte; du erhältst einen FLUCH und nimmst 1 Schaden.	Sperre niemals, aus keinem Grund, bewusste Feuergeister in eine Laterne.
+heart	Heile 3 und erhalte einen FLUCH. / {ult} / {disc}: Nimm 1 Schaden.	Das Herzjuwel tauchte im Lauf der Geschichte oft auf und verschwand wieder – stets mit einem tödlichen Fluch.
+manafont	Verbanne eine {water} in der Sturmwolke. Wenn du das tust, {mana}{mana}{mana}. / {disc}: Nimm 1 Schaden und {mana}.	Es gibt viele Theorien, doch niemand weiß, woher die Magie in den Juwelen ursprünglich stammt.
+flame	Verursache 1 Schaden, dann handle eine andere {fire} aus deiner Hand ab und wirf sie ab. / {ult}	Um eine magische Flamme zu löschen, brauchst du *magisches* Wasser.
+fb2	Verursache 2 Schaden. Wenn du {init} hast, verursache 2 weiteren Schaden.	Beim Aufdecken von Feuerball II ruft man traditionell „Schabumm-ja!“.
+cross	Wenn du {init} hast, verursache 3 Schaden bei einem gewählten Gegner, verliere {init} und lege diese Karte auf dessen Ablagestapel.	„Die erste Lektion in Feuermagie muss immer lauten … wie man sich nicht selbst verbrennt.“ – B. Underbrom, Professor für Feuermagie
+fb	Verursache 1 Schaden und erhalte eine ASCHE. Wenn du {init} hast, verursache 2 weiteren Schaden und verliere {init}.	Beim Aufdecken von Feuerball ruft man traditionell „Schabumm!“.
+arctite	{draw}{draw} / Heile 2 und gib ein EIS.	Piraten schmuggeln angeblich große Mengen Arktit in Eisbergen.
+iceflume	Gib ein EIS. Du darfst ein EIS aus Hand oder Ablage verbannen. Erhalte {init}.	„Pass auf, wo du hintrittst!“ – Unbekannt
+frost	Heile 1. Verliere 1 Machtmarker. Gib den Gegnern ein EIS.	Der Azurorden konzentrierte sich bis in die 1970er auf Wassermagie, dann wurde Eismagie plötzlich viel beliebter.
+lapis	{draw}. Du darfst bis zu 2 Karten abwerfen. / Heile 1 pro abgeworfener {water}.	Ärzte in ganz Omia heilen seit Generationen Kranke mit Wassermagie.
+leap	Erhalte {init} und heile 1. / Wenn ein Gegner {fire} aufgedeckt hat, darfst du eine Karte aus Hand oder Ablage verbannen.	Azurne Zauberer spezialisierten sich einst auf Wasserjuwelen, haben sich seitdem aber auch andere aus aller Welt angeeignet.
+moon	Heile 4. / {disc}: Heile 2.	Der seltene, wunderschöne Mondstein ist einer der begehrtesten in ganz Omia.
+reflect	{draw}, erhalte {init}, heile 1. / Spieler, die {fire} aufgedeckt haben, erleiden 2 Schaden.	„Er braucht nur einen kleinen Spritzer, mehr braucht er nicht.“ – Der Spritzmeister
+sapph	{draw}, heile 1 und erhalte eine ASCHE. / {ult}	Viele der beeindruckendsten Zauberer Omias haben einen Markenzeichen-Zug, den manche „Ultimative“ nennen.
+step	Wenn du {init} hast, heile 1. / Sonst erhalte {init}. / {disc}: Erhalte {init}.	Von 366 bis 1182 herrschte das Wasserkönigreich über weite Teile des Ostkontinents.
+twin	{draw} und heile 2. / {ult}	„ZWEI Saphire?! Wow, danke!“ – Jemandes Sohn
+ultw	Du darfst eine {earth} aus deiner Hand verbannen. / Wenn du das tust, {mana}{mana}{mana}. / {ult}	„Er braucht nur einen kleinen Spritzer, mehr braucht er nicht.“ – Der Spritzmeister
+wave	{mana}{mana}{mana}. Der gewählte Spieler wirft seine Hand ab und zieht 4 neue Karten.
+dEarth	{gain}{gain}. Verursache 2 Schaden. Erhalte 1 Sturmsplitter. Gegner erhalten eine ASCHE. {ult}	Erddrachen horten bekanntlich riesige Schätze in Höhlen.
+dFire	Verursache 4 Schaden bei einem Spieler. {mana}{mana} / {ult}	Kein Drache wird mehr gefürchtet als der zerstörerische, schreckliche Feuerdrache.
+dIce	Heile 3. Erhalte 1 Sturmsplitter. Gib ein EIS. {ult}	Die schwer fassbaren Sturmdrachen galten bis vor Kurzem als Fabelwesen.
+dStorm	Verursache 3 Schaden und erhalte 1 Sturmsplitter. {ult}	Die schwer fassbaren Sturmdrachen galten bis vor Kurzem als Fabelwesen.
+dWind	Erhalte {init}. Erhalte einen Sturmsplitter. Du darfst bis zu zwei Karten aus deiner Hand abhandeln. {ult}	Die schwer fassbaren Sturmdrachen galten bis vor Kurzem als Fabelwesen.
+ice	Kann nicht gespielt werden. / {disc}: −1 auf den Explosionswert (wenn in der Neuformierung abgeworfen). / (Erhalte sie auf deinen Ablagestapel.)	„Würfelförmig geschnittenes Eis ist fast wie ein Juwel.“ – Beosnook
+ash	Kann nicht gespielt werden. / {disc}: Verliere 1 Machtmarker. / (Erhalte sie auf deinen Ablagestapel.)	Der Zaubersturm ist ein stark vulkanisches Gebiet, oft mit Asche bedeckt.
+curse	Kann nicht gespielt werden. / {disc}: Nimm 1 Schaden. / (Erhalte sie auf deinen Ablagestapel.)	„Verflucht!“ – H.M.T. Holliganger, ausgezeichneter Professor der Archäologischen Fakultät der Azura-Akademie
+trap_mud	Verursache 1 Schaden. {mana}, erhalte {init}.	Omar gehört einem geheimen Kollektiv von Ninja-Assassinen an, das die Klosterwälder durchstreift.	Du darfst sie aufdecken, wenn du mit einer {fire}-Karte KONTERST.
+trap_dodge	Die ersten 2 Schadenspunkte, die du diese Runde erleidest, werden aufgehoben.	Omars Spezies, die Zuzuni, sind zweibeinige Insektoiden, die vom Azurorden fast die ganze Geschichte hindurch unterdrückt wurden.	Du darfst sie aufdecken, wenn dir ein Gegner Schaden zufügt.
+trap_ice	Gib ein EIS. {mana}, {ult}.	Nach einer Vision, in der Croh Vosh die Macht des Zaubersturms an sich reißt, kam Omar, um das zu verhindern.	Du darfst sie aufdecken, wenn du mit einer {water}-Karte KONTERST.
+potiongun	Verursache 1 Schaden. Du darfst eine Nicht-Zauberer-Karte aus deiner Hand in die Hand eines Gegners geben. Wenn du das tust, erhalte 2 vom Element dieser Karte. {ult}	„Meinst du, ich treffe das alte Fass da drüben am Hügel?“
+unstable	{power}{mana}. Senke ein Element um 2, um ein anderes um 2 zu erhöhen. Wenn jemand {water} aufgedeckt hat, +1 Erd-Element. {ult}	„Oh, das klappt schon, vertrau mir. Aber, äh … geh lieber ein Stück zurück …“
+beetle	Wirf eine {fire} aus deiner Hand ab, um 2 Schaden zu verursachen. / {ult}	Für viele ein Held, gilt Omar den Mächtigen als Öko-Terrorist.
+shuriken	SPEZIAL: Diese Karte ist IMMER zuerst dran. / Erhalte {init} und {draw}, ODER der gewählte Gegner wirft seine aufgedeckte Karte ab (sie wird nicht abgehandelt) und {draw}. {ult}.	„…“
+undertow	Gegner werfen eine zufällige Karte ab. Du {draw}. Hast du mindestens 3 Karten mehr als ein anderer Spieler, erhalte einen VERDAMMNIS-Marker. {ult}	Croh ist in den Zaubersturm gekommen, um seinen Weg zur Weltherrschaft zu finden.
+sinking	{mana}{mana}. Verursache X Schaden; X ist deine Anzahl an VERDAMMNIS-Markern. Ist der FLUCH-Stapel leer, erhalte einen VERDAMMNIS-Marker. {ult}	Vor langer Zeit wurde Croh Vosh an der Drachenbrücke von seinem langjährigen Verbündeten Salutaire Ruupart verraten und getötet.
+deepgems	{draw}{mana} Du darfst 1 Machtmarker verlieren. Wenn du das tust, handle eine {water} aus der Sturmwolke ab und verbanne sie. {ult}	Die Vorherrschaft des Wasserkönigreichs beruhte teils darauf, Rohstoffe aus der Tiefe zu bergen.
+curriculum	{power} X-mal; X ist deine aktuelle Stufe. Du darfst bis zu 2 Karten in der Sturmwolke verbannen. {gain}. {ult}	„Unglaublich, was für einen *Mist* ich manchmal unterrichten soll!“
+starshot	Wirf eine Karte ab, um 1 Schaden zu verursachen. War sie Stufe II, verursache 1 weiteren Schaden. {mana} pro Energiemarker. Verliere 2 Energiemarker. {ult}	„Hey, DU! Friss das!“
+databreach	Verliere 1 oder 2 Energiemarker. Wenn du das tust, {power} so oft. Hast du noch 2 Energiemarker, deckt der gewählte Gegner seine Hand auf und wirft eine Karte deiner Wahl ab. {ult}	„Ja! Ich bin drin. Mal sehen, was diese Idioten als Nächstes vorhaben …“
+buddy	Spieler auf Stufe I {power}. Du {power}{mana}. Du darfst eine andere aufgedeckte {earth}-Karte abhandeln. / {ult}	„Hase fragt sich, ob er wohl deine Hand halten darf.“ – Hases Betreuer
+snowday	Heile 2. Gib allen Gegnern ohne EIS auf dem Ablagestapel ein EIS. / {ult}.	Die Plüschis sind eine Art Stofftiere, die durch mächtige Sternenmagie zum Leben erweckt wurden.
+rb_repair	Heile 1/Gegner. {draw}{mana}. / ~Stufe II: Verbanne ein EIS oder einen FLUCH von Robo-Junges Ablagestapel. / ~Stufe III: Heile 3. {draw}.		Ahoi! Ich bin Robo-Junge.
+rb_iceblock	{blast}. Heile 1/Gegner. / ~Stufe II: Gib ein EIS. / ~Stufe III: {draw}. Heile 1/Gegner.
+rb_bounce	Handle die „X“-Karte der Sturmwolke ab und verbanne sie. / ~Stufe II: Hat Robo-Junge {init}, verursache 2 Schaden.		Uff! Sorry!
+rb_laser	Erhalte {init}. Verursache 1 Schaden. Robo-Junge wirft einen Explosionsmarker ab. / ~Stufe II: Gib einen FLUCH. / ~Stufe III: {mana}
+rb_fist	{mana}. Robo-Junge wirft einen Explosionsmarker ab. Verursache 1 Schaden. / ~Stufe II: Verursache 1 Schaden. / ~Stufe III: Verursache 1 Schaden.		Hey! Schau dir meinen Trick an!
+rb_upgrade	{blast}{blast}{mana} / Verbanne die „X“-Karte der Sturmwolke. / ~Stufe III: {blast}{mana}.
+rb_hack	{blast}{draw}{mana} / ~Stufe II: Andere Spieler werfen eine zufällige Karte ab. / ~Stufe III: {blast}		!scabbalee BaYTOBORMi Ω ####
+rb_drill	{blast}{mana} / Gegner, die {water} aufgedeckt haben, erhalten eine ASCHE. / ~Stufe III: Verursache 1 Schaden.		Ich bin Robo-Junge!
+rb_blast	{draw}{draw} / ~Stufe II: Heile 1. / ~Stufe III: Heile 1/Gegner.		WUUUMM!
+beetle_2e	Wirf eine {fire}-Karte ab. Wenn du das tust, erleidet der gewählte Spieler 3 Schaden.	Für viele ein Held, gilt Omar den Mächtigen als Öko-Terrorist.
+databreach_2e	{power}{power} Der gewählte Gegner deckt seine Hand auf und wirft eine Karte deiner Wahl ab. Wenn jemand {water} aufgedeckt hat, erhalte einen Energiemarker. / {ult}	„Ja! Ich bin drin. Mal sehen, was diese Idioten als Nächstes vorhaben …“
+starshot_2e	Verursache 1 Schaden. Du darfst 2 Energiemarker verlieren, um eine andere {fire}-Karte aus deiner Hand abzuhandeln. / {ult}	„Hey, DU! Friss das!“
+undertow_2e	{draw}. Gegner werfen zwei zufällige Karten ab. Wenn du GEKONTERT hast, erhalte einen VERDAMMNIS-Marker. {ult}	Croh ist in den Zaubersturm gekommen, um seinen Weg zur Weltherrschaft zu finden.
+sinking_2e	{mana}{mana}. Verursache X + 1 Schaden; X ist deine Anzahl an VERDAMMNIS-Markern. Ist der FLUCH-Stapel leer, erhalte einen VERDAMMNIS-Marker. / {ult}	Vor langer Zeit wurde Croh Vosh an der Drachenbrücke von seinem langjährigen Verbündeten Salutaire Ruupart verraten und getötet.
+charge_2e	{mana}{power} / Verursache 1 Schaden. Erhalte eine ASCHE. Wenn du {init} hast, {mana} und verursache 1 weiteren Schaden. / {ult}	„Ich weiß, dass wir es zusammen schaffen können!“
+coffee_2e	{power}, {gain}. / Wenn du eine {earth}-Karte erhalten hast, {power} und erhalte {init}. / {ult}	„Das wird die beste Kaffeerunde aller Zeiten!“
+lantern_2e	{mana}{mana}. / Wenn jemand {water} aufgedeckt hat, erleiden alle Spieler 1 Schaden und erhalten einen FLUCH.	Sperre niemals, aus keinem Grund, bewusste Feuergeister in eine Laterne.
+rapid_2e	Wenn du {init} hast, verursache 2 Schaden, erhalte eine ASCHE und nimm diese Karte auf die Hand zurück.	Bei einer Feuerstrategie ist es wichtig, den Druck hochzuhalten.
+leap_2e	Erhalte {init}. Heile 1. / Verbanne eine Karte aus Hand oder Ablage.	Azurne Zauberer spezialisierten sich einst auf Wasserjuwelen, haben sich seitdem aber auch andere aus aller Welt angeeignet.
+manafont_2e	Wirf eine {water}-Karte ab. / Wenn du das tust, {mana}{mana}{mana}. / {disc}: {mana}.	Es gibt viele Theorien, doch niemand weiß, woher die Magie in den Juwelen ursprünglich stammt.
+shock_2e	Der gewählte Spieler erleidet 1 Schaden und verliert 2 Machtmarker und 2 Mana.	Der Hit „Schockwelle“ von 1981 gilt oft als Geburtsstunde des Bonepunk.
+amber_2e	Du darfst bis zu zweimal {gain}, aber nur {earth}-Karten. / {disc}: {power}	Die Geschäftsdämonen erwogen Bohrungen im Zaubersturm, doch das war zu teuer.
+ruby_2e	Wirf die obersten 3 Karten deines Decks ab. / Verursache 1 Schaden pro abgeworfener {fire}-Karte.	Der Trend zu rubinbesetzter Kleidung wurde für den Großen Brand des Königsballs 1976 verantwortlich gemacht.
+arctite_2e	{draw}{draw} / Gegner werfen 2 zufällige Karten ab.	Piraten schmuggeln angeblich große Mengen Arktit in Eisbergen.
+blood_2e	Du darfst 1 oder 2 Schaden nehmen und dann so viele Karten ziehen. / {disc}: Nimm 1 Schaden.	„Juwelen in der Wildnis lässt man besser liegen – außer man weiß genau, was man tut.“ – Abragail
+potiongun_2e	Gib eine Nicht-Zauberer-Karte aus deiner Hand in die Hand eines Gegners. Erhalte 2 vom Element dieser Karte. War es {fire}, verursache 2 Schaden. {ult}	„Meinst du, ich treffe das alte Fass da drüben am Hügel?“
+w_blizz	{draw}. Wenn du diese Runde {fire} aufdeckst, {mana}{mana}.
+w_breeze	{draw}{mana}{power}
+w_dust	{draw}. {power}. Alle Spieler werfen eine zufällige Karte ab.
+w_ewave	{draw}. Nachdem sie hier ihre Karten abgehandelt haben, dürfen Spieler ihre Ultimative einsetzen (Mana nötig).
+w_fearth	{draw}. Wenn du diese Runde {earth} aufdeckst, {power}.
+w_flurry	{draw}{mana}. Wenn du diese Runde {water} aufdeckst, {mana}.
+w_fstar	{draw}. Alle Spieler dürfen {gain} (wer {init} hat, zuerst).
+w_glitter	{draw}{draw}. {earth}-Karten bewirken beim Abhandeln nichts, außer 2 zu heilen.
+w_heat	{draw}. Wenn du diese Runde {fire} aufdeckst, {mana}.
+w_ionic	{draw}{draw}. Alle Spieler {mana}. Spieler auf Stufe II und III verlieren 2 Machtmarker.
+w_lightning	{draw}. Alle Spieler {mana}. Spieler mit mehr als 8 Leben erleiden 1 Schaden.
+w_omen	{draw}. Spieler auf Stufe 2: {mana}. Spieler auf Stufe 1: {power}{power}{power}.
+w_shoot	{draw}{draw} und {power}{power}.
+w_soothe	{draw}. Jeder Spieler darf eine ASCHE, einen FLUCH oder ein EIS aus Hand oder Ablage verbannen.
+w_strange	{draw}, {draw}. Wirf die nächste Karte des Wetterstapels ab.
+w_tidal	{draw}{draw}, {mana}. Alle Spieler werfen 2 zufällige Karten ab.
+w_toads	{draw}. Der Spieler mit {init} verliert sie. Wer sie bekommt, erhält einen FLUCH und {mana}.
+w_warp	{draw}{draw}. Verbanne alle Karten der Sturmwolke und decke 5 neue auf.
+w_wild	{draw}. Alle ziehen eine Karte vom Sturmstapel und legen sie offen auf ihren Ablagestapel (ohne Abwurfeffekte).
+pot_delixir	Handle die oberste Karte des Drachenstapels ab.
+pot_devil	{power}. Gib eine ASCHE.
+pot_explo	Verursache 1 Schaden. Erhalte 1 von jedem Element.
+pot_frostb	Gegner verlieren 1 Mana. / Gib ein EIS.
+pot_gas	Nimm 1 Schaden. Der Effekt deines nächsten Tranks tritt zweimal ein (Kosten nur einmal zahlen).
+pot_haste	Wenn du {init} hast, verursache 1 Schaden. Sonst erhalte {init}.
+pot_purple	{power}{mana}{mana}
+pot_soda	Heile 2.
+pot_storm	{draw}{power}

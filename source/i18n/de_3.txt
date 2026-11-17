@@ -1,0 +1,194 @@
+360	Leer.
+361	Energie
+362	Eingabe
+363	Gib den Code ein, den dir dein Freund geschickt hat.
+365	Essenzen (beginnen in der Sturmwolke)
+366	Ewiger Sturm
+367	Jedes Duell
+368	Jeder Zauberer beginnt mit
+369	Beenden
+370	Expertentipps
+371	Expertenturnier
+372	Expertentipp ·
+373	Partie exportieren
+374	Auge des Sturms
+375	Zurücksetzen
+376	Schnell
+377	Feldsanitäter
+378	Feldsanitäter: Heile einen Verbündeten in einer Teampartie.
+382	Feuer schlägt Erde. Wasser schlägt Feuer.
+383	Balance der 1. Edition
+384	Erster Sieg
+385	Erster Sieg: Gewinne eine Partie.
+386	Makelloser Sturm
+387	Nimm für jeden VERDAMMNIS-Marker eine Karte von deinem Ablagestapel auf die Hand oder ziehe. Ohne VERDAMMNIS-Marker erhältst du einen.
+388	Sieger zu Viert
+389	Jeder-gegen-jeden-Siege
+390	Jeder gegen jeden, {0} Spieler:
+391	Jeder gegen jeden: Du spielst {c} gegen {c}, {c}, {c}.
+392	Jeder gegen jeden
+393	Voll
+394	Volle Truppe
+395	Volle Truppe: Gewinne eine Koop-Partie mit {0} Spielern.
+396	Voller Kader
+397	Initiative erhalten
+398	Initiative erhalten und eine Karte ziehen
+399	Zauber erhalten: Tippe eine hervorgehobene Karte der Sturmwolke an.
+400	Erhalte einen Drachen.
+401	Eine Karte erhalten
+402	Erhalte alle fünf Drachen in einer Partie.
+403	Eine Erdkarte erhalten
+404	Erhalte {0} Energie. {c} darfst eine Nicht-Zauberer-Karte aus deiner Hand oder der LEERE abhandeln und sie dann unter den Spellstorm-Stapel legen.
+405	Erhalte {0} Karten aus der Sturmwolke in einer Partie.
+406	{c} erhalten
+407	Initiative erhalten
+408	Spielbericht
+409	Spielbeginn
+410	Riesentöter
+411	Gib ein {c}, erhalte {0} Mana und setze dann deine {c} ein, wenn du willst.
+412	Gib deinem Gegner in einer Partie {0} {c}, {c} oder {c}.
+413	Ziel:
+414	Großmeister
+415	Großes Finale
+416	Großes Grimoire
+417	Auf Halbem Weg zum Ruhm
+418	Hand
+419	Harter Herausforderer
+420	Harte Lektion
+421	Schweres Turnier
+422	Siege auf Schwer
+423	Abgehärtet
+424	Er handelt {c} ab, dann den verdeckten {c}.
+425	Heile einen Verbündeten in einer Teampartie.
+426	{0} heilen
+427	Heile insgesamt {0} Leben.
+428	{0} heilen: dich selbst oder einen Verbündeten?
+429	Heilung
+430	Leben
+431	Geheiltes Leben
+432	Leben {0}
+433	Schwergewicht
+434	Heavy Metal
+435	Verborgene Macht
+436	Hervorgehobene Kräfte werden zu Beginn jedes Kampfes aktiv.
+437	Verlauf
+438	Spiel hosten
+439	Siegesserie
+440	Symbollegende
+441	Wiederholung importieren
+442	Wiederholung importieren…
+443	Besiege in der Rangliste einen Gegner, dessen Wertung {0} oder mehr über deiner liegt.
+444	Auf deinem Ablagestapel
+445	Auf deiner Hand
+446	Spieldetails anhängen (Version, Modus, die letzten {0} Protokollzeilen und eine Momentaufnahme)
+447	Initiative
+448	In den Sturm
+449	Eiserner Handschuh
+450	Eiserner Magen
+451	Eiserner Wille
+452	Beitreten
+453	Einem Spiel beitreten
+454	Tagebuch
+455	Tagebuch {0}/{0}
+456	Tagebuch: +{0} Macht
+457	Tagebuch: Ziehe eine Karte
+458	Tagebuch: Erhalte eine Karte
+459	Tagebuch: Erhalte eine Karte (es muss eine Erdkarte sein)
+460	Tagebuch: {c} darfst eine Feuerkarte von deinem Ablagestapel auf die Hand nehmen
+461	Zunder
+462	K.o.
+463	K.o.: Gewinne, indem du deinen Gegner auf {0} Leben bringst.
+465	Der Letzte Zauberer
+466	Der Letzte Zauberer: Gewinne eine Jeder-gegen-jeden-Partie.
+467	Layout
+468	Layout-Vorschau
+469	Partie verlassen
+470	Länge
+471	Hell
+472	Protokoll
+473	Lange Partie
+474	Verliere {0} Macht
+475	Niederlagen
+476	Initiative verloren
+477	Mana
+478	Mana +{0}
+479	Marathon
+480	Wie Gerät
+481	Gespielte Partien
+482	Medaillen komplett (Gold)
+483	Medaillen
+484	Flicker
+485	Menü
+486	Modus
+487	Moduswechsel: {c} legt {c} offen und eine weitere Karte verdeckt auf seine Karte.
+488	Lege ein {c}, {c} oder {c} von deinem Ablagestapel auf einen anderen
+489	NEUER KAMPF!
+490	Benötigt {0} Erde
+491	Benötigt {0} Feuer
+492	Benötigt {0} Wasser
+493	Neue Medaille:
+494	Weiter
+495	Nächster Gegner:
+496	Weiter ▶
+497	Nein
+498	Keine Explosionsmarker
+499	Keine Karte der Sturmwolke entspricht deiner Stufe. {c} darfst eine Spezialkarte nehmen.
+500	Kein Halt: {c} hat ein {c} aufgedeckt und verliert einen Explosionsmarker.
+501	Keine Karten auf der Hand
+502	Noch keine Partien. Beendete Partien erscheinen hier (Tutorial und Online-Partien werden nicht gespeichert).
+503	Kein {c} mehr übrig — der Spielfeldeffekt trifft dich.
+504	Kein {c} mehr übrig — der Spielfeldeffekt trifft {c}.
+505	Normales Turnier
+506	Nicht genug Erd-Element — keine Wirkung.
+507	Nicht genug Feuer-Element — keine Wirkung.
+508	Nicht genug Wasser-Element — keine Wirkung.
+509	Noch nicht gewonnen
+510	OK
+511	RAUS
+512	Ungerade Stunden
+513	Ungerade Stunden: Setze als {c} {c} bei ungeradem Leben ein.
+514	Aus
+515	An
+516	Entflammt
+517	Im Angriff
+518	Sobald ihr verbunden seid, wählt ihr beide eure Zauberer in der Online-Lobby.
+519	Ein Letzter Schub
+520	Öffne eine Partiedatei, gespeichert mit
+521	Gegner
+522	Gegner
+523	Optionen
+524	Oder nimm:
+525	Original
+526	{c} überlisten
+527	{c} überlisten: Besiege {c}.
+528	Overkill
+529	SPIELEN
+530	Bild auf/ab
+531	{0} Erde bezahlt
+532	{0} Feuer bezahlt
+533	{0} Wasser bezahlt
+534	Gipfel
+535	Höchste Macht
+536	Höchste Macht: Erreiche Stufe III.
+537	Gipfel {0}
+538	Handy-Vorschau (Test) aus
+539	Handy-Ansicht aus
+540	Spielen
+541	Online spielen
+542	Spiele eine Ranglistenpartie.
+543	Online mit einem Freund spielen
+544	Nochmal spielen
+545	Spiele {0} Partien.
+546	Spieler
+547	Schließe einen Controller an oder koppele ihn (Xbox, PlayStation, Steam Deck, Android-Handhelds) und drücke eine beliebige Taste.
+548	Trank
+549	Macht +{0}
+550	Fortschritt
+551	Rätsel
+552	F&E: +{0} Macht zu Kampfbeginn, nur wenn sie die Initiative nicht hat
+553	F&E: {c} hast die Initiative nicht, also erhältst du {0} Macht.
+554	Zufällig
+555	Zufälliger Gegner
+556	Zufälliger Charakter
+557	Rang {0}
+558	Rangliste

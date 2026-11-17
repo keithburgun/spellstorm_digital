@@ -119,3 +119,5 @@ Hard difficulty	困难难度
 Easy difficulty	简单难度
 Expert difficulty	专家难度
 {c}, May {0}	5月{0}日（{c}）
+Final: you {0} health	最终：你 {0}生命
+{0} shards. {s}.	{0}碎片。{s}。

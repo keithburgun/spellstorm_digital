@@ -6,7 +6,8 @@
    English costs nothing: nothing runs. Dictionaries live in i18n/<lang>.json and are built into the page.
    Collect mode (window.I18N_COLLECT = true before load) records every English string seen, for building dictionaries. */
 const I18N = (function () {
-  const LANGS = { en: 'English', zh: '简体中文' };
+  const LANGS = { en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', pt: 'Português (Brasil)', ja: '日本語', zh: '简体中文' };
+  const BCP = { zh: 'zh-Hans', pt: 'pt-BR' };
   const DICTS = /*I18N_DICTS*/{};
   let lang = 'en', D = null, pats = [], names = null, nameRe = null, obs = null, busy = false;
   const seen = window.I18N_COLLECT ? { t: new Map(), h: new Map(), a: new Map() } : null;
@@ -50,9 +51,10 @@ const I18N = (function () {
       return out;
     }
     // a sentence with a full stop the dictionary has without one ("no change.")
-    if (/[.!]$/.test(k) && k.length > 2) { const r = tText(k.slice(0, -1)); if (r !== null) return r + (k.endsWith('!') ? '！' : '。'); }
+    const wide = lang === 'zh' || lang === 'ja';
+    if (/[.!]$/.test(k) && k.length > 2) { const r = tText(k.slice(0, -1)); if (r !== null) return r + (wide ? (k.endsWith('!') ? '！' : '。') : k.slice(-1)); }
     // lists (e.g. a round summary "Derby: +1 Mana, +2 Power; Eve: took 2 damage"): translate the parts
-    for (const [sep, to] of [['; ', '；'], [', ', '，']]) {
+    for (const [sep, to] of [['; ', wide ? '；' : '; '], [', ', wide ? '，' : ', ']]) {
       if (!k.includes(sep)) continue;
       const parts = k.split(sep).map(x => tText(x));
       if (parts.every(x => x !== null)) return parts.join(to);
@@ -102,7 +104,7 @@ const I18N = (function () {
   function start() {
     if (lang === 'en' && !seen) return;
     if (!seen) { D = DICTS[lang]; if (!D) return; D.t = D.t || {}; compile(); }
-    document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
+    document.documentElement.lang = BCP[lang] || lang;
     document.documentElement.classList.add('lang-' + lang);
     doEl(document.body);
     if (!seen && D.t[document.title]) document.title = D.t[document.title];
@@ -110,7 +112,9 @@ const I18N = (function () {
     obs.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTRS });
   }
   return {
-    LANGS,
+    LANGS, BCP,
+    /** the text printed on the cards, for card_art.js */
+    cards() { return D && D.cards; },
     get lang() { return lang; },
     setInitial(l) { lang = (l && (l === 'en' || DICTS[l])) ? l : 'en'; },
     start,

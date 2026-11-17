@@ -1,0 +1,200 @@
+759	Gana reuniendo {0} Fragmentos de Tormenta.
+760	Gana en {0} batallas o menos.
+761	Gana en Difícil con la vida al máximo.
+762	Porcentaje de victorias
+763	Gana la partida.
+764	Gana en este turno.
+765	Gana con cada mago en Difícil.
+766	Gana con exactamente {0} de vida.
+767	Gana {0} partidas cooperativas.
+768	Gana {0} partidas de Todos contra todos.
+769	Gana {0} partidas en Difícil seguidas.
+770	Gana {0} partidas Clasificatorias seguidas.
+771	Gana {0} partidas de Dos contra Dos.
+772	Gana {0} partidas como {c}.
+773	Gana {0} partidas por Fragmentos de Tormenta.
+774	Gana {0} partidas por nocaut.
+775	Gana {0} partidas seguidas.
+776	Gana {0} partidas en Difícil.
+777	Gana {0} partidas.
+778	Victorias
+779	Victorias/partidas. Las filas son el mago que usaste; las columnas, el rival.
+780	Borrar todos los datos
+781	¿Borrar todos los datos?
+782	Borrar todo
+783	Carta de mago
+784	Magos
+785	¡Los magos se enfrentan en este original juego táctico mágico de construcción de mazos! Diseñado por Keith Burgun.
+786	Sí
+787	Tu Elo — {c}
+788	Tu Diario
+789	Tus Trampas
+790	Tu carta
+791	Tu mazo ({0})
+792	Tu descarte
+793	Tu mano
+794	Tu mano está vacía
+795	Tu mano — recuento
+796	Tu mano — efectos de descarte
+797	Tu poder se desborda en el Nivel III. ¿Ganar {c}?
+798	¡Tu equipo gana!
+799	Tu mago
+800	tras resolverse esta carta, puedes usar la {c} de tu mago si tienes maná suficiente.
+801	también cambian de pestaña. Las indicaciones en pantalla cambian al último dispositivo que usaste.
+802	flechas
+803	pregunta a la IA Experta qué jugaría
+804	atrás o menú ·
+805	atrás ·
+806	registro de batalla ·
+807	vence a los otros {0} magos en orden sin perder ni una vez. Si pierdes una partida, el torneo termina. El progreso se guarda, así que puedes jugar una partida cada vez.
+808	bronce
+809	días
+810	cada personaje tiene su propio Elo, y Aleatorio también. Te enfrentarás a una serie infinita de rivales cerca de tu puntuación, cada uno con su estilo. Gana para subir; pierde y bajarás. Rendirse o abandonar una partida cuenta como derrota.
+811	vacío
+812	cada mago por su cuenta. Todos empiezan con {0} Fragmentos de Tormenta. Un mago con {0} de vida queda eliminado y sus cartas van al VACÍO. Gana el último mago en pie o el primero en llegar a {0} Fragmentos de Tormenta.
+813	para {c} contra {c}
+814	gana {0} de Poder. Al llegar a {0} de Poder, subes de Nivel.
+815	gana {0} de maná. El maná paga la {c} de tu mago.
+816	oro
+817	se activa cuando esta carta se descarta de tu mano, incluso en la Explosión.
+818	ver una carta ·
+819	menú ·
+820	mover ·
+821	no disponible en Torneos
+822	en Experto. En Clasificatoria, vencer a un rival con {0} / {0} / {0} o más da bronce / plata / oro. Una medalla mejor reemplaza a una inferior. {0}% significa que cada mago ha vencido a los otros {0} en Experto.
+823	en Difícil,
+824	en Normal,
+825	stick derecho
+826	desplazarse. Con teclado:
+827	seleccionar o jugar una carta ·
+828	seleccionar ·
+829	plata
+830	cambiar de pestaña o de ronda en la repetición ·
+831	cambiar de pestaña, o de ronda en una repetición ·
+832	toma una carta de la Nube de Tormenta de tu Nivel o inferior.
+833	el jugador con la Iniciativa resuelve su carta primero.
+834	recibió {0} de daño
+835	recibió {0} de daño, +{0} Maná, +{0} Poder, +{0} carta en mano, Iniciativa obtenida
+836	recibió {0} de daño, +{0} Maná, +{0} Poder, Iniciativa obtenida
+837	recibió {0} de daño, +{0} Poder, Iniciativa obtenida
+838	recibió {0} de daño, −{0} Maná, +{0} {c}
+839	recibió {0} de daño, −{0} Maná, +{0} {c}, +{0} {c}
+840	recibió {0} de daño, −{0} Maná, −{0} cartas en mano, −{0} {c}, +{0} {c}
+841	contra
+842	tú y un aliado contra dos rivales, sentados de forma alterna. {c} solo dañáis a vuestros rivales, puedes curar a tu aliado en lugar de a ti, y si uno de los dos gana, ganáis ambos. Cada jugador contrarresta al siguiente rival en sentido horario.
+843	tú y un aliado os enfrentáis juntos a {c}. {c} solo le dañáis y le dais {c}, {c} y {c} a él, y al curarte puedes curar a un aliado en su lugar. Si alguien de tu equipo gana, gana todo el equipo, y el equipo sigue jugando si alguien queda eliminado.
+844	tú y {0} aliados os enfrentáis juntos a {c}. {c} solo le dañáis y le dais {c}, {c} y {c} a él, y al curarte puedes curar a un aliado en su lugar. Si alguien de tu equipo gana, gana todo el equipo, y el equipo sigue jugando si alguien queda eliminado.
+845	{0} cartas
+846	{0} cartas, boca abajo. Las cartas del mazo permanecen ocultas hasta que se roban.
+847	{0} cartas, ordenadas por Nivel.
+848	{0} de vida
+849	{0} victorias · {0} derrotas
+850	{0}. Aprovecha el Momento
+851	{0}/{0} oro
+852	{0}/{0} resueltos · resuelve uno para desbloquear el siguiente
+853	{c} (rival)
+854	{c} ({0} de {0}): ¿tomar una carta de tu descarte o robar?
+855	{c} te CONTRARRESTÓ y roba una carta.
+856	{c} te CONTRARRESTÓ y gana una Ficha de Explosión.
+857	{c} CONTRARRESTASTE a {c} y robas una carta.
+858	{c} CONTRARRESTÓ a {c} y roba una carta.
+859	{c} Elige una carta que no sea de Mago de tu mano para resolverla dos veces y luego destiérrala.
+860	Maestro de {c}
+861	{c} Coloca una Ficha de Investigación. Los poderes investigados se activan al inicio de cada batalla.
+862	Poder de {c}
+863	Poder de {c}: Usa tu {c}.
+864	Duelo de {c}
+865	{c} destierras {c} de la Nube de Tormenta.
+866	{c} destierras {c}.
+867	{c} destierra {c}.
+868	{c} añades {c} del Mazo de Tormenta a tu descarte.
+869	{c} añade {c} del Mazo de Tormenta al descarte de {c}.
+870	{c} y rivales
+871	¡{c} quedas eliminado! Tus cartas van al VACÍO.
+872	{c} no se puede jugar — no pasa nada.
+873	¡{c} lanzaste {c} dos veces!
+874	¡{c} lanza {c} dos veces!
+875	{c} te cargas hasta {0} de Energía.
+876	{c} se carga hasta {0} de Energía.
+877	{c} no pudo descartar {0} cartas.
+878	{c} descartas {c} — se activa su efecto de descarte.
+879	{c} descartó {0} cartas ({0} de Tierra).
+880	{c} descartó {c}, {c}, {c} de la parte superior del mazo.
+881	{c} descarta una Ficha de Explosión.
+882	{c} descarta {c} del Mazo de Clima.
+883	{c} descarta {c} — se activa su efecto de descarte.
+884	¡{c} descargas {c}!
+885	¡{c} descarga {c}!
+886	{c} bebió {0} pociones. Los Elementos vuelven a {0}.
+887	{c} bebes del Mazo de Pociones. Cada poción cuesta su Elemento; una tercera TÓXICA acaba mal.
+888	{c} bebes «{c}» (Tierra {0}).
+889	{c} bebes «{c}» (Tierra {0}, TÓXICA).
+890	{c} bebes «{c}» (Fuego {0}).
+891	{c} bebes «{c}» (Fuego {0}, TÓXICA).
+892	{c} bebes «{c}» (Agua {0}).
+893	{c} bebes «{c}» (Agua {0}, TÓXICA).
+894	{c} bebe del Mazo de Pociones. Cada poción cuesta su Elemento; una tercera TÓXICA acaba mal.
+895	{c} bebe «{c}» (Tierra {0}).
+896	{c} bebe «{c}» (Tierra {0}, TÓXICA).
+897	{c} bebe «{c}» (Fuego {0}).
+898	{c} bebe «{c}» (Fuego {0}, TÓXICA).
+899	{c} bebe «{c}» (Agua {0}).
+900	{c} bebe «{c}» (Agua {0}, TÓXICA).
+901	{c} disparas {c} a la mano de {c}: +{0} Elemento Fuego.
+902	{c} dispara {c} a la mano de {c}: +{0} Elemento Fuego.
+903	{c} ganas una Ficha de PERDICIÓN ({0}/{0}).
+904	{c} ganas una {c}.
+905	{c} ganas un {c}.
+906	{c} ganas {0} Fragmento de Tormenta.
+907	¡{c} ganas {c}!
+908	{c} ganas {c}.
+909	{c} gana +{0} Elemento Tierra.
+910	{c} gana una Ficha de PERDICIÓN ({0}/{0}).
+911	{c} gana una {c}.
+912	{c} gana un {c}.
+913	{c} gana {0} Fragmento de Tormenta.
+914	¡{c} gana {c}!
+915	{c} gana {c}.
+916	{c} recibes un enlace y un código para enviar a tu amigo. Crear una partida requiere acceso de edición o de Colaborador a esta página.
+917	{c} obtienes la Iniciativa.
+918	{c} obtiene la Iniciativa.
+919	{c} curas a un aliado en su lugar.
+920	{c} te curas {0}.
+921	{c} cura a un aliado en su lugar.
+922	{c} se cura {0}.
+923	{c} es desterrada de la Nube de Tormenta.
+924	{c} está decidiendo…
+925	¡{c} queda eliminado! Las cartas de {c} van al VACÍO.
+926	{c} está pensando
+927	{c} pierdes la Iniciativa.
+928	{c} pierdes {0} de Energía.
+929	{c} pierdes {0} de Poder.
+930	{c} pierdes {0} de maná.
+931	{c} pierde una Ficha de Explosión.
+932	{c} pierde la Iniciativa.
+933	{c} pierde {0} Ficha de Explosión.
+934	{c} pierde {0} Fichas de Explosión.
+935	{c} pierde {0} de Energía.
+936	{c} pierde {0} de Poder.
+937	{c} pierde {0} de maná.
+938	{c} perdió {0} de maná.
+939	{c} puedes desterrar una carta de tu mano
+940	{c} puedes tomar una carta de Fuego de tu descarte a tu mano
+941	{c} puedes ganar una carta de Tierra de Nivel I o II de la Nube de Tormenta.
+942	{c} puedes ganar una carta de Fuego de Nivel I o II de la Nube de Tormenta.
+943	{c} puedes ganar una carta de Agua de Nivel I o II de la Nube de Tormenta.
+944	{c} puedes ganar una carta de la Nube de Tormenta.
+945	{c} puedes ganar una carta de Tierra de tu Nivel o inferior de la Nube de Tormenta.
+946	{c} puedes mover una {c} o un {c} de tu descarte o mano al descarte de un rival. Roba {0}.
+947	{c} movió una {c} a tu descarte.
+948	{c} movió una {c} al descarte de {c}.
+949	{c} movió {c} al descarte de {c}.
+950	{c} debes ganar una carta de la Nube de Tormenta.
+951	{c} ahora busca acumular Poder.
+952	{c} ahora busca jugar a la defensiva.
+953	{c} ahora busca ganar por daño.
+954	{c} ahora busca ganar la carrera de Explosión.
+955	{c} juegas con {c}; la CPU juega con {c}. {c} tiene la Iniciativa.
+956	{c} juegas con {c}; la CPU juega con {c}. {c} tienes la Iniciativa.
+957	{c} descartas {c} al azar.
+958	{c} descarta {c} al azar.

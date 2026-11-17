@@ -1,0 +1,200 @@
+1109	Deine Macht ist übergelaufen und du hast Stufe II erreicht. Jetzt kannst du stärkere Karten der Stufe II aus der Sturmwolke erhalten.
+1110	Du bist dran
+1111	Egal, spielen wir eine Karte. Tippe auf Machtjuwel und dann auf „Verdeckt spielen“.
+1112	Okay, diese Karte gibt dir +1 Macht und lässt dich dann eine Karte aus der Sturmwolke erhalten. Erhaltene Karten kommen normalerweise auf deine Hand, aber durch das Machtjuwel wirfst du die neue Karte sofort ab.
+1113	Manche Karten haben einen Abwurfeffekt, der eintritt, wenn die Karte abgeworfen wird. Auf dem Diamanten da steht: Abwurfeffekt: +1 Macht. Wenn wir den nehmen, bekommen wir also sofort noch eine Macht. Machen wir’s!
+1114	Dieser Spielcode wird schon verwendet. Bitte hoste erneut.
+1115	Spiel nicht gefunden. Prüfe den Code und ob dein Freund noch hostet.
+1116	Der Matchmaking-Dienst ist nicht erreichbar. Prüfe deine Internetverbindung und versuche es erneut.
+1117	Verbindung fehlgeschlagen (
+1118	unbekannter Fehler
+1119	). Bitte versuche es erneut.
+1120	Host nicht erreichbar. Prüfe den Code und ob dein Freund noch hostet.
+1121	Online-Spiel ist in dieser Ansicht nicht verfügbar. Stelle sicher, dass du bei Claude angemeldet bist und Spellstorm über seinen claude.ai-Link öffnest.
+1122	Einladungslink kopieren
+1123	oder lass den Code eingeben
+1124	Online-Lobby
+1125	Wähle deinen Zauberer
+1126	Lobby verlassen
+1127	Gib den 6-stelligen Code ein.
+1128	Dein Gegner hat die Verbindung verloren. Warte auf seine Rückkehr…
+1129	Online-Partie gegen {c}. Online-Partien werden nicht gespeichert.
+1130	Zurück zum Titel
+1131	über Leben gewinnen
+1132	über Sturmsplitter gewinnen
+1133	Macht aufbauen
+1134	überleben
+1135	Du bist auf Stufe {s} mit {0} Macht.
+1136	Du hast {0}/{0} Leben.
+1137	Gewinnt die Aufdeckung: {s}.
+1138	Aufdecken: {s}. Kontern zieht eine Karte, und Handkarten sind dein Explosionswert.
+1139	Heilt diese Runde etwa {0}.
+1140	Du erleidest diese Runde etwa {0} Schaden.
+1141	Expertentipp
+1142	Der Experte denkt nach
+1143	Zug des Experten
+1144	Fast genauso gut
+1145	Plan: {s}.
+1146	Eröffnungsrunde.
+1147	Es gibt noch nicht viel zu planen, also geht es vor allem darum, die Aufdeckung zu gewinnen.
+1148	Der Experte spielt jede Karte gegen {c}s wahrscheinliche Züge bis zum Kampfende durch und bewertet das Ergebnis mit Blick auf seinen Plan.
+1149	Der Experte würde
+1150	Du hast {c} genommen.
+1151	Du hast {c} erhalten.
+1152	Du hast das Erhalten übersprungen.
+1153	Du hast deine Ultimative eingesetzt!
+1154	Du hast dein Mana aufgespart.
+1155	Du hast Ja gewählt.
+1156	Du hast Nein gewählt.
+1157	Du hast dich selbst gewählt.
+1158	Du hast {s} gewählt.
+1159	Diese Wiederholung ist bei Entscheidung {0} (Zug {0}) aus dem Takt geraten und stoppt hier. Bitte nutze Partie exportieren, damit Keith es sich ansehen kann.
+1160	sie wurde mit einer älteren Spellstorm-Version ({s}) aufgezeichnet, und Updates seitdem ändern ihren Ablauf.
+1161	sie wurde aufgezeichnet, bevor Wiederholungen die Entscheidungen der Bots speicherten, daher ändert ein Bot-Update ihren Ablauf.
+1162	Erste Edition
+1163	Partiedatei bereit
+1164	An Keith senden
+1165	In die Zwischenablage kopieren
+1166	Datei herunterladen
+1167	▶ Wiederholung
+1168	Spieler wechseln
+1169	Wiederholung läuft…
+1170	💡 Expertentipp
+1171	💡 Tipp
+1172	Verborgene Bewegung: lege eine Falle.
+1173	Glitzerstaub liegt aus.
+1174	Diese Runde bewirken Erdkarten nichts außer 2 Heilung.
+1175	Du bist ausgeschieden. Dein Team spielt weiter…
+1176	Du bist ausgeschieden. Die Partie geht weiter…
+1177	Element dieser Karte:
+1178	Diese Karte hat einen Abwurfeffekt.
+1179	Abwurfeffekt:
+1180	Drache der Stufe IV
+1181	Spezialkarte
+1182	In deinem Deck
+1183	Wähle {0}.
+1184	Wähle {0} bis {0}.
+1185	Wähle bis zu {0}.
+1186	Dein Ablagestapel
+1187	{c}s Ablagestapel
+1188	So läuft eine Partie
+1189	Das ist die Kurzfassung.
+1190	Vollständiges Regelheft lesen
+1191	Spellstorm auf BoardGameGeek
+1192	Erreiche 8 Sturmsplitter oder bring deinen Gegner auf 0 Leben.
+1193	Jeder gegen jeden (3–4 Spieler)
+1194	Eine Option: Jeder Zauberer hat 50 % mehr Leben (gerundet), und du brauchst 12 statt 8 Sturmsplitter zum Sieg.
+1195	Koop gegen Robo-Junge und Zwei gegen Zwei
+1196	Du verursachst Schaden und gibst EIS, ASCHE und FLUCH nur an die andere Seite. Wenn du heilst, darfst du stattdessen einen Verbündeten heilen. Du konterst den nächsten
+1197	Gegner im Uhrzeigersinn und überspringst Verbündete. Gewinnt jemand aus einem Team, gewinnt das ganze Team, und ein Team spielt weiter, wenn ein Mitglied ausscheidet.
+1198	Seite {0} von {0}
+1199	Spellstorm-Regelheft
+1200	Online-Partie verlassen
+1201	Wird gesendet…
+1202	Dein Bericht wurde gespeichert. Er wird in die Problemberichte des Projekts aufgenommen.
+1203	Bericht per E-Mail senden
+1204	Der vollständige Bericht wurde in die Zwischenablage kopiert. Tippe unten, um eine E-Mail an den Entwickler zu öffnen, und füge ihn ein, falls er abgeschnitten ist.
+1205	E-Mail öffnen
+1206	Oder schicke ihn selbst an {s}.
+1207	mit 8 gesammelten Sturmsplittern
+1208	indem der Rivale auf 0 Leben gebracht wurde
+1209	im Tiebreak
+1210	Als Nächstes:
+1211	. Dein Fortschritt ist gespeichert.
+1212	TURNIERSIEGER!
+1213	Du hast alle 7 Gegner auf {c} besiegt. Deine Trophäe findest du in der Statistik.
+1214	TURNIER VORBEI
+1215	{c} hat deinen Lauf beendet. Du hast {0} von 7 Gegnern besiegt.
+1216	Ranglisten-Lobby
+1217	Spiele in dieser Tutorial-Runde das Machtjuwel.
+1218	Verdeckt spielen
+1219	Dein Fortschritt ist synchronisiert.
+1220	Abmelden?
+1221	Dein Fortschritt bleibt in deinem Konto sicher. Dieses Gerät kehrt zu einem neuen Gastprofil zurück, und nach erneuter Anmeldung ist alles wieder da.
+1222	Abmelden
+1223	Abmelden…
+1224	Abgemeldet.
+1225	Fortschritt zurückgesetzt
+1226	Turnier abbrechen?
+1227	Dein Fortschritt ({0}/7 als {c}) geht verloren.
+1228	Weitermachen
+1229	Turnier verlassen?
+1230	Damit endet dein Turnierlauf ({0}/7 als {c}). Du kannst jederzeit einen neuen beginnen.
+1231	Turnier verlassen
+1232	Du bist angemeldet, daher wird auch der in deinem Konto gespeicherte Fortschritt gelöscht.
+1233	Alle Daten gelöscht
+1234	Diese Partie aufgeben?
+1235	Das zählt als Niederlage. Deine gespeicherte Partie wird gelöscht.
+1236	Das zählt als Niederlage und beendet deinen Turnierlauf. Deine gespeicherte Partie wird gelöscht.
+1237	Weiterspielen
+1238	Einladungslink kopiert — schick ihn deinem Freund.
+1239	Kopiere diesen Einladungslink:
+1240	Du hast die Online-Lobby verlassen. Du kannst jederzeit ein normales Spiel spielen.
+1241	Wähle zuerst eine Datei oder füge den Partietext ein.
+1242	Diese Datei ist zu groß für eine Spellstorm-Wiederholung.
+1243	Die Datei konnte nicht geöffnet werden.
+1244	Partiedatei kopiert — füge sie in eine Nachricht an Keith ein.
+1245	Partiedatei wird heruntergeladen…
+1246	An Keith gesendet. Danke!
+1247	Neues Turnier beginnen?
+1248	Diesen Lauf beenden
+1249	Turnier beendet. Beginne ein neues, wann immer du willst.
+1250	Zurück zur Auswahl
+1251	Einzelspieler-Gegner aus dem Regelheft: keine Hand, stattdessen Explosionsmarker, und eine automatische Ultimative. Leicht, Mittel oder Schwer legt seine Startmacht fest.
+1252	Feuer & Erde. Starker früher Angriff, baut stetig Macht auf. Ideal für den Einstieg.
+1253	Feuer & Wasser. Aggressive Saboteurin, die dein Deck mit EIS und FLUCH verstopft.
+1254	Wasser & Erde. Erforscht bei jedem Stufenaufstieg neue Kräfte.
+1255	Feuer & Wasser. Riesiges Leben, kann nicht heilen, wird mit VERDAMMNIS stärker.
+1256	Feuer & Wasser. Wenig Leben, viel Abwehr und versteckte Fallen.
+1257	Wasser & Erde. Winziges Leben, heilt schnell und über sein Limit hinaus.
+1258	Feuer & Erde. Fordert mit einem launischen Trankstapel sein Glück heraus.
+1259	Feuer & Erde. Hackerin, die mit Energie Spielzüge stiehlt.
+1260	Turnier läuft als
+1261	Turnier: {0}/7 Siege
+1262	Du bekommst einen zufälligen Zauberer.
+1263	Du bekommst für dieses Turnier einen zufälligen Zauberer.
+1264	Dein Gegner wird zufällig.
+1265	Gegen {c} kämpfen
+1266	Turnier verlassen
+1267	Neues Turnier
+1268	Eine neue Partie ersetzt deine gespeicherte laufende Partie.
+1269	Aufgeben und neue Partie spielen
+1270	Du hast eine laufende Ranglistenpartie. Eine neue zu starten wertet sie als Niederlage.
+1271	Letzte Partien
+1272	Deine abgebrochene Ranglistenpartie wurde als Niederlage gewertet ({s}).
+1273	Suche Gegner
+1274	Suche um Elo {0}
+1275	Gegner gefunden!
+1276	Gewinne durch gesammelte Sturmsplitter.
+1277	Gewinne innerhalb von {0} Kämpfen.
+1278	Gewinne und beende mit mindestens {0} Leben.
+1279	Lange Partie (+50 % Leben, 12 Sturmsplitter zum Sieg)
+1280	du beginnst mit der Initiative
+1281	dein Gegner beginnt mit der Initiative
+1282	dein Gegner
+1283	du beginnst mit {0} Leben mehr
+1284	du beginnst mit {0} Leben weniger
+1285	dein Gegner beginnt mit {0} Leben mehr
+1286	dein Gegner beginnt mit {0} Leben weniger
+1287	Du hast die Partie verloren.
+1288	Die Idee: {s}.
+1289	{c} spielt:
+1290	In einem Rätsel läuft alles jedes Mal gleich ab.
+1291	Los geht’s
+1292	Gelöst! ✓
+1293	Rätsel {0},
+1294	Die Idee:
+1295	Das war das letzte Rätsel. Gut gemacht!
+1296	Nächstes Rätsel
+1297	Alle Rätsel
+1298	Nicht ganz
+1299	Nochmal versuchen
+1300	Der Synchronisierungsdienst ist nicht erreichbar. Prüfe deine Internetverbindung.
+1301	Falsche E-Mail oder falsches Passwort.
+1302	Mit dieser E-Mail gibt es schon ein Konto. Versuche, dich anzumelden.
+1303	Passwörter brauchen mindestens 6 Zeichen.
+1304	Diese E-Mail-Adresse sieht nicht richtig aus.
+1305	Bitte prüfe deine Eingabe.
+1306	Bitte bestätige zuerst deine E-Mail-Adresse (sieh in deinen Posteingang) und melde dich dann an.
+1307	Zu viele E-Mails gesendet. Bitte warte ein paar Minuten und versuche es erneut.
+1308	Zu viele Versuche. Bitte warte eine Minute und versuche es erneut.

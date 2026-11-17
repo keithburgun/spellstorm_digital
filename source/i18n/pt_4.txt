@@ -1,0 +1,200 @@
+559	Estreia no Ranqueado
+560	Elo ranqueado
+561	Ranqueado:
+562	Alcance o Nível II.
+563	Alcance o Nível III.
+564	Alcance {0} de Elo no Ranqueado.
+565	Chegue a {0} de {0} vitórias em um Torneio Difícil.
+566	Chegue a {0} de {0} vitórias em um Torneio Normal.
+567	Ler
+568	Ler carta
+569	Histórico
+570	Reduzidas
+571	Reagrupar
+572	Reagrupamento após a batalha {0}.
+573	Tranquila
+574	Replay: {c} contra {c}
+575	Replay: {c} contra {c}, {c}, {c}
+576	Relatar um problema
+577	Desistir e sair
+578	Volte uma carta do seu descarte para a mão ou compre. Arme uma Armadilha virada para baixo (não a mesma duas vezes seguidas). Ganhe a Iniciativa.
+579	Voltar do descarte
+580	Revele uma carta que não seja de Mago da sua mão. Resolva-a duas vezes e bana-a. Todos os jogadores curam {0}.
+581	Revele se você REBATER com uma carta de Fogo.
+582	Revele se você REBATER com uma carta de Água.
+583	Revele quando um oponente causar dano a você.
+584	Revelar {c}? Cause {0} de dano, ganhe {0} de mana, ganhe a Iniciativa.
+585	Revelação: você não jogou nada; {c} jogou {c}.
+586	Revelação: você jogou {c}; {c} não jogou nada.
+587	Revelação: você jogou {c}; {c} jogou {c}.
+588	Poder Crescente
+589	Poder Crescente: Alcance o Nível II.
+590	Consertador de Robôs
+591	Domadores de Robôs
+592	Resumo da rodada
+593	Rodada {0} de {0}
+594	Rodadas
+595	Livro de regras
+596	Regras
+597	Regras:
+598	Sabotador
+599	Sabotador: Dê ao oponente {0} {c}, {c} ou {c} em uma partida.
+600	Salvar e voltar ao título
+601	Duelista Experiente
+602	Aproveite o Momento
+603	Selecione até {0}. Selecionadas: {0}
+604	Selecione {0}. Selecionadas: {0}
+605	Enviar relatório
+606	Armar uma Armadilha
+607	Armar {c}
+608	Colecionador de Fragmentos
+609	Colecionador de Fragmentos: Vença juntando {0} Fragmentos da Tempestade.
+610	Acumulador de Fragmentos
+611	Magnata dos Fragmentos
+612	Corrida dos Fragmentos
+613	Corrida dos Fragmentos: Vença um Todos contra todos juntando {0} Fragmentos da Tempestade.
+614	Fragmentos
+615	Show à Parte
+616	Show à Parte: Use sua {c} {0} vezes em uma partida.
+617	Embaralhe o Baralho de Poções e beba as poções uma a uma, pagando o custo de Elemento. Uma terceira TÓXICA encerra com uma {c}, uma {c} e um {c}. Depois, os Elementos voltam a {0}.
+618	Embaralhando o Baralho de Poções…
+619	Lavada
+620	Golpe Característico
+621	Pular
+622	Pular tutorial
+623	Som
+624	Espaço
+625	Cartas de Feitiço
+626	Lança-Feitiços
+627	Campeão da Torre
+628	Frequentador da Torre
+629	Clima Padrão
+630	Começar
+631	Começar desafio
+632	Começar quebra-cabeça {0}
+633	Liberar a tempestade
+634	Começar o torneio
+635	Iniciais e Essências
+636	Estatísticas
+637	Roubar {0} de mana de qual jogador? Ele também descarta uma carta aleatória.
+638	Parar aqui
+639	Brigão da Tempestade
+640	Caçador de Tempestades
+641	Nuvem da Tempestade
+642	Elite da Tempestade
+643	Lenda da Tempestade
+644	Sábio da Tempestade
+645	Fragmentos da Tempestade
+646	Comprador da Tempestade
+647	Comprador da Tempestade: Ganhe {0} cartas da Nuvem da Tempestade em uma partida.
+648	Soberano da Tempestade
+649	Veterano da Tempestade
+650	A União Faz a Força
+651	NI
+652	NII
+653	NIII
+654	TÓXICA
+655	Campeões em Dupla
+656	Pegar do descarte
+657	Sofra {0} de dano!
+658	Pegue:
+659	Toque numa carta destacada da Nuvem da Tempestade.
+660	Toque numa conquista para ver o que ela pede.
+661	Tamanho da equipe
+662	Trabalho em Equipe
+663	Trabalho em Equipe: Vença {c} no Cooperativo.
+664	Domador de Tempestades
+665	Efetivado
+666	A CPU nunca olha sua mão nem sua carta virada para baixo.
+667	A Nuvem da Tempestade é varrida e reabastecida.
+668	O VAZIO
+669	O VAZIO é embaralhado de volta no Baralho Spellstorm.
+670	O Nível da carta. {c} pode ganhá-la da Nuvem da Tempestade ao alcançar esse Nível. Cartas básicas não têm emblema.
+671	Os primeiros {0} de dano que você sofrer nesta rodada são anulados.
+672	O ícone no canto superior esquerdo de uma carta é o seu elemento. Passe o mouse ou toque em qualquer ícone de uma carta ampliada para ver o que significa.
+673	{c} se inflama!
+674	Tema
+675	Gelo Fino
+676	Esta é uma carta inicial deste Mago. Ela não pode ser banida.
+677	Isso apaga para sempre suas estatísticas, todas as conquistas, troféus de torneio, qualquer torneio em andamento e suas configurações neste dispositivo.
+678	Vencedor em Três
+679	Empate na Pontuação de Explosão — ambos ganham {0} Fragmento da Tempestade.
+680	Empate na Pontuação de Explosão — {c}, {c} ganham {0} Fragmento da Tempestade cada.
+681	Empate! Ambos ganham {0}
+682	Empate! {c}, {c} ganham {0} cada
+683	Nível
+684	Nível II!
+685	Nível III!
+686	Emblema de Nível
+687	Tela de título
+688	Desafio de hoje · {s}
+689	Derrube {c}
+690	Total
+691	Torneio
+692	Campeão do Torneio
+693	Estreia no Torneio
+694	Modo Torneio:
+695	Armadilhas, Poções e Diário
+696	Armadilhas: nenhuma armada
+697	Armadilhas: {c}
+698	Armadilhas: {c} (usada)
+699	Gatilho:
+700	Ponto Triplo
+701	Tutorial
+702	Vitórias no Dois contra Dois
+703	Dois contra Dois:
+704	Dois contra Dois
+705	Supremas
+706	Sob Fogo
+707	Lâmina Invisível
+708	Imparável
+709	Intocável
+710	Intocável: Vença com a vida cheia.
+711	Atualização disponível!
+712	Use sua {c} {0} vezes em uma partida.
+713	Use sua {c} {0} vezes.
+714	Use sua {c}.
+715	Usar {c} por {0} de mana?
+716	Usar {c} sem pagar mana?
+717	Banir uma delas
+718	VAZIO {0}
+719	Versus
+720	Ver
+721	Ver tabuleiro
+722	Volume
+723	Aguardando
+724	Assistir
+725	Água vence Fogo. Terra vence Água.
+726	Água foi revelada, mas {c} já tem {0} Fichas de Energia.
+727	Água foi revelada: {c} ganha uma Ficha de Energia.
+728	Clima
+729	Baralho de Clima
+730	Curtido pelo Tempo
+731	Bem-vindo ao Spellstorm
+732	O que aconteceu
+733	O que deu errado? Uma ou duas frases bastam.
+734	Eita! Eu vou te ensinar Spellstorm? Massa! Meu nome é {c}, e sou seu guia neste tutorialzinho. Vai ser rápido, relaxa.
+735	Vença uma Explosão com {0} pontos ou mais.
+736	Vença um Todos contra todos juntando {0} Fragmentos da Tempestade.
+737	Vença uma partida de Todos contra todos.
+738	Vença um Torneio Difícil: todos os {0} oponentes, sem derrotas.
+739	Vença um Torneio Normal: todos os {0} oponentes, sem derrotas.
+740	Vença uma partida de Dois contra Dois.
+741	Vença uma partida como {c}.
+742	Vença uma partida em que você teve uma mão injogável.
+743	Vença uma partida no Especialista.
+744	Vença uma partida no Difícil.
+745	Vença uma partida que dure {0} batalhas ou mais.
+746	Vença uma partida com cada mago.
+747	Vença uma partida.
+748	Vença uma partida de {0} contra {0} contra outro mago para ganhar uma medalha para o mago que você jogou:
+749	Vença uma partida cooperativa com {0} jogadores.
+750	Vença um Todos contra todos com {0} jogadores.
+751	Vença depois de cair para {0} de vida ou menos.
+752	Vença os {0} confrontos de magos no Difícil.
+753	Vença os {0} confrontos de magos.
+754	Vença um Torneio Especialista: todos os {0} oponentes, sem derrotas.
+755	Vença como {c} no Difícil.
+756	Vença com a vida cheia.
+757	Vença por Fragmentos da Tempestade enquanto o oponente não tem nenhum.
+758	Vença levando o oponente a {0} de vida.

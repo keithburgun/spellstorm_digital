@@ -1,0 +1,200 @@
+1309	La création de comptes est désactivée pour le moment.
+1310	Un problème est survenu. Veuillez réessayer.
+1311	Non connecté.
+1312	Votre session a expiré. Veuillez vous reconnecter.
+1313	Impossible d’enregistrer votre progression car un autre appareil la modifiait. Nouvel essai bientôt.
+1314	Synchronisation…
+1315	Pas encore synchronisé
+1316	Synchronisé à l’instant
+1317	Synchronisé il y a {0} min
+1318	La progression de cet appareil a été fusionnée avec votre compte.
+1319	Échec de la synchronisation. Nouvel essai bientôt.
+1320	Steam Cloud :
+1321	Connectez-vous à Reddit pour enregistrer votre progression sur votre compte. Pour l’instant, elle n’est enregistrée que dans ce navigateur.
+1322	☁ Steam Cloud est activé : votre progression est enregistrée automatiquement sur Steam et vous suit sur tous vos ordinateurs et votre Steam Deck.
+1323	Steam Cloud est désactivé pour Spellstorm dans vos réglages Steam, la progression n’est donc enregistrée que sur cet ordinateur. Activez-le dans Steam (Spellstorm › Propriétés › Général) pour la sauvegarder.
+1324	Facultatif : un compte Spellstorm synchronise aussi votre progression avec les versions mobile et navigateur.
+1325	Connectez-vous ou créez un compte Spellstorm
+1326	Connecté en tant que
+1327	Synchroniser
+1328	Connectez-vous pour synchroniser votre progression sur tous vos appareils.
+1329	Connectez-vous ou créez un compte
+1330	Compte créé. Consultez vos e-mails pour le confirmer, puis connectez-vous.
+1331	Connexion impossible. Veuillez réessayer.
+1332	contre Robot Boy
+1333	aux Éclats de Tempête
+1334	à la vie
+1335	par abandon
+1336	Vous ({c})
+1337	{0} dernières parties
+1338	Durée moyenne
+1339	Le plus joué
+1340	Parties enregistrées
+1341	Tournoi en cours : {0}/7 avec {c} ({c}).
+1342	Votre compte Spellstorm
+1343	Connectez-vous sur chaque appareil pour synchroniser statistiques, historique, classements, succès et réglages. Les replays restent sur l’appareil qui les a joués.
+1344	Se connecter
+1345	Créer un compte
+1346	Mot de passe oublié ?
+1347	Veuillez saisir votre adresse e-mail.
+1348	Connecté — la progression de cet appareil a été fusionnée avec votre compte.
+1349	Compte créé — votre progression est maintenant synchronisée.
+1350	Connecté — votre progression est maintenant synchronisée.
+1351	Saisissez votre adresse e-mail ci-dessus, puis touchez à nouveau « Mot de passe oublié ? ».
+1352	Si cet e-mail a un compte, un lien de réinitialisation est en route.
+1353	Choisissez un nouveau mot de passe
+1354	Nouveau mot de passe
+1355	Enregistrer le mot de passe
+1356	Mot de passe modifié. Vous êtes connecté.
+1357	Bienvenue dans Spellstorm !
+1358	Voulez-vous suivre un tutoriel interactif ? (Vous pouvez aussi lire les règles dans le menu, ou faire le tutoriel plus tard avec le bouton Tutoriel.)
+1359	Suivre le tutoriel
+1360	Pas maintenant
+1361	Partie Longue : chaque sorcier a 50 % de vie en plus, et il faut {0} Éclats de Tempête pour gagner.
+1362	Partie reprise au combat {0}, manche {0}.
+1363	Partie en ligne : vous jouez {c} contre {c}.
+1364	Partie classée : vous jouez {c} contre {s} (Elo {0}), qui joue {c}.
+1365	Deux contre Deux : vous et {c} contre {c} et {c}.
+1366	Un problème est survenu
+1367	Merci d’avoir joué !
+1368	Un onglet de navigateur ne peut pas se fermer tout seul, fermez-le quand vous voulez. Dans les applications bureau et mobile, Quitter ferme le jeu.
+1369	Un ami
+1370	attend un adversaire dans Spellstorm.
+1371	Impossible de rechercher des mises à jour. Vérifiez votre connexion Internet et réessayez.
+1372	La mise à jour a échoué.
+1373	Recherche de mises à jour…
+1374	La version {s} est disponible.
+1375	Vous avez la {s}.
+1376	Téléchargement de la version {s}… {0} %
+1377	Touchez Installer
+1378	sur l’écran d’Android. Spellstorm se rouvre avec la version {s}.
+1379	Redémarrage avec la version {s}…
+1380	Vous avez la dernière version ({s}).
+1381	Vous avez la version {s}.
+1382	Tamis : il ne reste aucune carte dans le deck à regarder.
+1383	Tamis : choisissez les cartes du dessus de votre deck à défausser. Les autres restent dessus.
+1384	Diamant : défaussez exactement 3 cartes.
+1385	Fracas : aucune carte en main à bannir.
+1386	Fracas : bannissez jusqu’à 2 cartes de votre main. +1 Puissance pour chacune.
+1387	Météorite : le Nuage de Tempête est vide.
+1388	Subir 1 dégât, piocher 1
+1389	Subir 2 dégâts, piocher 2
+1390	Héliotrope : vous pouvez subir 1 ou 2 dégâts, puis piocher autant de cartes.
+1391	Héliotrope : vous pouvez bannir une carte de votre main ou de votre défausse.
+1392	Chauve-souris de Lave : aucune carte Feu à déplacer dans les défausses.
+1393	Chauve-souris de Lave : vers la défausse de quel adversaire la déplacer ?
+1394	Rubis : aucune carte Feu et rien à bannir.
+1395	Rubis : choisissez une carte à bannir.
+1396	{c} n’avait pas 2 mana à perdre.
+1397	La Lanterne s’éteint.
+1398	Source de Mana : aucune carte Eau à défausser.
+1399	Source de Mana : défaussez une carte Eau. Si vous le faites, gagnez 3 mana.
+1400	Source de Mana : aucune carte Eau dans le Nuage de Tempête.
+1401	Flamme : aucune autre carte Feu en main à résoudre.
+1402	Feu Croisé : infliger 3 dégâts à quel adversaire ?
+1403	Boule de Feu : pas d’Initiative, pas de dégâts en plus.
+1404	Toboggan de Glace : vous pouvez bannir une GLACE de votre main ou de votre défausse.
+1405	Lapis : vous pouvez défausser jusqu’à 2 cartes. Soignez 1 par carte Eau défaussée.
+1406	Bond : aucun adversaire n’a révélé de Feu, donc pas de bannissement.
+1407	Ultime : vous pouvez bannir une carte Terre de votre main pour gagner 3 mana.
+1408	Dragon du Vent : aucune carte en main à résoudre.
+1409	Dragon du Vent : aucune carte en main à résoudre.
+1410	Réseau de Distribution : place une Essence de Terre dans sa défausse.
+1411	Toujours Déjà : donne une GLACE à tous les joueurs.
+1412	Bibelot Funeste : à quel adversaire le donner ?
+1413	Piochez 2. Défaussez la prochaine carte Météo.
+1414	Piochez 1. Si vous révélez de la Terre cette manche, gagnez 1 puissance.
+1415	Piochez 1. Chaque joueur peut bannir une CENDRE, une MALÉDICTION ou une GLACE de sa main ou de sa défausse.
+1416	Piochez 1. Après la résolution des cartes, les joueurs peuvent utiliser leur Ultime.
+1417	Piochez 2. Les cartes Terre ne font rien en se résolvant, sauf soigner 2.
+1418	Piochez 2, gagnez 2 puissance.
+1419	Piochez 2, gagnez 1 mana. Tous les joueurs défaussent 2 cartes au hasard.
+1420	{c} : aucune carte en main ou en défausse à bannir.
+1421	Bannissez une {c} de votre main ou de votre défausse.
+1422	La pioche des Dragons est vide : infligez 2 dégâts et gagnez 2 Éclats de Tempête.
+1423	une carte Terre de votre Rang ou inférieur
+1424	une carte Feu de votre Rang ou inférieur
+1425	une carte Eau de votre Rang ou inférieur
+1426	une carte
+1427	Utiliser {c} sans payer de mana ? ({s})
+1428	Utiliser {c} pour {0} mana ? ({s})
+1429	{c} avez une main injouable — défaussez-la, subissez 1 dégât et piochez 4.
+1430	{c} a une main injouable — il la défausse, subit 1 dégât et pioche 4.
+1431	{c} : +1 PV et +1 carte grâce à la triche.
+1432	Gagner un sort : prenez une carte du Nuage de Tempête, ou une carte spéciale gratuite.
+1433	Donnez une MALÉDICTION à un adversaire choisi. Vous pouvez piocher jusqu’à une carte de votre défausse par jeton FUNESTE.
+1434	Pistolet à Potions : aucune carte non-Sorcier à donner.
+1435	Pistolet à Potions : quel adversaire ?
+1436	{c} est bannie — Robot Boy ne peut pas la garder.
+1437	Pistolet à Potions : vous pouvez donner une carte non-Sorcier de votre main à votre adversaire et gagner 2 de son Élément.
+1438	Aucun changement
+1439	aucun changement
+1440	Formule Instable : baissez un de vos Éléments de 2 pour en monter un autre de 2. (Feu {0}, Terre {0}, Eau {0})
+1441	Formule Instable : baissez un Élément de {c} de 2 pour en monter un autre de 2. (Feu {0}, Terre {0}, Eau {0})
+1442	Écrase-Scarabée : quel joueur subit 3 dégâts ?
+1443	Écrase-Scarabée : vous pouvez défausser une carte Feu de votre main pour infliger 2 dégâts.
+1444	Annuler la carte révélée d’un adversaire — il la défausse et pioche
+1445	Shuriken : annuler la carte de qui ?
+1446	Aucun jeton FUNESTE — Frappe Engloutie n’inflige aucun dégât.
+1447	Gemmes des Profondeurs : aucune Puissance à perdre.
+1448	Gemmes des Profondeurs : perdre 1 Puissance pour résoudre une carte Eau du Nuage de Tempête, puis la bannir ?
+1449	Gemmes des Profondeurs : choisissez une carte Eau du Nuage de Tempête à résoudre, puis à bannir.
+1450	Tir Stellaire : aucune autre carte Feu en main.
+1451	Tir Stellaire : vous pouvez perdre 2 jetons Énergie pour résoudre une autre carte Feu de votre main.
+1452	Fuite de Données : quel adversaire ?
+1453	Fuite de Données : la main de {s} est vide.
+1454	Fuite de Données : choisissez une carte de la main adverse qu’il devra défausser.
+1455	Fuite de Données : perdez 1 ou 2 Énergie pour gagner autant de Puissance. (Vous en avez {0}.)
+1456	Perdre 1
+1457	Perdre 2
+1458	Elle a Fait ses Recherches : gagne 1 Puissance au début de chaque combat, plus les pouvoirs étudiés dans son Journal.
+1459	Les six jetons Recherche sont déjà placés.
+1460	Maudit : ne peut jamais se soigner. Chaque fois qu’il devrait se soigner, il donne 1 MALÉDICTION à la place.
+1461	FUNÈÈÈÈÈBRE ! : donner une MALÉDICTION à quel adversaire ?
+1462	FUNÈÈÈÈÈBRE ! Vous pouvez piocher jusqu’à {0} carte de votre défausse (une par jeton FUNESTE).
+1463	FUNÈÈÈÈÈBRE ! Vous pouvez piocher jusqu’à {0} cartes de votre défausse (une par jeton FUNESTE).
+1464	A 3 Pièges cachés. Son Ultime en pose un face cachée.
+1465	Reprenez une carte de votre défausse en main ou piochez. Posez un Piège face cachée (pas le même deux fois de suite).
+1466	Posez un Piège face cachée. Il remplace votre Piège actuel.
+1467	Double Couture : peut se soigner jusqu’à 10 PV. Triple Couture : à 10 PV, chaque point de soin fait piocher une carte.
+1468	Un tour de magie ! : aucune carte non-Sorcier en main à lancer.
+1469	Chimiste : les Éléments Feu, Terre et Eau commencent à 3 (max 6) et paient les potions.
+1470	Troisième potion TOXIQUE ! L’Ultime se termine — gagnez une CENDRE, une MALÉDICTION et une GLACE.
+1471	Oren a bu {0} potion. Les Éléments reviennent à 3.
+1472	Oren a bu {0} potions. Les Éléments reviennent à 3.
+1473	Oren a bu {0} potions et est tombé sur une troisième TOXIQUE. Les Éléments reviennent à 3.
+1474	Énergisation : commence avec 2 Énergie (max 3). Téléchargement Dangereux : en fin de manche, peut dépenser 1 Énergie et 1 mana pour résoudre la carte de Rang II révélée par l’adversaire.
+1475	Voyageuse du Néant : aucune carte en main ou dans le NÉANT à résoudre.
+1476	Triple Couture : {c} piochez {0} grâce aux soins perdus.
+1477	Triple Couture : {c} pioche {0} grâce aux soins perdus.
+1478	Révéler Esquive ! ? Les 2 premiers dégâts que vous subissez cette manche sont annulés.
+1479	Esquive ! annule {0} dégâts.
+1480	Journal : vous pouvez reprendre en main une carte Feu de votre défausse.
+1481	{c} reprenez {c} de la défausse en main.
+1482	{c} reprend {c} de la défausse en main.
+1483	Journal : vous pouvez bannir une carte de votre main.
+1484	Journal : vous pouvez déplacer une GLACE, une CENDRE ou une MALÉDICTION de votre défausse vers celle de votre adversaire.
+1485	Journal : vers quel adversaire la déplacer ?
+1486	Téléchargement Dangereux : vous pouvez dépenser 1 Énergie et 1 mana pour résoudre la carte de Rang II révélée par un autre joueur.
+1487	Aucun effet
+1488	gagner par les dégâts
+1489	gagner la course à la Déflagration
+1490	accumuler de la Puissance
+1491	jouer défensivement
+1492	Changement de Mode : une carte face visible et une face cachée sur sa carte. Pas d’Adhérence : perd un jeton Déflagration chaque fois qu’il révèle une GLACE.
+1493	Résout la carte face visible, puis la face cachée sur sa carte, les défausse, puis en pioche une nouvelle paire.
+1494	Robot Boy résout {c} !
+1495	Liseur : étudie plus de vos coups possibles et pèse le pire cas à la révélation.
+1496	Joueur : erratique et bien plus aléatoire, parfois brillant.
+1497	Chasseur de Dragons : fonce vers le Rang III et les Dragons.
+1498	Gagnez en {0} tours.
+1499	Survivez à ce tour.
+1500	Survivez aux {0} prochains tours.
+1501	Atteignez le Rang {s} ce tour-ci.
+1502	Remportez le Score de Déflagration de ce combat.
+1503	← → Ajuster
+1504	◀ ▶ Ajuster
+1505	Ajuster à la page
+1506	Quitter le replay
+1507	aucune cible
+1508	À propos de l’Équilibrage Première Édition

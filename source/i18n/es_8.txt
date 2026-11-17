@@ -1,0 +1,200 @@
+1309	Las cuentas nuevas están desactivadas por ahora.
+1310	Algo salió mal. Inténtalo de nuevo.
+1311	Sin sesión iniciada.
+1312	Tu sesión caducó. Vuelve a iniciar sesión.
+1313	No se pudo guardar tu progreso porque otro dispositivo lo estaba cambiando. Se volverá a intentar.
+1314	Sincronizando…
+1315	Aún sin sincronizar
+1316	Sincronizado ahora mismo
+1317	Sincronizado hace {0} min
+1318	El progreso de este dispositivo se combinó con tu cuenta.
+1319	La sincronización falló. Se volverá a intentar.
+1320	Steam Cloud:
+1321	Inicia sesión en Reddit para guardar tu progreso en tu cuenta. Por ahora solo se guarda en este navegador.
+1322	☁ Steam Cloud está activado: tu progreso se guarda en Steam automáticamente y te acompaña a cualquier ordenador o Steam Deck donde juegues.
+1323	Steam Cloud está desactivado para Spellstorm en tu configuración de Steam, así que el progreso solo se guarda en este ordenador. Actívalo en Steam (Spellstorm › Propiedades › General) para tener una copia.
+1324	Opcional: una cuenta de Spellstorm también sincroniza tu progreso con las versiones para móvil y navegador.
+1325	Inicia sesión o crea una cuenta de Spellstorm
+1326	Sesión iniciada como
+1327	Sincronizar ahora
+1328	Inicia sesión para sincronizar tu progreso en todos tus dispositivos.
+1329	Inicia sesión o crea una cuenta
+1330	Cuenta creada. Revisa tu correo para confirmarla y luego inicia sesión.
+1331	No se pudo iniciar sesión. Inténtalo de nuevo.
+1332	contra Chico Robot
+1333	por Fragmentos de Tormenta
+1334	por vida
+1335	por rendición
+1336	Tú ({c})
+1337	Últimas {0} partidas
+1338	Duración media
+1339	Más jugado
+1340	Partidas guardadas
+1341	Torneo en curso: {0}/7 como {c} ({c}).
+1342	Tu cuenta de Spellstorm
+1343	Inicia sesión en cada dispositivo para sincronizar tus estadísticas, historial, puntuaciones clasificatorias, logros y ajustes. Las repeticiones se quedan en el dispositivo donde se jugaron.
+1344	Iniciar sesión
+1345	Crear cuenta
+1346	¿Olvidaste tu contraseña?
+1347	Introduce tu dirección de correo.
+1348	Sesión iniciada — el progreso de este dispositivo se combinó con tu cuenta.
+1349	Cuenta creada — tu progreso ahora se sincroniza.
+1350	Sesión iniciada — tu progreso ahora se sincroniza.
+1351	Introduce tu correo arriba y vuelve a tocar «¿Olvidaste tu contraseña?».
+1352	Si ese correo tiene una cuenta, el enlace para restablecer la contraseña está en camino.
+1353	Elige una contraseña nueva
+1354	Contraseña nueva
+1355	Guardar contraseña
+1356	Contraseña cambiada. Has iniciado sesión.
+1357	¡Bienvenido a Spellstorm!
+1358	¿Quieres jugar un tutorial interactivo? (También puedes leer las reglas en el menú o jugar el tutorial más tarde con el botón Tutorial.)
+1359	Jugar el tutorial
+1360	Ahora no
+1361	Partida Larga: cada mago tiene un 50 % más de vida, y se gana con {0} Fragmentos de Tormenta.
+1362	Partida reanudada en la batalla {0}, ronda {0}.
+1363	Partida en línea: juegas con {c} contra {c}.
+1364	Partida clasificatoria: juegas con {c} contra {s} (Elo {0}), que juega con {c}.
+1365	Dos contra Dos: tú y {c} contra {c} y {c}.
+1366	Algo salió mal
+1367	¡Gracias por jugar!
+1368	Una pestaña del navegador no puede cerrarse sola, así que ciérrala cuando quieras. En las apps de escritorio y móvil, Salir cierra el juego.
+1369	Un amigo
+1370	está esperando un rival en Spellstorm.
+1371	No se pudieron buscar actualizaciones. Revisa tu conexión a internet e inténtalo de nuevo.
+1372	La actualización no funcionó.
+1373	Buscando actualizaciones…
+1374	La versión {s} está disponible.
+1375	Tienes la {s}.
+1376	Descargando la versión {s}… {0} %
+1377	Toca Instalar
+1378	en la pantalla de Android. Spellstorm se abrirá de nuevo con la versión {s}.
+1379	Reiniciando con la versión {s}…
+1380	Tienes la última versión ({s}).
+1381	Tienes la versión {s}.
+1382	Cribar: no quedan cartas en el mazo para mirar.
+1383	Cribar: elige qué cartas de la parte superior de tu mazo descartar. El resto se queda encima.
+1384	Diamante: descarta exactamente 3 cartas.
+1385	Romper: no hay cartas en la mano para desterrar.
+1386	Romper: destierra hasta 2 cartas de tu mano. +1 Poder por cada una.
+1387	Meteorito: la Nube de Tormenta está vacía.
+1388	Recibe 1 de daño, roba 1
+1389	Recibe 2 de daño, roba 2
+1390	Piedra de Sangre: puedes recibir 1 o 2 de daño y luego robar esa cantidad de cartas.
+1391	Piedra de Sangre: puedes desterrar una carta de tu mano o descarte.
+1392	Murciélago de Lava: no hay cartas de Fuego en ningún descarte para mover.
+1393	Murciélago de Lava: ¿al descarte de qué rival moverla?
+1394	Rubí: no hay cartas de Fuego ni nada que desterrar.
+1395	Rubí: elige una carta para desterrar.
+1396	{c} no tenía 2 de maná para perder.
+1397	El Farol se apaga.
+1398	Fuente de Maná: no hay carta de Agua para descartar.
+1399	Fuente de Maná: descarta una carta de Agua. Si lo haces, gana 3 de maná.
+1400	Fuente de Maná: no hay carta de Agua en la Nube de Tormenta.
+1401	Llama: no hay otra carta de Fuego en la mano para resolver.
+1402	Fuego Cruzado: ¿a qué rival infligir 3 de daño?
+1403	Bola de Fuego: sin Iniciativa, sin daño extra.
+1404	Tobogán de Hielo: puedes desterrar un HIELO de tu mano o descarte.
+1405	Lapislázuli: puedes descartar hasta 2 cartas. Cúrate 1 por cada carta de Agua descartada.
+1406	Salto: ningún rival reveló Fuego, así que no hay destierro.
+1407	Definitiva: puedes desterrar una carta de Tierra de tu mano para ganar 3 de maná.
+1408	Dragón del Viento: no hay cartas en la mano para resolver.
+1409	Dragón del Viento: no hay carta en la mano para resolver.
+1410	Conexión de Distribución: gana Esencia de Tierra en su descarte.
+1411	Siempre Ya: da a todos los jugadores un HIELO.
+1412	Bola del Fin: ¿a qué rival dársela?
+1413	Roba 2. Descarta la siguiente carta de Clima.
+1414	Roba 1. Si revelas Tierra esta ronda, gana 1 de poder.
+1415	Roba 1. Cada jugador puede desterrar una CENIZA, MALDICIÓN o HIELO de su mano o descarte.
+1416	Roba 1. Tras resolverse las cartas, los jugadores pueden usar su Definitiva.
+1417	Roba 2. Las cartas de Tierra no hacen nada al resolverse, salvo curar 2.
+1418	Roba 2, gana 2 de poder.
+1419	Roba 2, gana 1 de maná. Todos los jugadores descartan 2 cartas al azar.
+1420	{c}: no hay cartas en la mano ni en el descarte para desterrar.
+1421	Destierra un {c} de tu mano o descarte.
+1422	El mazo de Dragones está vacío: inflige 2 de daño y gana 2 Fragmentos de Tormenta.
+1423	una carta de Tierra de tu Nivel o inferior
+1424	una carta de Fuego de tu Nivel o inferior
+1425	una carta de Agua de tu Nivel o inferior
+1426	una carta
+1427	¿Usar {c} sin pagar maná? ({s})
+1428	¿Usar {c} por {0} de maná? ({s})
+1429	{c} tienes una mano injugable — descártala, recibe 1 de daño y roba 4.
+1430	{c} tiene una mano injugable — la descarta, recibe 1 de daño y roba 4.
+1431	{c}: Obtuvo +1 de vida y robó +1 carta por hacer trampa.
+1432	Ganar hechizo: toma una carta de la Nube de Tormenta o una carta especial gratis.
+1433	Da a un rival elegido una MALDICIÓN. Puedes robar hasta una carta de tu descarte por cada Ficha de PERDICIÓN que tengas.
+1434	Pistola de Pociones: no hay carta que no sea de Mago para dar.
+1435	Pistola de Pociones: ¿a qué rival?
+1436	{c} se destierra — Chico Robot no puede quedársela.
+1437	Pistola de Pociones: puedes dar una carta que no sea de Mago de tu mano a la mano de tu rival y ganar 2 de su Elemento.
+1438	Sin cambios
+1439	sin cambios
+1440	Fórmula Inestable: baja uno de tus Elementos en 2 para subir otro en 2. (Fuego {0}, Tierra {0}, Agua {0})
+1441	Fórmula Inestable: baja uno de los Elementos de {c} en 2 para subir otro en 2. (Fuego {0}, Tierra {0}, Agua {0})
+1442	Revientaescarabajos: ¿qué jugador recibe 3 de daño?
+1443	Revientaescarabajos: puedes descartar una carta de Fuego de tu mano para infligir 2 de daño.
+1444	Cancela la carta revelada de un rival — la descarta y roba
+1445	Shuriken: ¿de quién cancelar la carta?
+1446	Sin Fichas de PERDICIÓN — Golpe Hundido no inflige daño.
+1447	Gemas Profundas: no tienes Poder que perder.
+1448	Gemas Profundas: ¿perder 1 de Poder para resolver una carta de Agua de la Nube de Tormenta y luego desterrarla?
+1449	Gemas Profundas: elige una carta de Agua de la Nube de Tormenta para resolverla y luego desterrarla.
+1450	Disparo Estelar: no hay otra carta de Fuego en la mano.
+1451	Disparo Estelar: puedes perder 2 Fichas de Energía para resolver otra carta de Fuego de tu mano.
+1452	Filtración de Datos: ¿qué rival?
+1453	Filtración de Datos: la mano de {s} está vacía.
+1454	Filtración de Datos: elige una carta de la mano de tu rival para que la descarte.
+1455	Filtración de Datos: pierde 1 o 2 de Energía para ganar Poder esa cantidad de veces. (Tienes {0}.)
+1456	Perder 1
+1457	Perder 2
+1458	Hizo sus deberes: gana 1 de Poder al inicio de cada batalla, más los poderes investigados en su Diario.
+1459	Las seis Fichas de Investigación ya están colocadas.
+1460	Maldito: nunca puede curarse. Cada vez que se curaría, en su lugar da 1 MALDICIÓN.
+1461	¡PERDICIÓÓÓÓÓN!: ¿a qué rival darle una MALDICIÓN?
+1462	¡PERDICIÓÓÓÓÓN! Puedes robar hasta {0} carta de tu descarte (una por Ficha de PERDICIÓN).
+1463	¡PERDICIÓÓÓÓÓN! Puedes robar hasta {0} cartas de tu descarte (una por Ficha de PERDICIÓN).
+1464	Tiene 3 Trampas ocultas. Su Definitiva coloca una boca abajo.
+1465	Devuelve una carta de tu descarte a tu mano o roba. Coloca una Trampa boca abajo (no la misma dos veces seguidas).
+1466	Coloca una Trampa boca abajo. Reemplaza tu Trampa actual.
+1467	Doble Puntada: puede curarse hasta 10 de vida. Triple Puntada: al curarse estando en 10, roba una carta por punto.
+1468	¡Hacer un truco de magia!: no hay carta que no sea de Mago en la mano para lanzar.
+1469	Químico: los Elementos Fuego, Tierra y Agua empiezan en 3 (máx. 6) y pagan las pociones.
+1470	¡Tercera poción TÓXICA! La Definitiva termina — gana una CENIZA, una MALDICIÓN y un HIELO.
+1471	Oren bebió {0} poción. Los Elementos vuelven a 3.
+1472	Oren bebió {0} pociones. Los Elementos vuelven a 3.
+1473	Oren bebió {0} pociones y le tocó una tercera TÓXICA. Los Elementos vuelven a 3.
+1474	Energizar: empieza con 2 de Energía (máx. 3). Descarga Peligrosa: al final de la ronda, puede gastar 1 de Energía y 1 de maná para resolver la carta de Nivel II revelada por el rival.
+1475	Viajera del Vacío: no hay carta en la mano ni en el VACÍO para resolver.
+1476	Triple Puntada: {c} robas {0} por la curación desperdiciada.
+1477	Triple Puntada: {c} roba {0} por la curación desperdiciada.
+1478	¿Revelar ¡Esquivar!? Los primeros 2 de daño que recibas esta ronda se anulan.
+1479	¡Esquivar! anula {0} de daño.
+1480	Diario: puedes tomar una carta de Fuego de tu descarte a tu mano.
+1481	{c} tomas {c} del descarte a la mano.
+1482	{c} toma {c} del descarte a la mano.
+1483	Diario: puedes desterrar una carta de tu mano.
+1484	Diario: puedes mover un HIELO, CENIZA o MALDICIÓN de tu descarte al descarte de tu rival.
+1485	Diario: ¿a qué rival moverla?
+1486	Descarga Peligrosa: puedes gastar 1 de Energía y 1 de maná para resolver la carta de Nivel II revelada por otro jugador.
+1487	Sin efecto
+1488	ganar por daño
+1489	ganar la carrera de Explosión
+1490	acumular Poder
+1491	jugar a la defensiva
+1492	Cambio de Modo: una carta boca arriba y otra boca abajo sobre su carta. Sin Tracción: pierde una Ficha de Explosión cada vez que revela un HIELO.
+1493	Resuelve la carta boca arriba y luego la boca abajo de su carta, descarta ambas y roba un nuevo par.
+1494	¡Chico Robot resuelve {c}!
+1495	Lector: estudia más de tus jugadas posibles y sopesa el peor caso en la revelación.
+1496	Jugador: errático y mucho más aleatorio, a veces brillante.
+1497	Cazadragones: corre hacia el Nivel III y los Dragones.
+1498	Gana en {0} turnos.
+1499	Sobrevive este turno.
+1500	Sobrevive los próximos {0} turnos.
+1501	Alcanza el Nivel {s} este turno.
+1502	Gana la Puntuación de Explosión de esta batalla.
+1503	← → Ajustar
+1504	◀ ▶ Ajustar
+1505	Ajustar a la página
+1506	Salir de la repetición
+1507	sin objetivo
+1508	Sobre el Equilibrio de la Primera Edición

@@ -1,0 +1,147 @@
+@upper		1
+@quote	“	”
+@weather		CLIMA
+@label	TRIGGER:	GATILHO:
+@label	EFFECT:	EFEITO:
+@toxic	TOXIC	TÓXICA
+@toxicnote		Se esta for sua terceira carta TÓXICA, sua Suprema termina e você ganha uma CINZA, um VENENO e um GELO.
+@after		Depois de revelar, deixe esta carta aqui. Ela fica inativa.
+@hl	Fragmento da Tempestade	#e8304a
+@hl	Ficha de RUÍNA	#aa1eb4
+@hl	Fichas de RUÍNA	#aa1eb4
+@hl	Fichas de Energia	#f0a01e
+@hl	Ficha de Energia	#f0a01e
+@sub	Basic Spell Card	Carta de Feitiço Básica
+@sub	Spell Card	Carta de Feitiço
+@sub	Special Card	Carta Especial
+@sub	Derby Pocket's Wizard Spell Card	Feitiço de Mago de Derby Pocket
+@sub	Eve Williams' Wizard Spell Card	Feitiço de Mago de Eve Williams
+@sub	Oren Bark's Wizard Spell Card	Feitiço de Mago de Oren Bark
+@sub	Omar Evans' Wizard Spell Card	Feitiço de Mago de Omar Evans
+@sub	Croh Vosh's Wizard Spell Card	Feitiço de Mago de Croh Vosh
+@sub	Abragail's Wizard Spell Card	Feitiço de Mago de Abragail
+@sub	May Danaris' Wizard Spell Card	Feitiço de Mago de May Danaris
+@sub	Bunny Wizard's Wizard Spell Card	Feitiço de Mago do Mago Coelhinho
+dart	{mana}. Se tiver {init}, cause 1 de dano. / {ult}	A magia de fogo é proibida em muitas partes do mundo por ser imprevisível.
+block	Ganhe {init}. Cure 1 para cada carta de {fire} revelada.	“Ele só precisa de um respingo, é só disso que ele precisa.” – O Mestre do Respingo
+pgem	{power} {gain} / Se ganhou uma carta, descarte-a. / {disc}: {power}	As gemas douradas da Tempestade de Feitiços levam tempo para desenvolver seu poder.
+essF	Cause 1 de dano. Você pode ganhar qualquer carta de {fire} de Nível I ou II da Nuvem da Tempestade. Bana esta carta.	A magia de fogo costuma ser associada à destruição.
+essW	{mana}. Você pode ganhar qualquer carta de {water} de Nível I ou II da Nuvem da Tempestade. Bana esta carta.	A magia de água costuma ser associada à cura.
+essE	{power}. Você pode ganhar qualquer carta de {earth} de Nível I ou II da Nuvem da Tempestade. Bana esta carta. / {disc}: {power}	A magia de terra costuma ser associada à construção.
+coffee	{power}{power}, {gain}. / Se ganhou uma carta de {earth}, ganhe {init}. / {ult}	“Essa vai ser a melhor corrida do café de todos os tempos!”
+charge	{mana}{mana}{power} / Cause 1 de dano. Ganhe uma CINZA. Se tiver {init}, cause mais 1 de dano. / {ult}	“Eu sei que a gente consegue se trabalhar junto!”
+punch	Ganhe {init}. Roube 1 de mana de um jogador; ele descarta uma carta aleatória. {ult}	“Usamos a voz para não ter que usar os punhos. Usamos os punhos para não ter que usar bombas.”
+riot	Descarte sua mão sem ativar efeitos de descarte. Cause 1 de dano para cada {earth} descartada. {draw}{draw}{ult}.	“Destruir a Onigema foi só o primeiro passo da nossa luta contra a opressão colonial.”
+twopow	{power}{power}{gain} / {disc}: {power}{power}	Quando vir o ícone “Ganhar carta”, lembre-se de que você pode escolher não ganhar nenhuma.
+opal	{draw}, {power}{power}, {mana}{mana}, {gain}. / {disc}: {power}{power}	Gemas são rochas encontradas nas profundezas da terra, carregadas de um poder misterioso.
+sift	{power}. Olhe as 2 cartas do topo do seu baralho. Você pode descartá-las ou devolvê-las ao topo em qualquer ordem.	Quase todas as cartas de Terra têm efeitos de descarte.
+diamond	Descarte exatamente 3 cartas. Se fizer isso, / {power}{power}{power} / {disc}: {power}	“Aprendi mais feitiços em 1 dia na Tempestade de Feitiços do que nos últimos 3 anos.” – Estudiosa de Azura
+spirit	{draw}. Revele uma {earth} da sua mão. Resolva-a e depois descarte-a. / {disc}: {power}	Dizem que a magia de terra é a mais antiga, por isso tantas pedras têm poderes.
+amber	{power}{gain}{gain} (você precisa ganhar uma carta duas vezes). {disc}: {power}	Os Demônios Empresariais pensaram em perfurar a Tempestade de Feitiços, mas saía caro demais.
+shatter	Bana até 2 cartas da sua mão. {power} para cada carta banida. / {disc}: {power}	“A água dessa tempestade tá CHEINHA de ouro, tô te falando!” – Garimpeiro
+meteor	Sofra 1 de dano. Você pode resolver qualquer carta da Nuvem da Tempestade, de qualquer nível, e depois bani-la. / {disc}: Sofra 1 de dano.	“Mãe! Olha! Isso caiu do céu!” – Filho de Tiya Bannet
+blood	{mana} / Sofra 1 de dano. Você pode banir uma carta da mão ou do descarte. / {disc}: {mana}	“Melhor deixar quietas as gemas que você encontra na natureza, a menos que saiba muito bem o que está fazendo.” – Abragail
+quake	Os oponentes perdem 2 Fichas de Poder e ganham uma CINZA. {gain} / {disc}: {power}.	Um enorme terremoto em 1951 é atribuído ao surgimento dos Demônios Empresariais.
+threepow	{power}{power}{gain} / Se algum jogador revelou {water}, {power}. / {disc}: {power}{power}	Quando vir o ícone “Ganhar carta”, lembre-se de que você pode escolher não ganhar nenhuma.
+swamp	{draw}. O jogador com {init} a perde. Dê uma MALDIÇÃO aos oponentes.	A grilagem imperial da Ordem tem muito a ver com o avanço dos pântanos em seu território.
+lavabat	{mana}. Você pode mover uma carta de {fire} que não seja de Mago de um descarte para outro. / Ganhe {init}.	Dizem que perigosos morcegos flamejantes saem da atividade vulcânica da Tempestade de Feitiços.
+ruby	Descarte as 3 cartas do topo do seu baralho. Cause 1 de dano por carta de {fire} descartada / OU você pode banir uma das cartas descartadas.	A moda das roupas com rubis foi culpada pelo Grande Incêndio do Baile Real de 1976.
+shock	O jogador escolhido perde 2 Fichas de Poder, descarta uma carta aleatória, perde {init} e sofre 1 de dano.	O sucesso de 1981 “Onda de Choque” é tido como a origem do gênero Bonepunk.
+rapid	{draw} / Se tiver {init}, cause 2 de dano e você pode voltar esta carta para a mão.	Numa estratégia de fogo, é importante manter a pressão.
+obsidian	Sofra 1 de dano e perca 2 de mana. Se fizer isso, pode usar {ult} sem pagar o custo de mana.	“Sempre que fecho os olhos, vejo meu reflexo distorcido naquela gema negra espelhada.” – Desconhecido
+lantern	{mana}{mana}. / Se o próximo jogador em sentido horário revelou {water}, bana esta carta; você ganha uma MALDIÇÃO e sofre 1 de dano.	Não prenda espíritos de fogo conscientes numa lanterna, por motivo nenhum.
+heart	Cure 3 e ganhe uma MALDIÇÃO. / {ult} / {disc}: Sofra 1 de dano.	A Gema Coração surgiu e sumiu muitas vezes ao longo da história, sempre trazendo uma maldição mortal.
+manafont	Bana uma {water} da Nuvem da Tempestade. Se fizer isso, {mana}{mana}{mana}. / {disc}: Sofra 1 de dano e {mana}.	Há muitas teorias, mas ninguém sabe de onde vem a magia das gemas.
+flame	Cause 1 de dano e depois resolva e descarte outra {fire} da sua mão. / {ult}	Para apagar uma chama mágica, é preciso água *mágica*.
+fb2	Cause 2 de dano. Se tiver {init}, cause mais 2 de dano.	É costume gritar “bum-iá!” ao revelar a carta Bola de Fogo II.
+cross	Se tiver {init}, cause 3 de dano a um oponente escolhido, perca {init} e coloque esta carta no descarte desse oponente.	“A primeira lição da magia de fogo sempre deve ser… como não se queimar.” – B. Underbrom, professor de Magia de Fogo
+fb	Cause 1 de dano e ganhe uma CINZA. Se tiver {init}, cause mais 2 de dano e perca {init}.	É costume gritar “bum!” ao revelar a carta Bola de Fogo.
+arctite	{draw}{draw} / Cure 2 e dê um GELO.	Dizem que piratas contrabandeiam grandes quantidades de Arctita dentro de icebergs.
+iceflume	Dê um GELO. Você pode banir um GELO da mão ou do descarte. Ganhe {init}.	“Cuidado onde pisa!” – Desconhecido
+frost	Cure 1. Perca 1 Ficha de Poder. Dê um GELO aos oponentes.	A Ordem Azul se dedicava à magia de água até os anos 1970, quando a magia de gelo ficou muito mais popular.
+lapis	{draw}. Você pode descartar até 2 cartas. / Cure 1 para cada {water} descartada.	Há gerações, médicos de toda Ômia curam doentes com magia de água.
+leap	Ganhe {init} e cure 1. / Se um oponente revelou {fire}, você pode banir uma carta da mão ou do descarte.	Os magos azuis se especializaram em Gemas de Água, mas desde então tomaram outras de todo o mundo.
+moon	Cure 4. / {disc}: Cure 2.	A rara e bela Pedra da Lua é uma das mais cobiçadas de toda Ômia.
+reflect	{draw}, ganhe {init}, cure 1. / Jogadores que revelaram {fire} sofrem 2 de dano.	“Ele só precisa de um respingo, é só disso que ele precisa.” – O Mestre do Respingo
+sapph	{draw}, cure 1 e ganhe uma CINZA. / {ult}	Muitos dos magos mais impressionantes de Ômia têm um golpe característico, que alguns chamam de “Suprema”.
+step	Se tiver {init}, cure 1. / Caso contrário, ganhe {init}. / {disc}: Ganhe {init}.	De 366 a 1182, o Reino da Água dominou grande parte do Continente Oriental.
+twin	{draw} e cure 2. / {ult}	“DUAS safiras?! Nossa, valeu!” – O filho de alguém
+ultw	Você pode banir uma {earth} da sua mão. / Se fizer isso, {mana}{mana}{mana}. / {ult}	“Ele só precisa de um respingo, é só disso que ele precisa.” – O Mestre do Respingo
+wave	{mana}{mana}{mana}. O jogador escolhido descarta a mão e compra uma nova mão de 4 cartas.
+dEarth	{gain}{gain}. Cause 2 de dano. Ganhe 1 Fragmento da Tempestade. Os oponentes ganham uma CINZA. {ult}	Os Dragões da Terra são conhecidos por acumular tesouros enormes em cavernas.
+dFire	Cause 4 de dano a um jogador. {mana}{mana} / {ult}	Nenhum dragão é mais temido que o destrutivo e terrível Dragão de Fogo.
+dIce	Cure 3. Ganhe 1 Fragmento da Tempestade. Dê um GELO. {ult}	Até muito pouco tempo atrás, os esquivos Dragões da Tempestade eram considerados criaturas lendárias.
+dStorm	Cause 3 de dano e ganhe 1 Fragmento da Tempestade. {ult}	Até muito pouco tempo atrás, os esquivos Dragões da Tempestade eram considerados criaturas lendárias.
+dWind	Ganhe {init}. Ganhe um Fragmento da Tempestade. Você pode resolver até duas cartas da sua mão. {ult}	Até muito pouco tempo atrás, os esquivos Dragões da Tempestade eram considerados criaturas lendárias.
+ice	Não pode ser jogada. / {disc}: −1 na Pontuação de Explosão (se descartada na fase de Reagrupamento). / (Ganhe esta carta no seu descarte.)	“Gelo cortado em cubo é meio que uma gema.” – Beosnook
+ash	Não pode ser jogada. / {disc}: Perca 1 Ficha de Poder. / (Ganhe esta carta no seu descarte.)	A Tempestade de Feitiços é uma área muito vulcânica, muitas vezes coberta de cinzas.
+curse	Não pode ser jogada. / {disc}: Sofra 1 de dano. / (Ganhe esta carta no seu descarte.)	“Maldição!” – H.M.T. Holliganger, ilustre professor da Escola de Arqueologia da Academia Azura
+trap_mud	Cause 1 de dano. {mana}, ganhe {init}.	Omar faz parte de um coletivo secreto de assassinos ninjas que percorre as florestas do Claustro.	Você pode revelá-la se REBATER com uma carta de {fire}.
+trap_dodge	Os primeiros 2 pontos de dano que você sofrer nesta rodada são anulados.	A espécie de Omar, os zuzuni, são insetoides bípedes oprimidos pela Ordem Azul durante quase toda a história.	Você pode revelá-la quando um oponente estiver causando dano a você.
+trap_ice	Dê um GELO. {mana}, {ult}.	Depois de ter uma visão de Croh Vosh tomando o poder da Tempestade de Feitiços, Omar veio impedir que isso aconteça.	Você pode revelá-la se REBATER com uma carta de {water}.
+potiongun	Cause 1 de dano. Você pode dar uma carta que não seja de Mago da sua mão para a mão de um oponente. Se fizer isso, ganhe 2 do Elemento dessa carta. {ult}	“Acha que eu acerto aquele barril velho lá perto do morro?”
+unstable	{power}{mana}. Diminua um Elemento em 2 para aumentar outro em 2. Se alguém revelou {water}, +1 Elemento Terra. {ult}	“Ah, vai funcionar, pode confiar. Mas, é… melhor você se afastar um pouco…”
+beetle	Descarte uma {fire} da sua mão para causar 2 de dano. / {ult}	Herói para muitos, Omar é visto pelos poderosos como um ecoterrorista.
+shuriken	ESPECIAL: esta carta SEMPRE vem primeiro. / Ganhe {init} e {draw}, OU o oponente escolhido descarta a carta revelada (ela não é resolvida) e {draw}. {ult}.	“…”
+undertow	Os oponentes descartam uma carta aleatória. Você {draw}. Se tiver pelo menos 3 cartas a mais que outro jogador, ganhe uma Ficha de RUÍNA. {ult}	Croh veio à Tempestade de Feitiços em busca do caminho para dominar o mundo.
+sinking	{mana}{mana}. Cause X de dano, onde X é seu número de Fichas de RUÍNA. Se a pilha de MALDIÇÕES estiver vazia, ganhe uma Ficha de RUÍNA. {ult}	Há muito tempo, Croh Vosh foi traído e morto na Ponte do Dragão por seu velho aliado, Salutaire Ruupart.
+deepgems	{draw}{mana} Você pode perder 1 Ficha de Poder. Se fizer isso, resolva e depois bana uma {water} da Nuvem da Tempestade. {ult}	O domínio do Reino da Água se deveu, em parte, à sua capacidade de extrair recursos das profundezas.
+curriculum	{power} X vezes, onde X é seu Nível atual. Você pode banir até 2 cartas da Nuvem da Tempestade. {gain}. {ult}	“Não acredito no *lixo* que às vezes me pedem para ensinar!”
+starshot	Descarte uma carta para causar 1 de dano. Se era de Nível II, cause mais 1 de dano. {mana} para cada Ficha de Energia que tiver. Perca 2 Fichas de Energia. {ult}	“Ei, VOCÊ! Toma essa!”
+databreach	Perca 1 ou 2 Fichas de Energia. Se fizer isso, {power} essa quantidade de vezes. Se ainda tiver 2 Fichas de Energia, o oponente escolhido revela a mão e descarta uma carta à sua escolha. {ult}	“Isso! Entrei. Agora vamos ver o que esses idiotas estão tramando…”
+buddy	Jogadores de Nível I {power}. Você {power}{mana}. Você pode resolver outra carta de {earth} revelada. / {ult}	“O Coelhinho quer saber se pode segurar sua mão.” – Cuidador do Coelhinho
+snowday	Cure 2. Dê um GELO a todos os oponentes que não tenham nenhum no descarte. / {ult}.	Os Pelúcias são uma espécie de bichos de pelúcia que ganharam vida graças a uma poderosa magia estelar.
+rb_repair	Cura 1 por oponente. {draw}{mana}. / ~Nível II: Bana um GELO ou MALDIÇÃO do descarte do Garoto Robô. / ~Nível III: Cura 3. {draw}.		Olá! Sou o Garoto Robô.
+rb_iceblock	{blast}. Cura 1 por oponente. / ~Nível II: Dê um GELO. / ~Nível III: {draw}. Cura 1 por oponente.
+rb_bounce	Resolva e depois bana a carta “X” da Nuvem da Tempestade. / ~Nível II: Se o Garoto Robô tiver {init}, cause 2 de dano.		Ops! Foi mal!
+rb_laser	Ganhe {init}. Cause 1 de dano. O Garoto Robô descarta uma Ficha de Explosão. / ~Nível II: Dê uma MALDIÇÃO. / ~Nível III: {mana}
+rb_fist	{mana}. O Garoto Robô descarta uma Ficha de Explosão. Cause 1 de dano. / ~Nível II: Cause 1 de dano. / ~Nível III: Cause 1 de dano.		Ei! Olha o meu truque!
+rb_upgrade	{blast}{blast}{mana} / Bana a carta “X” da Nuvem da Tempestade. / ~Nível III: {blast}{mana}.
+rb_hack	{blast}{draw}{mana} / ~Nível II: Os outros jogadores descartam uma carta aleatória. / ~Nível III: {blast}		!scabbalee BaYTOBORMi Ω ####
+rb_drill	{blast}{mana} / Os oponentes que revelaram {water} ganham uma CINZA. / ~Nível III: Cause 1 de dano.		Eu sou o Garoto Robô!
+rb_blast	{draw}{draw} / ~Nível II: Cura 1. / ~Nível III: Cura 1 por oponente.		BUUUM!
+beetle_2e	Descarte uma carta de {fire}. Se fizer isso, o jogador escolhido sofre 3 de dano.	Herói para muitos, Omar é visto pelos poderosos como um ecoterrorista.
+databreach_2e	{power}{power} O oponente escolhido revela a mão e descarta uma carta à sua escolha. Se alguém revelou {water}, ganhe uma Ficha de Energia. / {ult}	“Isso! Entrei. Agora vamos ver o que esses idiotas estão tramando…”
+starshot_2e	Cause 1 de dano. Você pode perder 2 Fichas de Energia para resolver outra carta de {fire} da sua mão. / {ult}	“Ei, VOCÊ! Toma essa!”
+undertow_2e	{draw}. Os oponentes descartam duas cartas aleatórias. Se você REBATEU, ganhe uma Ficha de RUÍNA. {ult}	Croh veio à Tempestade de Feitiços em busca do caminho para dominar o mundo.
+sinking_2e	{mana}{mana}. Cause X + 1 de dano, onde X é seu número de Fichas de RUÍNA. Se a pilha de MALDIÇÕES estiver vazia, ganhe uma Ficha de RUÍNA. / {ult}	Há muito tempo, Croh Vosh foi traído e morto na Ponte do Dragão por seu velho aliado, Salutaire Ruupart.
+charge_2e	{mana}{power} / Cause 1 de dano. Ganhe uma CINZA. Se tiver {init}, {mana} e cause mais 1 de dano. / {ult}	“Eu sei que a gente consegue se trabalhar junto!”
+coffee_2e	{power}, {gain}. / Se ganhou uma carta de {earth}, {power} e ganhe {init}. / {ult}	“Essa vai ser a melhor corrida do café de todos os tempos!”
+lantern_2e	{mana}{mana}. / Se alguém revelou {water}, todos os jogadores sofrem 1 de dano e ganham uma MALDIÇÃO.	Não prenda espíritos de fogo conscientes numa lanterna, por motivo nenhum.
+rapid_2e	Se tiver {init}, cause 2 de dano, ganhe uma CINZA e volte esta carta para a mão.	Numa estratégia de fogo, é importante manter a pressão.
+leap_2e	Ganhe {init}. Cure 1. / Bana uma carta da mão ou do descarte.	Os magos azuis se especializaram em Gemas de Água, mas desde então tomaram outras de todo o mundo.
+manafont_2e	Descarte uma carta de {water}. / Se fizer isso, {mana}{mana}{mana}. / {disc}: {mana}.	Há muitas teorias, mas ninguém sabe de onde vem a magia das gemas.
+shock_2e	O jogador escolhido sofre 1 de dano, perde 2 Fichas de Poder e 2 de Mana.	O sucesso de 1981 “Onda de Choque” é tido como a origem do gênero Bonepunk.
+amber_2e	Você pode {gain} até duas vezes, mas só cartas de {earth}. / {disc}: {power}	Os Demônios Empresariais pensaram em perfurar a Tempestade de Feitiços, mas saía caro demais.
+ruby_2e	Descarte as 3 cartas do topo do seu baralho. / Cause 1 de dano por carta de {fire} descartada.	A moda das roupas com rubis foi culpada pelo Grande Incêndio do Baile Real de 1976.
+arctite_2e	{draw}{draw} / Os oponentes descartam 2 cartas aleatórias.	Dizem que piratas contrabandeiam grandes quantidades de Arctita dentro de icebergs.
+blood_2e	Você pode sofrer 1 ou 2 de dano e depois comprar essa quantidade de cartas. / {disc}: Sofra 1 de dano.	“Melhor deixar quietas as gemas que você encontra na natureza, a menos que saiba muito bem o que está fazendo.” – Abragail
+potiongun_2e	Dê uma carta que não seja de Mago da sua mão para a mão de um oponente. Ganhe 2 do Elemento dessa carta. Se era de {fire}, cause 2 de dano. {ult}	“Acha que eu acerto aquele barril velho lá perto do morro?”
+w_blizz	{draw}. Se você revelar {fire} nesta rodada, {mana}{mana}.
+w_breeze	{draw}{mana}{power}
+w_dust	{draw}. {power}. Todos os jogadores descartam uma carta aleatória.
+w_ewave	{draw}. Depois de resolverem suas cartas aqui, os jogadores podem usar sua Suprema (pagando a mana necessária).
+w_fearth	{draw}. Se você revelar {earth} nesta rodada, {power}.
+w_flurry	{draw}{mana}. Se você revelar {water} nesta rodada, {mana}.
+w_fstar	{draw}. Todos os jogadores podem {gain} (quem tem {init} primeiro).
+w_glitter	{draw}{draw}. Cartas de {earth} não fazem nada ao serem resolvidas, exceto curar 2.
+w_heat	{draw}. Se você revelar {fire} nesta rodada, {mana}.
+w_ionic	{draw}{draw}. Todos os jogadores {mana}. Jogadores de Nível II e III perdem 2 Fichas de Poder.
+w_lightning	{draw}. Todos os jogadores {mana}. Jogadores com mais de 8 de vida sofrem 1 de dano.
+w_omen	{draw}. Jogadores de Nível 2: {mana}. Jogadores de Nível 1: {power}{power}{power}.
+w_shoot	{draw}{draw} e {power}{power}.
+w_soothe	{draw}. Cada jogador pode banir uma CINZA, MALDIÇÃO ou GELO da mão ou do descarte.
+w_strange	{draw}, {draw}. Descarte a próxima carta do Baralho de Clima.
+w_tidal	{draw}{draw}, {mana}. Todos os jogadores descartam 2 cartas aleatórias.
+w_toads	{draw}. O jogador com {init} a perde. Quem a receber ganha uma MALDIÇÃO e {mana}.
+w_warp	{draw}{draw}. Bana todas as cartas da Nuvem da Tempestade e revele 5 novas.
+w_wild	{draw}. Todos compram uma carta do Baralho da Tempestade e a colocam virada para cima no descarte (sem efeitos de descarte).
+pot_delixir	Resolva a carta do topo do Baralho de Dragões.
+pot_devil	{power}. Dê uma CINZA.
+pot_explo	Cause 1 de dano. Ganhe 1 de cada elemento.
+pot_frostb	Os oponentes perdem 1 de mana. / Dê um GELO.
+pot_gas	Sofra 1 de dano. O efeito da sua próxima Poção acontece duas vezes (pague o custo uma vez).
+pot_haste	Se tiver {init}, cause 1 de dano. Caso contrário, ganhe {init}.
+pot_purple	{power}{mana}{mana}
+pot_soda	Cure 2.
+pot_storm	{draw}{power}

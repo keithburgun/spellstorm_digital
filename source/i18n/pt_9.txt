@@ -1,0 +1,188 @@
+1509	Batalha
+1510	Vença {c} no Normal, Difícil ou Especialista
+1511	Elementos do Tabuleiro de Química
+1512	Roda de rebate
+1513	Roda de rebate: Fogo vence Terra, Terra vence Água, Água vence Fogo
+1514	Fichas de RUÍNA
+1515	Efeito de descarte: acontece quando esta carta é descartada da sua mão, inclusive na Explosão.
+1516	Compre uma carta.
+1517	Terra. Terra vence Água; Fogo vence Terra.
+1518	Edição
+1519	Fichas de Energia
+1520	Fogo. Fogo vence Terra; Água vence Fogo.
+1521	Ganhar uma carta: pegue uma carta da Nuvem da Tempestade do seu Nível ou abaixo.
+1522	Tem a Iniciativa
+1523	Vida {0} de {0}
+1524	Vida {0} de {0} (pode curar até {0})
+1525	Iniciativa: o jogador com a Iniciativa resolve sua carta primeiro.
+1526	Entre no Discord do Spellstorm
+1527	Menu principal
+1528	Mana +{0}: ganhe {0} de mana. A mana paga a {c} do seu mago.
+1529	Mana {0}. {c} custa {0} de mana.
+1530	Silenciar som
+1531	Nenhum restante: o efeito do tabuleiro se aplica
+1532	Poder +{0}: ganhe {0} de Poder. Chegar a {0} de Poder aumenta seu Nível.
+1533	Controles do replay
+1534	Posição do replay
+1535	Ver o Dragão do topo
+1536	Som desligado — clique para ligar
+1537	Som ligado — clique para silenciar
+1539	Baralho Spellstorm
+1540	Spellstorm no Discord
+1541	Fragmentos da Tempestade — vence quem chegar primeiro a {0}
+1542	Esta carta tem efeito de descarte. Ele acontece quando esta carta é descartada da sua mão, inclusive na Explosão.
+1543	Elemento desta carta: Terra. Terra vence Água; Fogo vence Terra.
+1544	Elemento desta carta: Fogo. Fogo vence Terra; Água vence Fogo.
+1545	Elemento desta carta: Água. Água vence Fogo; Terra vence Água.
+1546	O efeito desta poção acontece duas vezes
+1547	Nível I
+1548	Carta de Nível I: você pode ganhá-la da Nuvem da Tempestade em qualquer Nível.
+1549	Nível I · Poder {0} — chegar a {0} aumenta seu Nível
+1550	Nível II
+1551	Carta de Nível II: você pode ganhá-la ao alcançar o Nível II.
+1552	Nível II · Poder {0} — chegar a {0} aumenta seu Nível
+1553	Nível III
+1554	Carta de Nível III: você pode ganhá-la ao alcançar o Nível III.
+1555	Nível III · Poder {0} — chegar a {0} aumenta seu Nível
+1556	Nível IV: um Dragão.
+1557	Ligar som
+1558	Ver a carta de mago de {c}
+1559	Água. Água vence Fogo; Terra vence Água.
+1560	código
+1561	{0} cartas na mão
+1562	restam {0}
+1563	{c} rebate {c}
+1564	{c} rebate {c} se o elemento vencer
+1565	{c} rebate {c}
+1566	{c} rebate {c} se o elemento vencer
+1567	{c}!
+1568	{c}: depois que esta carta for resolvida, você pode usar a {c} do seu mago se tiver mana suficiente.
+1569	{c}: {0} de vida, {0} fragmentos, {0} cartas
+1570	{c}: {s}
+1571	+{0} carta na mão
+1572	+{0} cartas na mão
+1573	−{0} carta na mão
+1574	−{0} cartas na mão
+1575	curou {0}
+1576	+{0} {c}
+1577	−{0} {c}
+1578	{c}: +{0} Mana, +{0} Poder. Cause {0} de dano. Ganhe uma {c}. Se tiver a Iniciativa, +{0} Mana e cause mais {0} de dano.
+1579	{c}: +{0} Mana, +{0} Poder. Cause {0} de dano. Ganhe uma {c}. Se tiver a Iniciativa, cause mais {0} de dano.
+1580	{c}: +{0} Mana, sofra {0} de dano, e você pode banir uma carta da mão ou do descarte. Efeito de descarte: +{0} Mana.
+1581	{c}: +{0} Mana. Se alguém revelou Água, todos os jogadores sofrem {0} de dano e ganham uma {c}.
+1582	{c}: +{0} Mana. Se o próximo jogador em sentido horário revelou Água, bana esta carta, você ganha uma {c} e sofre {0} de dano.
+1583	{c}: +{0} Poder, ganhe uma carta. Se ganhou uma carta de Terra, +{0} Poder e ganhe a Iniciativa.
+1584	{c}: +{0} Poder, ganhe uma carta. Se ganhou uma carta de Terra, ganhe a Iniciativa.
+1585	{c}: +{0} Poder, depois você precisa ganhar uma carta duas vezes. Efeito de descarte: +{0} Poder.
+1586	{c}: O jogador escolhido perde {0} de Poder, descarta uma carta aleatória, perde a Iniciativa e sofre {0} de dano.
+1587	{c}: O jogador escolhido sofre {0} de dano, perde {0} Fichas de Poder e {0} de Mana.
+1588	{c}: Cause X + {0} de dano, onde X é seu número de Fichas de RUÍNA.
+1589	{c}: Cause X de dano, onde X é seu número de Fichas de RUÍNA.
+1590	{c}: Cause {0} de dano. {c} pode dar uma carta que não seja de Mago da sua mão para a mão de um oponente. Se fizer isso, ganhe {0} do Elemento dessa carta.
+1591	{c}: Cause {0} de dano. {c} pode perder {0} Fichas de Energia para resolver outra carta de Fogo da sua mão.
+1592	{c}: Descarte uma carta de Fogo. Se fizer isso, o jogador escolhido sofre {0} de dano.
+1593	{c}: Descarte uma carta de Água. Se fizer isso, +{0} Mana. Efeito de descarte: +{0} Mana.
+1594	{c}: Descarte uma carta para causar {0} de dano ({0} se era de Nível II). Ganhe {0} de mana por Ficha de Energia. Perca {0} Fichas de Energia.
+1595	{c}: Descarte as {0} cartas do topo do seu baralho. Cause {0} de dano por carta de Fogo descartada, OU você pode banir uma delas.
+1596	{c}: Descarte as {0} cartas do topo do seu baralho. Cause {0} de dano por carta de Fogo descartada.
+1597	{c}: Compre uma carta. Se tiver a Iniciativa, cause {0} de dano e você pode voltar esta carta para a mão.
+1598	{c}: Compre uma carta. Os oponentes descartam duas cartas aleatórias. Se você REBATEU, ganhe uma Ficha de RUÍNA.
+1599	{c}: Compre {0} cartas. Cure {0} e dê um {c}.
+1600	{c}: Compre {0} cartas. Os oponentes descartam {0} cartas aleatórias.
+1601	{c}: Para cada Ficha de RUÍNA, pegue uma carta do descarte para a mão ou compre. Sem Fichas de RUÍNA, ganhe uma.
+1602	{c}: Ganhe a Iniciativa e cure {0}. Se um oponente revelou Fogo, você pode banir uma carta da mão ou do descarte.
+1603	{c}: Ganhe a Iniciativa. Cure {0}. Bana uma carta da mão ou do descarte.
+1604	{c}: Dê uma {c} a um oponente escolhido. {c} pode comprar até uma carta do descarte para cada Ficha de RUÍNA que tiver.
+1605	{c}: Dê uma carta que não seja de Mago da sua mão para a mão de um oponente. Ganhe {0} do Elemento dessa carta. Se era de Fogo, cause {0} de dano.
+1606	{c}: Se tiver a Iniciativa, cause {0} de dano, ganhe uma {c} e volte esta carta para a mão.
+1607	{c}: Perca {0} ou {0} Fichas de Energia e ganhe Poder essa quantidade de vezes. Se ainda tiver {0} Fichas de Energia, o oponente escolhido revela a mão e descarta uma carta à sua escolha.
+1608	{c}: Os oponentes descartam uma carta aleatória. {c} compra uma carta. Se você tiver pelo menos {0} cartas a mais que outro jogador, ganhe uma Ficha de RUÍNA.
+1609	{c}: Ganhe Poder duas vezes. O oponente escolhido revela a mão e descarta uma carta à sua escolha. Se alguém revelou Água, ganhe uma Ficha de Energia.
+1610	{c}: Bana uma carta de Água da Nuvem da Tempestade.
+1611	{c}: Bana uma carta de Água da Nuvem da Tempestade. Se fizer isso, +{0} Mana. Efeito de descarte: sofra {0} de dano e +{0} Mana.
+1612	{c}: Bana uma carta da mão ou do descarte.
+1613	{c}: escolha um jogador para descartar a mão e comprar uma nova mão de {0}.
+1614	{c}: escolha um jogador. Ele perde {0} de Poder, descarta uma carta aleatória, perde a Iniciativa e sofre {0} de dano.
+1615	{c}: escolha um jogador. Ele sofre {0} de dano e perde {0} de Poder e {0} de Mana.
+1616	{c}: escolha uma opção.
+1617	{c}: causar {0} de dano a qual jogador?
+1618	{c}: descarte uma carta de Fogo. Se fizer isso, um jogador escolhido sofre {0} de dano.
+1619	{c}: descarte uma carta para causar {0} de dano ({0} se for de Nível II).
+1620	{c}: menos de {0} de Energia, sem bônus.
+1621	{c}: dê uma carta que não seja de Mago da sua mão a um oponente. Ganhe {0} do Elemento dela; se for de Fogo, cause {0} de dano.
+1622	{c}: sem Fichas de RUÍNA, então nenhuma carta do descarte.
+1623	{c}: nenhuma carta de Terra na mão para banir.
+1624	{c}: nenhuma carta de Terra na mão para resolver.
+1625	{c}: nenhuma carta de Fogo para descartar.
+1626	{c}: sem Iniciativa, sem dano extra.
+1627	{c}: sem Iniciativa, então sem dano.
+1628	{c}: sem Iniciativa, então sem efeito.
+1629	{c}: nenhuma carta de Água na Nuvem da Tempestade.
+1630	{c}: nenhuma carta na mão para descartar.
+1631	{c}: nenhum {c} na mão ou no descarte para banir.
+1632	{c}: escolha a primeira carta a resolver (ela fica na mão). {c} pode pular.
+1633	{c}: escolha a segunda carta a resolver (ela fica na mão). {c} pode pular.
+1634	{c}: resolva e descarte outra carta de Fogo da sua mão.
+1635	{c}: resolver para você o {c} revelado?
+1636	{c}: voltar uma carta do descarte para a mão, ou comprar?
+1637	{c}: voltar para a mão?
+1638	{c}: revele uma carta de Terra da mão para resolver e depois descarte-a.
+1639	{c}: arme uma Armadilha.
+1640	{c}: você pode banir uma carta da mão ou do descarte.
+1641	{c}: você pode banir um {c}, {c} ou {c} da mão ou do descarte.
+1642	{c}: você pode banir até {0} cartas da Nuvem da Tempestade.
+1643	{c}: você pode mover uma carta de Fogo para a outra pilha de descarte.
+1644	{c}: você pode mover uma {c} ou um {c} para o descarte do oponente.
+1645	{c}: você pode resolver uma carta da mão ou do VAZIO e depois colocá-la no fundo do Baralho Spellstorm.
+1646	{c}: você pode resolver para você outra carta de Terra revelada.
+1647	{c}: você pode resolver qualquer carta da Nuvem da Tempestade (qualquer Nível) e depois bani-la.
+1648	{c}: {c} não faz nada além de curar {0}.
+1649	{c}: {c} pode descartar uma carta de Fogo para causar {0} de dano.
+1650	{c}: {c} pode ganhar uma carta até duas vezes, mas só cartas de Terra. Efeito de descarte: +{0} Poder.
+1651	{c}: {c} pode sofrer {0} ou {0} de dano e depois comprar essa quantidade de cartas. Efeito de descarte: sofra {0} de dano.
+1652	{c}: {c} resolve {c} (primeira); ela fica na mão.
+1653	{c}: {c} resolve {c} (segunda); ela fica na mão.
+1654	{c}: {c} resolve {c} (primeira); ela fica na mão.
+1655	{c}: {c} resolve {c} (segunda); ela fica na mão.
+1656	Carta de feitiço
+1657	GELO {0}
+1658	CINZA {0}
+1659	MALDIÇÃO {0}
+1660	P&D: no início de cada batalha, se não tiver a Iniciativa, ganha 1 de Poder; mais os poderes pesquisados no Diário.
+1661	{0} de mana
+1662	P&D: {c} não tem a Iniciativa, então ganha {0} de Poder.
+1663	→ {c}
+1664	{c} → {c}
+1665	{c} resolve {c} da Nuvem da Tempestade.
+1666	{c} bane {c} da Nuvem da Tempestade.
+1667	{c} revela {c}!
+1668	{c} atira {c} na mão de {c}: +{0} Elemento Água.
+1669	{c} atira {c} na mão de {c}: +{0} Elemento Água.
+1670	{c} atira {c} na mão de {c}: +{0} Elemento Terra.
+1671	{c} atira {c} na mão de {c}: +{0} Elemento Terra.
+1672	Pontuações de Explosão — {c}: {0}, {c}: {0}, {c}: {0}.
+1673	Pontuações de Explosão — {c}: {0}, {c}: {0}, {c}: {0}, {c}: {0}.
+1674	{c} pesquisou: Ganhe uma carta de Terra.
+1675	{c} pesquisou: {s}
+1676	Ganhe uma carta de Terra.
+1677	Armadilhas: uma armada virada para baixo
+1678	{c} ×{0}
+1679	{c} ⚡
+1680	{c}:
+1681	{c0}, {0} de {c1}
+1682	Texto da partida
+1683	…ou cole o texto da partida aqui
+1684	ex.: o Shuriken cancelou a carta errada na rodada 3
+1685	você {0} de vida
+1686	{c} {0} de vida
+1687	{0} fragmentos
+1688	{c} eliminado
+1689	dificuldade Normal
+1690	dificuldade Média
+1691	dificuldade Difícil
+1692	dificuldade Fácil
+1693	dificuldade Especialista
+1694	{c}, {0} de maio
+1695	Final: você {0} de vida
+1696	{0} fragmentos. {s}.
+1069	🏆 {s}

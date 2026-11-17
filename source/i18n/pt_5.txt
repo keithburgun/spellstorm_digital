@@ -1,0 +1,200 @@
+759	Vença juntando {0} Fragmentos da Tempestade.
+760	Vença em {0} batalhas ou menos.
+761	Vença no Difícil com a vida cheia.
+762	Taxa de vitórias
+763	Vença a partida.
+764	Vença neste turno.
+765	Vença com cada mago no Difícil.
+766	Vença com exatamente {0} de vida.
+767	Vença {0} partidas cooperativas.
+768	Vença {0} partidas de Todos contra todos.
+769	Vença {0} partidas no Difícil seguidas.
+770	Vença {0} partidas ranqueadas seguidas.
+771	Vença {0} partidas de Dois contra Dois.
+772	Vença {0} partidas como {c}.
+773	Vença {0} partidas por Fragmentos da Tempestade.
+774	Vença {0} partidas por nocaute.
+775	Vença {0} partidas seguidas.
+776	Vença {0} partidas no Difícil.
+777	Vença {0} partidas.
+778	Vitórias
+779	Vitórias/partidas. As linhas são o mago que você jogou; as colunas, o oponente.
+780	Apagar todos os dados
+781	Apagar todos os dados?
+782	Apagar tudo
+783	Carta de mago
+784	Magos
+785	Magos se enfrentam neste original jogo tático e mágico de construção de baralho! Criado por Keith Burgun.
+786	Sim
+787	Seu Elo — {c}
+788	Seu Diário
+789	Suas Armadilhas
+790	Sua carta
+791	Seu baralho ({0})
+792	Seu descarte
+793	Sua mão
+794	Sua mão está vazia
+795	Sua mão — contagem
+796	Sua mão — efeitos de descarte
+797	Seu poder transborda no Nível III. Ganhar {c}?
+798	Sua equipe venceu!
+799	Seu mago
+800	depois que esta carta for resolvida, você pode usar a {c} do seu mago se tiver mana suficiente.
+801	também trocam de aba. As dicas na tela mudam para o último dispositivo que você usou.
+802	setas
+803	pergunte à IA Especialista o que ela jogaria
+804	voltar ou menu ·
+805	voltar ·
+806	registro da batalha ·
+807	vença os outros {0} magos em ordem sem perder nenhuma vez. Perdeu uma partida, o torneio acaba. O progresso é salvo, então dá para jogar uma partida de cada vez.
+808	bronze
+809	dias
+810	cada personagem tem seu próprio Elo, e o Aleatório também. Você enfrenta uma série sem fim de oponentes perto da sua pontuação, cada um com seu estilo. Vença para subir; perca e você cai. Desistir ou abandonar uma partida conta como derrota.
+811	vazio
+812	cada mago por si. Todos começam com {0} Fragmentos da Tempestade. Um mago com {0} de vida é eliminado e suas cartas vão para o VAZIO. Vence o último mago de pé ou o primeiro a chegar a {0} Fragmentos da Tempestade.
+813	para {c} contra {c}
+814	ganhe {0} de Poder. Chegar a {0} de Poder aumenta seu Nível.
+815	ganhe {0} de mana. A mana paga a {c} do seu mago.
+816	ouro
+817	acontece quando esta carta é descartada da sua mão, inclusive na Explosão.
+818	ver uma carta ·
+819	menu ·
+820	mover ·
+821	indisponível em Torneios
+822	no Especialista. No Ranqueado, vencer um oponente com {0} / {0} / {0} ou mais rende bronze / prata / ouro. Uma medalha melhor substitui uma pior. {0}% significa que cada mago venceu todos os outros {0} no Especialista.
+823	no Difícil,
+824	no Normal,
+825	analógico direito
+826	rolar. No teclado:
+827	selecionar ou jogar uma carta ·
+828	selecionar ·
+829	prata
+830	trocar de aba ou de rodada no replay ·
+831	trocar de aba, ou de rodada num replay ·
+832	pegue uma carta da Nuvem da Tempestade do seu Nível ou abaixo.
+833	o jogador com a Iniciativa resolve sua carta primeiro.
+834	sofreu {0} de dano
+835	sofreu {0} de dano, +{0} Mana, +{0} Poder, +{0} carta na mão, ganhou a Iniciativa
+836	sofreu {0} de dano, +{0} Mana, +{0} Poder, ganhou a Iniciativa
+837	sofreu {0} de dano, +{0} Poder, ganhou a Iniciativa
+838	sofreu {0} de dano, −{0} Mana, +{0} {c}
+839	sofreu {0} de dano, −{0} Mana, +{0} {c}, +{0} {c}
+840	sofreu {0} de dano, −{0} Mana, −{0} cartas na mão, −{0} {c}, +{0} {c}
+841	contra
+842	você e um aliado contra dois oponentes, sentados alternadamente. {c} só causa dano aos oponentes, você pode curar seu aliado em vez de si mesmo, e se um de vocês vencer, os dois vencem. Cada jogador rebate o próximo oponente em sentido horário.
+843	você e um aliado enfrentam {c} juntos. {c} só causa dano a ele e só dá {c}, {c} e {c} a ele, e quando você se cura pode curar um aliado no lugar. Se alguém da sua equipe vencer, a equipe toda vence, e a equipe continua jogando se alguém for eliminado.
+844	você e {0} aliados enfrentam {c} juntos. {c} só causa dano a ele e só dá {c}, {c} e {c} a ele, e quando você se cura pode curar um aliado no lugar. Se alguém da sua equipe vencer, a equipe toda vence, e a equipe continua jogando se alguém for eliminado.
+845	{0} cartas
+846	{0} cartas, viradas para baixo. As cartas do baralho ficam ocultas até serem compradas.
+847	{0} cartas, ordenadas por Nível.
+848	{0} de vida
+849	{0} vitórias · {0} derrotas
+850	{0}. Aproveite o Momento
+851	{0}/{0} ouro
+852	{0}/{0} resolvidos · resolva um para liberar o próximo
+853	{c} (oponente)
+854	{c} ({0} de {0}): pegar uma carta do seu descarte ou comprar?
+855	{c} REBATEU você e compra uma carta.
+856	{c} REBATEU você e ganha uma Ficha de Explosão.
+857	{c} REBATEU {c} e compra uma carta.
+858	{c} REBATEU {c} e compra uma carta.
+859	{c} Escolha uma carta que não seja de Mago da sua mão para resolver duas vezes e depois bana-a.
+860	Mestre {c}
+861	{c} Coloque uma Ficha de Pesquisa. Os poderes pesquisados são ativados no início de cada batalha.
+862	Poder de {c}
+863	Poder de {c}: Use sua {c}.
+864	Duelo com {c}
+865	{c} bane {c} da Nuvem da Tempestade.
+866	{c} bane {c}.
+867	{c} bane {c}.
+868	{c} adiciona {c} do Baralho da Tempestade ao seu descarte.
+869	{c} adiciona {c} do Baralho da Tempestade ao descarte de {c}.
+870	{c} e oponentes
+871	{c} foi eliminado! Suas cartas vão para o VAZIO.
+872	{c} não pode ser jogada — nada acontece.
+873	{c} lançou {c} duas vezes!
+874	{c} lança {c} duas vezes!
+875	{c} carrega até {0} de Energia.
+876	{c} carrega até {0} de Energia.
+877	{c} não conseguiu descartar {0} cartas.
+878	{c} descarta {c} — seu efeito de descarte é ativado.
+879	{c} descartou {0} cartas ({0} de Terra).
+880	{c} descartou {c}, {c}, {c} do topo do baralho.
+881	{c} descarta uma Ficha de Explosão.
+882	{c} descarta {c} do Baralho de Clima.
+883	{c} descarta {c} — seu efeito de descarte é ativado.
+884	{c} baixa {c}!
+885	{c} baixa {c}!
+886	{c} bebeu {0} poções. Os Elementos voltam a {0}.
+887	{c} bebe do Baralho de Poções. Cada poção custa seu Elemento; uma terceira TÓXICA acaba mal.
+888	{c} bebe “{c}” (Terra {0}).
+889	{c} bebe “{c}” (Terra {0}, TÓXICA).
+890	{c} bebe “{c}” (Fogo {0}).
+891	{c} bebe “{c}” (Fogo {0}, TÓXICA).
+892	{c} bebe “{c}” (Água {0}).
+893	{c} bebe “{c}” (Água {0}, TÓXICA).
+894	{c} bebe do Baralho de Poções. Cada poção custa seu Elemento; uma terceira TÓXICA acaba mal.
+895	{c} bebe “{c}” (Terra {0}).
+896	{c} bebe “{c}” (Terra {0}, TÓXICA).
+897	{c} bebe “{c}” (Fogo {0}).
+898	{c} bebe “{c}” (Fogo {0}, TÓXICA).
+899	{c} bebe “{c}” (Água {0}).
+900	{c} bebe “{c}” (Água {0}, TÓXICA).
+901	{c} atira {c} na mão de {c}: +{0} Elemento Fogo.
+902	{c} atira {c} na mão de {c}: +{0} Elemento Fogo.
+903	{c} ganha uma Ficha de RUÍNA ({0}/{0}).
+904	{c} ganha uma {c}.
+905	{c} ganha um {c}.
+906	{c} ganha {0} Fragmento da Tempestade.
+907	{c} ganha {c}!
+908	{c} ganha {c}.
+909	{c} ganha +{0} Elemento Terra.
+910	{c} ganha uma Ficha de RUÍNA ({0}/{0}).
+911	{c} ganha uma {c}.
+912	{c} ganha um {c}.
+913	{c} ganha {0} Fragmento da Tempestade.
+914	{c} ganha {c}!
+915	{c} ganha {c}.
+916	{c} recebe um link e um código para enviar ao seu amigo. Hospedar exige acesso de edição ou de Colaborador a esta página.
+917	{c} pega a Iniciativa.
+918	{c} pega a Iniciativa.
+919	{c} cura um aliado no lugar.
+920	{c} cura {0}.
+921	{c} cura um aliado no lugar.
+922	{c} cura {0}.
+923	{c} é banida da Nuvem da Tempestade.
+924	{c} está decidindo…
+925	{c} foi eliminado! As cartas de {c} vão para o VAZIO.
+926	{c} está pensando
+927	{c} perde a Iniciativa.
+928	{c} perde {0} de Energia.
+929	{c} perde {0} de Poder.
+930	{c} perde {0} de mana.
+931	{c} perde uma Ficha de Explosão.
+932	{c} perde a Iniciativa.
+933	{c} perde {0} Ficha de Explosão.
+934	{c} perde {0} Fichas de Explosão.
+935	{c} perde {0} de Energia.
+936	{c} perde {0} de Poder.
+937	{c} perde {0} de mana.
+938	{c} perdeu {0} de mana.
+939	{c} pode banir uma carta da sua mão
+940	{c} pode pegar uma carta de Fogo do seu descarte para a mão
+941	{c} pode ganhar uma carta de Terra de Nível I ou II da Nuvem da Tempestade.
+942	{c} pode ganhar uma carta de Fogo de Nível I ou II da Nuvem da Tempestade.
+943	{c} pode ganhar uma carta de Água de Nível I ou II da Nuvem da Tempestade.
+944	{c} pode ganhar uma carta da Nuvem da Tempestade.
+945	{c} pode ganhar uma carta de Terra do seu Nível ou abaixo da Nuvem da Tempestade.
+946	{c} pode mover uma {c} ou um {c} do seu descarte ou mão para o descarte de um oponente. Compre {0}.
+947	{c} moveu uma {c} para o seu descarte.
+948	{c} moveu uma {c} para o descarte de {c}.
+949	{c} moveu {c} para o descarte de {c}.
+950	{c} precisa ganhar uma carta da Nuvem da Tempestade.
+951	{c} agora quer acumular Poder.
+952	{c} agora quer jogar na defensiva.
+953	{c} agora quer vencer por dano.
+954	{c} agora quer vencer a corrida da Explosão.
+955	{c} joga com {c}; a CPU joga com {c}. {c} tem a Iniciativa.
+956	{c} joga com {c}; a CPU joga com {c}. {c} tem a Iniciativa.
+957	{c} descarta {c} aleatoriamente.
+958	{c} descarta {c} aleatoriamente.

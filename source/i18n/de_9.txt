@@ -1,0 +1,188 @@
+1509	Kampf
+1510	Besiege {c} auf Normal, Schwer oder Experte
+1511	Elemente des Chemiebretts
+1512	Konterrad
+1513	Konterrad: Feuer schlägt Erde, Erde schlägt Wasser, Wasser schlägt Feuer
+1514	VERDAMMNIS-Marker
+1515	Abwurfeffekt: tritt ein, wenn diese Karte aus deiner Hand abgeworfen wird, auch bei der Explosion.
+1516	Ziehe eine Karte.
+1517	Erde. Erde schlägt Wasser; Feuer schlägt Erde.
+1518	Edition
+1519	Energiemarker
+1520	Feuer. Feuer schlägt Erde; Wasser schlägt Feuer.
+1521	Eine Karte erhalten: Nimm eine Karte aus der Sturmwolke bis zu deiner Stufe.
+1522	Hat die Initiative
+1523	Leben {0} von {0}
+1524	Leben {0} von {0} (kann bis {0} heilen)
+1525	Initiative: Der Spieler mit der Initiative handelt seine Karte zuerst ab.
+1526	Tritt dem Spellstorm-Discord bei
+1527	Hauptmenü
+1528	Mana +{0}: Erhalte {0} Mana. Mana bezahlt die {c} deines Zauberers.
+1529	Mana {0}. {c} kostet {0} Mana.
+1530	Ton stummschalten
+1531	Keine mehr übrig: der Spielfeldeffekt gilt
+1532	Macht +{0}: Erhalte {0} Macht. Mit {0} Macht steigt deine Stufe.
+1533	Wiederholungssteuerung
+1534	Position in der Wiederholung
+1535	Obersten Drachen ansehen
+1536	Ton aus — klicken zum Einschalten
+1537	Ton an — klicken zum Stummschalten
+1539	Spellstorm-Stapel
+1540	Spellstorm auf Discord
+1541	Sturmsplitter — wer zuerst {0} hat, gewinnt
+1542	Diese Karte hat einen Abwurfeffekt. Er tritt ein, wenn diese Karte aus deiner Hand abgeworfen wird, auch bei der Explosion.
+1543	Element dieser Karte: Erde. Erde schlägt Wasser; Feuer schlägt Erde.
+1544	Element dieser Karte: Feuer. Feuer schlägt Erde; Wasser schlägt Feuer.
+1545	Element dieser Karte: Wasser. Wasser schlägt Feuer; Erde schlägt Wasser.
+1546	Der Effekt dieses Tranks tritt zweimal ein
+1547	Stufe I
+1548	Karte der Stufe I: Du kannst sie auf jeder Stufe aus der Sturmwolke erhalten.
+1549	Stufe I · Macht {0} — mit {0} steigt deine Stufe
+1550	Stufe II
+1551	Karte der Stufe II: Du kannst sie erhalten, sobald du Stufe II erreichst.
+1552	Stufe II · Macht {0} — mit {0} steigt deine Stufe
+1553	Stufe III
+1554	Karte der Stufe III: Du kannst sie erhalten, sobald du Stufe III erreichst.
+1555	Stufe III · Macht {0} — mit {0} steigt deine Stufe
+1556	Stufe IV: ein Drache.
+1557	Ton einschalten
+1558	{c}s Zaubererkarte ansehen
+1559	Wasser. Wasser schlägt Feuer; Erde schlägt Wasser.
+1560	Code
+1561	{0} Karten auf der Hand
+1562	{0} übrig
+1563	{c} kontert {c}
+1564	{c} kontert {c}, wenn sein Element es schlägt
+1565	{c} kontert {c}
+1566	{c} kontert {c}, wenn sein Element es schlägt
+1567	{c}!
+1568	{c}: Nachdem diese Karte abgehandelt ist, darfst du die {c} deines Zauberers einsetzen, wenn du genug Mana hast.
+1569	{c}: {0} Leben, {0} Splitter, {0} Karten
+1570	{c}: {s}
+1571	+{0} Karte auf der Hand
+1572	+{0} Karten auf der Hand
+1573	−{0} Karte auf der Hand
+1574	−{0} Karten auf der Hand
+1575	{0} geheilt
+1576	+{0} {c}
+1577	−{0} {c}
+1578	{c}: +{0} Mana, +{0} Macht. Verursache {0} Schaden. Erhalte eine {c}. Wenn du die Initiative hast, +{0} Mana und verursache {0} weiteren Schaden.
+1579	{c}: +{0} Mana, +{0} Macht. Verursache {0} Schaden. Erhalte eine {c}. Wenn du die Initiative hast, verursache {0} weiteren Schaden.
+1580	{c}: +{0} Mana, nimm {0} Schaden, und du darfst eine Karte aus Hand oder Ablage verbannen. Abwurfeffekt: +{0} Mana.
+1581	{c}: +{0} Mana. Wenn jemand Wasser aufgedeckt hat, erleiden alle Spieler {0} Schaden und erhalten einen {c}.
+1582	{c}: +{0} Mana. Wenn der nächste Spieler im Uhrzeigersinn Wasser aufgedeckt hat, verbanne diese Karte, du erhältst einen {c} und erleidest {0} Schaden.
+1583	{c}: +{0} Macht, erhalte eine Karte. Wenn du eine Erdkarte erhalten hast, +{0} Macht und erhalte die Initiative.
+1584	{c}: +{0} Macht, erhalte eine Karte. Wenn du eine Erdkarte erhalten hast, erhalte die Initiative.
+1585	{c}: +{0} Macht, dann musst du zweimal eine Karte erhalten. Abwurfeffekt: +{0} Macht.
+1586	{c}: Der gewählte Spieler verliert {0} Macht, wirft eine zufällige Karte ab, verliert die Initiative und erleidet {0} Schaden.
+1587	{c}: Der gewählte Spieler erleidet {0} Schaden, verliert {0} Machtmarker und {0} Mana.
+1588	{c}: Verursache X + {0} Schaden, wobei X deine Anzahl an VERDAMMNIS-Markern ist.
+1589	{c}: Verursache X Schaden, wobei X deine Anzahl an VERDAMMNIS-Markern ist.
+1590	{c}: Verursache {0} Schaden. {c} darfst eine Nicht-Zauberer-Karte aus deiner Hand in die Hand eines Gegners geben. Wenn du das tust, erhalte {0} vom Element dieser Karte.
+1591	{c}: Verursache {0} Schaden. {c} darfst {0} Energiemarker verlieren, um eine andere Feuerkarte aus deiner Hand abzuhandeln.
+1592	{c}: Wirf eine Feuerkarte ab. Wenn du das tust, erleidet der gewählte Spieler {0} Schaden.
+1593	{c}: Wirf eine Wasserkarte ab. Wenn du das tust, +{0} Mana. Abwurfeffekt: +{0} Mana.
+1594	{c}: Wirf eine Karte ab, um {0} Schaden zu verursachen ({0}, wenn sie Stufe II war). Erhalte {0} Mana pro Energiemarker. Verliere {0} Energiemarker.
+1595	{c}: Wirf die obersten {0} Karten deines Decks ab. Verursache {0} Schaden pro abgeworfener Feuerkarte, ODER du darfst eine davon verbannen.
+1596	{c}: Wirf die obersten {0} Karten deines Decks ab. Verursache {0} Schaden pro abgeworfener Feuerkarte.
+1597	{c}: Ziehe eine Karte. Wenn du die Initiative hast, verursache {0} Schaden und du darfst diese Karte auf die Hand zurücknehmen.
+1598	{c}: Ziehe eine Karte. Gegner werfen zwei zufällige Karten ab. Wenn du GEKONTERT hast, erhalte einen VERDAMMNIS-Marker.
+1599	{c}: Ziehe {0} Karten. Heile {0} und gib ein {c}.
+1600	{c}: Ziehe {0} Karten. Gegner werfen {0} zufällige Karten ab.
+1601	{c}: Nimm für jeden VERDAMMNIS-Marker eine Karte von deinem Ablagestapel auf die Hand oder ziehe. Ohne VERDAMMNIS-Marker erhältst du einen.
+1602	{c}: Erhalte die Initiative und heile {0}. Wenn ein Gegner Feuer aufgedeckt hat, darfst du eine Karte aus Hand oder Ablage verbannen.
+1603	{c}: Erhalte die Initiative. Heile {0}. Verbanne eine Karte aus Hand oder Ablage.
+1604	{c}: Gib einem gewählten Gegner einen {c}. {c} darfst pro VERDAMMNIS-Marker bis zu eine Karte von deinem Ablagestapel ziehen.
+1605	{c}: Gib eine Nicht-Zauberer-Karte aus deiner Hand in die Hand eines Gegners. Erhalte {0} vom Element dieser Karte. War es Feuer, verursache {0} Schaden.
+1606	{c}: Wenn du die Initiative hast, verursache {0} Schaden, erhalte eine {c} und nimm diese Karte auf die Hand zurück.
+1607	{c}: Verliere {0} oder {0} Energiemarker und erhalte so oft Macht. Hast du danach noch {0} Energiemarker, deckt der gewählte Gegner seine Hand auf und wirft eine Karte deiner Wahl ab.
+1608	{c}: Gegner werfen eine zufällige Karte ab. {c} ziehst eine Karte. Wenn du mindestens {0} Karten mehr hast als ein anderer Spieler, erhalte einen VERDAMMNIS-Marker.
+1609	{c}: Erhalte zweimal Macht. Der gewählte Gegner deckt seine Hand auf und wirft eine Karte deiner Wahl ab. Wenn jemand Wasser aufgedeckt hat, erhalte einen Energiemarker.
+1610	{c}: Verbanne eine Wasserkarte in der Sturmwolke.
+1611	{c}: Verbanne eine Wasserkarte in der Sturmwolke. Wenn du das tust, +{0} Mana. Abwurfeffekt: nimm {0} Schaden und +{0} Mana.
+1612	{c}: Verbanne eine Karte aus deiner Hand oder deinem Ablagestapel.
+1613	{c}: Wähle einen Spieler, der seine Hand abwirft und {0} neue Karten zieht.
+1614	{c}: Wähle einen Spieler. Er verliert {0} Macht, wirft eine zufällige Karte ab, verliert die Initiative und erleidet {0} Schaden.
+1615	{c}: Wähle einen Spieler. Er erleidet {0} Schaden und verliert {0} Macht und {0} Mana.
+1616	{c}: Wähle eins.
+1617	{c}: Welchem Spieler {0} Schaden zufügen?
+1618	{c}: Wirf eine Feuerkarte ab. Wenn du das tust, erleidet ein gewählter Spieler {0} Schaden.
+1619	{c}: Wirf eine Karte ab, um {0} Schaden zu verursachen ({0}, wenn sie Stufe II ist).
+1620	{c}: Weniger als {0} Energie, kein Bonus.
+1621	{c}: Gib einem Gegner eine Nicht-Zauberer-Karte aus deiner Hand. Erhalte {0} ihres Elements; ist es Feuer, verursache {0} Schaden.
+1622	{c}: Keine VERDAMMNIS-Marker, also keine Karten vom Ablagestapel.
+1623	{c}: Keine Erdkarte auf der Hand zum Verbannen.
+1624	{c}: Keine Erdkarte auf der Hand zum Abhandeln.
+1625	{c}: Keine Feuerkarte zum Abwerfen.
+1626	{c}: Keine Initiative, kein Zusatzschaden.
+1627	{c}: Keine Initiative, also kein Schaden.
+1628	{c}: Keine Initiative, also keine Wirkung.
+1629	{c}: Keine Wasserkarte in der Sturmwolke.
+1630	{c}: Keine Karten auf der Hand zum Abwerfen.
+1631	{c}: Kein {c} in Hand oder Ablage zum Verbannen.
+1632	{c}: Wähle die erste Karte zum Abhandeln (sie bleibt auf deiner Hand). {c} darfst überspringen.
+1633	{c}: Wähle die zweite Karte zum Abhandeln (sie bleibt auf deiner Hand). {c} darfst überspringen.
+1634	{c}: Handle eine andere Feuerkarte aus deiner Hand ab und wirf sie ab.
+1635	{c}: Das aufgedeckte {c} für dich abhandeln?
+1636	{c}: Eine Karte vom Ablagestapel auf die Hand nehmen oder ziehen?
+1637	{c}: Auf die Hand zurücknehmen?
+1638	{c}: Decke eine Erdkarte aus deiner Hand zum Abhandeln auf und wirf sie dann ab.
+1639	{c}: Lege eine Falle.
+1640	{c}: Du darfst eine Karte aus deiner Hand oder deinem Ablagestapel verbannen.
+1641	{c}: Du darfst ein {c}, eine {c} oder einen {c} aus Hand oder Ablage verbannen.
+1642	{c}: Du darfst bis zu {0} Karten in der Sturmwolke verbannen.
+1643	{c}: Du darfst eine Feuerkarte auf den anderen Ablagestapel legen.
+1644	{c}: Du darfst einen {c} oder ein {c} auf den Ablagestapel deines Gegners legen.
+1645	{c}: Du darfst eine Karte aus deiner Hand oder der LEERE abhandeln und sie dann unter den Spellstorm-Stapel legen.
+1646	{c}: Du darfst eine andere aufgedeckte Erdkarte für dich abhandeln.
+1647	{c}: Du darfst eine beliebige Karte der Sturmwolke (jede Stufe) abhandeln und dann verbannen.
+1648	{c}: {c} bewirkt nichts außer {0} Heilung.
+1649	{c}: {c} darfst eine Feuerkarte abwerfen, um {0} Schaden zu verursachen.
+1650	{c}: {c} darfst bis zu zweimal eine Karte erhalten, aber nur Erdkarten. Abwurfeffekt: +{0} Macht.
+1651	{c}: {c} darfst {0} oder {0} Schaden nehmen und dann so viele Karten ziehen. Abwurfeffekt: nimm {0} Schaden.
+1652	{c}: {c} handelst {c} ab (erste); sie bleibt auf der Hand.
+1653	{c}: {c} handelst {c} ab (zweite); sie bleibt auf der Hand.
+1654	{c}: {c} handelt {c} ab (erste); sie bleibt auf der Hand.
+1655	{c}: {c} handelt {c} ab (zweite); sie bleibt auf der Hand.
+1656	Zauberkarte
+1657	EIS {0}
+1658	ASCHE {0}
+1659	FLUCH {0}
+1660	F&E: erhält zu Beginn jedes Kampfes 1 Macht, wenn sie die Initiative nicht hat; plus alle in ihrem Tagebuch erforschten Kräfte.
+1661	{0} Mana
+1662	F&E: {c} hat die Initiative nicht, also erhält sie {0} Macht.
+1663	→ {c}
+1664	{c} → {c}
+1665	{c} handelst {c} aus der Sturmwolke ab.
+1666	{c} verbannt {c} aus der Sturmwolke.
+1667	{c} deckt {c} auf!
+1668	{c} schießt {c} in {c}s Hand: +{0} Wasser-Element.
+1669	{c} schießt {c} in {c}s Hand: +{0} Wasser-Element.
+1670	{c} schießt {c} in {c}s Hand: +{0} Erd-Element.
+1671	{c} schießt {c} in {c}s Hand: +{0} Erd-Element.
+1672	Explosionswerte — {c}: {0}, {c}: {0}, {c}: {0}.
+1673	Explosionswerte — {c}: {0}, {c}: {0}, {c}: {0}, {c}: {0}.
+1674	{c} hat erforscht: Erhalte eine Erdkarte.
+1675	{c} hat erforscht: {s}
+1676	Erhalte eine Erdkarte.
+1677	Fallen: eine verdeckt gelegt
+1678	{c} ×{0}
+1679	{c} ⚡
+1680	{c}:
+1681	{c0}, {0}. {c1}
+1682	Partietext
+1683	…oder füge den Partietext hier ein
+1684	z. B. Shuriken hat in Runde 3 die falsche Karte annulliert
+1685	du {0} Leben
+1686	{c} {0} Leben
+1687	{0} Splitter
+1688	{c} ausgeschieden
+1689	Schwierigkeit Normal
+1690	Schwierigkeit Mittel
+1691	Schwierigkeit Schwer
+1692	Schwierigkeit Leicht
+1693	Schwierigkeit Experte
+1694	{c}, {0}. Mai
+1695	Ergebnis: du {0} Leben
+1696	{0} Splitter. {s}.
+1069	🏆 {s}

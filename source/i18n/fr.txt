@@ -1,0 +1,150 @@
+# French. ID<TAB>translation (IDs from strings.txt). Missing IDs stay in English.
+1	Vous
+2	vous
+3	Allié
+4	Vous-même
+5	Robot Boy
+15	Lapin Sorcier
+16	Lapin
+21	Mètre Enflammé
+22	Bibelot Funeste
+23	Niveau supérieur !
+24	FUNÈÈÈÈÈBRE !
+25	Mouvement Caché
+26	Un tour de magie !
+27	Cul sec, je suppose !
+28	Voyageuse du Néant
+29	C4sC4dE ÉlÉm3nT4iR3#%$
+30	Fléchette Magique
+31	Parade
+32	Gemme de Puissance
+33	Essence de Feu
+34	Essence d’Eau
+35	Essence de Terre
+36	Tournée de Café
+37	Charge Téméraire
+38	Coup de Poing
+39	Émeute
+40	Double Puissance
+41	Opale
+42	Tamis
+43	Diamant
+44	Cristal Spirituel
+45	Ambre
+46	Fracas
+47	Météorite
+48	Héliotrope
+49	Séisme
+50	Triple Puissance
+51	Vase des Marais
+52	Chauve-souris de Lave
+53	Rubis
+54	Onde de Choc
+55	Tir Rapide
+56	Obsidienne
+57	Lanterne
+58	Gemme Cœur
+59	Source de Mana
+60	Flamme
+61	Boule de Feu II
+62	Feu Croisé
+63	Boule de Feu
+64	Arctite
+65	Toboggan de Glace
+66	Magie du Givre
+67	Lapis
+68	Bond
+69	Pierre de Lune
+70	Reflet
+71	Saphir
+72	Pas
+73	Saphir Jumeau
+74	Ultime
+75	Vague
+76	Dragon de Terre
+77	Dragon de Feu
+78	Dragon de Glace
+79	Dragon de la Tempête
+80	Dragon du Vent
+81	GLACE
+82	CENDRE
+83	MALÉDICTION
+84	POISON
+85	Pistolet à Potions
+86	Formule Instable
+87	Écrase-Scarabée
+88	Shuriken
+89	Ressac
+90	Frappe Engloutie
+91	Gemmes des Profondeurs
+92	Nouveau Programme
+93	Tir Stellaire
+94	Fuite de Données
+95	Système de Binômes
+96	Jour de Neige
+97	Robo-Réparation
+98	Bloc de Glace
+99	Robo-Rebond
+100	ŒIL Laser
+101	Robo-Poing
+102	Amélioration
+103	Piratage Méchant
+104	Je Te Perce
+105	Je Te Pulvérise
+106	Douce Brise
+107	Temps Étrange
+108	Chute de Terre
+109	Nuage de Poussière
+110	Canicule
+111	Averses de Cristaux
+112	Étoile Tombante
+113	Pluie Apaisante
+114	Blizzard Ardent
+115	Vague d’Énergie
+116	Présage de Gemmes
+117	Poussière Scintillante
+118	Atmosphère Ionique
+119	Coup de Foudre !
+120	Distorsion Magnétique
+121	Pluie de Crapauds
+122	Étoile Filante
+123	Raz-de-Marée
+124	Vents Multicolores
+125	Une Petite… Explosion
+126	Potion de Hâte
+127	J’appelle Ça… le Truc Violet
+128	Élixir de Dragon
+129	Souffle du Diable
+130	Je Crois que J’ai Bu de l’Essence
+131	Bombe de Givre
+132	Soda de Santé
+133	Jus de Tempête
+134	Piège de Boue
+135	Esquive !
+136	Bombe de Glace
+137	Feu
+138	Eau
+139	Terre
+140	Facile
+141	Normal
+142	Moyen
+143	Difficile
+144	Expert
+145	lundi
+146	mardi
+147	mercredi
+148	jeudi
+149	vendredi
+150	samedi
+151	dimanche
+152	janvier
+153	février
+154	mars
+155	avril
+156	juin
+157	juillet
+158	août
+159	septembre
+160	octobre
+161	novembre
+162	décembre

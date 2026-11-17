@@ -1,0 +1,188 @@
+1509	Combat
+1510	Battez {c} en Normal, Difficile ou Expert
+1511	Éléments du Plateau de Chimie
+1512	Roue des contres
+1513	Roue des contres : le Feu bat la Terre, la Terre bat l’Eau, l’Eau bat le Feu
+1514	Jetons FUNESTES
+1515	Effet de défausse : se déclenche quand cette carte est défaussée de votre main, y compris lors de la Déflagration.
+1516	Piochez une carte.
+1517	Terre. La Terre bat l’Eau ; le Feu bat la Terre.
+1518	Édition
+1519	Jetons Énergie
+1520	Feu. Le Feu bat la Terre ; l’Eau bat le Feu.
+1521	Gagner une carte : prenez une carte du Nuage de Tempête de votre Rang ou inférieur.
+1522	A l’Initiative
+1523	Vie {0} sur {0}
+1524	Vie {0} sur {0} (peut monter à {0})
+1525	Initiative : le joueur qui a l’Initiative résout sa carte en premier.
+1526	Rejoindre le Discord de Spellstorm
+1527	Menu principal
+1528	Mana +{0} : gagnez {0} mana. Le mana paie l’{c} de votre sorcier.
+1529	Mana {0}. {c} coûte {0} mana.
+1530	Couper le son
+1531	Plus aucune : l’effet du plateau s’applique
+1532	Puissance +{0} : gagnez {0} Puissance. Atteindre {0} Puissance augmente votre Rang.
+1533	Commandes du replay
+1534	Position dans le replay
+1535	Voir le Dragon du dessus
+1536	Son coupé — cliquez pour réactiver
+1537	Son activé — cliquez pour couper
+1539	Pioche Spellstorm
+1540	Spellstorm sur Discord
+1541	Éclats de Tempête — le premier à {0} gagne
+1542	Cette carte a un effet de défausse. Il se déclenche quand cette carte est défaussée de votre main, y compris lors de la Déflagration.
+1543	Élément de cette carte : Terre. La Terre bat l’Eau ; le Feu bat la Terre.
+1544	Élément de cette carte : Feu. Le Feu bat la Terre ; l’Eau bat le Feu.
+1545	Élément de cette carte : Eau. L’Eau bat le Feu ; la Terre bat l’Eau.
+1546	L’effet de cette potion se produit deux fois
+1547	Rang I
+1548	Carte de Rang I : vous pouvez la gagner du Nuage de Tempête à n’importe quel Rang.
+1549	Rang I · Puissance {0} — atteindre {0} augmente votre Rang
+1550	Rang II
+1551	Carte de Rang II : vous pouvez la gagner une fois le Rang II atteint.
+1552	Rang II · Puissance {0} — atteindre {0} augmente votre Rang
+1553	Rang III
+1554	Carte de Rang III : vous pouvez la gagner une fois le Rang III atteint.
+1555	Rang III · Puissance {0} — atteindre {0} augmente votre Rang
+1556	Rang IV : un Dragon.
+1557	Réactiver le son
+1558	Voir la carte de sorcier de {c}
+1559	Eau. L’Eau bat le Feu ; la Terre bat l’Eau.
+1560	code
+1561	{0} cartes en main
+1562	{0} restantes
+1563	{c} contre {c}
+1564	{c} contre {c} si son élément le bat
+1565	{c} contre {c}
+1566	{c} contre {c} si son élément le bat
+1567	{c} !
+1568	{c} : une fois cette carte résolue, vous pouvez utiliser l’{c} de votre sorcier si vous avez assez de mana.
+1569	{c} : {0} PV, {0} éclats, {0} cartes
+1570	{c} : {s}
+1571	+{0} carte en main
+1572	+{0} cartes en main
+1573	−{0} carte en main
+1574	−{0} cartes en main
+1575	soigné de {0}
+1576	+{0} {c}
+1577	−{0} {c}
+1578	{c} : +{0} Mana, +{0} Puissance. Infligez {0} dégât. Gagnez une {c}. Si vous avez l’Initiative, +{0} Mana et infligez {0} dégât de plus.
+1579	{c} : +{0} Mana, +{0} Puissance. Infligez {0} dégât. Gagnez une {c}. Si vous avez l’Initiative, infligez {0} dégât de plus.
+1580	{c} : +{0} Mana, subissez {0} dégât, et vous pouvez bannir une carte de votre main ou de votre défausse. Effet de défausse : +{0} Mana.
+1581	{c} : +{0} Mana. Si quelqu’un a révélé de l’Eau, tous les joueurs subissent {0} dégât et gagnent une {c}.
+1582	{c} : +{0} Mana. Si le joueur suivant dans le sens horaire a révélé de l’Eau, bannissez cette carte, vous gagnez une {c} et subissez {0} dégât.
+1583	{c} : +{0} Puissance, gagnez une carte. Si vous avez gagné une carte Terre, +{0} Puissance et gagnez l’Initiative.
+1584	{c} : +{0} Puissance, gagnez une carte. Si vous avez gagné une carte Terre, gagnez l’Initiative.
+1585	{c} : +{0} Puissance, puis vous devez gagner une carte deux fois. Effet de défausse : +{0} Puissance.
+1586	{c} : Le joueur choisi perd {0} Puissance, défausse une carte au hasard, perd l’Initiative et subit {0} dégât.
+1587	{c} : Le joueur choisi subit {0} dégât, perd {0} jetons Puissance et {0} Mana.
+1588	{c} : Infligez X + {0} dégâts, où X est votre nombre de jetons FUNESTES.
+1589	{c} : Infligez X dégâts, où X est votre nombre de jetons FUNESTES.
+1590	{c} : Infligez {0} dégât. {c} pouvez donner une carte non-Sorcier de votre main à un adversaire. Si vous le faites, gagnez {0} de l’Élément de cette carte.
+1591	{c} : Infligez {0} dégât. {c} pouvez perdre {0} jetons Énergie pour résoudre une autre carte Feu de votre main.
+1592	{c} : Défaussez une carte Feu. Si vous le faites, le joueur choisi subit {0} dégâts.
+1593	{c} : Défaussez une carte Eau. Si vous le faites, +{0} Mana. Effet de défausse : +{0} Mana.
+1594	{c} : Défaussez une carte pour infliger {0} dégât ({0} si elle était de Rang II). Gagnez {0} mana par jeton Énergie. Perdez {0} jetons Énergie.
+1595	{c} : Défaussez les {0} cartes du dessus de votre deck. Infligez {0} dégât par carte Feu défaussée, OU vous pouvez bannir l’une d’elles.
+1596	{c} : Défaussez les {0} cartes du dessus de votre deck. Infligez {0} dégât par carte Feu défaussée.
+1597	{c} : Piochez une carte. Si vous avez l’Initiative, infligez {0} dégâts et vous pouvez reprendre cette carte en main.
+1598	{c} : Piochez une carte. Les adversaires défaussent deux cartes au hasard. Si vous avez CONTRÉ, gagnez un jeton FUNESTE.
+1599	{c} : Piochez {0} cartes. Soignez {0} et donnez une {c}.
+1600	{c} : Piochez {0} cartes. Les adversaires défaussent {0} cartes au hasard.
+1601	{c} : Pour chaque jeton FUNESTE, reprenez une carte de votre défausse en main ou piochez. Sans jeton FUNESTE, gagnez-en un.
+1602	{c} : Gagnez l’Initiative et soignez {0}. Si un adversaire a révélé du Feu, vous pouvez bannir une carte de votre main ou de votre défausse.
+1603	{c} : Gagnez l’Initiative. Soignez {0}. Bannissez une carte de votre main ou de votre défausse.
+1604	{c} : Donnez une {c} à un adversaire choisi. {c} pouvez piocher jusqu’à une carte de votre défausse par jeton FUNESTE.
+1605	{c} : Donnez une carte non-Sorcier de votre main à un adversaire. Gagnez {0} de l’Élément de cette carte. Si c’était du Feu, infligez {0} dégâts.
+1606	{c} : Si vous avez l’Initiative, infligez {0} dégâts, gagnez une {c} et reprenez cette carte en main.
+1607	{c} : Perdez {0} ou {0} jetons Énergie et gagnez autant de Puissance. S’il vous reste {0} jetons Énergie, l’adversaire choisi révèle sa main et défausse une carte de votre choix.
+1608	{c} : Les adversaires défaussent une carte au hasard. {c} piochez une carte. Si vous avez au moins {0} cartes de plus qu’un autre joueur, gagnez un jeton FUNESTE.
+1609	{c} : Gagnez deux fois de la Puissance. L’adversaire choisi révèle sa main et défausse une carte de votre choix. Si quelqu’un a révélé de l’Eau, gagnez un jeton Énergie.
+1610	{c} : Bannissez une carte Eau du Nuage de Tempête.
+1611	{c} : Bannissez une carte Eau du Nuage de Tempête. Si vous le faites, +{0} Mana. Effet de défausse : subissez {0} dégât et +{0} Mana.
+1612	{c} : Bannissez une carte de votre main ou de votre défausse.
+1613	{c} : choisissez un joueur qui défausse sa main et pioche une nouvelle main de {0}.
+1614	{c} : choisissez un joueur. Il perd {0} Puissance, défausse une carte au hasard, perd l’Initiative et subit {0} dégât.
+1615	{c} : choisissez un joueur. Il subit {0} dégât et perd {0} Puissance et {0} Mana.
+1616	{c} : choisissez une option.
+1617	{c} : infliger {0} dégâts à quel joueur ?
+1618	{c} : défaussez une carte Feu. Si vous le faites, un joueur choisi subit {0} dégâts.
+1619	{c} : défaussez une carte pour infliger {0} dégât ({0} si elle est de Rang II).
+1620	{c} : moins de {0} Énergie, pas de bonus.
+1621	{c} : donnez une carte non-Sorcier de votre main à un adversaire. Gagnez {0} de son Élément ; si c’est du Feu, infligez {0} dégâts.
+1622	{c} : aucun jeton FUNESTE, donc aucune carte de la défausse.
+1623	{c} : aucune carte Terre en main à bannir.
+1624	{c} : aucune carte Terre en main à résoudre.
+1625	{c} : aucune carte Feu à défausser.
+1626	{c} : pas d’Initiative, pas de dégâts en plus.
+1627	{c} : pas d’Initiative, donc pas de dégâts.
+1628	{c} : pas d’Initiative, donc aucun effet.
+1629	{c} : aucune carte Eau dans le Nuage de Tempête.
+1630	{c} : aucune carte en main à défausser.
+1631	{c} : aucune {c} en main ou en défausse à bannir.
+1632	{c} : choisissez la première carte à résoudre (elle reste en main). {c} pouvez passer.
+1633	{c} : choisissez la deuxième carte à résoudre (elle reste en main). {c} pouvez passer.
+1634	{c} : résolvez et défaussez une autre carte Feu de votre main.
+1635	{c} : résoudre à votre profit la {c} révélée ?
+1636	{c} : reprendre une carte de votre défausse en main, ou piocher ?
+1637	{c} : la reprendre en main ?
+1638	{c} : révélez une carte Terre de votre main pour la résoudre, puis défaussez-la.
+1639	{c} : posez un Piège.
+1640	{c} : vous pouvez bannir une carte de votre main ou de votre défausse.
+1641	{c} : vous pouvez bannir une {c}, une {c} ou une {c} de votre main ou de votre défausse.
+1642	{c} : vous pouvez bannir jusqu’à {0} cartes du Nuage de Tempête.
+1643	{c} : vous pouvez déplacer une carte Feu vers l’autre défausse.
+1644	{c} : vous pouvez déplacer une {c} ou une {c} vers la défausse de votre adversaire.
+1645	{c} : vous pouvez résoudre une carte de votre main ou du NÉANT, puis la placer sous la Pioche Spellstorm.
+1646	{c} : vous pouvez résoudre à votre profit une autre carte Terre révélée.
+1647	{c} : vous pouvez résoudre n’importe quelle carte du Nuage de Tempête (tout Rang), puis la bannir.
+1648	{c} : {c} ne fait rien sauf soigner {0}.
+1649	{c} : {c} pouvez défausser une carte Feu pour infliger {0} dégâts.
+1650	{c} : {c} pouvez gagner une carte jusqu’à deux fois, mais uniquement des cartes Terre. Effet de défausse : +{0} Puissance.
+1651	{c} : {c} pouvez subir {0} ou {0} dégâts, puis piocher autant de cartes. Effet de défausse : subissez {0} dégât.
+1652	{c} : {c} résolvez {c} (première) ; elle reste en main.
+1653	{c} : {c} résolvez {c} (deuxième) ; elle reste en main.
+1654	{c} : {c} résout {c} (première) ; elle reste en main.
+1655	{c} : {c} résout {c} (deuxième) ; elle reste en main.
+1656	Carte Sort
+1657	GLACE {0}
+1658	CENDRE {0}
+1659	MALÉDICTION {0}
+1660	R&D : au début de chaque combat, si elle n’a pas l’Initiative, gagne 1 Puissance ; plus les pouvoirs étudiés dans son Journal.
+1661	{0} mana
+1662	R&D : {c} n’a pas l’Initiative, elle gagne donc {0} Puissance.
+1663	→ {c}
+1664	{c} → {c}
+1665	{c} résolvez {c} depuis le Nuage de Tempête.
+1666	{c} bannit {c} du Nuage de Tempête.
+1667	{c} révèle {c} !
+1668	{c} tirez {c} dans la main de {c} : +{0} Élément Eau.
+1669	{c} tire {c} dans la main de {c} : +{0} Élément Eau.
+1670	{c} tirez {c} dans la main de {c} : +{0} Élément Terre.
+1671	{c} tire {c} dans la main de {c} : +{0} Élément Terre.
+1672	Scores de Déflagration — {c} : {0}, {c} : {0}, {c} : {0}.
+1673	Scores de Déflagration — {c} : {0}, {c} : {0}, {c} : {0}, {c} : {0}.
+1674	{c} a étudié : Gagnez une carte Terre.
+1675	{c} a étudié : {s}
+1676	Gagnez une carte Terre.
+1677	Pièges : un posé face cachée
+1678	{c} ×{0}
+1679	{c} ⚡
+1680	{c} :
+1681	{c0} {0} {c1}
+1682	Texte de la partie
+1683	…ou collez le texte de la partie ici
+1684	p. ex. Shuriken a annulé la mauvaise carte à la manche 3
+1685	vous {0} PV
+1686	{c} {0} PV
+1687	{0} éclats
+1688	{c} éliminé
+1689	difficulté Normale
+1690	difficulté Moyenne
+1691	difficulté Difficile
+1692	difficulté Facile
+1693	difficulté Expert
+1694	{c} {0} mai
+1695	Résultat : vous {0} PV
+1696	{0} éclats. {s}.
+1069	🏆 {s}

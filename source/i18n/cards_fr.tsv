@@ -1,0 +1,147 @@
+@upper		1
+@quote	« 	 »
+@weather		MÉTÉO
+@label	TRIGGER:	DÉCLENCHEUR :
+@label	EFFECT:	EFFET :
+@toxic	TOXIC	TOXIQUE
+@toxicnote		Si c’est votre troisième carte TOXIQUE, votre Ultime se termine et vous gagnez une CENDRE, un POISON et une GLACE.
+@after		Après l’avoir révélée, laissez cette carte ici. Elle est inactive.
+@hl	Éclat de Tempête	#e8304a
+@hl	jeton FUNESTE	#aa1eb4
+@hl	jetons FUNESTES	#aa1eb4
+@hl	jetons Énergie	#f0a01e
+@hl	jeton Énergie	#f0a01e
+@sub	Basic Spell Card	Carte Sort de Base
+@sub	Spell Card	Carte Sort
+@sub	Special Card	Carte Spéciale
+@sub	Derby Pocket's Wizard Spell Card	Sort de Sorcier de Derby Pocket
+@sub	Eve Williams' Wizard Spell Card	Sort de Sorcier d’Eve Williams
+@sub	Oren Bark's Wizard Spell Card	Sort de Sorcier d’Oren Bark
+@sub	Omar Evans' Wizard Spell Card	Sort de Sorcier d’Omar Evans
+@sub	Croh Vosh's Wizard Spell Card	Sort de Sorcier de Croh Vosh
+@sub	Abragail's Wizard Spell Card	Sort de Sorcier d’Abragail
+@sub	May Danaris' Wizard Spell Card	Sort de Sorcier de May Danaris
+@sub	Bunny Wizard's Wizard Spell Card	Sort de Sorcier du Lapin Sorcier
+dart	{mana}. Si vous avez {init}, infligez 1 dégât. / {ult}	La magie du feu est souvent interdite dans bien des régions du monde, tant elle est imprévisible.
+block	Gagnez {init}. Soignez 1 par carte {fire} révélée.	« Il lui faut juste une petite éclaboussure, c’est tout. » – Le Maître des Éclaboussures
+pgem	{power} {gain} / Si vous avez gagné une carte, défaussez-la. / {disc} : {power}	Les gemmes dorées de la Tempête de Sorts mettent du temps à développer leur pouvoir.
+essF	Infligez 1 dégât. Vous pouvez gagner n’importe quelle carte {fire} de Rang I ou II du Nuage de Tempête. Bannissez cette carte.	La magie du feu est généralement associée à la destruction.
+essW	{mana}. Vous pouvez gagner n’importe quelle carte {water} de Rang I ou II du Nuage de Tempête. Bannissez cette carte.	La magie de l’eau est généralement associée à la guérison.
+essE	{power}. Vous pouvez gagner n’importe quelle carte {earth} de Rang I ou II du Nuage de Tempête. Bannissez cette carte. / {disc} : {power}	La magie de la terre est généralement associée à la construction.
+coffee	{power}{power}, {gain}. / Si vous avez gagné une carte {earth}, gagnez {init}. / {ult}	« Ça va être la meilleure tournée de café de tous les temps ! »
+charge	{mana}{mana}{power} / Infligez 1 dégât. Gagnez une CENDRE. Si vous avez {init}, infligez 1 dégât de plus. / {ult}	« Je sais qu’on peut y arriver si on se serre les coudes ! »
+punch	Gagnez {init}. Volez 1 mana à un joueur, qui défausse une carte au hasard. {ult}	« On utilise la voix pour éviter les poings. On utilise les poings pour éviter les bombes. »
+riot	Défaussez votre main sans déclencher d’effets de défausse. Infligez 1 dégât par {earth} défaussée. {draw}{draw}{ult}.	« Détruire l’Omni-Gemme n’était que le premier pas de notre lutte contre l’oppression coloniale. »
+twopow	{power}{power}{gain} / {disc} : {power}{power}	Quand vous voyez l’icône « Gagner une carte », souvenez-vous que vous pouvez choisir de ne rien gagner.
+opal	{draw}, {power}{power}, {mana}{mana}, {gain}. / {disc} : {power}{power}	Les gemmes sont des roches des profondeurs de la terre, chargées d’un pouvoir mystérieux.
+sift	{power}. Regardez les 2 cartes du dessus de votre deck. Vous pouvez les défausser ou les replacer dessus dans l’ordre de votre choix.	Presque toutes les cartes Terre ont un effet de défausse.
+diamond	Défaussez exactement 3 cartes. Si vous le faites, / {power}{power}{power} / {disc} : {power}	« J’ai appris plus de sorts en 1 jour à la Tempête de Sorts qu’en 3 ans. » – Érudite d’Azura
+spirit	{draw}. Révélez une {earth} de votre main. Résolvez-la, puis défaussez-la. / {disc} : {power}	On dit que la magie de la terre est la plus ancienne, d’où tant de pierres chargées de pouvoir.
+amber	{power}{gain}{gain} (vous devez gagner une carte deux fois). {disc} : {power}	Les Démons d’Affaires ont envisagé de forer dans la Tempête de Sorts, mais c’était trop coûteux.
+shatter	Bannissez jusqu’à 2 cartes de votre main. {power} pour chaque carte bannie. / {disc} : {power}	« L’eau de cette tempête, elle est PLEINE d’or, j’vous dis ! » – Un prospecteur
+meteor	Subissez 1 dégât. Vous pouvez résoudre n’importe quelle carte du Nuage de Tempête, quel que soit son rang, puis la bannir. / {disc} : Subissez 1 dégât.	« Maman ! Regarde ! C’est tombé du ciel ! » – Un enfant de Tiya Bannet
+blood	{mana} / Subissez 1 dégât. Vous pouvez bannir une carte de votre main ou de votre défausse. / {disc} : {mana}	« Mieux vaut laisser tranquilles les gemmes trouvées dans la nature, sauf si vous savez vraiment ce que vous faites. » – Abragail
+quake	Les adversaires perdent 2 jetons Puissance et gagnent une CENDRE. {gain} / {disc} : {power}.	Un énorme séisme survenu en 1951 est attribué à l’apparition des Démons d’Affaires.
+threepow	{power}{power}{gain} / Si un joueur a révélé {water}, {power}. / {disc} : {power}{power}	Quand vous voyez l’icône « Gagner une carte », souvenez-vous que vous pouvez choisir de ne rien gagner.
+swamp	{draw}. Le joueur qui a {init} la perd. Donnez une MALÉDICTION aux adversaires.	L’accaparement impérial des terres par l’Ordre n’est pas étranger à l’extension des marais sur son territoire.
+lavabat	{mana}. Vous pouvez déplacer une carte {fire} non-Sorcier d’une défausse vers une autre. / Gagnez {init}.	On sait que de dangereuses chauves-souris enflammées jaillissent de l’activité volcanique de la Tempête de Sorts.
+ruby	Défaussez les 3 cartes du dessus de votre deck. Infligez 1 dégât par carte {fire} défaussée / OU vous pouvez bannir l’une des cartes défaussées.	La mode des vêtements ornés de rubis fut accusée du Grand Incendie du Bal Royal de 1976.
+shock	Le joueur choisi perd 2 jetons Puissance, défausse une carte au hasard, perd {init} et subit 1 dégât.	Le tube de 1981 « Onde de Choc » est souvent crédité de la naissance du genre Bonepunk.
+rapid	{draw} / Si vous avez {init}, infligez 2 dégâts et vous pouvez reprendre cette carte en main.	Avec une stratégie de feu, il est important de maintenir la pression.
+obsidian	Subissez 1 dégât et perdez 2 mana. Si vous le faites, vous pouvez utiliser {ult} sans payer son coût en mana.	« Chaque fois que je ferme les yeux, je vois mon reflet tordu dans cette gemme noire comme un miroir. » – Inconnu
+lantern	{mana}{mana}. / Si le joueur suivant dans le sens horaire a révélé {water}, bannissez cette carte, vous gagnez une MALÉDICTION et subissez 1 dégât.	N’enfermez jamais d’esprits de feu conscients dans une lanterne, pour aucune raison.
+heart	Soignez 3 et gagnez une MALÉDICTION. / {ult} / {disc} : Subissez 1 dégât.	La Gemme Cœur est apparue et a disparu maintes fois au cours de l’histoire, apportant chaque fois une malédiction mortelle.
+manafont	Bannissez une {water} du Nuage de Tempête. Si vous le faites, {mana}{mana}{mana}. / {disc} : Subissez 1 dégât et {mana}.	Il existe bien des théories, mais personne ne sait d’où vient la magie des gemmes.
+flame	Infligez 1 dégât, puis résolvez et défaussez une autre {fire} de votre main. / {ult}	Pour éteindre une flamme magique, il faut de l’eau *magique*.
+fb2	Infligez 2 dégâts. Si vous avez {init}, infligez 2 dégâts de plus.	La coutume veut qu’on crie « boum-ya ! » en révélant la carte Boule de Feu II.
+cross	Si vous avez {init}, infligez 3 dégâts à un adversaire choisi, perdez {init}, puis placez cette carte dans la défausse de cet adversaire.	« La première leçon de magie du feu doit toujours être… comment ne pas se brûler soi-même. » – B. Underbrom, professeur de Magie du Feu
+fb	Infligez 1 dégât et gagnez une CENDRE. Si vous avez {init}, infligez 2 dégâts de plus et perdez {init}.	La coutume veut qu’on crie « boum ! » en révélant la carte Boule de Feu.
+arctite	{draw}{draw} / Soignez 2 et donnez une GLACE.	On sait que des pirates font passer de grandes quantités d’Arctite cachées dans des icebergs.
+iceflume	Donnez une GLACE. Vous pouvez bannir une GLACE de votre main ou de votre défausse. Gagnez {init}.	« Attention à la marche ! » – Inconnu
+frost	Soignez 1. Perdez 1 jeton Puissance. Donnez une GLACE aux adversaires.	L’Ordre Azur se consacrait à la magie de l’eau jusqu’aux années 1970, quand la magie de la glace devint soudain bien plus populaire.
+lapis	{draw}. Vous pouvez défausser jusqu’à 2 cartes. / Soignez 1 par {water} défaussée.	Depuis des générations, les médecins de toute l’Omie soignent les malades par la magie de l’eau.
+leap	Gagnez {init} et soignez 1. / Si un adversaire a révélé {fire}, vous pouvez bannir une carte de votre main ou de votre défausse.	Les sorciers azurs étaient spécialisés dans les Gemmes d’Eau, mais ils se sont depuis emparés d’autres gemmes partout dans le monde.
+moon	Soignez 4. / {disc} : Soignez 2.	La rare et magnifique Pierre de Lune est l’une des plus convoitées de toute l’Omie.
+reflect	{draw}, gagnez {init}, soignez 1. / Les joueurs qui ont révélé {fire} subissent 2 dégâts.	« Il lui faut juste une petite éclaboussure, c’est tout. » – Le Maître des Éclaboussures
+sapph	{draw}, soignez 1 et gagnez une CENDRE. / {ult}	Beaucoup des sorciers les plus impressionnants d’Omie ont un coup signature, que certains appellent « Ultime ».
+step	Si vous avez {init}, soignez 1. / Sinon, gagnez {init}. / {disc} : Gagnez {init}.	De 366 à 1182, le Royaume de l’Eau régna sur une grande partie du Continent Oriental.
+twin	{draw} et soignez 2. / {ult}	« DEUX saphirs ?! Ouah, merci ! » – Le fils de quelqu’un
+ultw	Vous pouvez bannir une {earth} de votre main. / Si vous le faites, {mana}{mana}{mana}. / {ult}	« Il lui faut juste une petite éclaboussure, c’est tout. » – Le Maître des Éclaboussures
+wave	{mana}{mana}{mana}. Le joueur choisi défausse sa main et pioche une nouvelle main de 4 cartes.
+dEarth	{gain}{gain}. Infligez 2 dégâts. Gagnez 1 Éclat de Tempête. Les adversaires gagnent une CENDRE. {ult}	On sait que les Dragons de Terre amassent d’immenses trésors dans des grottes.
+dFire	Infligez 4 dégâts à un joueur. {mana}{mana} / {ult}	Aucun dragon n’est plus redouté que le terrible et destructeur Dragon de Feu.
+dIce	Soignez 3. Gagnez 1 Éclat de Tempête. Donnez une GLACE. {ult}	Jusqu’à très récemment, les insaisissables Dragons de la Tempête passaient pour des créatures de légende.
+dStorm	Infligez 3 dégâts et gagnez 1 Éclat de Tempête. {ult}	Jusqu’à très récemment, les insaisissables Dragons de la Tempête passaient pour des créatures de légende.
+dWind	Gagnez {init}. Gagnez un Éclat de Tempête. Vous pouvez résoudre jusqu’à deux cartes de votre main. {ult}	Jusqu’à très récemment, les insaisissables Dragons de la Tempête passaient pour des créatures de légende.
+ice	Ne peut pas être jouée. / {disc} : −1 au Score de Déflagration (si défaussée pendant la phase de Regroupement). / (Gagnez-la dans votre défausse.)	« De la glace taillée en cube, c’est un peu comme une gemme. » – Beosnook
+ash	Ne peut pas être jouée. / {disc} : Perdez 1 jeton Puissance. / (Gagnez-la dans votre défausse.)	La Tempête de Sorts est une zone très volcanique, souvent couverte de cendres.
+curse	Ne peut pas être jouée. / {disc} : Subissez 1 dégât. / (Gagnez-la dans votre défausse.)	« Malédiction ! » – H.M.T. Holliganger, éminent professeur à l’École d’Archéologie de l’Académie d’Azura
+trap_mud	Infligez 1 dégât. {mana}, gagnez {init}.	Omar fait partie d’un collectif secret d’assassins ninjas qui parcourt les forêts du Cloître.	Vous pouvez la révéler si vous CONTREZ avec une carte {fire}.
+trap_dodge	Les 2 premiers points de dégâts que vous subissez cette manche sont annulés.	L’espèce d’Omar, les Zuzuni, sont des insectoïdes bipèdes opprimés par l’Ordre Azur pendant presque toute l’histoire connue.	Vous pouvez la révéler quand un adversaire vous inflige des dégâts.
+trap_ice	Donnez une GLACE. {mana}, {ult}.	Après une vision de Croh Vosh s’emparant du pouvoir de la Tempête de Sorts, Omar est venu l’en empêcher.	Vous pouvez la révéler si vous CONTREZ avec une carte {water}.
+potiongun	Infligez 1 dégât. Vous pouvez donner une carte non-Sorcier de votre main à un adversaire. Si vous le faites, gagnez 2 de l’Élément de cette carte. {ult}	« Tu crois que je peux toucher le vieux tonneau là-bas, près de la colline ? »
+unstable	{power}{mana}. Baissez un Élément de 2 pour en monter un autre de 2. Si quelqu’un a révélé {water}, +1 Élément Terre. {ult}	« Oh, ça va marcher, crois-moi. Mais, euh… tu devrais peut-être reculer un peu… »
+beetle	Défaussez une {fire} de votre main pour infliger 2 dégâts. / {ult}	Héros pour beaucoup, Omar est considéré comme un écoterroriste par les puissants.
+shuriken	SPÉCIAL : cette carte passe TOUJOURS en premier. / Gagnez {init} et {draw}, OU l’adversaire choisi défausse sa carte révélée (sans la résoudre) et {draw}. {ult}.	« … »
+undertow	Les adversaires défaussent une carte au hasard. Vous {draw}. Si vous avez au moins 3 cartes de plus qu’un autre joueur, gagnez un jeton FUNESTE. {ult}	Croh est venu à la Tempête de Sorts chercher la voie de la domination mondiale.
+sinking	{mana}{mana}. Infligez X dégâts, où X est votre nombre de jetons FUNESTES. Si la pile de MALÉDICTIONS est vide, gagnez un jeton FUNESTE. {ult}	Il y a longtemps, Croh Vosh fut trahi et tué au Pont du Dragon par son vieil allié, Salutaire Ruupart.
+deepgems	{draw}{mana} Vous pouvez perdre 1 jeton Puissance. Si vous le faites, résolvez puis bannissez une {water} du Nuage de Tempête. {ult}	La domination du Royaume de l’Eau tenait en partie à sa capacité à tirer des ressources des profondeurs.
+curriculum	{power} X fois, où X est votre Rang actuel. Vous pouvez bannir jusqu’à 2 cartes du Nuage de Tempête. {gain}. {ult}	« Je n’en reviens pas des *âneries* qu’on me demande d’enseigner parfois ! »
+starshot	Défaussez une carte pour infliger 1 dégât. Si elle était de Rang II, infligez 1 dégât de plus. {mana} par jeton Énergie possédé. Perdez 2 jetons Énergie. {ult}	« Hé, TOI ! Prends ça ! »
+databreach	Perdez 1 ou 2 jetons Énergie. Si vous le faites, {power} autant de fois. S’il vous reste 2 jetons Énergie, l’adversaire choisi révèle sa main et défausse une carte de votre choix. {ult}	« Oui ! J’y suis. Voyons ce que ces idiots préparent… »
+buddy	Les joueurs de Rang I {power}. Vous {power}{mana}. Vous pouvez résoudre une autre carte {earth} révélée. / {ult}	« Lapin se demande s’il pourrait vous tenir la main. » – Le soigneur de Lapin
+snowday	Soignez 2. Donnez une GLACE à tous les adversaires qui n’en ont pas dans leur défausse. / {ult}.	Les Peluchons sont une espèce de peluches animées par une puissante magie stellaire.
+rb_repair	Soin 1/adversaire. {draw}{mana}. / ~Rang II : Bannissez une GLACE ou une MALÉDICTION de la défausse de Robot Boy. / ~Rang III : Soin 3. {draw}.		Salut ! Je suis Robot Boy.
+rb_iceblock	{blast}. Soin 1/adversaire. / ~Rang II : Donnez une GLACE. / ~Rang III : {draw}. Soin 1/adversaire.
+rb_bounce	Résolvez puis bannissez la carte « X » du Nuage de Tempête. / ~Rang II : Si Robot Boy a {init}, infligez 2 dégâts.		Aïe ! Pardon !
+rb_laser	Gagnez {init}. Infligez 1 dégât. Robot Boy défausse un jeton Déflagration. / ~Rang II : Donnez une MALÉDICTION. / ~Rang III : {mana}
+rb_fist	{mana}. Robot Boy défausse un jeton Déflagration. Infligez 1 dégât. / ~Rang II : Infligez 1 dégât. / ~Rang III : Infligez 1 dégât.		Hé ! Regarde mon tour !
+rb_upgrade	{blast}{blast}{mana} / Bannissez la carte « X » du Nuage de Tempête. / ~Rang III : {blast}{mana}.
+rb_hack	{blast}{draw}{mana} / ~Rang II : Les autres joueurs défaussent une carte au hasard. / ~Rang III : {blast}		!scabbalee BaYTOBORMi Ω ####
+rb_drill	{blast}{mana} / Les adversaires qui ont révélé {water} gagnent une CENDRE. / ~Rang III : Infligez 1 dégât.		Je suis Robot Boy !
+rb_blast	{draw}{draw} / ~Rang II : Soin 1. / ~Rang III : Soin 1/adversaire.		BOUUUM !
+beetle_2e	Défaussez une carte {fire}. Si vous le faites, le joueur choisi subit 3 dégâts.	Héros pour beaucoup, Omar est considéré comme un écoterroriste par les puissants.
+databreach_2e	{power}{power} L’adversaire choisi révèle sa main et défausse une carte de votre choix. Si quelqu’un a révélé {water}, gagnez un jeton Énergie. / {ult}	« Oui ! J’y suis. Voyons ce que ces idiots préparent… »
+starshot_2e	Infligez 1 dégât. Vous pouvez perdre 2 jetons Énergie pour résoudre une autre carte {fire} de votre main. / {ult}	« Hé, TOI ! Prends ça ! »
+undertow_2e	{draw}. Les adversaires défaussent deux cartes au hasard. Si vous avez CONTRÉ, gagnez un jeton FUNESTE. {ult}	Croh est venu à la Tempête de Sorts chercher la voie de la domination mondiale.
+sinking_2e	{mana}{mana}. Infligez X + 1 dégâts, où X est votre nombre de jetons FUNESTES. Si la pile de MALÉDICTIONS est vide, gagnez un jeton FUNESTE. / {ult}	Il y a longtemps, Croh Vosh fut trahi et tué au Pont du Dragon par son vieil allié, Salutaire Ruupart.
+charge_2e	{mana}{power} / Infligez 1 dégât. Gagnez une CENDRE. Si vous avez {init}, {mana} et infligez 1 dégât de plus. / {ult}	« Je sais qu’on peut y arriver si on se serre les coudes ! »
+coffee_2e	{power}, {gain}. / Si vous avez gagné une carte {earth}, {power} et gagnez {init}. / {ult}	« Ça va être la meilleure tournée de café de tous les temps ! »
+lantern_2e	{mana}{mana}. / Si quelqu’un a révélé {water}, tous les joueurs subissent 1 dégât et gagnent une MALÉDICTION.	N’enfermez jamais d’esprits de feu conscients dans une lanterne, pour aucune raison.
+rapid_2e	Si vous avez {init}, infligez 2 dégâts, gagnez une CENDRE et reprenez cette carte en main.	Avec une stratégie de feu, il est important de maintenir la pression.
+leap_2e	Gagnez {init}. Soignez 1. / Bannissez une carte de votre main ou de votre défausse.	Les sorciers azurs étaient spécialisés dans les Gemmes d’Eau, mais ils se sont depuis emparés d’autres gemmes partout dans le monde.
+manafont_2e	Défaussez une carte {water}. / Si vous le faites, {mana}{mana}{mana}. / {disc} : {mana}.	Il existe bien des théories, mais personne ne sait d’où vient la magie des gemmes.
+shock_2e	Le joueur choisi subit 1 dégât, perd 2 jetons Puissance et 2 Mana.	Le tube de 1981 « Onde de Choc » est souvent crédité de la naissance du genre Bonepunk.
+amber_2e	Vous pouvez {gain} jusqu’à deux fois, mais seulement des cartes {earth}. / {disc} : {power}	Les Démons d’Affaires ont envisagé de forer dans la Tempête de Sorts, mais c’était trop coûteux.
+ruby_2e	Défaussez les 3 cartes du dessus de votre deck. / Infligez 1 dégât par carte {fire} défaussée.	La mode des vêtements ornés de rubis fut accusée du Grand Incendie du Bal Royal de 1976.
+arctite_2e	{draw}{draw} / Les adversaires défaussent 2 cartes au hasard.	On sait que des pirates font passer de grandes quantités d’Arctite cachées dans des icebergs.
+blood_2e	Vous pouvez subir 1 ou 2 dégâts, puis piocher autant de cartes. / {disc} : Subissez 1 dégât.	« Mieux vaut laisser tranquilles les gemmes trouvées dans la nature, sauf si vous savez vraiment ce que vous faites. » – Abragail
+potiongun_2e	Donnez une carte non-Sorcier de votre main à un adversaire. Gagnez 2 de l’Élément de cette carte. Si c’était {fire}, infligez 2 dégâts. {ult}	« Tu crois que je peux toucher le vieux tonneau là-bas, près de la colline ? »
+w_blizz	{draw}. Si vous révélez {fire} cette manche, {mana}{mana}.
+w_breeze	{draw}{mana}{power}
+w_dust	{draw}. {power}. Tous les joueurs défaussent une carte au hasard.
+w_ewave	{draw}. Après avoir résolu leurs cartes ici, les joueurs peuvent utiliser leur Ultime (en payant le mana requis).
+w_fearth	{draw}. Si vous révélez {earth} cette manche, {power}.
+w_flurry	{draw}{mana}. Si vous révélez {water} cette manche, {mana}.
+w_fstar	{draw}. Tous les joueurs peuvent {gain} (celui qui a {init} d’abord).
+w_glitter	{draw}{draw}. Les cartes {earth} ne font rien en se résolvant, sauf soigner 2.
+w_heat	{draw}. Si vous révélez {fire} cette manche, {mana}.
+w_ionic	{draw}{draw}. Tous les joueurs {mana}. Les joueurs de Rang II et III perdent 2 jetons Puissance.
+w_lightning	{draw}. Tous les joueurs {mana}. Les joueurs à plus de 8 PV subissent 1 dégât.
+w_omen	{draw}. Joueurs de Rang 2 : {mana}. Joueurs de Rang 1 : {power}{power}{power}.
+w_shoot	{draw}{draw} et {power}{power}.
+w_soothe	{draw}. Chaque joueur peut bannir une CENDRE, une MALÉDICTION ou une GLACE de sa main ou de sa défausse.
+w_strange	{draw}, {draw}. Défaussez la prochaine carte de la Pioche Météo.
+w_tidal	{draw}{draw}, {mana}. Tous les joueurs défaussent 2 cartes au hasard.
+w_toads	{draw}. Le joueur qui a {init} la perd. Celui qui l’obtient gagne une MALÉDICTION et {mana}.
+w_warp	{draw}{draw}. Bannissez toutes les cartes du Nuage de Tempête et révélez-en 5 nouvelles.
+w_wild	{draw}. Tous piochent une carte de la Pioche de Tempête et la placent face visible dans leur défausse (sans effets de défausse).
+pot_delixir	Résolvez la carte du dessus de la Pioche des Dragons.
+pot_devil	{power}. Donnez une CENDRE.
+pot_explo	Infligez 1 dégât. Gagnez 1 de chaque élément.
+pot_frostb	Les adversaires perdent 1 mana. / Donnez une GLACE.
+pot_gas	Subissez 1 dégât. L’effet de votre prochaine Potion se produit deux fois (payez le coût une fois).
+pot_haste	Si vous avez {init}, infligez 1 dégât. Sinon, gagnez {init}.
+pot_purple	{power}{mana}{mana}
+pot_soda	Soignez 2.
+pot_storm	{draw}{power}

@@ -1,0 +1,200 @@
+759	Gewinne durch {0} gesammelte Sturmsplitter.
+760	Gewinne in {0} Kämpfen oder weniger.
+761	Gewinne auf Schwer mit vollem Leben.
+762	Siegquote
+763	Gewinne die Partie.
+764	Gewinne in diesem Zug.
+765	Gewinne mit jedem Zauberer auf Schwer.
+766	Gewinne mit genau {0} Leben.
+767	Gewinne {0} Koop-Partien.
+768	Gewinne {0} Jeder-gegen-jeden-Partien.
+769	Gewinne {0} Partien auf Schwer in Folge.
+770	Gewinne {0} Ranglistenpartien in Folge.
+771	Gewinne {0} Zwei-gegen-Zwei-Partien.
+772	Gewinne {0} Partien als {c}.
+773	Gewinne {0} Partien durch Sturmsplitter.
+774	Gewinne {0} Partien durch K.o.
+775	Gewinne {0} Partien in Folge.
+776	Gewinne {0} Partien auf Schwer.
+777	Gewinne {0} Partien.
+778	Siege
+779	Siege/Partien. Zeilen sind dein gespielter Zauberer, Spalten der Gegner.
+780	Alle Daten löschen
+781	Alle Daten löschen?
+782	Alles löschen
+783	Zaubererkarte
+784	Zauberer
+785	Zauberer duellieren sich in diesem originellen magisch-taktischen Deckbuilder! Entworfen von Keith Burgun.
+786	Ja
+787	Dein Elo — {c}
+788	Dein Tagebuch
+789	Deine Fallen
+790	Deine Karte
+791	Dein Deck ({0})
+792	Dein Ablagestapel
+793	Deine Hand
+794	Deine Hand ist leer
+795	Deine Hand — Zählung
+796	Deine Hand — Abwurfeffekte
+797	Deine Macht läuft auf Stufe III über. {c} erhalten?
+798	Dein Team gewinnt!
+799	Dein Zauberer
+800	nachdem diese Karte abgehandelt ist, darfst du die {c} deines Zauberers einsetzen, wenn du genug Mana hast.
+801	wechseln auch Tabs. Die Bildschirmhinweise passen sich dem zuletzt benutzten Gerät an.
+802	Pfeiltasten
+803	frag die Experten-KI, was sie spielen würde
+804	zurück oder Menü ·
+805	zurück ·
+806	Kampfprotokoll ·
+807	besiege nacheinander alle {0} anderen Zauberer, ohne ein einziges Mal zu verlieren. Eine Niederlage beendet das Turnier. Der Fortschritt wird gespeichert, du kannst also eine Partie nach der anderen spielen.
+808	Bronze
+809	Tage
+810	jeder Charakter hat sein eigenes Elo, und Zufällig ebenso. Du triffst auf einen endlosen Strom von Gegnern in deiner Wertung, jeder mit eigenem Stil. Gewinne, um aufzusteigen; verliere, und du fällst. Aufgeben oder Abbrechen zählt als Niederlage.
+811	leer
+812	jeder Zauberer für sich. Alle beginnen mit {0} Sturmsplittern. Ein Zauberer mit {0} Leben scheidet aus, und seine Karten gehen in die LEERE. Der letzte Zauberer, oder der erste mit {0} Sturmsplittern, gewinnt.
+813	für {c} gegen {c}
+814	erhalte {0} Macht. Mit {0} Macht steigt deine Stufe.
+815	erhalte {0} Mana. Mana bezahlt die {c} deines Zauberers.
+816	Gold
+817	tritt ein, wenn diese Karte aus deiner Hand abgeworfen wird, auch bei der Explosion.
+818	Karte ansehen ·
+819	Menü ·
+820	bewegen ·
+821	nicht in Turnieren verfügbar
+822	auf Experte. In der Rangliste bringt ein Sieg gegen einen Gegner mit {0} / {0} / {0} oder mehr Bronze / Silber / Gold. Eine bessere Medaille ersetzt eine schlechtere. {0} % bedeutet, dass jeder Zauberer alle {0} anderen auf Experte besiegt hat.
+823	auf Schwer,
+824	auf Normal,
+825	rechter Stick
+826	scrollen. Mit der Tastatur:
+827	Karte wählen oder spielen ·
+828	wählen ·
+829	Silber
+830	Tabs wechseln oder Runden wiederholen ·
+831	Tabs wechseln, oder Runden in einer Wiederholung ·
+832	nimm eine Karte aus der Sturmwolke bis zu deiner Stufe.
+833	der Spieler mit der Initiative handelt seine Karte zuerst ab.
+834	erlitt {0} Schaden
+835	erlitt {0} Schaden, +{0} Mana, +{0} Macht, +{0} Karte auf der Hand, Initiative erhalten
+836	erlitt {0} Schaden, +{0} Mana, +{0} Macht, Initiative erhalten
+837	erlitt {0} Schaden, +{0} Macht, Initiative erhalten
+838	erlitt {0} Schaden, −{0} Mana, +{0} {c}
+839	erlitt {0} Schaden, −{0} Mana, +{0} {c}, +{0} {c}
+840	erlitt {0} Schaden, −{0} Mana, −{0} Handkarten, −{0} {c}, +{0} {c}
+841	gegen
+842	du und ein Verbündeter gegen zwei Gegner, abwechselnd sitzend. {c} schadet nur euren Gegnern, du darfst statt dir deinen Verbündeten heilen, und gewinnt einer von euch, gewinnt ihr beide. Jeder Spieler kontert den nächsten Gegner im Uhrzeigersinn.
+843	du und ein Verbündeter tretet gemeinsam gegen {c} an. {c} schadet nur ihm und gibt nur ihm {c}, {c} und {c}, und wenn du heilst, darfst du stattdessen einen Verbündeten heilen. Gewinnt jemand aus deinem Team, gewinnt das ganze Team, und das Team spielt weiter, wenn jemand ausscheidet.
+844	du und {0} Verbündete tretet gemeinsam gegen {c} an. {c} schadet nur ihm und gibt nur ihm {c}, {c} und {c}, und wenn du heilst, darfst du stattdessen einen Verbündeten heilen. Gewinnt jemand aus deinem Team, gewinnt das ganze Team, und das Team spielt weiter, wenn jemand ausscheidet.
+845	{0} Karten
+846	{0} Karten, verdeckt. Karten im Deck bleiben verborgen, bis sie gezogen werden.
+847	{0} Karten, nach Stufe sortiert.
+848	{0} Leben
+849	{0} Siege · {0} Niederlagen
+850	{0}. Nutze den Moment
+851	{0}/{0} Gold
+852	{0}/{0} gelöst · löse eines, um das nächste freizuschalten
+853	{c} (Gegner)
+854	{c} ({0} von {0}): eine Karte vom Ablagestapel nehmen oder ziehen?
+855	{c} hat dich GEKONTERT und zieht eine Karte.
+856	{c} hat dich GEKONTERT und erhält einen Explosionsmarker.
+857	{c} hast {c} GEKONTERT und ziehst eine Karte.
+858	{c} hat {c} GEKONTERT und zieht eine Karte.
+859	{c} Wähle eine Nicht-Zauberer-Karte aus deiner Hand, um sie zweimal abzuhandeln, und verbanne sie dann.
+860	{c}-Meister
+861	{c} Lege einen Forschungsmarker. Erforschte Kräfte werden zu Beginn jedes Kampfes aktiv.
+862	{c}-Macht
+863	{c}-Macht: Setze deine {c} ein.
+864	{c}-Showdown
+865	{c} verbannst {c} aus der Sturmwolke.
+866	{c} verbannst {c}.
+867	{c} verbannt {c}.
+868	{c} legst {c} aus dem Sturmstapel auf deinen Ablagestapel.
+869	{c} legt {c} aus dem Sturmstapel auf {c}s Ablagestapel.
+870	{c} und Gegner
+871	{c} bist ausgeschieden! Deine Karten gehen in die LEERE.
+872	{c} kann nicht gespielt werden — nichts passiert.
+873	{c} wirkst {c} zweimal!
+874	{c} wirkt {c} zweimal!
+875	{c} lädst auf {0} Energie auf.
+876	{c} lädt auf {0} Energie auf.
+877	{c} konnte keine {0} Karten abwerfen.
+878	{c} wirfst {c} ab — sein Abwurfeffekt tritt ein.
+879	{c} hat {0} Karten abgeworfen ({0} Erde).
+880	{c} hat {c}, {c}, {c} oben vom Deck abgeworfen.
+881	{c} wirft einen Explosionsmarker ab.
+882	{c} wirft {c} vom Wetterstapel ab.
+883	{c} wirft {c} ab — sein Abwurfeffekt tritt ein.
+884	{c} lädst {c} herunter!
+885	{c} lädt {c} herunter!
+886	{c} hat {0} Tränke getrunken. Die Elemente werden auf {0} zurückgesetzt.
+887	{c} trinkst aus dem Trankstapel. Jeder Trank kostet sein Element; ein dritter GIFTIGER endet übel.
+888	{c} trinkst „{c}“ (Erde {0}).
+889	{c} trinkst „{c}“ (Erde {0}, GIFTIG).
+890	{c} trinkst „{c}“ (Feuer {0}).
+891	{c} trinkst „{c}“ (Feuer {0}, GIFTIG).
+892	{c} trinkst „{c}“ (Wasser {0}).
+893	{c} trinkst „{c}“ (Wasser {0}, GIFTIG).
+894	{c} trinkt aus dem Trankstapel. Jeder Trank kostet sein Element; ein dritter GIFTIGER endet übel.
+895	{c} trinkt „{c}“ (Erde {0}).
+896	{c} trinkt „{c}“ (Erde {0}, GIFTIG).
+897	{c} trinkt „{c}“ (Feuer {0}).
+898	{c} trinkt „{c}“ (Feuer {0}, GIFTIG).
+899	{c} trinkt „{c}“ (Wasser {0}).
+900	{c} trinkt „{c}“ (Wasser {0}, GIFTIG).
+901	{c} schießt {c} in {c}s Hand: +{0} Feuer-Element.
+902	{c} schießt {c} in {c}s Hand: +{0} Feuer-Element.
+903	{c} erhältst einen VERDAMMNIS-Marker ({0}/{0}).
+904	{c} erhältst einen {c}.
+905	{c} erhältst ein {c}.
+906	{c} erhältst {0} Sturmsplitter.
+907	{c} erhältst {c}!
+908	{c} erhältst {c}.
+909	{c} erhält +{0} Erd-Element.
+910	{c} erhält einen VERDAMMNIS-Marker ({0}/{0}).
+911	{c} erhält einen {c}.
+912	{c} erhält ein {c}.
+913	{c} erhält {0} Sturmsplitter.
+914	{c} erhält {c}!
+915	{c} erhält {c}.
+916	{c} bekommst einen Link und einen Code für deinen Freund. Zum Hosten brauchst du Bearbeitungs- oder Mitwirkendenzugriff auf diese Seite.
+917	{c} bekommst die Initiative.
+918	{c} bekommt die Initiative.
+919	{c} heilst stattdessen einen Verbündeten.
+920	{c} heilst {0}.
+921	{c} heilt stattdessen einen Verbündeten.
+922	{c} heilt {0}.
+923	{c} wird aus der Sturmwolke verbannt.
+924	{c} entscheidet…
+925	{c} ist ausgeschieden! {c}s Karten gehen in die LEERE.
+926	{c} denkt nach
+927	{c} verlierst die Initiative.
+928	{c} verlierst {0} Energie.
+929	{c} verlierst {0} Macht.
+930	{c} verlierst {0} Mana.
+931	{c} verliert einen Explosionsmarker.
+932	{c} verliert die Initiative.
+933	{c} verliert {0} Explosionsmarker.
+934	{c} verliert {0} Explosionsmarker.
+935	{c} verliert {0} Energie.
+936	{c} verliert {0} Macht.
+937	{c} verliert {0} Mana.
+938	{c} hat {0} Mana verloren.
+939	{c} darfst eine Karte aus deiner Hand verbannen
+940	{c} darfst eine Feuerkarte von deinem Ablagestapel auf die Hand nehmen
+941	{c} darfst eine Erdkarte der Stufe I oder II aus der Sturmwolke erhalten.
+942	{c} darfst eine Feuerkarte der Stufe I oder II aus der Sturmwolke erhalten.
+943	{c} darfst eine Wasserkarte der Stufe I oder II aus der Sturmwolke erhalten.
+944	{c} darfst eine Karte aus der Sturmwolke erhalten.
+945	{c} darfst eine Erdkarte bis zu deiner Stufe aus der Sturmwolke erhalten.
+946	{c} darfst einen {c} oder ein {c} von deinem Ablagestapel oder deiner Hand auf den Ablagestapel eines Gegners legen. Ziehe {0}.
+947	{c} hat einen {c} auf deinen Ablagestapel gelegt.
+948	{c} hat einen {c} auf {c}s Ablagestapel gelegt.
+949	{c} hat {c} auf {c}s Ablagestapel gelegt.
+950	{c} musst eine Karte aus der Sturmwolke erhalten.
+951	{c} will jetzt Macht aufbauen.
+952	{c} will jetzt defensiv spielen.
+953	{c} will jetzt durch Schaden gewinnen.
+954	{c} will jetzt das Explosionsrennen gewinnen.
+955	{c} spielst {c}; die KI spielt {c}. {c} hat die Initiative.
+956	{c} spielst {c}; die KI spielt {c}. {c} hast die Initiative.
+957	{c} wirfst zufällig {c} ab.
+958	{c} wirft zufällig {c} ab.

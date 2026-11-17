@@ -1,0 +1,193 @@
+360	Vacío.
+361	Energía
+362	Intro
+363	Introduce el código que te envió tu amigo.
+365	Esencias (empiezan en la Nube de Tormenta)
+366	Tormenta Eterna
+367	Todos los Enfrentamientos
+368	Cada mago empieza con
+369	Salir
+370	Consejos del Experto
+371	Torneo Experto
+372	Consejo del experto ·
+373	Exportar partida
+374	Ojo de la Tormenta
+375	Restablecer de fábrica
+376	Rápida
+377	Médico de Campo
+378	Médico de Campo: Cura a un aliado en una partida por equipos.
+382	El Fuego vence a la Tierra. El Agua vence al Fuego.
+383	Equilibrio de la Primera Edición
+384	Primera Victoria
+385	Primera Victoria: Gana una partida.
+386	Tormenta Impecable
+387	Por cada Ficha de PERDICIÓN, toma una carta de tu descarte a tu mano o roba. Sin Fichas de PERDICIÓN, gana una.
+388	Vencedor a Cuatro Bandas
+389	Victorias en Todos contra Todos
+390	Todos contra todos, {0} jugadores:
+391	Todos contra todos: juegas con {c} contra {c}, {c}, {c}.
+392	Todos contra todos
+393	Completas
+394	Grupo Completo
+395	Grupo Completo: Gana una partida cooperativa de {0} jugadores.
+396	Plantilla Completa
+397	Gana la Iniciativa
+398	Gana la Iniciativa y roba una carta
+399	Ganar hechizo: toca una carta resaltada de la Nube de Tormenta.
+400	Gana un Dragón.
+401	Gana una carta
+402	Gana los cinco Dragones en una partida.
+403	Gana una carta de Tierra
+404	Gana {0} de Energía. {c} puedes resolver una carta que no sea de Mago de tu mano o del VACÍO y luego ponerla al fondo del Mazo de Spellstorm.
+405	Gana {0} cartas de la Nube de Tormenta en una partida.
+406	Gana {c}
+407	Iniciativa obtenida
+408	Informe de partida
+409	Inicio de partida
+410	Matagigantes
+411	Da un {c}, gana {0} de maná y luego puedes usar tu {c}.
+412	Da a tu rival {0} {c}, {c} o {c} en una partida.
+413	Objetivo:
+414	Gran Campeón
+415	Gran Final
+416	Gran Grimorio
+417	A Medio Camino de la Gloria
+418	Mano
+419	Aspirante Difícil
+420	Lección Dura
+421	Torneo Difícil
+422	Victorias en Difícil
+423	Curtido
+424	Resuelve {c} y luego el {c} boca abajo.
+425	Cura a un aliado en una partida por equipos.
+426	Cura {0}
+427	Cura {0} de vida en total.
+428	Curar {0}: ¿a ti o a un aliado?
+429	Curación
+430	Vida
+431	Vida curada
+432	Vida {0}
+433	Pegador
+434	Heavy Metal
+435	Poder Oculto
+436	Los poderes resaltados se activan al inicio de cada batalla.
+437	Historial
+438	Crear partida
+439	Racha Ardiente
+440	Leyenda de iconos
+441	Importar repetición
+442	Importar repetición…
+443	En Clasificatoria, vence a un rival con {0} o más de Elo por encima del tuyo.
+444	En tu descarte
+445	En tu mano
+446	Incluir detalles de la partida (versión, modo, las últimas {0} líneas del registro y una instantánea)
+447	Iniciativa
+448	Hacia la Tormenta
+449	Guantelete de Hierro
+450	Estómago de Hierro
+451	Voluntad de Hierro
+452	Unirse
+453	Unirse a una partida
+454	Diario
+455	Diario {0}/{0}
+456	Diario: +{0} de poder
+457	Diario: Roba una carta
+458	Diario: Gana una carta
+459	Diario: Gana una carta (debe ser de Tierra)
+460	Diario: {c} puedes tomar una carta de Fuego de tu descarte a tu mano
+461	Yesca
+462	Nocaut
+463	Nocaut: Gana dejando a tu rival con {0} de vida.
+465	Último Mago en Pie
+466	Último Mago en Pie: Gana una partida de Todos contra todos.
+467	Diseño
+468	Vista previa del diseño
+469	Abandonar partida
+470	Duración
+471	Claro
+472	Registro
+473	Partida Larga
+474	Pierde {0} de Poder
+475	Derrotas
+476	Iniciativa perdida
+477	Maná
+478	Maná +{0}
+479	Maratón
+480	Según el dispositivo
+481	Partidas jugadas
+482	Medallas completadas (oro)
+483	Medallas
+484	Remendón
+485	Menú
+486	Modo
+487	Cambio de Modo: {c} coloca {c} boca arriba y otra carta boca abajo sobre su carta.
+488	Mueve un {c}, {c} o {c} de tu descarte a otro descarte
+489	¡NUEVA BATALLA!
+490	Necesita {0} de Tierra
+491	Necesita {0} de Fuego
+492	Necesita {0} de Agua
+493	Nueva medalla:
+494	Siguiente
+495	Próximo rival:
+496	Siguiente ▶
+497	No
+498	Sin Fichas de Explosión
+499	Ninguna carta de la Nube de Tormenta es de tu Nivel. {c} puedes tomar una carta especial.
+500	Sin Tracción: {c} reveló un {c} y pierde una Ficha de Explosión.
+501	No hay cartas en la mano
+502	Aún no hay partidas. Las partidas terminadas aparecen aquí (el tutorial y las partidas en línea no se registran).
+503	No quedan {c} — el efecto del tablero se aplica a ti.
+504	No quedan {c} — el efecto del tablero se aplica a {c}.
+505	Torneo Normal
+506	No hay suficiente Elemento Tierra — sin efecto.
+507	No hay suficiente Elemento Fuego — sin efecto.
+508	No hay suficiente Elemento Agua — sin efecto.
+509	Aún sin ganar
+510	Aceptar
+511	FUERA
+512	Horas Impares
+513	Horas Impares: Como {c}, usa {c} con vida impar.
+514	No
+515	Sí
+516	En Llamas
+517	Al Ataque
+518	Una vez conectados, ambos elegiréis a vuestros magos en la sala de juego en línea.
+519	Un Último Empujón
+520	Abre un archivo de partida guardado con
+521	Rival
+522	Rivales
+523	Opciones
+524	O toma:
+526	Burla a {c}
+527	Burla a {c}: Derrota a {c}.
+528	Exceso de Daño
+529	JUGAR
+530	Re Pág/Av Pág
+531	Pagado {0} de Tierra
+532	Pagado {0} de Fuego
+533	Pagado {0} de Agua
+534	Cima
+535	Poder Máximo
+536	Poder Máximo: Alcanza el Nivel III.
+537	Cima {0}
+538	Vista de móvil (pruebas) desactivada
+539	Vista de móvil desactivada
+540	Jugar
+541	Jugar en línea
+542	Juega una partida Clasificatoria.
+543	Jugar con un amigo en línea
+544	Jugar de nuevo
+545	Juega {0} partidas.
+546	Jugadores
+547	Conecta o empareja un mando (Xbox, PlayStation, Steam Deck, portátiles Android) y pulsa cualquier botón.
+548	Poción
+549	Poder +{0}
+550	Progreso
+551	Rompecabezas
+552	I+D: +{0} Poder al inicio de la batalla solo si no tiene la Iniciativa
+553	I+D: {c} no tienes la Iniciativa, así que ganas {0} de Poder.
+554	Aleatorio
+555	Rival aleatorio
+556	Personaje aleatorio
+557	Rango {0}
+558	Clasificatoria

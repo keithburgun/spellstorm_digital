@@ -1,0 +1,195 @@
+163	(Elo {0})
+164	(Dernière manche !)
+165	(ordre non affiché)
+166	(choix {0})
+167	(choix {0} : votre premier choix est votre allié)
+168	({0} sur {0}).
+169	+{0} FUNESTE
+170	+{0} Énergie
+171	+{0} Mana
+172	+{0} Mana, +{0} Puissance
+173	+{0} Mana, +{0} Puissance, Rang II !, +{0} carte en main
+174	+{0} Puissance
+175	+{0} Puissance, Initiative obtenue
+176	+{0} Éclat de Tempête
+177	+{0} mana
+178	+{0} puissance
+179	+{0} % de vie pour chaque sorcier · {0} Éclats de Tempête pour gagner
+180	, ou collez son texte ci-dessous.
+181	 : Piochez {0}, gagnez {0} mana et {0} puissance.
+182	 : Piochez {0}, gagnez {0} mana. Tous les joueurs défaussent {0} cartes au hasard.
+183	 : Piochez {0}, gagnez {0} mana. Si vous révélez de l’Eau cette manche, gagnez {0} mana.
+184	 : Piochez {0}, gagnez {0} mana. Les joueurs à plus de {0} PV subissent {0} dégâts.
+185	 : Piochez {0}, gagnez {0} mana. Les joueurs de Rang II et III perdent {0} puissance.
+186	 : Piochez {0}, gagnez {0} puissance.
+187	 : Piochez {0}, gagnez {0} puissance. Tous les joueurs défaussent une carte au hasard.
+188	 : Piochez {0}. Après la résolution des cartes, les joueurs peuvent utiliser leur {c}.
+189	 : Piochez {0}. Tous les joueurs peuvent gagner une carte (l’Initiative d’abord).
+190	 : Piochez {0}. Tous les joueurs placent la carte du dessus de la Pioche de Tempête dans leur défausse.
+191	 : Piochez {0}. Défaussez la prochaine carte Météo.
+192	 : Piochez {0}. Chaque joueur peut bannir une {c}, {c} ou {c} de sa main ou de sa défausse.
+193	 : Piochez {0}. Les cartes Terre ne font rien en se résolvant, sauf soigner {0}.
+194	 : Piochez {0}. Si vous révélez de la Terre cette manche, gagnez {0} puissance.
+195	 : Piochez {0}. Si vous révélez du Feu cette manche, gagnez {0} mana.
+196	 : Piochez {0}. L’Initiative change de mains ; qui l’obtient gagne une {c} et {0} mana.
+197	 : Piochez {0}. Rang II : gagnez {0} mana. Rang I : gagnez {0} puissance.
+198	 : Piochez {0}. Bannissez le Nuage de Tempête et révélez {0} nouvelles cartes.
+199	Une partie simple en {0} contre {0} avec quelqu’un qui a accès à cette page Spellstorm. Les parties en ligne ne comptent pas dans vos statistiques.
+200	Maudit : {c} ne peut pas se soigner — il donne une {c} à la place.
+201	Succès débloqués
+202	Succès {0}/{0}
+203	Placez un jeton Recherche sur une case du Journal de {c}.
+204	Ajoute une marque ▲ Feu, ● Eau, ■ Terre à chaque carte.
+205	Après cette manche
+206	Contre toute attente
+207	Tous
+208	Alliés
+209	Toujours Déjà : {c} donne une {c} à tous les joueurs.
+210	Vitesse d’animation
+211	Animations
+212	Archimage
+213	Avec {c}, piochez des cartes grâce aux soins perdus.
+214	Avec {c}, buvez {0} potions en un seul {c} sans troisième TOXIQUE.
+215	Avec {c}, possédez {0} jetons FUNESTES.
+216	Avec {c}, donnez une {c} à votre adversaire avec {c}.
+217	Avec {c}, placez les {0} jetons Recherche en une partie.
+218	Avec {c}, résolvez une carte adverse grâce à Téléchargement Dangereux.
+219	Avec {c}, révélez les trois Pièges en une partie.
+220	Avec {c}, utilisez {c} avec des PV impairs.
+221	SCORE DE DÉFLAGRATION
+222	SCORE DE DÉFLAGRATION :
+223	CUL SEC, JE SUPPOSE !
+224	Retour
+225	Retour à la carte
+226	Retour à la bibliothèque
+227	Journal de combat
+228	Combat {0}
+229	Combat {0}, manche {0} · étape {0} sur {0}
+230	Combat {0}, manche {0} : {c}.
+231	Battez chaque sorcier en Difficile.
+232	Battez {c} en Coopération.
+233	Battez {c} en Facile.
+234	Battez {c} en Difficile en Coopération.
+235	Battez {c} en Difficile.
+236	Battez {c} en Moyen.
+237	Battu
+238	Débutant
+239	Meilleur Elo classé
+240	Meilleure série
+241	Grande Déflagration
+242	Grande Déflagration : Remportez une Déflagration avec un score de {0} ou plus.
+243	Scores de Déflagration — vous : {0}, {c} : {0}, {c} : {0}, {c} : {0}.
+244	Scores de Déflagration — vous : {0}, {c} : {0}, {c} : {0}.
+245	Scores de Déflagration — vous : {0}, {c} : {0}.
+246	Scores de Déflagration — {c} : {0}, {c} : {0}.
+247	Blitz
+248	Les deux sorciers commencent avec du mana en réserve, et cet adversaire ne garde jamais de {c}.
+249	Bronze
+250	Vers le Sommet
+251	Sur le Fil
+252	Par défaut, l’application Spellstorm utilise un équilibrage ajusté d’après les nombreux retours reçus depuis la sortie. Vous pouvez toutefois jouer avec les règles d’origine (Équilibrage Première Édition) si vous préférez.
+253	CONTRE → {c}
+254	CONTRÉ !
+255	IA - Facile
+256	IA - Normal
+257	Difficulté de l’IA
+258	PIÈGE ACTUEL
+259	Le Calme avant la Tempête (premiers combats)
+260	Annuler
+261	Annuler {c} — il le défausse et pioche
+262	Impossible de poser le même Piège deux fois de suite
+263	Bibliothèque de cartes
+264	Cartes gagnées
+265	Cataclysme
+266	Centurion
+267	Changements du Rééquilibrage 2e Édition (par défaut) :
+268	Personnage
+269	Tricheur
+270	Choisissez un Piège
+271	Choisissez un Piège à poser face cachée. Il remplace votre Piège actuel.
+272	Choisissez une carte à jouer face cachée.
+273	Choisissez une carte à reprendre en main.
+274	Choisir des cartes
+275	Choisir un fichier…
+276	Choisir les sorciers
+277	Choisir…
+278	Disjoncteur
+279	En progression
+280	Fermer
+281	Coopération contre {c}, {0} joueurs :
+282	Victoires en coopération
+283	Coopération : vous jouez {c} avec {c}, {c} contre {c}.
+284	Sang-Froid
+285	Récupérez {0} Éclats de Tempête.
+286	Mode daltonien
+287	Retour en Force
+288	Retour en Force : Gagnez après être tombé à {0} PV ou moins.
+289	Confirmer
+290	Ne rien choisir
+291	Prétendant
+292	Reprendre la partie
+293	Manette
+294	Contrez {0} fois en une partie.
+295	Contrez {0} fois.
+296	Contre-Attaque
+297	Contre-Attaque : Contrez {0} fois en une partie.
+298	Contres
+299	Coopération contre {c}
+300	Série actuelle
+301	Croix directionnelle ou stick gauche
+302	FUNESTE
+303	FUNÈÈÈÈÈBRE
+304	Défi du jour
+305	Dégâts infligés
+306	Téléchargement Dangereux
+307	Téléchargement Dangereux : Avec {c}, résolvez une carte adverse grâce à Téléchargement Dangereux.
+308	Téléchargement Dangereux : dépenser {0} Énergie et {0} mana pour résoudre {c} à votre profit ?
+309	Sombre
+310	Infligez {0} dégâts
+311	Infligez {0} dégâts, gagnez {0} mana, gagnez l’Initiative.
+312	Infligez {0} dégâts. Si vos PV sont impairs, gagnez {0} mana.
+313	Infligez {0} dégâts ou plus en une seule manche.
+314	Infligez {0} dégâts au total.
+315	Infligez {0} {0} dégâts au total.
+316	Décider plus tard
+317	Deck {0}
+318	Battez tous les sorciers.
+319	Battez votre premier adversaire de Tournoi en Difficile.
+320	Battez votre premier adversaire de Tournoi en Normal.
+321	Battez {c} en Difficile.
+322	Battez {c}.
+323	Conception : Keith Burgun - Illustrations : Christina Zhong
+324	Elle a Fait ses Recherches : +{0} Puissance au début de chaque combat
+325	Elle a Fait ses Recherches : {c} gagne {0} Puissance.
+326	Difficulté
+327	Effet de défausse
+328	Défausser {0}
+329	Réseau de Distribution : {c} gagnez {c} dans votre défausse.
+330	Réseau de Distribution : {c} place {c} dans la défausse de {c}.
+331	Aucun des deux
+332	Seigneur des Dragons
+333	Dompteur de Dragons
+334	Dompteur de Dragons : Gagnez un Dragon.
+335	Dragons
+336	Dragons et spéciales
+337	Dragons (Rang IV)
+338	Dragons {0}
+339	Piocher une carte
+340	Piochez la carte du dessus de votre deck.
+341	Piochez {0}, gagnez {0} mana et {0} puissance.
+342	Piochez {0}, gagnez {0} mana. Si vous révélez de l’Eau cette manche, gagnez {0} mana.
+343	Piochez {0}, gagnez {0} mana. Les joueurs à plus de {0} PV subissent {0} dégâts.
+344	Piochez {0}, gagnez {0} mana. Les joueurs de Rang II et III perdent {0} puissance.
+345	Piochez {0}, gagnez {0} puissance. Tous les joueurs défaussent une carte au hasard.
+346	Piochez {0}. Tous les joueurs peuvent gagner une carte (l’Initiative d’abord).
+347	Piochez {0}. Tous les joueurs placent la carte du dessus de la Pioche de Tempête dans leur défausse.
+348	Piochez {0}. Si vous révélez du Feu cette manche, gagnez {0} mana.
+349	Piochez {0}. L’Initiative change de mains ; qui l’obtient gagne une {c} et {0} mana.
+350	Piochez {0}. Rang II : gagnez {0} mana. Rang I : gagnez {0} puissance.
+351	Piochez {0}. Bannissez le Nuage de Tempête et révélez {0} nouvelles cartes.
+352	En boire une autre
+353	Boire une autre potion ? TOXIQUES jusqu’ici : {0} sur {0}. Éléments : Feu {0}, Terre {0}, Eau {0}.
+354	Duo de Choc
+355	La Terre bat l’Eau. Le Feu bat la Terre.
+356	Effet :
+357	Érudit Élémentaire

@@ -1,0 +1,200 @@
+559	Ranglisten-Debüt
+560	Ranglisten-Elo
+561	Rangliste:
+562	Erreiche Stufe II.
+563	Erreiche Stufe III.
+564	Erreiche {0} Elo in der Rangliste.
+565	Erreiche {0} von {0} Siegen in einem schweren Turnier.
+566	Erreiche {0} von {0} Siegen in einem normalen Turnier.
+567	Lesen
+568	Karte lesen
+569	Bilanz
+570	Reduziert
+571	Neuformierung
+572	Neuformierung nach Kampf {0}.
+573	Gemütlich
+574	Wiederholung: {c} gegen {c}
+575	Wiederholung: {c} gegen {c}, {c}, {c}
+576	Problem melden
+577	Aufgeben & beenden
+578	Nimm eine Karte von deinem Ablagestapel auf die Hand oder ziehe. Lege eine Falle verdeckt (nicht zweimal hintereinander dieselbe). Erhalte die Initiative.
+579	Vom Ablagestapel zurücknehmen
+580	Decke eine Nicht-Zauberer-Karte aus deiner Hand auf. Handle sie zweimal ab und verbanne sie. Alle Spieler heilen {0}.
+581	Aufdecken, wenn du mit einer Feuerkarte KONTERST.
+582	Aufdecken, wenn du mit einer Wasserkarte KONTERST.
+583	Aufdecken, wenn dir ein Gegner Schaden zufügt.
+584	{c} aufdecken? Verursache {0} Schaden, erhalte {0} Mana, erhalte die Initiative.
+585	Aufdecken: Du hast nichts gespielt; {c} spielte {c}.
+586	Aufdecken: Du hast {c} gespielt; {c} spielte nichts.
+587	Aufdecken: Du hast {c} gespielt; {c} spielte {c}.
+588	Wachsende Macht
+589	Wachsende Macht: Erreiche Stufe II.
+590	Robotermechaniker
+591	Roboterbändiger
+592	Rundenübersicht
+593	Runde {0} von {0}
+594	Runden
+595	Regelheft
+596	Regeln
+597	Regeln:
+598	Saboteur
+599	Saboteur: Gib deinem Gegner in einer Partie {0} {c}, {c} oder {c}.
+600	Speichern & zum Titel
+601	Erfahrener Duellant
+602	Nutze den Moment
+603	Wähle bis zu {0}. Gewählt: {0}
+604	Wähle {0}. Gewählt: {0}
+605	Bericht senden
+606	Falle legen
+607	{c} legen
+608	Splittersammler
+609	Splittersammler: Gewinne durch {0} gesammelte Sturmsplitter.
+610	Splitterhorter
+611	Splittermagnat
+612	Splitterrausch
+613	Splitterrausch: Gewinne ein Jeder gegen jeden durch {0} gesammelte Sturmsplitter.
+614	Splitter
+615	Showstopper
+616	Showstopper: Setze deine {c} {0}-mal in einer Partie ein.
+617	Mische den Trankstapel und trinke die Tränke einzeln, wobei du ihre Elementkosten bezahlst. Ein dritter GIFTIGER beendet es mit einer {c}, einem {c} und einem {c}. Danach werden die Elemente auf {0} zurückgesetzt.
+618	Trankstapel wird gemischt…
+619	Zu null
+620	Markenzeichen
+621	Überspringen
+622	Tutorial überspringen
+623	Ton
+624	Leertaste
+625	Zauberkarten
+626	Zauberschleuderer
+627	Turmchampion
+628	Turmstammgast
+629	Standardwetter
+630	Start
+631	Herausforderung starten
+632	Rätsel {0} starten
+633	Entfessle den Sturm
+634	Turnier starten
+635	Startkarten & Essenzen
+636	Statistik
+637	Welchem Spieler {0} Mana stehlen? Er wirft außerdem eine zufällige Karte ab.
+638	Hier aufhören
+639	Sturmraufbold
+640	Sturmjäger
+641	Sturmwolke
+642	Sturmelite
+643	Sturmlegende
+644	Sturmweiser
+645	Sturmsplitter
+646	Sturmshopper
+647	Sturmshopper: Erhalte {0} Karten aus der Sturmwolke in einer Partie.
+648	Sturmherrscher
+649	Sturmveteran
+650	Gemeinsam Stark
+651	SI
+652	SII
+653	SIII
+654	GIFTIG
+655	Tag-Team-Champions
+656	Vom Ablagestapel nehmen
+657	{0} Schaden!
+658	Nimm:
+659	Tippe eine hervorgehobene Karte der Sturmwolke an.
+660	Tippe einen Erfolg an, um zu sehen, wofür er ist.
+661	Teamgröße
+662	Teamwork
+663	Teamwork: Besiege {c} im Koop.
+664	Sturmbändiger
+665	Verbeamtet
+666	Die KI sieht nie deine Hand oder deine verdeckte Karte an.
+667	Die Sturmwolke wird weggefegt und neu aufgedeckt.
+668	Die LEERE
+669	Die LEERE wird in den Spellstorm-Stapel gemischt.
+670	Die Stufe der Karte. {c} kannst sie aus der Sturmwolke erhalten, sobald du diese Stufe erreichst. Basiskarten haben kein Abzeichen.
+671	Die ersten {0} Schaden, die du diese Runde erleidest, werden aufgehoben.
+672	Das Symbol oben links auf einer Karte ist ihr Element. Fahre über ein Symbol auf einer vergrößerten Karte oder tippe es an, um seine Bedeutung zu sehen.
+673	{c} lodert auf!
+674	Design
+675	Dünnes Eis
+676	Dies ist eine Startkarte dieses Zauberers. Sie kann nicht verbannt werden.
+677	Dies löscht dauerhaft deine Statistik, alle Erfolge, Turniertrophäen, ein laufendes Turnier und deine Einstellungen auf diesem Gerät.
+678	Sieger zu Dritt
+679	Gleicher Explosionswert — beide erhalten {0} Sturmsplitter.
+680	Gleicher Explosionswert — {c}, {c} erhalten je {0} Sturmsplitter.
+681	Gleichstand! Beide erhalten {0}
+682	Gleichstand! {c}, {c} erhalten je {0}
+683	Stufe
+684	Stufe II!
+685	Stufe III!
+686	Stufenabzeichen
+687	Titelbildschirm
+688	Heutige Herausforderung · {s}
+689	{c} stürzen
+690	Gesamt
+691	Turnier
+692	Turniersieger
+693	Turnierdebüt
+694	Turniermodus:
+695	Fallen, Tränke & Tagebuch
+696	Fallen: keine gelegt
+697	Fallen: {c}
+698	Fallen: {c} (benutzt)
+699	Auslöser:
+700	Dreifachstich
+701	Tutorial
+702	Zwei-gegen-Zwei-Siege
+703	Zwei gegen Zwei:
+704	Zwei gegen Zwei
+705	Ultimative
+706	Unter Beschuss
+707	Unsichtbare Klinge
+708	Unaufhaltsam
+709	Unberührbar
+710	Unberührbar: Gewinne mit vollem Leben.
+711	Update verfügbar!
+712	Setze deine {c} {0}-mal in einer Partie ein.
+713	Setze deine {c} {0}-mal ein.
+714	Setze deine {c} ein.
+715	{c} für {0} Mana einsetzen?
+716	{c} ohne Manakosten einsetzen?
+717	Eine davon verbannen
+718	LEERE {0}
+719	Duell
+720	Ansehen
+721	Spielfeld ansehen
+722	Lautstärke
+723	Warte
+724	Ansehen
+725	Wasser schlägt Feuer. Erde schlägt Wasser.
+726	Wasser wurde aufgedeckt, aber {c} hat schon {0} Energiemarker.
+727	Wasser wurde aufgedeckt: {c} erhält einen Energiemarker.
+728	Wetter
+729	Wetterstapel
+730	Wettergegerbt
+731	Willkommen bei Spellstorm
+732	Was passiert ist
+733	Was ist schiefgelaufen? Ein, zwei Sätze reichen.
+734	Wow! Ich bring dir Spellstorm bei? Super! Ich heiße {c} und bin dein Guide für dieses kleine Tutorial. Geht ganz schnell, keine Sorge.
+735	Gewinne eine Explosion mit {0} oder mehr Punkten.
+736	Gewinne ein Jeder gegen jeden durch {0} gesammelte Sturmsplitter.
+737	Gewinne eine Jeder-gegen-jeden-Partie.
+738	Gewinne ein schweres Turnier: alle {0} Gegner, ohne Niederlage.
+739	Gewinne ein normales Turnier: alle {0} Gegner, ohne Niederlage.
+740	Gewinne eine Zwei-gegen-Zwei-Partie.
+741	Gewinne eine Partie als {c}.
+742	Gewinne eine Partie, in der du eine unspielbare Hand hattest.
+743	Gewinne eine Partie auf Experte.
+744	Gewinne eine Partie auf Schwer.
+745	Gewinne eine Partie, die {0} oder mehr Kämpfe dauert.
+746	Gewinne mit jedem Zauberer eine Partie.
+747	Gewinne eine Partie.
+748	Gewinne eine {0}-gegen-{0}-Partie gegen einen anderen Zauberer, um eine Medaille für deinen gespielten Zauberer zu erhalten:
+749	Gewinne eine Koop-Partie mit {0} Spielern.
+750	Gewinne ein Jeder gegen jeden mit {0} Spielern.
+751	Gewinne, nachdem du auf {0} Leben oder weniger gefallen bist.
+752	Gewinne alle {0} Zauberer-Duelle auf Schwer.
+753	Gewinne alle {0} Zauberer-Duelle.
+754	Gewinne ein Expertenturnier: alle {0} Gegner, ohne Niederlage.
+755	Gewinne als {c} auf Schwer.
+756	Gewinne mit vollem Leben.
+757	Gewinne durch Sturmsplitter, während dein Gegner keine hat.
+758	Gewinne, indem du deinen Gegner auf {0} Leben bringst.

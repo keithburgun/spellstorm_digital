@@ -1,0 +1,150 @@
+# German. ID<TAB>translation (IDs from strings.txt). Missing IDs stay in English.
+1	Du
+2	du
+3	Verbündeter
+4	Dich selbst
+5	Robo-Junge
+15	Hasenzauberer
+16	Hase
+21	Flammender Zollstock
+22	Unheilskugel
+23	Stufenaufstieg!
+24	VERDAAAAAMMNIS!
+25	Verborgene Bewegung
+26	Ein Zaubertrick!
+27	Prost, schätze ich!
+28	Leerenreisende
+29	El3mEnT4r-K4sK4dE#%$
+30	Magischer Pfeil
+31	Abwehr
+32	Machtjuwel
+33	Feueressenz
+34	Wasseressenz
+35	Erdessenz
+36	Kaffeerunde
+37	Tollkühner Angriff
+38	Faustschlag
+39	Aufruhr
+40	Doppelte Macht
+41	Opal
+42	Sieben
+43	Diamant
+44	Geisterkristall
+45	Bernstein
+46	Zerschmettern
+47	Meteorit
+48	Blutstein
+49	Beben
+50	Dreifache Macht
+51	Sumpfschlick
+52	Lavafledermaus
+53	Rubin
+54	Schockwelle
+55	Schnellfeuer
+56	Obsidian
+57	Laterne
+58	Herzjuwel
+59	Manaquelle
+60	Flamme
+61	Feuerball II
+62	Kreuzfeuer
+63	Feuerball
+64	Arktit
+65	Eisrutsche
+66	Frostmagie
+67	Lapislazuli
+68	Sprung
+69	Mondstein
+70	Reflexion
+71	Saphir
+72	Schritt
+73	Zwillingssaphir
+74	Ultimative
+75	Welle
+76	Erddrache
+77	Feuerdrache
+78	Eisdrache
+79	Sturmdrache
+80	Winddrache
+81	EIS
+82	ASCHE
+83	FLUCH
+84	GIFT
+85	Trankkanone
+86	Instabile Formel
+87	Käferbrecher
+88	Shuriken
+89	Sog
+90	Versenkender Schlag
+91	Tiefenjuwelen
+92	Neuer Lehrplan
+93	Sternenschuss
+94	Datenleck
+95	Buddy-System
+96	Schneetag
+97	Robo-Reparatur
+98	Eisblock
+99	Robo-Abpraller
+100	Laser-AUGE
+101	Robo-Faust
+102	Upgrade
+103	Fies Gehackt
+104	Bohr Dich
+105	Spreng Dich
+106	Laue Brise
+107	Seltsames Wetter
+108	Fallende Erde
+109	Staubwolke
+110	Hitzewelle
+111	Kristallgestöber
+112	Fallender Stern
+113	Lindernder Regen
+114	Brennender Schneesturm
+115	Energiewelle
+116	Juwelenlicht-Omen
+117	Glitzerstaub
+118	Ionische Atmosphäre
+119	Blitzschlag!
+120	Magnetische Verzerrung
+121	Krötenregen
+122	Sternschnuppe
+123	Flutwelle
+124	Farbwirbelwinde
+125	Eine Kleine… Explosion
+126	Eiltrank
+127	Ich Nenn’s… Lila Zeug
+128	Drachenelixier
+129	Teufelsatem
+130	Ich Glaub, Ich Hab Benzin Getrunken
+131	Frostbombe
+132	Gesundheitslimo
+133	Sturmsaft
+134	Schlammfalle
+135	Ausweichen!
+136	Eisbombe
+137	Feuer
+138	Wasser
+139	Erde
+140	Leicht
+141	Normal
+142	Mittel
+143	Schwer
+144	Experte
+145	Montag
+146	Dienstag
+147	Mittwoch
+148	Donnerstag
+149	Freitag
+150	Samstag
+151	Sonntag
+152	Januar
+153	Februar
+154	März
+155	April
+156	Juni
+157	Juli
+158	August
+159	September
+160	Oktober
+161	November
+162	Dezember
