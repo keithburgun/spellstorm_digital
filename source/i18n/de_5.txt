@@ -101,8 +101,8 @@
 859	{c} Wähle eine Nicht-Zauberer-Karte aus deiner Hand, um sie zweimal abzuhandeln, und verbanne sie dann.
 860	{c}-Meister
 861	{c} Lege einen Forschungsmarker. Erforschte Kräfte werden zu Beginn jedes Kampfes aktiv.
-862	{c}-Macht
-863	{c}-Macht: Setze deine {c} ein.
+862	Macht der {c}
+863	Macht der {c}: Setze deine {c} ein.
 864	{c}-Showdown
 865	{c} verbannst {c} aus der Sturmwolke.
 866	{c} verbannst {c}.

@@ -83,8 +83,8 @@
 1041	{c} : …pose un Piège face cachée.
 1042	{c} : −{0} à votre Score de Déflagration.
 1043	{c} : −{0} au Score de Déflagration de {c}.
-1044	Première Victoire de {c}
-1045	Première Victoire de {c} : Gagnez une partie avec {c}.
+1044	Première Victoire avec {c}
+1045	Première Victoire avec {c} : Gagnez une partie avec {c}.
 1046	Journal de {c}
 1047	Potions de {c}
 1048	Pièges de {c}

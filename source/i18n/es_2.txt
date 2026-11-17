@@ -49,7 +49,7 @@
 211	Animaciones
 212	Archimago
 213	Como {c}, roba cartas gracias a la curación desperdiciada.
-214	Como {c}, bebe {0} pociones en un solo {c} sin una tercera TÓXICA.
+214	Como {c}, bebe {0} pociones en una sola {c} sin una tercera TÓXICA.
 215	Como {c}, ten {0} Fichas de PERDICIÓN.
 216	Como {c}, pasa una {c} a tu rival con {c}.
 217	Como {c}, coloca las {0} Fichas de Investigación en una partida.

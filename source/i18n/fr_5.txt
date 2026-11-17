@@ -101,8 +101,8 @@
 859	{c} Choisissez une carte non-Sorcier de votre main à résoudre deux fois, puis bannissez-la.
 860	Maître {c}
 861	{c} Placez un jeton Recherche. Les pouvoirs étudiés s’activent au début de chaque combat.
-862	Puissance de {c}
-863	Puissance de {c} : Utilisez votre {c}.
+862	Puissance {c}
+863	Puissance {c} : Utilisez votre {c}.
 864	Duel {c}
 865	{c} bannissez {c} du Nuage de Tempête.
 866	{c} bannissez {c}.
