@@ -30,7 +30,30 @@ def daily_and_puzzles():
 
 e2 = rd('engine2.js'); e2 = e2[:e2.index('//EXPORTS')]          # engine2 ends with Node-only test exports
 engine = '\n'.join([rd('engine.js'), e2, rd('engine3.js'), rd('engine4.js'), rd('engine5.js'), rd('engine6.js'), rd('engine7.js'), rd('engine8.js'), rd('engine9.js'), rd('engine10.js'), rd('engine11.js'), rd('engine12.js'), rd('engine13.js'), daily_and_puzzles()])
-page = rd('template.html').replace('/*ENGINE*/', engine).replace('/*IMGS*/', rd('imgs.json')).replace('/*MANUAL*/', rd('manual.json')).replace('/*CORPORATA*/', rd('corporata.css')).replace('/*PAD*/', rd('pad.js'))
+I18N_LANGS = ['zh']   # dictionaries i18n/<lang>.json (built from the .txt sources by i18n/make_dict.py)
+def i18n_js():
+    d = {}
+    for l in I18N_LANGS:
+        f = os.path.join(H, 'i18n', l + '.json')
+        if os.path.exists(f): d[l] = json.load(open(f, encoding='utf-8'))
+    return rd('i18n.js').replace('/*I18N_DICTS*/{}', json.dumps(d, ensure_ascii=False, separators=(',', ':')))
+def i18n_assets():
+    """Translated card images (imgs_<lang>.json, made by i18n/render_cards.py) and a Chinese font cut down to the
+    characters the game uses, added to the 'Corporata' family for CJK text only."""
+    imgs = {}
+    for l in I18N_LANGS:
+        f = os.path.join(H, 'imgs_' + l + '.json')
+        if os.path.exists(f): imgs[l] = json.load(open(f))
+    css = ''
+    font = os.path.join(H, 'i18n', 'zh_font.woff2')
+    if os.path.exists(font):
+        import base64
+        b64 = base64.b64encode(open(font, 'rb').read()).decode()
+        css = ("@font-face{font-family:'Corporata';font-style:normal;font-weight:400;font-display:swap;"
+               "unicode-range:U+2E80-9FFF,U+F900-FAFF,U+FE30-FE4F,U+FF00-FFEF,U+3000-303F,U+2014,U+2018-201D,U+2026,U+00B7;"
+               "src:url(data:font/woff2;base64," + b64 + ") format('woff2')}")
+    return json.dumps(imgs, separators=(',', ':')), css
+page = rd('template.html').replace('/*ENGINE*/', engine).replace('/*IMGS*/', rd('imgs.json')).replace('/*MANUAL*/', rd('manual.json')).replace('/*CORPORATA*/', rd('corporata.css')).replace('/*PAD*/', rd('pad.js')).replace('/*I18N*/', i18n_js()).replace('/*IMGS_I18N*/{}', i18n_assets()[0]).replace('/*FONT_I18N*/', i18n_assets()[1])
 
 now = datetime.datetime.now(ZoneInfo('America/New_York'))
 web = page.replace('__APP_VERSION__', 'web ' + now.strftime('%Y-%m-%d %H:%M ') + now.tzname())

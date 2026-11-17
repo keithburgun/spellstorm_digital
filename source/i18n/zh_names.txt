@@ -1,0 +1,163 @@
+# Names that can appear inside sentences ({c} in a pattern). English<TAB>Chinese.
+You	你
+you	你
+Ally	盟友
+Yourself	你自己
+Robot Boy	机器男孩
+Derby Pocket	德比·波克特
+Derby	德比
+Eve Williams	伊芙·威廉姆斯
+Eve	伊芙
+Abragail	阿布拉盖尔
+Croh Vosh	克罗·沃什
+Croh	克罗
+Omar Evans	奥马尔·埃文斯
+Omar	奥马尔
+Bunny Wizard	兔子巫师
+Bunny	兔子巫师
+Oren Bark	奥伦·巴克
+Oren	奥伦
+May Danaris	梅·达纳里斯
+May	梅
+Flaming Yardstick	烈焰标尺
+Doom Bauble	末日小球
+Level Up!	升级！
+DOOOOOOOM!	末——日——！
+Hidden Movement	隐秘行动
+Cast a Magic Trick!	变个魔术！
+Bottoms up, I guess!	干了吧，我猜！
+Void Traveler	虚空旅者
+El3mEnt4l CaScAdE#%$	元#素$连%锁
+Magic Dart	魔法飞镖
+Block	格挡
+Power Gem	力量宝石
+Fire Essence	火之精华
+Water Essence	水之精华
+Earth Essence	土之精华
+Coffee Run	咖啡跑腿
+Reckless Charge	鲁莽冲锋
+Face Punch	迎面一拳
+Riot	暴动
+Two Power	双重力量
+Opal	蛋白石
+Sift	筛选
+Diamond	钻石
+Spirit Crystal	灵魂水晶
+Amber	琥珀
+Shatter	粉碎
+Meteorite	陨石
+Bloodstone	血石
+Quake	地震
+Three Power	三重力量
+Swamp Silt	沼泽淤泥
+Lava Bat	熔岩蝙蝠
+Ruby	红宝石
+Shockwave	冲击波
+Rapid Fire	速射
+Obsidian	黑曜石
+Lantern	灯笼
+Heart Gem	心之宝石
+Mana Font	法力之泉
+Flame	火焰
+Fireball II	火球术 II
+Crossfire	交叉火力
+Fireball	火球术
+Arctite	极地晶石
+Ice Flume	冰之滑道
+Frost Magic	冰霜魔法
+Lapis	青金石
+Leap	跳跃
+Moonstone	月光石
+Reflect	反射
+Sapphire	蓝宝石
+Step	踏步
+Twin Sapphire	双子蓝宝石
+Ultimate	绝招
+Wave	波浪
+Earth Dragon	大地之龙
+Fire Dragon	烈焰之龙
+Ice Dragon	寒冰之龙
+Storm Dragon	风暴之龙
+Wind Dragon	疾风之龙
+ICE	寒冰
+ASH	灰烬
+CURSE	诅咒
+POISON	毒药
+Potion Gun	药水枪
+Unstable Formula	不稳定配方
+Beetle Buster	甲虫克星
+Shuriken	手里剑
+Undertow	暗流
+Sinking Strike	沉没打击
+Deep Gems	深海宝石
+New Curriculum	新课程
+Star Shot	星辰射击
+Data Breach	数据泄露
+Buddy System	伙伴制度
+Snow Day	雪天停课
+Robot Repair	机器修复
+Ice Block	冰块
+Robo Bounce	机器弹跳
+Laser EYE	激光眼
+Robo-Fist	机器铁拳
+Upgrade	升级
+Hack You Badly	狠狠骇你
+Drill Ya	钻你
+Blast You	轰你
+Nice Breeze	宜人微风
+Strange Weather	怪异天气
+Falling Earth	天降大地
+Dust Cloud	尘云
+Heatwave	热浪
+Crystal Flurries	水晶飞雪
+Falling Star	流星坠落
+Soothing Rain	抚慰之雨
+Burning Blizzard	燃烧暴雪
+Energy Wave	能量波
+Gemlight Omen	宝光预兆
+Glittering Dust	闪光尘埃
+Ionic Atmosphere	离子大气
+Lightning Strike!	雷霆一击！
+Magnetic Warp	磁力扭曲
+Rain of Toads	蛤蟆雨
+Shooting Star	流星
+Tidal Wave	海啸
+Wildcolor Winds	缤纷狂风
+A Slight… Explosion	一点点……爆炸
+Haste Potion	急速药水
+I Call It… Purple Stuff	我管它叫……紫色玩意儿
+Dragon Elixir	龙之灵药
+Devil’s Breath	恶魔之息
+I Think I Just Drank Gasoline	我好像喝了汽油
+Frost Bomb	冰霜炸弹
+Health Soda	生命汽水
+Storm Juice	风暴果汁
+Mud Trap	泥沼陷阱
+Dodge!	闪避！
+Ice Bomb	寒冰炸弹
+Fire	火
+Water	水
+Earth	土
+Easy	简单
+Normal	普通
+Medium	中等
+Hard	困难
+Expert	专家
+Monday	星期一
+Tuesday	星期二
+Wednesday	星期三
+Thursday	星期四
+Friday	星期五
+Saturday	星期六
+Sunday	星期日
+January	1月
+February	2月
+March	3月
+April	4月
+June	6月
+July	7月
+August	8月
+September	9月
+October	10月
+November	11月
+December	12月

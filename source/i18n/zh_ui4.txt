@@ -1,0 +1,121 @@
+# Card prompts and card text shown in dialogs.
+{c}: +{0} Mana, +{0} Power. Deal {0} damage. Gain an {c}. If you have the Initiative, +{0} Mana and deal {0} more damage.	{c0}：+{0}法力，+{1}力量。造成{2}点伤害。获得一张{c1}。若你拥有先手，+{3}法力并再造成{4}点伤害。
+{c}: +{0} Mana, +{0} Power. Deal {0} damage. Gain an {c}. If you have the Initiative, deal {0} more damage.	{c0}：+{0}法力，+{1}力量。造成{2}点伤害。获得一张{c1}。若你拥有先手，再造成{3}点伤害。
+{c}: +{0} Mana, take {0} damage, and you may VOID a card from your hand or discard. Discard effect: +{0} Mana.	{c}：+{0}法力，受到{1}点伤害，你可以从手牌或弃牌堆中放逐一张牌。弃置效果：+{2}法力。
+{c}: +{0} Mana. If anyone revealed Water, all players take {0} damage and gain a {c}.	{c0}：+{0}法力。若有人展示了水牌，所有玩家受到{1}点伤害并获得一张{c1}。
+{c}: +{0} Mana. If the next clockwise player revealed Water, VOID this, you gain a {c} and take {0} damage.	{c0}：+{0}法力。若顺时针方向的下一名玩家展示了水牌，放逐此牌，你获得一张{c1}并受到{1}点伤害。
+{c}: +{0} Power, gain a card. If you gained an Earth card, +{0} Power and gain the Initiative.	{c}：+{0}力量，获得一张牌。若你获得了一张土牌，+{1}力量并获得先手。
+{c}: +{0} Power, gain a card. If you gained an Earth card, gain the Initiative.	{c}：+{0}力量，获得一张牌。若你获得了一张土牌，获得先手。
+{c}: +{0} Power, then you must gain a card twice. Discard effect: +{0} Power.	{c}：+{0}力量，然后你必须获得两次牌。弃置效果：+{1}力量。
+{c}: Chosen player loses {0} Power, discards a random card, loses the Initiative and takes {0} damage.	{c}：指定玩家失去{0}点力量，随机弃置一张牌，失去先手，并受到{1}点伤害。
+{c}: Chosen player takes {0} damage, loses {0} Power Tokens, and {0} Mana.	{c}：指定玩家受到{0}点伤害，失去{1}个力量标记和{2}点法力。
+{c}: Deal X + {0} damage, where X is your number of DOOM Tokens.	{c}：造成X+{0}点伤害，X为你的末日标记数量。
+{c}: Deal X damage, where X is your number of DOOM Tokens.	{c}：造成X点伤害，X为你的末日标记数量。
+{c}: Deal {0} damage. {c} may give a non-Wizard card from your hand to an opponent’s hand. If you did, gain {0} of the Element matching that card.	{c0}：造成{0}点伤害。{c1}可以将手牌中一张非巫师牌交给一名对手（加入其手牌）。若你这样做，获得{1}点与该牌相同的元素。
+{c}: Deal {0} damage. {c} may lose {0} Energy Tokens to resolve a different Fire card from your hand.	{c0}：造成{0}点伤害。{c1}可以失去{1}个能量标记，以结算手牌中另一张火牌。
+{c}: Discard a Fire card. If you did, chosen player takes {0} damage.	{c}：弃置一张火牌。若你这样做，指定玩家受到{0}点伤害。
+{c}: Discard a Water card. If you did, +{0} Mana. Discard effect: +{0} Mana.	{c}：弃置一张水牌。若你这样做，+{0}法力。弃置效果：+{1}法力。
+{c}: Discard a card to deal {0} damage ({0} if it was Tier II). Gain {0} mana per Energy Token. Lose {0} Energy Tokens.	{c}：弃置一张牌来造成{0}点伤害（若为II阶则为{1}点）。每个能量标记获得{2}点法力。失去{3}个能量标记。
+{c}: Discard the top {0} cards of your deck. Deal {0} damage per Fire card discarded, OR you may VOID one of them.	{c}：弃置你牌库顶的{0}张牌。每弃置一张火牌造成{1}点伤害，或者你可以放逐其中一张。
+{c}: Discard the top {0} cards of your deck. Deal {0} damage per Fire card discarded.	{c}：弃置你牌库顶的{0}张牌。每弃置一张火牌造成{1}点伤害。
+{c}: Draw a card. If you have the Initiative, deal {0} damage and you may return this to your hand.	{c}：抽一张牌。若你拥有先手，造成{0}点伤害，且你可以将此牌收回手牌。
+{c}: Draw a card. Opponents discard two random cards. If you COUNTERED, gain a DOOM Token.	{c}：抽一张牌。对手随机弃置两张牌。若你克制了对手，获得一个末日标记。
+{c}: Draw {0} cards. Heal {0} and give an {c}.	{c0}：抽{0}张牌。回复{1}点生命并给予一张{c1}。
+{c}: Draw {0} cards. Opponents discard {0} random cards.	{c}：抽{0}张牌。对手随机弃置{1}张牌。
+{c}: For each DOOM Token, take a card from your discard into your hand or draw. With no DOOM Tokens, gain one.	{c}：每有一个末日标记，从弃牌堆中拿一张牌到手牌或抽一张牌。若没有末日标记，获得一个。
+{c}: Gain the Initiative and heal {0}. If an opponent revealed Fire, you may VOID a card from your hand or discard.	{c}：获得先手并回复{0}点生命。若有对手展示了火牌，你可以从手牌或弃牌堆中放逐一张牌。
+{c}: Gain the Initiative. Heal {0}. VOID a card from your hand or discard.	{c}：获得先手。回复{0}点生命。从手牌或弃牌堆中放逐一张牌。
+{c}: Give a chosen opponent a {c}. {c} may draw up to one card from your discard for each DOOM Token you have.	{c0}：给予一名指定对手一张{c1}。你每有一个末日标记，{c2}可以从弃牌堆抽至多一张牌。
+{c}: Give a non-Wizard card from your hand to an opponent’s hand. Gain {0} of that card’s Element. If it was Fire, deal {0} damage.	{c}：将手牌中一张非巫师牌交给一名对手（加入其手牌）。获得{0}点该牌的元素。若它是火牌，造成{1}点伤害。
+{c}: If you have the Initiative, deal {0} damage, gain an {c} and return this to your hand.	{c0}：若你拥有先手，造成{0}点伤害，获得一张{c1}，并将此牌收回手牌。
+{c}: Lose {0} or {0} Energy Tokens and Power Up that many times. If you still have {0} Energy Tokens, the chosen opponent reveals their hand and discards a card of your choice.	{c}：失去{0}或{1}个能量标记，并获得相应次数的力量。若你仍有{2}个能量标记，指定对手展示手牌，并弃置一张由你选择的牌。
+{c}: Opponents discard a random card. {c} draw a card. If you have at least {0} more cards than another player, gain a DOOM Token.	{c0}：对手随机弃置一张牌。{c1}抽一张牌。若你的手牌比另一名玩家至少多{0}张，获得一个末日标记。
+{c}: Power Up twice. The chosen opponent reveals their hand and discards a card of your choice. If anyone revealed Water, gain an Energy Token.	{c}：获得两次力量。指定对手展示手牌，并弃置一张由你选择的牌。若有人展示了水牌，获得一个能量标记。
+{c}: VOID a Water card in the Storm Cloud.	{c}：放逐风暴云中的一张水牌。
+{c}: VOID a Water card in the Storm Cloud. If you did, +{0} Mana. Discard effect: take {0} damage and +{0} Mana.	{c}：放逐风暴云中的一张水牌。若你这样做，+{0}法力。弃置效果：受到{1}点伤害并+{2}法力。
+{c}: VOID a card from your hand or discard pile.	{c}：从手牌或弃牌堆中放逐一张牌。
+{c}: choose a player to discard their hand and draw a new hand of {0}.	{c}：选择一名玩家弃置手牌，并重新抽{0}张牌。
+{c}: choose a player. They lose {0} Power, discard a random card, lose Initiative and take {0} damage.	{c}：选择一名玩家。该玩家失去{0}点力量，随机弃置一张牌，失去先手，并受到{1}点伤害。
+{c}: choose a player. They take {0} damage and lose {0} Power and {0} Mana.	{c}：选择一名玩家。该玩家受到{0}点伤害，失去{1}点力量和{2}点法力。
+{c}: choose one.	{c}：选择一项。
+{c}: deal {0} damage to which player?	{c}：对哪名玩家造成{0}点伤害？
+{c}: discard a Fire card. If you did, a chosen player takes {0} damage.	{c}：弃置一张火牌。若你这样做，一名指定玩家受到{0}点伤害。
+{c}: discard a card to deal {0} damage ({0} if it’s Tier II).	{c}：弃置一张牌来造成{0}点伤害（若为II阶则为{1}点）。
+{c}: fewer than {0} Energy, no bonus.	{c}：能量少于{0}，没有奖励。
+{c}: give a non-Wizard card from your hand to an opponent. Gain {0} of its Element; if it’s Fire, deal {0} damage.	{c}：将手牌中一张非巫师牌交给一名对手。获得{0}点它的元素；若它是火牌，造成{1}点伤害。
+{c}: no DOOM Tokens, so no cards from the discard.	{c}：没有末日标记，所以不能从弃牌堆拿牌。
+{c}: no Earth card in hand to VOID.	{c}：手中没有可放逐的土牌。
+{c}: no Earth card in hand to resolve.	{c}：手中没有可结算的土牌。
+{c}: no Fire card to discard.	{c}：没有可弃置的火牌。
+{c}: no Initiative, no extra damage.	{c}：没有先手，没有额外伤害。
+{c}: no Initiative, so no damage.	{c}：没有先手，所以没有伤害。
+{c}: no Initiative, so no effect.	{c}：没有先手，所以没有效果。
+{c}: no Water card in the Storm Cloud.	{c}：风暴云中没有水牌。
+{c}: no cards in hand to discard.	{c}：手中没有可弃置的牌。
+{c}: no {c} in hand or discard to VOID.	{c0}：手牌和弃牌堆中没有可放逐的{c1}。
+{c}: pick the first card to resolve (it stays in your hand). {c} may skip.	{c0}：选择要结算的第一张牌（它会留在你的手牌中）。{c1}可以跳过。
+{c}: pick the second card to resolve (it stays in your hand). {c} may skip.	{c0}：选择要结算的第二张牌（它会留在你的手牌中）。{c1}可以跳过。
+{c}: resolve and discard a different Fire card from your hand.	{c}：结算并弃置手牌中另一张火牌。
+{c}: resolve the revealed {c} for yourself?	{c0}：为自己结算展示的{c1}？
+{c}: return a card from your discard to your hand, or draw?	{c}：将弃牌堆中的一张牌收回手牌，还是抽一张牌？
+{c}: return it to your hand?	{c}：将它收回手牌？
+{c}: reveal an Earth card from your hand to resolve, then discard it.	{c}：从手牌中展示一张土牌结算，然后弃置它。
+{c}: set a Trap.	{c}：设置一张陷阱。
+{c}: you may VOID a card from your hand or discard pile.	{c}：你可以从手牌或弃牌堆中放逐一张牌。
+{c}: you may VOID an {c}, {c} or {c} from your hand or discard pile.	{c0}：你可以从手牌或弃牌堆中放逐一张{c1}、{c2}或{c3}。
+{c}: you may VOID up to {0} cards in the Storm Cloud.	{c}：你可以放逐风暴云中至多{0}张牌。
+{c}: you may move a Fire card to the other discard pile.	{c}：你可以将一张火牌移到另一个弃牌堆。
+{c}: you may move a {c} or {c} to your opponent’s discard.	{c0}：你可以将一张{c1}或{c2}移到对手的弃牌堆。
+{c}: you may resolve a card from your hand or the VOID, then put it on the bottom of the Spellstorm Deck.	{c}：你可以结算手牌或虚空中的一张牌，然后将其置于法术风暴牌堆底。
+{c}: you may resolve a different revealed Earth card for yourself.	{c}：你可以为自己结算另一张已展示的土牌。
+{c}: you may resolve any Storm Cloud card (any Tier), then VOID it.	{c}：你可以结算风暴云中任意一张牌（不限阶级），然后放逐它。
+{c}: {c} does nothing but heal {0}.	{c0}：{c1}没有效果，只回复{0}点生命。
+{c}: {c} may discard a Fire card to deal {0} damage.	{c0}：{c1}可以弃置一张火牌来造成{0}点伤害。
+{c}: {c} may gain a card up to two times, but only Earth cards. Discard effect: +{0} Power.	{c0}：{c1}可以获得牌至多两次，但只能获得土牌。弃置效果：+{0}力量。
+{c}: {c} may take {0} or {0} damage, then draw that many cards. Discard effect: take {0} damage.	{c0}：{c1}可以受到{0}或{1}点伤害，然后抽相同数量的牌。弃置效果：受到{2}点伤害。
+{c}: {c} resolve {c} (first); it stays in hand.	{c0}：{c1}结算{c2}（第一张）；它留在手牌中。
+{c}: {c} resolve {c} (second); it stays in hand.	{c0}：{c1}结算{c2}（第二张）；它留在手牌中。
+{c}: {c} resolves {c} (first); it stays in hand.	{c0}：{c1}结算{c2}（第一张）；它留在手牌中。
+{c}: {c} resolves {c} (second); it stays in hand.	{c0}：{c1}结算{c2}（第二张）；它留在手牌中。
+Wizard card	巫师卡
+Spell card	法术牌
+Health {0}	生命 {0}
+ICE {0}	寒冰 {0}
+ASH {0}	灰烬 {0}
+CURSE {0}	诅咒 {0}
+R&D: at each battle start, if she doesn’t have the Initiative, gains 1 Power; plus any powers researched in her Journal.	研发：每场战斗开始时，若她没有先手，获得1点力量；并发动她日志中已研究的能力。
+{0} mana	{0}点法力
+# found by the coverage check
+R&D: {c} doesn’t have the Initiative, so she gains {0} Power.	研发：{c}没有先手，所以她获得{0}点力量。
+→ {c}	→ {c}
+{c} → {c}	{c0} → {c1}
+{c} resolve {c} from the Storm Cloud.	{c0}从风暴云结算{c1}。
+{c} VOIDs {c} from the Storm Cloud.	{c0}从风暴云中放逐{c1}。
+{c} reveals {c}!	{c0}展示了{c1}！
+{c} fire {c} into {c}’s hand: +{0} Water Element.	{c0}把{c1}射进{c2}的手牌：+{0}水元素。
+{c} fires {c} into {c}’s hand: +{0} Water Element.	{c0}把{c1}射进{c2}的手牌：+{0}水元素。
+{c} fire {c} into {c}’s hand: +{0} Earth Element.	{c0}把{c1}射进{c2}的手牌：+{0}土元素。
+{c} fires {c} into {c}’s hand: +{0} Earth Element.	{c0}把{c1}射进{c2}的手牌：+{0}土元素。
+Blast Scores — {c}: {0}, {c}: {0}, {c}: {0}.	冲击分——{c0}：{0}，{c1}：{1}，{c2}：{2}。
+Blast Scores — {c}: {0}, {c}: {0}, {c}: {0}, {c}: {0}.	冲击分——{c0}：{0}，{c1}：{1}，{c2}：{2}，{c3}：{3}。
+{c} researched: Gain an Earth card.	{c}研究了：获得一张土牌。
+{c} researched: {s}	{c}研究了：{s}
+Gain an Earth card.	获得一张土牌。
+Traps: one set face-down	陷阱：已面朝下设置一张
+{c} ×{0}	{c} ×{0}
+{c} ⚡	{c} ⚡
+{c}:	{c}：
+{c}, {c} {0}	{c1}{0}日（{c0}）
+Match text	对战文本
+…or paste the match text here	…或在此粘贴对战文本
+e.g. Shuriken cancelled the wrong card in round 3	例如：第3轮手里剑取消了错误的牌
+you {0} health	你 {0}生命
+{c} {0} health	{c} {0}生命
+{0} shards	{0}碎片
+{c} eliminated	{c} 已淘汰
+Normal difficulty	普通难度
+Medium difficulty	中等难度
+Hard difficulty	困难难度
+Easy difficulty	简单难度
+Expert difficulty	专家难度
+{c}, May {0}	5月{0}日（{c}）

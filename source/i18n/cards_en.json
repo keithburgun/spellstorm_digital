@@ -1,0 +1,1043 @@
+{
+ "_icons": "Inline icons: {power} Power Up (gold gem), {mana} Mana (purple gem), {gain} Gain a card (green card), {draw} Draw a card (blue card), {ult} Ultimate charge (blue orb), {disc} Discard effect (card with red arrow), {init} Initiative (lightning), {fire} {water} {earth} element cards, {wiz} wizard crest. Lines are the card's text lines; 'sub' is the line above the title. {blast} Blast Token (plain gold octagon, Robot Boy). Lines starting with ~ are the blue Tier lines. Traps: 'trigger' (TRIGGER:), 'text' (EFFECT:), 'after'.",
+ "dart": {
+  "sub": "Basic Spell Card",
+  "title": "Magic Dart",
+  "text": [
+   "{mana}. If you have {init}, deal 1 damage.",
+   "{ult}"
+  ],
+  "flavor": "Fire magic is often banned from use in many parts of the world, due to its unpredictable nature."
+ },
+ "block": {
+  "sub": "Basic Spell Card",
+  "title": "Block",
+  "text": [
+   "Gain {init}. Heal 1 for every {fire} card revealed."
+  ],
+  "flavor": "\"He just needs a little splash, is all he needs.\" – The Splashmaster"
+ },
+ "pgem": {
+  "sub": "Basic Spell Card",
+  "title": "Power Gem",
+  "text": [
+   "{power} {gain}",
+   "If you gained a card, discard it.",
+   "{disc}: {power}"
+  ],
+  "flavor": "The golden gems of the Spell Storm take time to develop their power."
+ },
+ "essF": {
+  "sub": "Spell Card",
+  "title": "Fire Essence",
+  "text": [
+   "Deal 1 damage. You may gain any Tier I or II {fire} card in the Storm Cloud. VOID this."
+  ],
+  "flavor": "Fire Magic is generally associated with destruction."
+ },
+ "essW": {
+  "sub": "Spell Card",
+  "title": "Water Essence",
+  "text": [
+   "{mana}. You may gain any Tier I or II {water} card in the Storm Cloud. VOID this."
+  ],
+  "flavor": "Water Magic is generally associated with healing."
+ },
+ "essE": {
+  "sub": "Spell Card",
+  "title": "Earth Essence",
+  "text": [
+   "{power}. You may gain any Tier I or II {earth} card in the Storm Cloud. VOID this.",
+   "{disc}: {power}"
+  ],
+  "flavor": "Earth Magic is generally associated with building."
+ },
+ "coffee": {
+  "sub": "Derby Pocket's Wizard Spell Card",
+  "title": "Coffee Run",
+  "text": [
+   "{power}{power}, {gain}.",
+   "If you gained an {earth} card, gain {init}.",
+   "{ult}"
+  ],
+  "flavor": "\"This is gonna be the best coffee run of all time!\""
+ },
+ "charge": {
+  "sub": "Derby Pocket's Wizard Spell Card",
+  "title": "Reckless Charge",
+  "text": [
+   "{mana}{mana}{power}",
+   "Deal 1 damage. Gain an ASH. If you have {init}, deal 1 more damage.",
+   "{ult}"
+  ],
+  "flavor": "\"I know we can do it if we work together!\""
+ },
+ "punch": {
+  "sub": "Eve Williams' Wizard Spell Card",
+  "title": "Face Punch",
+  "text": [
+   "Gain {init}. Steal 1 mana from a player and they discard a card randomly. {ult}"
+  ],
+  "flavor": "\"We use voices to avoid having to use fists. We use fists to avoid having to use bombs.\""
+ },
+ "riot": {
+  "sub": "Eve Williams' Wizard Spell Card",
+  "title": "Riot",
+  "text": [
+   "Discard your hand without triggering any discard effects. Deal 1 damage per each {earth} discarded. {draw}{draw}{ult}."
+  ],
+  "flavor": "\"Destroying the Omni-Gem was only the first step in our struggle against colonial oppression.\""
+ },
+ "twopow": {
+  "sub": "Spell Card",
+  "title": "Two Power",
+  "text": [
+   "{power}{power}{gain}",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "When you see the \"Gain Card\" icon on a card, keep in mind that you may choose not to gain a card."
+ },
+ "opal": {
+  "sub": "Spell Card",
+  "title": "Opal",
+  "text": [
+   "{draw}, {power}{power}, {mana}{mana}, {gain}.",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "Gems are rocks found deep in the earth that are charged with mysterious power."
+ },
+ "sift": {
+  "sub": "Spell Card",
+  "title": "Sift",
+  "text": [
+   "{power}. Look at the top 2 cards of your deck. You may choose to discard them or place back on top of your deck in any order."
+  ],
+  "flavor": "Almost all Earth cards have discard effects."
+ },
+ "diamond": {
+  "sub": "Spell Card",
+  "title": "Diamond",
+  "text": [
+   "Discard exactly 3 cards. If you did,",
+   "{power}{power}{power}",
+   "{disc}: {power}"
+  ],
+  "flavor": "\"Learned more spells in 1 day at the Spellstorm, than I had in the past 3 years.\" – Azura Spellstorm Scholar"
+ },
+ "spirit": {
+  "sub": "Spell Card",
+  "title": "Spirit Crystal",
+  "text": [
+   "{draw}. Reveal an {earth} from your hand. Resolve it and then discard it.",
+   "{disc}: {power}"
+  ],
+  "flavor": "It's said that Earth magic is the oldest form of magic, which is why so many stones are imbued with powers."
+ },
+ "amber": {
+  "sub": "Spell Card",
+  "title": "Amber",
+  "text": [
+   "{power}{gain}{gain} (you must gain a card twice). {disc}: {power}"
+  ],
+  "flavor": "The Business Demons considered drilling operations at the Spellstorm, but it was deemed too costly."
+ },
+ "shatter": {
+  "sub": "Spell Card",
+  "title": "Shatter",
+  "text": [
+   "VOID up to 2 cards from your hand. {power} for each you VOIDED.",
+   "{disc}: {power}"
+  ],
+  "flavor": "\"That there spellstorm water's FULL—a gold, I tell ya!\" – Prospector"
+ },
+ "meteor": {
+  "sub": "Spell Card",
+  "title": "Meteorite",
+  "text": [
+   "Take 1 damage. You may resolve any card from the Storm Cloud regardless of tier and then VOID it.",
+   "{disc}: Take 1 damage."
+  ],
+  "flavor": "\"Mom! Look! This fell from the sky!\" – A child of Tiya Bannet"
+ },
+ "blood": {
+  "sub": "Spell Card",
+  "title": "Bloodstone",
+  "text": [
+   "{mana}",
+   "Take 1 damage. You may VOID a card from your hand or discard.",
+   "{disc}: {mana}"
+  ],
+  "flavor": "\"It's best to leave gems that you find in the wild alone, unless you really know what you're doing.\" – Abragail"
+ },
+ "quake": {
+  "sub": "Spell Card",
+  "title": "Quake",
+  "text": [
+   "Opponents lose 2 Power Tokens and gain an ASH. {gain}",
+   "{disc}: {power}."
+  ],
+  "flavor": "A huge earthquake that happened in 1951 is attributed to the emergence of the Business Demons."
+ },
+ "threepow": {
+  "sub": "Spell Card",
+  "title": "Three Power",
+  "text": [
+   "{power}{power}{gain}",
+   "If any player revealed {water}, {power}.",
+   "{disc}: {power}{power}"
+  ],
+  "flavor": "When you see the \"Gain Card\" icon on a card, keep in mind that you may choose not to gain a card."
+ },
+ "swamp": {
+  "sub": "Spell Card",
+  "title": "Swamp Silt",
+  "text": [
+   "{draw}. The player with {init} loses it. Give opponents a CURSE."
+  ],
+  "flavor": "The Order's imperial land-grab has much to do with the increasing swampland in their territory."
+ },
+ "lavabat": {
+  "sub": "Spell Card",
+  "title": "Lava Bat",
+  "text": [
+   "{mana}. You may move a non-Wizard {fire} card from any discard to any other discard.",
+   "Gain {init}."
+  ],
+  "flavor": "Dangerous flaming bats have been known to fly out of the volcanic activity of the Spellstorm."
+ },
+ "ruby": {
+  "sub": "Spell Card",
+  "title": "Ruby",
+  "text": [
+   "Discard the top 3 cards of your deck. Deal 1 damage per {fire} card discarded",
+   "OR you may VOID one of the discarded cards."
+  ],
+  "flavor": "The popular trend of ruby-adorned garments was blamed for the Great Royal Ball Fire of 1976."
+ },
+ "shock": {
+  "sub": "Spell Card",
+  "title": "Shockwave",
+  "text": [
+   "Chosen player loses 2 Power Tokens, discards a random card, loses {init} and takes 1 damage."
+  ],
+  "flavor": "The 1981 hit song \"Shockwave\" is often credited with creating the Bonepunk genre."
+ },
+ "rapid": {
+  "sub": "Spell Card",
+  "title": "Rapid Fire",
+  "text": [
+   "{draw}",
+   "If you have {init}, deal 2 damage and you may redraw this to your hand."
+  ],
+  "flavor": "When going for a fire-based strategy, it's important to keep the pressure on."
+ },
+ "obsidian": {
+  "sub": "Spell Card",
+  "title": "Obsidian",
+  "text": [
+   "Take 1 damage and lose 2 mana. If you did, you may {ult} without paying the mana cost."
+  ],
+  "flavor": "\"Whenever I close my eyes, I see my twisted reflection in that black mirrored gem.\" – Unknown"
+ },
+ "lantern": {
+  "sub": "Spell Card",
+  "title": "Lantern",
+  "text": [
+   "{mana}{mana}.",
+   "If the next clockwise player revealed {water}, VOID this, you gain a CURSE and take 1 damage."
+  ],
+  "flavor": "Do not keep sentient fire spirits trapped in a lantern, for any reason."
+ },
+ "heart": {
+  "sub": "Spell Card",
+  "title": "Heart Gem",
+  "text": [
+   "Heal 3 and gain a CURSE.",
+   "{ult}",
+   "{disc}: Take 1 damage."
+  ],
+  "flavor": "The Heart Gem has surfaced and disappeared many times throughout history, bringing a deadly curse each time."
+ },
+ "manafont": {
+  "sub": "Spell Card",
+  "title": "Mana Font",
+  "text": [
+   "VOID a {water} in the Storm Cloud. If you did, {mana}{mana}{mana}.",
+   "{disc}: Take 1 damage and {mana}."
+  ],
+  "flavor": "While there are many theories, no one knows where the magic inside gems originally comes from."
+ },
+ "flame": {
+  "sub": "Spell Card",
+  "title": "Flame",
+  "text": [
+   "Deal 1 damage and then resolve and discard a different {fire} from your hand.",
+   "{ult}"
+  ],
+  "flavor": "You need *magic* water to put a magical flame out."
+ },
+ "fb2": {
+  "sub": "Spell Card",
+  "title": "Fireball II",
+  "text": [
+   "Deal 2 damage. If you have {init}, deal 2 more damage."
+  ],
+  "flavor": "It is customary to say \"shaboom-ya!\" when one reveals the Fireball II card."
+ },
+ "cross": {
+  "sub": "Spell Card",
+  "title": "Crossfire",
+  "text": [
+   "If you have {init}, deal 3 damage to a chosen opponent, lose {init} and then place this in that opponent's discard."
+  ],
+  "flavor": "\"The first lesson in using fire magic always must be... how not to burn one's self.\" – B Underbrom, Professor of Fire Magic"
+ },
+ "fb": {
+  "sub": "Spell Card",
+  "title": "Fireball",
+  "text": [
+   "Deal 1 damage and gain an ASH. If you have {init}, deal 2 more damage and lose {init}."
+  ],
+  "flavor": "It is customary to say \"shaboom!\" when one reveals the Fireball card."
+ },
+ "arctite": {
+  "sub": "Spell Card",
+  "title": "Arctite",
+  "text": [
+   "{draw}{draw}",
+   "Heal 2 and give an ICE."
+  ],
+  "flavor": "Pirates have been known to smuggle large amounts of Arctite inside icebergs."
+ },
+ "iceflume": {
+  "sub": "Spell Card",
+  "title": "Ice Flume",
+  "text": [
+   "Give an ICE. You may VOID an ICE from your hand or discard. Gain {init}."
+  ],
+  "flavor": "\"Watch your step!\" – Unknown"
+ },
+ "frost": {
+  "sub": "Spell Card",
+  "title": "Frost Magic",
+  "text": [
+   "Heal 1. Lose 1 Power Token. Give opponents an ICE."
+  ],
+  "flavor": "The Azure Order was focused on water magic until the 1970s, when ice magic suddenly became far more popular."
+ },
+ "lapis": {
+  "sub": "Spell Card",
+  "title": "Lapis",
+  "text": [
+   "{draw}. You may discard up to 2 cards.",
+   "Heal 1 for each {water} discarded."
+  ],
+  "flavor": "Doctors throughout Omia have used Water Magic to heal the sick for generations."
+ },
+ "leap": {
+  "sub": "Spell Card",
+  "title": "Leap",
+  "text": [
+   "Gain {init} and Heal 1.",
+   "If an opponent revealed {fire}, you may VOID a card from your hand or discard."
+  ],
+  "flavor": "Azure wizards historically specialized in Water Gems, but they have since taken others from throughout the globe."
+ },
+ "moon": {
+  "sub": "Spell Card",
+  "title": "Moonstone",
+  "text": [
+   "Heal 4.",
+   "{disc}: Heal 2."
+  ],
+  "flavor": "The rare and beautiful Moonstone is one of the most coveted in all of Omia."
+ },
+ "reflect": {
+  "sub": "Spell Card",
+  "title": "Reflect",
+  "text": [
+   "{draw}, gain {init}, heal 1.",
+   "Players that revealed {fire} take 2 damage."
+  ],
+  "flavor": "\"He just needs a little splash, is all he needs.\" – The Splashmaster"
+ },
+ "sapph": {
+  "sub": "Spell Card",
+  "title": "Sapphire",
+  "text": [
+   "{draw}, heal 1, and gain an ASH.",
+   "{ult}"
+  ],
+  "flavor": "Many of Omia's most impressive Wizards have a signature move, which some call an \"Ultimate\"."
+ },
+ "step": {
+  "sub": "Spell Card",
+  "title": "Step",
+  "text": [
+   "If you have {init}, heal 1.",
+   "Otherwise, gain {init}.",
+   "{disc}: Gain {init}."
+  ],
+  "flavor": "From the year 366–1182, the Water Kingdom reigned over much of the Eastern Continent."
+ },
+ "twin": {
+  "sub": "Spell Card",
+  "title": "Twin Sapphire",
+  "text": [
+   "{draw} and heal 2.",
+   "{ult}"
+  ],
+  "flavor": "\"TWO sapphires?! Wow, thanks!\" – Someone's son"
+ },
+ "ultw": {
+  "sub": "Spell Card",
+  "title": "Ultimate",
+  "text": [
+   "You may VOID an {earth} from your hand.",
+   "If you did, {mana}{mana}{mana}.",
+   "{ult}"
+  ],
+  "flavor": "\"He just needs a little splash, is all he needs.\" – The Splashmaster"
+ },
+ "wave": {
+  "sub": "Spell Card",
+  "title": "Wave",
+  "text": [
+   "{mana}{mana}{mana}. Chosen player discards their hand and draws a new hand of 4 cards."
+  ],
+  "flavor": ""
+ },
+ "dEarth": {
+  "sub": "Special Card",
+  "title": "Earth Dragon",
+  "text": [
+   "{gain}{gain}. Deal 2 damage. Gain 1 Storm Shard. Opponents gain an ASH. {ult}"
+  ],
+  "flavor": "The Earth Dragons are known to hoard massive amounts of treasure in caves."
+ },
+ "dFire": {
+  "sub": "Special Card",
+  "title": "Fire Dragon",
+  "text": [
+   "Deal 4 damage to a player. {mana}{mana}",
+   "{ult}"
+  ],
+  "flavor": "No Dragon is more feared than the destructive and terrible Fire Dragon."
+ },
+ "dIce": {
+  "sub": "Special Card",
+  "title": "Ice Dragon",
+  "text": [
+   "Heal 3. Gain 1 Storm Shard. Give an ICE. {ult}"
+  ],
+  "flavor": "The elusive Storm Dragons were considered to be cryptids until very recently."
+ },
+ "dStorm": {
+  "sub": "Special Card",
+  "title": "Storm Dragon",
+  "text": [
+   "Deal 3 damage and gain 1 Storm Shard. {ult}"
+  ],
+  "flavor": "The elusive Storm Dragons were considered to be cryptids until very recently."
+ },
+ "dWind": {
+  "sub": "Special Card",
+  "title": "Wind Dragon",
+  "text": [
+   "Gain {init}. Gain a Storm Shard. You may resolve up to two cards from your hand. {ult}"
+  ],
+  "flavor": "The elusive Storm Dragons were considered to be cryptids until very recently."
+ },
+ "ice": {
+  "sub": "Special Card",
+  "title": "Ice",
+  "text": [
+   "This can't be played.",
+   "{disc}: −1 to Blast Score (if discarded during the Regroup Phase.)",
+   "(Gain this to your discard.)"
+  ],
+  "flavor": "\"Ice cut into a cube shape is kind of like a gem.\" – Beosnook"
+ },
+ "ash": {
+  "sub": "Special Card",
+  "title": "Ash",
+  "text": [
+   "This can't be played.",
+   "{disc}: Lose 1 Power Token.",
+   "(Gain this to your discard.)"
+  ],
+  "flavor": "The Spellstorm is a highly volcanic area, often covered in ash."
+ },
+ "curse": {
+  "sub": "Special Card",
+  "title": "Curse",
+  "text": [
+   "This can't be played.",
+   "{disc}: Take 1 damage.",
+   "(Gain this to your discard.)"
+  ],
+  "flavor": "\"Curses!\" – H.M.T. Holliganger, Distinguished Professor at the Azura Academy School of Archaeology"
+ },
+ "trap_mud": {
+  "title": "Mud Trap",
+  "flavor": "Omar is part of a secretive collective of ninja assassins that roam the Cloister forests.",
+  "trigger": "You may reveal this if you COUNTER with a {fire} card.",
+  "text": [
+   "Deal 1 damage. {mana}, gain {init}."
+  ],
+  "after": "After revealing, leave this card here. It is inactive."
+ },
+ "trap_dodge": {
+  "title": "Dodge!",
+  "flavor": "Omar's species, known as the Zuzuni, are bipedal insectoids that have been oppressed by the Azure Order for most of recorded history.",
+  "trigger": "You may reveal this when an opponent is dealing damage to you.",
+  "text": [
+   "The first 2 points of damage you take this round are negated."
+  ],
+  "after": "After revealing, leave this card here. It is inactive."
+ },
+ "trap_ice": {
+  "title": "Ice Bomb",
+  "flavor": "After seeing a vision of Croh Vosh taking the power of the Spellstorm, Omar has come here to stop it before it happens.",
+  "trigger": "You may reveal this if you COUNTER with a {water} card.",
+  "text": [
+   "Give an ICE. {mana}, {ult}."
+  ],
+  "after": "After revealing, leave this card here. It is inactive."
+ },
+ "potiongun": {
+  "sub": "Oren Bark's Wizard Spell Card",
+  "title": "Potion Gun",
+  "text": [
+   "Deal 1 damage. You may give a non-Wizard card from your hand to an opponent's hand. If you did, gain 2 of the Element matching that card. {ult}"
+  ],
+  "flavor": "\"Think I can hit that old barrel by the hill over there?\""
+ },
+ "unstable": {
+  "sub": "Oren Bark's Wizard Spell Card",
+  "title": "Unstable Formula",
+  "text": [
+   "{power}{mana}. Lower any one Element by 2 to raise another by 2. If anyone revealed {water}, +1 Earth Element. {ult}"
+  ],
+  "flavor": "\"Oh, it'll work, trust me. But, uh... you might wanna stand back a bit...\""
+ },
+ "beetle": {
+  "sub": "Omar Evans' Wizard Spell Card",
+  "title": "Beetle Buster",
+  "text": [
+   "Discard a {fire} from your hand to deal 2 damage.",
+   "{ult}"
+  ],
+  "flavor": "A hero to many, Omar is regarded by the powerful as an eco-terrorist."
+ },
+ "shuriken": {
+  "sub": "Omar Evans' Wizard Spell Card",
+  "title": "Shuriken",
+  "text": [
+   "SPECIAL: this card ALWAYS goes first.",
+   "Gain {init}, {draw} OR chosen opponent discards their revealed card (it does not resolve) and they {draw}. {ult}."
+  ],
+  "flavor": "\"...\""
+ },
+ "undertow": {
+  "sub": "Croh Vosh's Wizard Spell Card",
+  "title": "Undertow",
+  "text": [
+   "Opponents discard a random card. You {draw}. If you have at least 3 more cards than another player, gain a DOOM Token. {ult}"
+  ],
+  "flavor": "Croh has come to the Spellstorm seeking his path to world domination."
+ },
+ "sinking": {
+  "sub": "Croh Vosh's Wizard Spell Card",
+  "title": "Sinking Strike",
+  "text": [
+   "{mana}{mana}. Deal X damage, where X is your number of DOOM Tokens. If the CURSE pile is empty, gain a DOOM Token. {ult}"
+  ],
+  "flavor": "Long ago, Croh Vosh was betrayed and killed at Dragon Bridge by his longtime ally, Salutaire Ruupart."
+ },
+ "deepgems": {
+  "sub": "Abragail's Wizard Spell Card",
+  "title": "Deep Gems",
+  "text": [
+   "{draw}{mana} You may lose 1 Power Token. If you did, resolve and then VOID a {water} from the Storm Cloud. {ult}"
+  ],
+  "flavor": "The Water Kingdom's dominance was possible, in part, due to their ability to dredge resources from the deep."
+ },
+ "curriculum": {
+  "sub": "Abragail's Wizard Spell Card",
+  "title": "New Curriculum",
+  "text": [
+   "{power} X times, where X is your current Tier. You may VOID up to 2 cards in the Storm Cloud. {gain}. {ult}"
+  ],
+  "flavor": "\"Can't believe the *garbage* I'm asked to teach sometimes!\""
+ },
+ "starshot": {
+  "sub": "May Danaris' Wizard Spell Card",
+  "title": "Star Shot",
+  "text": [
+   "Discard a card to deal 1 damage. If it was Tier II, deal 1 more damage. {mana} for each Energy Token you have. Lose 2 Energy Tokens. {ult}"
+  ],
+  "flavor": "\"Hey, YOU! Eat this!\""
+ },
+ "databreach": {
+  "sub": "May Danaris' Wizard Spell Card",
+  "title": "Data Breach",
+  "text": [
+   "Lose 1 or 2 Energy Tokens. If you did, {power} that many times. If you still have 2 Energy Tokens, chosen opponent reveals their hand and they discard a card of your choice. {ult}"
+  ],
+  "flavor": "\"Yes! I'm in. Now let's see what these idiots have planned next...\""
+ },
+ "buddy": {
+  "sub": "Bunny Wizard's Wizard Spell Card",
+  "title": "Buddy System",
+  "text": [
+   "Tier I players {power}. You {power}{mana}. You may resolve a different revealed {earth} card.",
+   "{ult}"
+  ],
+  "flavor": "\"Bunny is wondering if it would be okay to hold your hand.\" – Bunny's Handler"
+ },
+ "snowday": {
+  "sub": "Bunny Wizard's Wizard Spell Card",
+  "title": "Snow Day",
+  "text": [
+   "Heal 2. Give an ICE to all opponents without any in their discard.",
+   "{ult}."
+  ],
+  "flavor": "The Stuffies are a species of stuffed animals that have been brought to life by powerful Star magic."
+ },
+ "rb_repair": {
+  "title": "Robot Boy",
+  "sub": "\"Robot Repair\"",
+  "bubble": "Ahoy! I'm Robot Boy.",
+  "text": [
+   "Heal 1/opponent. {draw}{mana}.",
+   "~Tier II: VOID an ICE or CURSE in Robot Boy's discard.",
+   "~Tier III: Heal 3. {draw}."
+  ]
+ },
+ "rb_iceblock": {
+  "title": "Robot Boy",
+  "sub": "\"Ice Block\"",
+  "text": [
+   "{blast}. Heal 1/opponent.",
+   "~Tier II: Give an ICE.",
+   "~Tier III: {draw}. Heal 1/opponent."
+  ]
+ },
+ "rb_bounce": {
+  "title": "Robot Boy",
+  "sub": "\"Robo Bounce\"",
+  "bubble": "Oof! Sorry!",
+  "text": [
+   "Resolve and then VOID the \"X\" card in the Storm Cloud.",
+   "~Tier II: If Robot Boy has {init}, deal 2 damage."
+  ]
+ },
+ "rb_laser": {
+  "title": "Robot Boy",
+  "sub": "\"Laser EYE\"",
+  "text": [
+   "Gain {init}. Deal 1 damage. Robot Boy discards a Blast Token.",
+   "~Tier II: Give a CURSE.",
+   "~Tier III: {mana}"
+  ]
+ },
+ "rb_fist": {
+  "title": "Robot Boy",
+  "sub": "\"Robo-Fist\"",
+  "bubble": "Hey! Watch my trick!",
+  "text": [
+   "{mana}. Robot Boy discards a Blast Token. Deal 1 damage.",
+   "~Tier II: Deal 1 damage.",
+   "~Tier III: Deal 1 damage."
+  ]
+ },
+ "rb_upgrade": {
+  "title": "Robot Boy",
+  "sub": "\"Upgrade\"",
+  "text": [
+   "{blast}{blast}{mana}",
+   "VOID the \"X\" card in the Storm Cloud.",
+   "~Tier III: {blast}{mana}."
+  ]
+ },
+ "rb_hack": {
+  "title": "Robot Boy",
+  "sub": "\"Hack You Badly\"",
+  "bubble": "!scabbalee BaYTOBORMi Ω ####",
+  "text": [
+   "{blast}{draw}{mana}",
+   "~Tier II: Other players discard a card randomly.",
+   "~Tier III: {blast}"
+  ]
+ },
+ "rb_drill": {
+  "title": "Robot Boy",
+  "sub": "\"Drill Ya\"",
+  "bubble": "I'm Robot Boy!",
+  "text": [
+   "{blast}{mana}",
+   "Opponents who revealed {water} gain an ASH.",
+   "~Tier III: Deal 1 damage."
+  ]
+ },
+ "rb_blast": {
+  "title": "Robot Boy",
+  "sub": "\"Blast You\"",
+  "bubble": "WOOOP!",
+  "text": [
+   "{draw}{draw}",
+   "~Tier II: Heal 1.",
+   "~Tier III: Heal 1/opponent."
+  ]
+ },
+ "beetle_2e": {
+  "sub": "Omar Evans' Wizard Spell Card",
+  "title": "Beetle Buster",
+  "text": [
+   "Discard a {fire} card. If you did, chosen player takes 3 damage."
+  ],
+  "flavor": "A hero to many, Omar is regarded by the powerful as an eco-terrorist."
+ },
+ "databreach_2e": {
+  "sub": "May Danaris' Wizard Spell Card",
+  "title": "Data Breach",
+  "text": [
+   "{power}{power} Chosen opponent reveals their hand and they discard a card of your choice. If anyone revealed {water}, gain an Energy Token.",
+   "{ult}"
+  ],
+  "flavor": "\"Yes! I'm in. Now let's see what these idiots have planned next...\""
+ },
+ "starshot_2e": {
+  "sub": "May Danaris' Wizard Spell Card",
+  "title": "Star Shot",
+  "text": [
+   "Deal 1 damage. You may lose 2 Energy Tokens to resolve a different {fire} card from your hand.",
+   "{ult}"
+  ],
+  "flavor": "\"Hey, YOU! Eat this!\""
+ },
+ "undertow_2e": {
+  "sub": "Croh Vosh's Wizard Spell Card",
+  "title": "Undertow",
+  "text": [
+   "{draw}. Opponents discard two random cards. If you COUNTERED, gain a DOOM Token. {ult}"
+  ],
+  "flavor": "Croh has come to the Spellstorm seeking his path to world domination."
+ },
+ "sinking_2e": {
+  "sub": "Croh Vosh's Wizard Spell Card",
+  "title": "Sinking Strike",
+  "text": [
+   "{mana}{mana}. Deal X + 1 damage, where X is your number of DOOM Tokens. If the CURSE pile is empty, gain a DOOM Token.",
+   "{ult}"
+  ],
+  "flavor": "Long ago, Croh Vosh was betrayed and killed at Dragon Bridge by his longtime ally, Salutaire Ruupart."
+ },
+ "charge_2e": {
+  "sub": "Derby Pocket's Wizard Spell Card",
+  "title": "Reckless Charge",
+  "text": [
+   "{mana}{power}",
+   "Deal 1 damage. Gain an ASH. If you have {init}, {mana} and deal 1 more damage.",
+   "{ult}"
+  ],
+  "flavor": "\"I know we can do it if we work together!\""
+ },
+ "coffee_2e": {
+  "sub": "Derby Pocket's Wizard Spell Card",
+  "title": "Coffee Run",
+  "text": [
+   "{power}, {gain}.",
+   "If you gained an {earth} card, {power} and gain {init}.",
+   "{ult}"
+  ],
+  "flavor": "\"This is gonna be the best coffee run of all time!\""
+ },
+ "lantern_2e": {
+  "sub": "Spell Card",
+  "title": "Lantern",
+  "text": [
+   "{mana}{mana}.",
+   "If anyone revealed {water}, all players take 1 damage and gain a CURSE."
+  ],
+  "flavor": "Do not keep sentient fire spirits trapped in a lantern, for any reason."
+ },
+ "rapid_2e": {
+  "sub": "Spell Card",
+  "title": "Rapid Fire",
+  "text": [
+   "If you have {init}, deal 2 damage, gain an ASH and return this to your hand."
+  ],
+  "flavor": "When going for a fire-based strategy, it's important to keep the pressure on."
+ },
+ "leap_2e": {
+  "sub": "Spell Card",
+  "title": "Leap",
+  "text": [
+   "Gain {init}. Heal 1.",
+   "VOID a card from your hand or discard."
+  ],
+  "flavor": "Azure wizards historically specialized in Water Gems, but they have since taken others from throughout the globe."
+ },
+ "manafont_2e": {
+  "sub": "Spell Card",
+  "title": "Mana Font",
+  "text": [
+   "Discard a {water} card.",
+   "If you did, {mana}{mana}{mana}.",
+   "{disc}: {mana}."
+  ],
+  "flavor": "While there are many theories, no one knows where the magic inside gems originally comes from."
+ },
+ "shock_2e": {
+  "sub": "Spell Card",
+  "title": "Shockwave",
+  "text": [
+   "Chosen player takes 1 damage, loses 2 Power Tokens, and 2 Mana."
+  ],
+  "flavor": "The 1981 hit song \"Shockwave\" is often credited with creating the Bonepunk genre."
+ },
+ "amber_2e": {
+  "sub": "Spell Card",
+  "title": "Amber",
+  "text": [
+   "You may {gain} up to two times, but only {earth} cards.",
+   "{disc}: {power}"
+  ],
+  "flavor": "The Business Demons considered drilling operations at the Spellstorm, but it was deemed too costly."
+ },
+ "ruby_2e": {
+  "sub": "Spell Card",
+  "title": "Ruby",
+  "text": [
+   "Discard the top 3 cards of your deck.",
+   "Deal 1 damage per {fire} card discarded."
+  ],
+  "flavor": "The popular trend of ruby-adorned garments was blamed for the Great Royal Ball Fire of 1976."
+ },
+ "arctite_2e": {
+  "sub": "Spell Card",
+  "title": "Arctite",
+  "text": [
+   "{draw}{draw}",
+   "Opponents discard 2 random cards."
+  ],
+  "flavor": "Pirates have been known to smuggle large amounts of Arctite inside icebergs."
+ },
+ "blood_2e": {
+  "sub": "Spell Card",
+  "title": "Bloodstone",
+  "text": [
+   "You may take 1 or 2 damage and then draw that many cards.",
+   "{disc}: Take 1 damage."
+  ],
+  "flavor": "\"It's best to leave gems that you find in the wild alone, unless you really know what you're doing.\" – Abragail"
+ },
+ "potiongun_2e": {
+  "sub": "Oren Bark's Wizard Spell Card",
+  "title": "Potion Gun",
+  "text": [
+   "Give a non-Wizard card from your hand to an opponent's hand. Gain 2 of that card's Element. If it was {fire}, deal 2 damage. {ult}"
+  ],
+  "flavor": "\"Think I can hit that old barrel by the hill over there?\""
+ },
+ "w_blizz": {
+  "sub": "Weather",
+  "title": "Burning Blizzard",
+  "text": [
+   "{draw}. If you reveal {fire} this round, {mana}{mana}."
+  ]
+ },
+ "w_breeze": {
+  "sub": "Weather",
+  "title": "Nice Breeze",
+  "text": [
+   "{draw}{mana}{power}"
+  ]
+ },
+ "w_dust": {
+  "sub": "Weather",
+  "title": "Dust Cloud",
+  "text": [
+   "{draw}. {power}. All players discard a random card."
+  ]
+ },
+ "w_ewave": {
+  "sub": "Weather",
+  "title": "Energy Wave",
+  "text": [
+   "{draw}. After resolving their cards here, players may use their Ultimate ability (still need the required mana)."
+  ]
+ },
+ "w_fearth": {
+  "sub": "Weather",
+  "title": "Falling Earth",
+  "text": [
+   "{draw}. If you reveal {earth} this round, {power}."
+  ]
+ },
+ "w_flurry": {
+  "sub": "Weather",
+  "title": "Crystal Flurries",
+  "text": [
+   "{draw}{mana}. If you reveal {water} this round, {mana}."
+  ]
+ },
+ "w_fstar": {
+  "sub": "Weather",
+  "title": "Falling Star",
+  "text": [
+   "{draw}. All players may {gain} (player with {init} first)."
+  ]
+ },
+ "w_glitter": {
+  "sub": "Weather",
+  "title": "Glittering Dust",
+  "text": [
+   "{draw}{draw}. {earth} cards do nothing when resolved but Heal 2."
+  ]
+ },
+ "w_heat": {
+  "sub": "Weather",
+  "title": "Heatwave",
+  "text": [
+   "{draw}. If you reveal {fire} this round, {mana}."
+  ]
+ },
+ "w_ionic": {
+  "sub": "Weather",
+  "title": "Ionic Atmosphere",
+  "text": [
+   "{draw}{draw}. All players {mana}. Tier II and III players lose 2 Power Tokens."
+  ]
+ },
+ "w_lightning": {
+  "sub": "Weather",
+  "title": "Lightning Strike!",
+  "text": [
+   "{draw}. All players {mana}. Players with more than 8 health take 1 damage."
+  ]
+ },
+ "w_omen": {
+  "sub": "Weather",
+  "title": "Gemlight Omen",
+  "text": [
+   "{draw}. Tier 2 players {mana}. Tier 1 players {power}{power}{power}."
+  ]
+ },
+ "w_shoot": {
+  "sub": "Weather",
+  "title": "Shooting Star",
+  "text": [
+   "{draw}{draw} and {power}{power}."
+  ]
+ },
+ "w_soothe": {
+  "sub": "Weather",
+  "title": "Soothing Rain",
+  "text": [
+   "{draw}. Each player may VOID an ASH, CURSE or ICE in their hand or discard pile."
+  ]
+ },
+ "w_strange": {
+  "sub": "Weather",
+  "title": "Strange Weather",
+  "text": [
+   "{draw}, {draw}. Discard the next card in the Weather Deck."
+  ]
+ },
+ "w_tidal": {
+  "sub": "Weather",
+  "title": "Tidal Wave",
+  "text": [
+   "{draw}{draw}, {mana}. All players randomly discard 2 cards."
+  ]
+ },
+ "w_toads": {
+  "sub": "Weather",
+  "title": "Rain of Toads",
+  "text": [
+   "{draw}. The player with {init} loses it. Whoever gets it gains a CURSE and {mana}."
+  ]
+ },
+ "w_warp": {
+  "sub": "Weather",
+  "title": "Magnetic Warp",
+  "text": [
+   "{draw}{draw}. VOID all cards in the Storm Cloud and draw out 5 new ones."
+  ]
+ },
+ "w_wild": {
+  "sub": "Weather",
+  "title": "Wildcolor Winds",
+  "text": [
+   "{draw}. All players draw a card from the Storm Deck and place it face up in their discard (don't trigger discard effects)."
+  ]
+ },
+ "pot_delixir": {
+  "title": "\"Dragon Elixir\"",
+  "text": [
+   "Resolve the top card of the Dragon Deck."
+  ]
+ },
+ "pot_devil": {
+  "title": "\"Devil's Breath\"",
+  "text": [
+   "{power}. Give an ASH."
+  ],
+  "toxic": "TOXIC",
+  "toxicNote": "If this is your third TOXIC card, end your ultimate and gain an ASH, POISON and ICE."
+ },
+ "pot_explo": {
+  "title": "\"A Slight... Explosion\"",
+  "text": [
+   "Deal 1 damage. Gain 1 of each element."
+  ],
+  "toxic": "TOXIC",
+  "toxicNote": "If this is your third TOXIC card, end your ultimate and gain an ASH, POISON and ICE."
+ },
+ "pot_frostb": {
+  "title": "\"Frost Bomb\"",
+  "text": [
+   "Opponents lose 1 mana.",
+   "Give an ICE."
+  ]
+ },
+ "pot_gas": {
+  "title": "\"I Think I Just Drank Gasoline\"",
+  "text": [
+   "Take 1 damage. Your next Potion Card's effect happens twice (pay the cost once.)"
+  ],
+  "toxic": "TOXIC",
+  "toxicNote": "If this is your third TOXIC card, end your ultimate and gain an ASH, POISON and ICE."
+ },
+ "pot_haste": {
+  "title": "\"Haste Potion\"",
+  "text": [
+   "If you have {init}, deal 1 damage. Otherwise, gain {init}."
+  ]
+ },
+ "pot_purple": {
+  "title": "\"I Call It... Purple Stuff.\"",
+  "text": [
+   "{power}{mana}{mana}"
+  ],
+  "toxic": "TOXIC",
+  "toxicNote": "If this is your third TOXIC card, end your ultimate and gain an ASH, POISON and ICE."
+ },
+ "pot_soda": {
+  "title": "\"Health Soda\"",
+  "text": [
+   "Heal 2."
+  ],
+  "toxic": "TOXIC",
+  "toxicNote": "If this is your third TOXIC card, end your ultimate and gain an ASH, POISON and ICE."
+ },
+ "pot_storm": {
+  "title": "\"Storm Juice\"",
+  "text": [
+   "{draw}{power}"
+  ]
+ }
+}

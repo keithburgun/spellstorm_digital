@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>/*CORPORATA*/</style>
+<style>/*FONT_I18N*/</style>
 <style>
 :root{
   --startbg:#ffffff; --sceneop:.13;
@@ -149,6 +150,7 @@ h1,h2,.disp{font-family:'Corporata','Arial Rounded MT Bold','Trebuchet MS',sans-
 .bigcard{width:min(84vw,56vh*0.714,420px);aspect-ratio:750/1050;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
 .bigw{width:min(88vw,70vh*1.4,620px);aspect-ratio:1050/750;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
 .bigwiz{width:min(84vw,62vh*0.652,440px);aspect-ratio:560/859;border-radius:16px;background:center/contain no-repeat;margin:0 auto}
+.wiznote{max-width:440px;margin:10px auto 0;font-size:.95rem;line-height:1.5;text-align:left}.wiznote p{margin:6px 0}
 .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .goacts{margin:2px 0 10px}
 #cine{position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(circle,rgba(16,8,32,.94),rgba(4,2,10,.97));-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);pointer-events:auto;cursor:pointer;touch-action:none;animation:cineFade var(--d) ease both}
@@ -775,7 +777,11 @@ body.pad #start{padding-bottom:64px}
 /*ENGINE*/
 </script>
 <script>
+/*I18N*/
+</script>
+<script>
 const IMG = /*IMGS*/;
+const IMG_I18N = /*IMGS_I18N*/{};   // translated card art per language: {zh:{img:{key:dataURL},spots:{key:[...]}}} (i18n/render_cards.py)
 const MANUAL = /*MANUAL*/;   // the printed rulebook, one WebP per page (source/manual.json, made by tools/manual.py)
 (function(){let c='';for(const k in IMG)c+=k.endsWith('_2e')?`body.ed2 .ci-${k.slice(0,-3)}{background-image:url(${IMG[k]})}`:`.ci-${k}{background-image:url(${IMG[k]})}`;const s=document.createElement('style');s.textContent=c;document.head.appendChild(s);})();
 const $=s=>document.querySelector(s);
@@ -1635,7 +1641,10 @@ function showPile(p,z){
 }
 function showList(t,list,note){openOv(`<h2>${esc(t)}</h2>${list.length?`<div class="grid">${list.map((c,i)=>card(c,'',`data-a="zoomc" data-u="${c.u}"`)).join('')}</div>`:'<p>Empty.</p>'}${note&&list.length?`<p class="lbl" style="text-align:center;margin-top:8px">${esc(note)}</p>`:''}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);
   showList.cur=list;}
-function wizCard(w){const W=WIZ[w];openOv(`<div class="bigwiz ci-wz_${w}" role="img" aria-label="${esc(W.n)}"></div><div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
+// the wizard boards' art has English text baked in; in another language, the board's rules follow as text
+function wizNote(w){if(I18N.lang==='en')return '';const W=w==='robot'?WIZ[w]:wizInfo(w,curEd());
+  return `<div class="wiznote"><p><b>${esc(W.n)}</b> · <span>${W.hp} health</span></p>${W.start?`<p><b>Game start</b><br><span>${esc(W.start)}</span></p>`:''}${W.un?`<p><b>${esc(W.un)}</b> · <span>${W.cost} mana</span><br><span>${esc(W.ut||'')}</span></p>`:''}</div>`;}
+function wizCard(w){const W=WIZ[w];openOv(`<div class="bigwiz ci-wz_${w}" role="img" aria-label="${esc(W.n)}"></div>${wizNote(w)}<div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);}
 function rules(){openOv(`<div class="rules"><h2>How a game goes</h2><p class="manlink">This is the short version. <button class="qlink" data-a="manual" data-from="rules">Read the full rulebook</button> · <a class="qlink" href="https://boardgamegeek.com/boardgame/360976/spellstorm" target="_blank" rel="noopener" data-ext>Spellstorm on BoardGameGeek</a></p>
 <p>Each battle has four rounds. Every round a Weather card flips and affects both wizards, then you each play one card face-down. Cards reveal together; if your card’s element counters theirs (Fire beats Earth, Earth beats Water, Water beats Fire) you draw a card. Cards then resolve, Initiative holder first.</p>
 <h3>Regroup</h3><p>After four rounds, cards with discard effects in your hand trigger, then the rest of your hand is your Blast Score. Higher score gains 2 Storm Shards; a tie gives each 1. ICE discarded here is −1 Blast Score. Then each wizard gains a Storm Cloud card at or below their Tier and draws up to 3.</p>
@@ -1741,6 +1750,7 @@ document.addEventListener('click',e=>{
   if(a==='setdiff'){if(OPT.tour&&loadProf().tour)return;if(OPT.mode==='coop'||((OPT.mode||'duel')==='duel'&&pickSel.opp==='robot'&&!rnd.opp&&!OPT.tour))OPT.rbdiff=b.dataset.v;else OPT.diff=b.dataset.v;saveOpt();drawSelect();return;}
   if(a==='titlemute'){OPT.muted=!OPT.muted;saveOpt();tmuteDraw();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}return;}
   if(a==='mutetog'){OPT.muted=!OPT.muted;saveOpt();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}if(b.dataset.from==='menu')menu();else optionsSheet();return;}
+  if(a==='setlang'){const v=b.dataset.v;const was=OPT.lang;OPT.lang=v;saveOpt();if(v!==I18N.lang){location.reload();return;}closeOv();if(!was){/* first run, kept English */}return;}
   if(a==='opt'){OPT[b.dataset.k]=(b.dataset.k==='speed'||b.dataset.k==='vol')?+b.dataset.v:b.dataset.v;if(b.dataset.k==='vol'){SFX.init();setTimeout(()=>SFX.play('shard'),30);}saveOpt();applyOpt();optionsSheet();return;}
   if(a==='optphone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));settle();optionsSheet();return;}
   if(a==='reset1'){optionsSheet(true);return;}
@@ -1767,7 +1777,7 @@ document.addEventListener('click',e=>{
   if(a==='libcard'){preview({id:b.dataset.id},'<button class="btn" data-a="libback">Back to library</button>');OVBACK=libSheet;return;}
   if(a==='libw'){openOv(`<div class="bigw ci-w_${b.dataset.id}"></div><p style="text-align:center"><b>${esc(WEATHER[b.dataset.id].n)}</b>: ${esc(WEATHER_TEXT[b.dataset.id])}</p><div class="acts"><button class="btn" data-a="libback">Back to library</button><button class="btn alt" data-a="close">Close</button></div>`);OVBACK=libSheet;return;}
   if(a==='libimg'){openOv(`<div class="${b.dataset.big||'bigcard'} ci-${b.dataset.img}"></div><div class="acts"><button class="btn" data-a="libback">Back to library</button><button class="btn alt" data-a="close">Close</button></div>`);OVBACK=libSheet;return;}
-  if(a==='libwiz'){openOv(`<div class="bigwiz ci-wz_${b.dataset.w}"></div><div class="acts"><button class="btn" data-a="libback">Back to library</button><button class="btn alt" data-a="close">Close</button></div>`);OVBACK=libSheet;return;}
+  if(a==='libwiz'){openOv(`<div class="bigwiz ci-wz_${b.dataset.w}"></div>${wizNote(b.dataset.w)}<div class="acts"><button class="btn" data-a="libback">Back to library</button><button class="btn alt" data-a="close">Close</button></div>`);OVBACK=libSheet;return;}
   if(a==='libed'){LIB.ed=+b.dataset.v;libSheet();return;}
   if(a==='libback'){OVBACK=null;libSheet();return;}
   if(a==='rbx'){const x=(S.rbMore||[]).flat().find(c=>c.u==b.dataset.u);if(x)preview(x);return;}
@@ -2019,6 +2029,13 @@ function launch(){
 /* ---------- options & profile ---------- */
 const PKEY='spellstorm.profile.v1',OKEY='spellstorm.options.v1';
 let OPT={speed:1,theme:'dark',diff:'normal',vol:0.5,cb:'off'};try{Object.assign(OPT,JSON.parse(localStorage.getItem(OKEY)||'{}'));}catch(e){}
+try{I18N.setInitial(OPT.lang);I18N.start();langArt();}catch(e){console.error(e);}   // language (translations: i18n.js)
+function langArt(){   // swap in the translated card images (and the icon hotspots that go with them)
+  const L=IMG_I18N[I18N.lang];if(!L)return;let c='';
+  for(const k in L.img)c+=k.endsWith('_2e')?`html.lang-${I18N.lang} body.ed2 .ci-${k.slice(0,-3)}{background-image:url(${L.img[k]})}`:`html.lang-${I18N.lang} .ci-${k}{background-image:url(${L.img[k]})}`;
+  const s=document.createElement('style');s.textContent=c;document.head.appendChild(s);
+  Object.assign(ICONDATA.spots,L.spots||{});
+}
 try{tmuteDraw();}catch(e){}   // the title screen's speaker button
 function saveOpt(){try{localStorage.setItem(OKEY,JSON.stringify(OPT));const m=JSON.parse(localStorage.getItem('spellstorm.sync.v1')||'{}');m.omt=Date.now();localStorage.setItem('spellstorm.sync.v1',JSON.stringify(m));}catch(e){}try{SYNC.dirty();}catch(e){}}
 function applyOpt(){document.body.classList.toggle('rm',OPT.motion==='reduced');speed=OPT.speed;document.body.classList.toggle('cb',OPT.cb==='on');const r=document.documentElement;if(OPT.theme==='auto')delete r.dataset.theme;else r.dataset.theme=OPT.theme;}
@@ -2401,6 +2418,7 @@ function optionsSheet(confirmReset){
   const seg=(k,vals)=>`<span class="seg">${vals.map(([v,l])=>`<button data-a="opt" data-k="${k}" data-v="${v}" aria-pressed="${String(OPT[k])===String(v)}">${l}</button>`).join('')}</span>`;
   const ph=$('#app').classList.contains('phone');
   openOv(`<h2>Options</h2><div class="rules">
+  <h3 data-noi18n>Language · 语言</h3><span class="seg" data-noi18n>${Object.entries(I18N.LANGS).map(([k,n])=>`<button data-a="setlang" data-v="${k}" lang="${k==='zh'?'zh-Hans':k}" aria-pressed="${I18N.lang===k}">${n}</button>`).join('')}</span>
   <h3>Animation speed</h3>${seg('speed',[[1.4,'Relaxed'],[1,'Normal'],[0.45,'Fast']])}
   <h3>Theme</h3>${seg('theme',[['auto','Match device'],['light','Light'],['dark','Dark']])}
   <h3>Sound</h3>${sndRow('opts')}
@@ -2507,6 +2525,10 @@ const UPD=(()=>{
   return {S,init,check,go,box,titleCheck};})();
 UPD.init().then(k=>{if(k)setTimeout(()=>UPD.titleCheck(),800);});   // check on start (the title screen re-checks whenever it opens)
 applyOpt();showTitle();
+/* First run: choose a language (existing players keep English without being asked). */
+function langSheet(first){const sug=/^zh/i.test(navigator.language||'')?'zh':'en';
+  openOv(`<h2 data-noi18n>${first?'Language · 语言':'Language · 语言'}</h2><div class="acts langpick" data-noi18n>${Object.entries(I18N.LANGS).map(([k,n])=>`<button class="btn ${k===(first?sug:I18N.lang)?'':'alt'}" data-a="setlang" data-v="${k}" lang="${k==='zh'?'zh-Hans':k}">${n}</button>`).join('')}</div><p class="lbl" data-noi18n>You can change this later in Options. · 之后可在“选项”中更改。</p>`);}
+if(!OPT.lang){if(OPT.tutAsked){OPT.lang='en';saveOpt();}else setTimeout(()=>langSheet(true),300);}
 </script>
 <script>
 /*PAD*/

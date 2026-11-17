@@ -1,0 +1,355 @@
+# English<TAB>Chinese. {c} = a name (translated), {0} = a number, {s} = any text (translated if possible).
+# Placeholders are numbered in order of appearance; write {c1}, {1} etc. to reorder.
+(Elo {0})	（Elo {0}）
+(Last round!)	（最后一轮！）
+(order not shown)	（不显示顺序）
+(pick {0})	（第{0}选）
+(pick {0}: your first pick is your ally)	（第{0}选：你的第一选是你的盟友）
+({0} of {0}).	（{0}/{1}）。
++{0} DOOM	+{0} 末日
++{0} Energy	+{0} 能量
++{0} Mana	+{0} 法力
++{0} Mana, +{0} Power	+{0} 法力，+{1} 力量
++{0} Mana, +{0} Power, Tier II!, +{0} card in hand	+{0} 法力，+{1} 力量，升到II阶！，手牌+{2}
++{0} Power	+{0} 力量
++{0} Power, Gained Initiative	+{0} 力量，获得先手
++{0} Storm Shard	+{0} 风暴碎片
++{0} mana	+{0} 法力
++{0} power	+{0} 力量
++{0}% health for every wizard · {0} Storm Shards to win	所有巫师生命+{0}% · {1}块风暴碎片获胜
+, or paste its text below.	，或在下方粘贴其文本。
+: Draw {0}, gain {0} mana and {0} power.	：抽{0}张牌，获得{1}点法力和{2}点力量。
+: Draw {0}, gain {0} mana. All players randomly discard {0} cards.	：抽{0}张牌，获得{1}点法力。所有玩家随机弃置{2}张牌。
+: Draw {0}, gain {0} mana. If you reveal Water this round, gain {0} mana.	：抽{0}张牌，获得{1}点法力。若你本轮展示了水牌，获得{2}点法力。
+: Draw {0}, gain {0} mana. Players above {0} health take {0} damage.	：抽{0}张牌，获得{1}点法力。生命高于{2}的玩家受到{3}点伤害。
+: Draw {0}, gain {0} mana. Tier II and III players lose {0} power.	：抽{0}张牌，获得{1}点法力。II阶和III阶玩家失去{2}点力量。
+: Draw {0}, gain {0} power.	：抽{0}张牌，获得{1}点力量。
+: Draw {0}, gain {0} power. All players discard a random card.	：抽{0}张牌，获得{1}点力量。所有玩家随机弃置一张牌。
+: Draw {0}. After cards resolve, players may use their {c}.	：抽{0}张牌。牌结算后，玩家可以使用其{c}。
+: Draw {0}. All players may gain a card (Initiative first).	：抽{0}张牌。所有玩家可以获得一张牌（先手优先）。
+: Draw {0}. All players put the top Storm Deck card into their discard.	：抽{0}张牌。所有玩家将风暴牌堆顶的牌放入自己的弃牌堆。
+: Draw {0}. Discard the next Weather card.	：抽{0}张牌。弃置下一张天气牌。
+: Draw {0}. Each player may VOID an {c}, {c} or {c} from hand or discard.	：抽{0}张牌。每名玩家可以从手牌或弃牌堆中放逐一张{c0}、{c1}或{c2}。
+: Draw {0}. Earth cards do nothing when resolved but Heal {0}.	：抽{0}张牌。土系牌结算时没有效果，改为回复{1}点生命。
+: Draw {0}. If you reveal Earth this round, gain {0} power.	：抽{0}张牌。若你本轮展示了土牌，获得{1}点力量。
+: Draw {0}. If you reveal Fire this round, gain {0} mana.	：抽{0}张牌。若你本轮展示了火牌，获得{1}点法力。
+: Draw {0}. Initiative changes hands; whoever gets it gains a {c} and {0} mana.	：抽{0}张牌。先手易主；获得先手的玩家获得一张{c}和{1}点法力。
+: Draw {0}. Tier II: gain {0} mana. Tier I: gain {0} power.	：抽{0}张牌。II阶：获得{1}点法力。I阶：获得{2}点力量。
+: Draw {0}. VOID the Storm Cloud and draw {0} new cards.	：抽{0}张牌。放逐风暴云，并翻出{1}张新牌。
+A simple {0}-vs-{0} match against someone with access to this Spellstorm page. Online matches aren’t recorded in your stats.	与能访问此法术风暴页面的人进行一场简单的{0}对{1}对战。在线对战不计入你的统计。
+Accursed: {c} can’t heal — he gives a {c} instead.	受诅者：{c0}无法回复生命——改为给予一张{c1}。
+Achievements unlocked	已解锁成就
+Achievements {0}/{0}	成就 {0}/{1}
+Add a Research Token to a space in {c}’s Journal.	在{c}的日志中的一格放置一个研究标记。
+Adds a ▲ Fire, ● Water, ■ Earth tag to every card.	为每张牌添加 ▲火、●水、■土 标记。
+After this round	本轮之后
+Against the Odds	以弱胜强
+All	全部
+Allies	盟友
+Always Already: {c} gives all players an {c}.	早已如此：{c0}给予所有玩家一张{c1}。
+Animation speed	动画速度
+Animations	动画
+Archmage	大法师
+As {c}, draw cards from wasted healing.	使用{c}，通过溢出的治疗抽牌。
+As {c}, drink {0} potions in one {c} without a third TOXIC.	使用{c0}，在一次{c1}中喝下{0}瓶药水，且未喝到第三瓶有毒药水。
+As {c}, hold {0} DOOM Tokens.	使用{c}，持有{0}个末日标记。
+As {c}, move a {c} to your opponent with {c}.	使用{c0}，用{c2}把一张{c1}移给对手。
+As {c}, place all {0} Research Tokens in one match.	使用{c}，在一场对战中放置全部{0}个研究标记。
+As {c}, resolve an opponent’s card with Dangerous Download.	使用{c}，通过危险下载结算对手的一张牌。
+As {c}, reveal all three Traps in one match.	使用{c}，在一场对战中展示全部三张陷阱。
+As {c}, use {c} at odd health.	使用{c0}，在生命为奇数时使用{c1}。
+BLAST SCORE	冲击分
+BLAST SCORE:	冲击分：
+BOTTOMS UP, I GUESS!	干了吧，我猜！
+Back	返回
+Back to card	返回卡牌
+Back to library	返回卡牌库
+Battle log	战斗记录
+Battle {0}	第{0}场战斗
+Battle {0}, round {0} · step {0} of {0}	第{0}场战斗，第{1}轮 · 第{2}/{3}步
+Battle {0}, round {0}: {c}.	第{0}场战斗，第{1}轮：{c}。
+Beat every wizard on Hard.	在困难难度下击败每一位巫师。
+Beat {c} in Co-op.	在合作模式中击败{c}。
+Beat {c} on Easy.	在简单难度下击败{c}。
+Beat {c} on Hard in Co-op.	在合作模式困难难度下击败{c}。
+Beat {c} on Hard.	在困难难度下击败{c}。
+Beat {c} on Medium.	在中等难度下击败{c}。
+Beaten	已击败
+Beginner	新手
+Best Ranked Elo	最高排位Elo
+Best streak	最佳连胜
+Big Blast	大冲击
+Big Blast: Win a Blast with a score of {0} or more.	大冲击：以{0}分或更高赢得一次冲击。
+Blast Scores — you: {0}, {c}: {0}, {c}: {0}, {c}: {0}.	冲击分——你：{0}，{c0}：{1}，{c1}：{2}，{c2}：{3}。
+Blast Scores — you: {0}, {c}: {0}, {c}: {0}.	冲击分——你：{0}，{c0}：{1}，{c1}：{2}。
+Blast Scores — you: {0}, {c}: {0}.	冲击分——你：{0}，{c0}：{1}。
+Blast Scores — {c}: {0}, {c}: {0}.	冲击分——{c0}：{0}，{c1}：{1}。
+Blitz	闪电战
+Both wizards start with mana in the tank, and this opponent never saves an {c}.	双方巫师开局都有法力储备，而这名对手从不保留{c}。
+Bronze	铜
+Build to the Peak	攀登巅峰
+By a Thread	命悬一线
+By default, the Spellstorm app has adjusted balance based on an increased level of feedback since launch. However, you can also play with the original rules (First Edition Balance) if you prefer.	默认情况下，法术风暴应用根据发布以来收到的大量反馈调整了平衡。如果你愿意，也可以使用原版规则（第一版平衡）进行游戏。
+COUNTER → {c}	克制 → {c}
+COUNTER!	克制！
+CPU - Easy	电脑 - 简单
+CPU - Normal	电脑 - 普通
+CPU difficulty	电脑难度
+CURRENT TRAP	当前陷阱
+Calm Before the Storm (first battles)	风暴前的宁静（最初几场战斗）
+Cancel	取消
+Cancel {c} — they discard it and draw	取消{c}——对方弃置它并抽一张牌
+Can’t set the same Trap twice in a row	不能连续两次设置同一张陷阱
+Card Library	卡牌库
+Cards gained	获得的牌
+Cataclysm	天崩地裂
+Centurion	百战老兵
+Changes in the 2nd Edition Rebalance (the default):	第二版平衡调整的改动（默认）：
+Character	角色
+Cheater	作弊者
+Choose a Trap	选择一张陷阱
+Choose a Trap to set face-down. It replaces your current Trap.	选择一张陷阱面朝下设置。它将替换你当前的陷阱。
+Choose a card to play face-down.	选择一张牌面朝下打出。
+Choose a card to return to your hand.	选择一张牌收回手牌。
+Choose cards	选择牌
+Choose file…	选择文件…
+Choose wizards	选择巫师
+Choose…	选择…
+Circuit Breaker	断路器
+Climbing	攀升中
+Close	关闭
+Co-op vs {c}, {0} players:	合作对抗{c}，{0}名玩家：
+Co-op wins	合作胜场
+Co-op: you play {c} with {c}, {c} against {c}.	合作：你使用{c0}，与{c1}、{c2}一起对抗{c3}。
+Cold Blooded	冷血
+Collect {0} Storm Shards.	收集{0}块风暴碎片。
+Colorblind mode	色盲模式
+Comeback	绝地反击
+Comeback: Win after dropping to {0} health or less.	绝地反击：生命降到{0}或更低后获胜。
+Confirm	确认
+Confirm none	确认不选
+Contender	挑战者
+Continue match	继续对战
+Controller	手柄
+Counter {0} times in one match.	在一场对战中克制{0}次。
+Counter {0} times.	克制{0}次。
+Counterpunch	反击拳
+Counterpunch: Counter {0} times in one match.	反击拳：在一场对战中克制{0}次。
+Counters	克制
+Co‑op vs {c}	合作对抗{c}
+Current streak	当前连胜
+D-pad or left stick	方向键或左摇杆
+DOOM	末日
+DOOOOOOOOM	末——日——
+Daily Challenge	每日挑战
+Damage dealt	造成的伤害
+Dangerous Download	危险下载
+Dangerous Download: As {c}, resolve an opponent’s card with Dangerous Download.	危险下载：使用{c}，通过危险下载结算对手的一张牌。
+Dangerous Download: spend {0} Energy and {0} mana to resolve {c} for yourself?	危险下载：花费{0}点能量和{1}点法力，为自己结算{c}？
+Dark	深色
+Deal {0} damage	造成{0}点伤害
+Deal {0} damage, gain {0} mana, gain Initiative.	造成{0}点伤害，获得{1}点法力，获得先手。
+Deal {0} damage. If you have an odd number of health, gain {0} mana.	造成{0}点伤害。若你的生命为奇数，获得{1}点法力。
+Deal {0} or more damage in a single round.	在一轮中造成{0}点或更多伤害。
+Deal {0} total damage.	累计造成{0}点伤害。
+Deal {0},{0} total damage.	累计造成{0},{1}点伤害。
+Decide later	稍后决定
+Deck {0}	牌库 {0}
+Defeat every wizard.	击败每一位巫师。
+Defeat your first Tournament opponent on Hard.	在困难锦标赛中击败你的第一个对手。
+Defeat your first Tournament opponent on Normal.	在普通锦标赛中击败你的第一个对手。
+Defeat {c} on Hard.	在困难难度下击败{c}。
+Defeat {c}.	击败{c}。
+Design by Keith Burgun - Art by Christina Zhong	设计：Keith Burgun - 美术：Christina Zhong
+Did Her Research: +{0} Power at every battle start	做足功课：每场战斗开始时+{0}力量
+Did Her Research: {c} gains {0} Power.	做足功课：{c}获得{0}点力量。
+Difficulty	难度
+Discard effect	弃置效果
+Discard {0}	弃置{0}张
+Distributor Connection: {c} gain {c} into your discard.	经销渠道：{c0}将{c1}获得至你的弃牌堆。
+Distributor Connection: {c} gains {c} into {c}’s discard.	经销渠道：{c0}将{c1}获得至{c2}的弃牌堆。
+Do neither	都不做
+Dragon Lord	龙王
+Dragon Tamer	驯龙者
+Dragon Tamer: Gain a Dragon.	驯龙者：获得一条龙。
+Dragons	龙
+Dragons & Specials	龙与特殊牌
+Dragons (Tier IV)	龙（IV阶）
+Dragons {0}	龙 {0}
+Draw a card	抽一张牌
+Draw the top card of your deck.	抽取你牌库顶的牌。
+Draw {0}, gain {0} mana and {0} power.	抽{0}张牌，获得{1}点法力和{2}点力量。
+Draw {0}, gain {0} mana. If you reveal Water this round, gain {0} mana.	抽{0}张牌，获得{1}点法力。若你本轮展示了水牌，获得{2}点法力。
+Draw {0}, gain {0} mana. Players above {0} health take {0} damage.	抽{0}张牌，获得{1}点法力。生命高于{2}的玩家受到{3}点伤害。
+Draw {0}, gain {0} mana. Tier II and III players lose {0} power.	抽{0}张牌，获得{1}点法力。II阶和III阶玩家失去{2}点力量。
+Draw {0}, gain {0} power. All players discard a random card.	抽{0}张牌，获得{1}点力量。所有玩家随机弃置一张牌。
+Draw {0}. All players may gain a card (Initiative first).	抽{0}张牌。所有玩家可以获得一张牌（先手优先）。
+Draw {0}. All players put the top Storm Deck card into their discard.	抽{0}张牌。所有玩家将风暴牌堆顶的牌放入自己的弃牌堆。
+Draw {0}. If you reveal Fire this round, gain {0} mana.	抽{0}张牌。若你本轮展示了火牌，获得{1}点法力。
+Draw {0}. Initiative changes hands; whoever gets it gains a {c} and {0} mana.	抽{0}张牌。先手易主；获得先手的玩家获得一张{c}和{1}点法力。
+Draw {0}. Tier II: gain {0} mana. Tier I: gain {0} power.	抽{0}张牌。II阶：获得{1}点法力。I阶：获得{2}点力量。
+Draw {0}. VOID the Storm Cloud and draw {0} new cards.	抽{0}张牌。放逐风暴云，并翻出{1}张新牌。
+Drink another	再喝一瓶
+Drink another potion? TOXIC so far: {0} of {0}. Elements: Fire {0}, Earth {0}, Water {0}.	再喝一瓶药水？目前有毒：{0}/{1}。元素：火{2}，土{3}，水{4}。
+Dynamic Duo	黄金搭档
+Earth beats Water. Fire beats Earth.	土克水。火克土。
+Effect:	效果：
+Elemental Scholar	元素学者
+Elo	Elo
+Elo {0}	Elo {0}
+Empty.	空。
+Energy	能量
+Enter	回车
+Enter the code your friend sent you.	输入你朋友发给你的代码。
+Esc	Esc
+Essences (start in the Storm Cloud)	精华（开局位于风暴云中）
+Eternal Storm	永恒风暴
+Every Matchup	所有对局
+Every wizard starts with	每位巫师开局拥有
+Exit	退出
+Expert Tips	专家提示
+Expert Tournament	专家锦标赛
+Expert tip ·	专家提示 ·
+Export match	导出对战
+Eye of the Storm	风暴之眼
+Factory Reset	恢复出厂设置
+Fast	快
+Field Medic	战地医生
+Field Medic: Heal an ally in a team match.	战地医生：在团队对战中治疗一名盟友。
+Final: you {0} health, {0} shards; {c} eliminated, {0} shards; {c} eliminated, {0} shards; {c} {0} health, {0} shards. Normal difficulty.	最终：你 {0}生命，{1}碎片；{c0} 已淘汰，{2}碎片；{c1} 已淘汰，{3}碎片；{c2} {4}生命，{5}碎片。普通难度。
+Final: you {0} health, {0} shards; {c} {0} health, {0} shards. Normal difficulty.	最终：你 {0}生命，{1}碎片；{c0} {2}生命，{3}碎片。普通难度。
+Final: you {0} health, {0} shards; {c} {0} health, {0} shards; {c} {0} health, {0} shards; {c} eliminated, {0} shards. Medium difficulty.	最终：你 {0}生命，{1}碎片；{c0} {2}生命，{3}碎片；{c1} {4}生命，{5}碎片；{c2} 已淘汰，{6}碎片。中等难度。
+Fire beats Earth. Water beats Fire.	火克土。水克火。
+First Edition Balance	第一版平衡
+First Victory	首胜
+First Victory: Win a match.	首胜：赢得一场对战。
+Flawless Storm	完美风暴
+For each DOOM Token, take a card from your discard into your hand or draw. With no DOOM Tokens, gain one.	每有一个末日标记，从弃牌堆中拿一张牌到手牌或抽一张牌。若没有末日标记，获得一个。
+Four-Way Victor	四方胜者
+Free-for-All wins	混战胜场
+Free-for-All, {0} players:	混战，{0}名玩家：
+Free-for-All: you play {c} against {c}, {c}, {c}.	混战：你使用{c0}，对抗{c1}、{c2}、{c3}。
+Free‑for‑All	混战
+Full	完整
+Full Party	满员出征
+Full Party: Win a {0}-player Co-op match.	满员出征：赢得一场{0}人合作对战。
+Full Roster	全员阵容
+Gain Initiative	获得先手
+Gain Initiative and draw a card	获得先手并抽一张牌
+Gain Spell: tap a highlighted Storm Cloud card.	获得法术：点击一张高亮的风暴云卡牌。
+Gain a Dragon.	获得一条龙。
+Gain a card	获得一张牌
+Gain all five Dragons in one match.	在一场对战中获得全部五条龙。
+Gain an Earth card	获得一张土牌
+Gain {0} Energy. {c} may resolve a non-Wizard card from your hand or the VOID, then put it on the bottom of the Spellstorm Deck.	获得{0}点能量。{c}可以结算手牌或虚空中的一张非巫师牌，然后将其置于法术风暴牌堆底。
+Gain {0} cards from the Storm Cloud in one match.	在一场对战中从风暴云获得{0}张牌。
+Gain {c}	获得{c}
+Gained Initiative	获得先手
+Game Report	对战报告
+Game start	游戏开始
+Giant Slayer	巨人杀手
+Give an {c}, gain {0} mana, then you may use your {c}.	给予一张{c0}，获得{0}点法力，然后你可以使用你的{c1}。
+Give your opponent {0} {c}, {c} or {c} in one match.	在一场对战中给予对手{0}张{c0}、{c1}或{c2}。
+Goal:	目标：
+Grand Champion	总冠军
+Grand Finale	华丽终章
+Grand Grimoire	大魔导书
+Halfway to Glory	荣耀半途
+Hand	手牌
+Hard Contender	困难挑战者
+Hard Lesson	惨痛教训
+Hard Tournament	困难锦标赛
+Hard wins	困难胜场
+Hardened	身经百战
+He resolves {c}, then the face-down {c}.	他结算{c0}，然后结算面朝下的{c1}。
+Heal an ally in a team match.	在团队对战中治疗一名盟友。
+Heal {0}	回复{0}点生命
+Heal {0} total health.	累计回复{0}点生命。
+Heal {0}: heal yourself or an ally?	回复{0}点生命：治疗自己还是盟友？
+Healing	治疗
+Health	生命
+Health healed	回复的生命
+Health {0}	生命 {0}
+Heavy Hitter	重拳出击
+Heavy Metal	重金属
+Hidden Power	隐藏力量
+Highlighted powers activate at the start of every battle.	高亮的能力会在每场战斗开始时生效。
+History	历史
+Host a game	创建游戏
+Hot Streak	连胜势头
+Icon Key	图标说明
+Import replay	导入回放
+Import replay…	导入回放…
+In Ranked, beat an opponent rated {0} or more above you.	在排位赛中击败一名分数比你高{0}或以上的对手。
+In your discard	在你的弃牌堆中
+In your hand	在你的手牌中
+Include game details (version, mode, the last {0} log lines and a snapshot of the game)	附带游戏详情（版本、模式、最近{0}行记录和游戏快照）
+Initiative	先手
+Into the Storm	闯入风暴
+Iron Gauntlet	钢铁护手
+Iron Stomach	铁胃
+Iron Will	钢铁意志
+Join	加入
+Join a game	加入游戏
+Journal	日志
+Journal {0}/{0}	日志 {0}/{1}
+Journal: +{0} power	日志：+{0}力量
+Journal: Draw a card	日志：抽一张牌
+Journal: Gain a card	日志：获得一张牌
+Journal: Gain a card (it must be an Earth card)	日志：获得一张牌（必须是土牌）
+Journal: {c} may draw a Fire card from your discard to your hand	日志：{c}可以从弃牌堆中拿一张火牌到手牌
+Kindling	引火柴
+Knockout	击倒
+Knockout: Win by bringing your opponent to {0} health.	击倒：将对手的生命降至{0}而获胜。
+LB/RB	LB/RB
+Last Wizard Standing	最后的巫师
+Last Wizard Standing: Win a Free-for-All match.	最后的巫师：赢得一场混战。
+Layout	布局
+Layout preview	布局预览
+Leave match	离开对战
+Length	长度
+Light	浅色
+Log	记录
+Long Match	长局
+Lose {0} Power	失去{0}点力量
+Losses	负场
+Lost Initiative	失去先手
+Mana	法力
+Mana +{0}	法力 +{0}
+Marathon	马拉松
+Match device	跟随设备
+Matches played	已玩对战
+Medal Completion (gold)	奖牌完成度（金）
+Medals	奖牌
+Mender	修补匠
+Menu	菜单
+Mode	模式
+Mode Switch: {c} places {c} face-up and another card face-down on his card.	模式切换：{c0}将{c1}面朝上、另一张牌面朝下放在他的卡上。
+Move an {c}, {c} or {c} from your discard to another discard	将你弃牌堆中的一张{c0}、{c1}或{c2}移到另一个弃牌堆
+NEW BATTLE!	新的战斗！
+Needs {0} Earth	需要{0}点土
+Needs {0} Fire	需要{0}点火
+Needs {0} Water	需要{0}点水
+New medal:	新奖牌：
+Next	下一个
+Next opponent:	下一个对手：
+Next ▶	下一步 ▶
+No	否
+No Blast Tokens	没有冲击标记
+No Storm Cloud card is at your Tier. {c} can take a special card.	风暴云中没有符合你阶级的牌。{c}可以拿一张特殊牌。
+No Traction: {c} revealed an {c} and loses a Blast Token.	打滑：{c0}展示了一张{c1}，失去一个冲击标记。
+No cards in hand	没有手牌
+No matches yet. Finished matches appear here (the tutorial and online matches aren’t recorded).	还没有对战。完成的对战会显示在这里（教程和在线对战不会记录）。
+No {c} left — the board effect applies to you.	没有剩余的{c}——改为对你施加盘面效果。
+No {c} left — the board effect applies to {c}.	没有剩余的{c0}——改为对{c1}施加盘面效果。
+Normal Tournament	普通锦标赛
+Not enough Earth Element — no effect.	土元素不足——没有效果。
+Not enough Fire Element — no effect.	火元素不足——没有效果。
+Not enough Water Element — no effect.	水元素不足——没有效果。
+Not won yet	尚未获胜
+OK	确定
+OUT	出局
+Odd Hours	奇数时刻
+Odd Hours: As {c}, use {c} at odd health.	奇数时刻：使用{c0}，在生命为奇数时使用{c1}。
+Off	关
+On	开

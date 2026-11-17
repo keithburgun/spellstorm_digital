@@ -1,0 +1,558 @@
+On Fire	火力全开
+On the Attack	主动出击
+Once you’re connected, you’ll both choose your wizards in the online play lobby.	连接成功后，你们将在在线大厅中各自选择巫师。
+One Last Push	最后一搏
+Open a match file saved with	打开一个保存的对战文件，来自
+Opponent	对手
+Opponents	对手
+Options	选项
+Or take:	或者拿取：
+Original	原版
+Outwit {c}	智胜{c}
+Outwit {c}: Defeat {c}.	智胜{c0}：击败{c1}。
+Overkill	过量杀伤
+PLAY GAME	开始游戏
+Page Up/Down	Page Up/Down
+Paid {0} Earth	支付了{0}点土
+Paid {0} Fire	支付了{0}点火
+Paid {0} Water	支付了{0}点水
+Peak	巅峰
+Peak Power	巅峰力量
+Peak Power: Reach Tier III.	巅峰力量：达到III阶。
+Peak {0}	巅峰 {0}
+Phone preview (for testing) off	手机预览（测试用）关
+Phone view off	手机视图 关
+Play	开始
+Play Online	在线对战
+Play a Ranked match.	进行一场排位赛。
+Play a friend online	与朋友在线对战
+Play again	再来一局
+Play {0} matches.	进行{0}场对战。
+Players	玩家
+Plug in or pair a controller (Xbox, PlayStation, Steam Deck, Android handhelds) and press any button.	连接或配对一个手柄（Xbox、PlayStation、Steam Deck、安卓掌机），然后按任意键。
+Potion	药水
+Power +{0}	力量 +{0}
+Progress	进度
+Puzzles	谜题
+R&D: +{0} Power at battle start only if she doesn’t have the Initiative	研发：仅当她没有先手时，在战斗开始时+{0}力量
+R&D: {c} don’t have the Initiative, so you gain {0} Power.	研发：{c}没有先手，所以你获得{0}点力量。
+Random	随机
+Random opponent	随机对手
+Random player character	随机玩家角色
+Rank {0}	排名 {0}
+Ranked	排位赛
+Ranked Debut	排位首秀
+Ranked Elo	排位Elo
+Ranked:	排位赛：
+Reach Tier II.	达到II阶。
+Reach Tier III.	达到III阶。
+Reach {0} Elo in Ranked.	在排位赛中达到{0} Elo。
+Reach {0} of {0} wins in a Hard Tournament.	在困难锦标赛中取得{0}/{1}胜。
+Reach {0} of {0} wins in a Normal Tournament.	在普通锦标赛中取得{0}/{1}胜。
+Read	阅读
+Read card	查看卡牌
+Record	战绩
+Reduced	减弱
+Regroup	整备
+Regroup after battle {0}.	第{0}场战斗后的整备。
+Relaxed	悠闲
+Replay: {c} vs {c}	回放：{c0} 对 {c1}
+Replay: {c} vs {c}, {c}, {c}	回放：{c0} 对 {c1}、{c2}、{c3}
+Report a problem	报告问题
+Resign & quit	认输并退出
+Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row). Gain the Initiative.	将弃牌堆中的一张牌收回手牌，或抽一张牌。面朝下设置一张陷阱（不能连续两次设置同一张）。获得先手。
+Return from discard	从弃牌堆收回
+Reveal a non-Wizard card from your hand. Resolve it twice and VOID it. All players heal {0}.	从手牌中展示一张非巫师牌。将其结算两次并放逐它。所有玩家回复{0}点生命。
+Reveal if you COUNTER with a Fire card.	若你用火牌克制对手，展示此牌。
+Reveal if you COUNTER with a Water card.	若你用水牌克制对手，展示此牌。
+Reveal when an opponent deals damage to you.	当对手对你造成伤害时展示此牌。
+Reveal {c}? Deal {0} damage, gain {0} mana, gain Initiative.	展示{c}？造成{0}点伤害，获得{1}点法力，获得先手。
+Reveal: you played nothing; {c} played {c}.	展示：你什么也没出；{c0}打出了{c1}。
+Reveal: you played {c}; {c} played nothing.	展示：你打出了{c0}；{c1}什么也没出。
+Reveal: you played {c}; {c} played {c}.	展示：你打出了{c0}；{c1}打出了{c2}。
+Rising Power	力量攀升
+Rising Power: Reach Tier II.	力量攀升：达到II阶。
+Robot Repairman	机器修理工
+Robot Wranglers	机器驯服者
+Round summary	本轮总结
+Round {0} of {0}	第{0}/{1}轮
+Rounds	轮数
+Rulebook	规则书
+Rules	规则
+Rules:	规则：
+Saboteur	破坏者
+Saboteur: Give your opponent {0} {c}, {c} or {c} in one match.	破坏者：在一场对战中给予对手{0}张{c0}、{c1}或{c2}。
+Save & quit to title	保存并返回标题
+Seasoned Duelist	老练决斗者
+Seize the Moment	把握时机
+Select up to {0}. Selected: {0}	最多选择{0}张。已选：{1}
+Select {0}. Selected: {0}	选择{0}张。已选：{1}
+Send report	发送报告
+Set a Trap	设置陷阱
+Set {c}	设置{c}
+Shard Collector	碎片收集者
+Shard Collector: Win by collecting {0} Storm Shards.	碎片收集者：收集{0}块风暴碎片获胜。
+Shard Hoarder	碎片囤积者
+Shard Magnate	碎片大亨
+Shard Rush	碎片冲刺
+Shard Rush: Win a Free-for-All by collecting {0} Storm Shards.	碎片冲刺：在混战中收集{0}块风暴碎片获胜。
+Shards	碎片
+Showstopper	压轴好戏
+Showstopper: Use your {c} {0} times in one match.	压轴好戏：在一场对战中使用你的{c}{0}次。
+Shuffle the Potion Deck and drink potions one at a time, paying their Element cost. A third TOXIC ends it with an {c}, {c} and {c}. Elements reset to {0} after.	洗混药水牌堆，逐瓶喝下药水，并支付其元素消耗。喝到第三瓶有毒药水时结束，并获得一张{c0}、{c1}和{c2}。之后元素重置为{0}。
+Shuffling the Potion Deck…	正在洗混药水牌堆…
+Shutout	完封
+Signature Move	招牌招式
+Skip	跳过
+Skip tutorial	跳过教程
+Sound	声音
+Space	空格
+Spell Cards	法术牌
+Spellslinger	法术枪手
+Spire Champion	尖塔冠军
+Spire Regular	尖塔常客
+Standard Weather	标准天气
+Start	开始
+Start challenge	开始挑战
+Start puzzle {0}	开始谜题 {0}
+Start the storm	掀起风暴
+Start the tournament	开始锦标赛
+Starters & Essences	起始牌与精华
+Stats	统计
+Steal {0} mana from which player? They also discard a random card.	从哪名玩家处偷取{0}点法力？该玩家还要随机弃置一张牌。
+Stop here	到此为止
+Storm Brawler	风暴斗士
+Storm Chaser	追风者
+Storm Cloud	风暴云
+Storm Elite	风暴精英
+Storm Legend	风暴传奇
+Storm Sage	风暴贤者
+Storm Shards	风暴碎片
+Storm Shopper	风暴购物狂
+Storm Shopper: Gain {0} cards from the Storm Cloud in one match.	风暴购物狂：在一场对战中从风暴云获得{0}张牌。
+Storm Sovereign	风暴君主
+Storm Veteran	风暴老兵
+Strength in Numbers	人多力量大
+TI	I阶
+TII	II阶
+TIII	III阶
+TOXIC	有毒
+Tag Team Champions	双打冠军
+Take from discard	从弃牌堆拿取
+Take {0} Damage!	受到{0}点伤害！
+Take:	拿取：
+Tap a highlighted Storm Cloud card.	点击一张高亮的风暴云卡牌。
+Tap an achievement to see what it’s for.	点击一项成就查看其要求。
+Team size	队伍人数
+Teamwork	团队合作
+Teamwork: Beat {c} in Co-op.	团队合作：在合作模式中击败{c}。
+Tempest Tamer	驯服风暴者
+Tenured	终身教职
+The CPU never looks at your hand or your face-down card.	电脑从不偷看你的手牌或你面朝下的牌。
+The Storm Cloud is swept away and redrawn.	风暴云被一扫而空并重新翻出。
+The VOID	虚空
+The VOID is reshuffled into the Spellstorm Deck.	虚空被洗回法术风暴牌堆。
+The card’s Tier. {c} can gain it from the Storm Cloud once you reach that Tier. Basic cards have no badge.	卡牌的阶级。{c}达到该阶级后即可从风暴云获得它。基础牌没有阶级徽章。
+The first {0} damage you take this round is negated.	你本轮受到的前{0}点伤害被抵消。
+The icon in a card’s top-left corner is its element. Hover or tap any icon on a zoomed card to see what it means.	卡牌左上角的图标是它的元素。在放大的卡牌上悬停或点击任意图标即可查看其含义。
+The {c} flares!	{c}爆发了！
+Theme	主题
+Thin Ice	如履薄冰
+This is a starting card for this Wizard. This card can not be VOIDed.	这是该巫师的起始牌。此牌不能被放逐。
+This permanently erases your stats, all achievements, tournament trophies, any tournament in progress, and your settings on this device.	这将永久清除此设备上你的统计、所有成就、锦标赛奖杯、进行中的锦标赛以及你的设置。
+Three-Way Victor	三方胜者
+Tied Blast Score — both gain {0} Storm Shard.	冲击分平局——双方各获得{0}块风暴碎片。
+Tied Blast Score — {c}, {c} each gain {0} Storm Shard.	冲击分平局——{c0}、{c1}各获得{0}块风暴碎片。
+Tied! Both gain {0}	平局！双方各获得{0}
+Tied! {c}, {c} each gain {0}	平局！{c0}、{c1}各获得{0}
+Tier	阶级
+Tier II!	II阶！
+Tier III!	III阶！
+Tier badge	阶级徽章
+Title screen	标题画面
+Today’s challenge · {s}	今日挑战 · {s}
+Topple {c}	推翻{c}
+Total	总计
+Tournament	锦标赛
+Tournament Champion	锦标赛冠军
+Tournament Debut	锦标赛首秀
+Tournament Mode:	锦标赛模式：
+Traps, Potions & Journal	陷阱、药水与日志
+Traps: none set	陷阱：未设置
+Traps: {c}	陷阱：{c}
+Traps: {c} (used)	陷阱：{c}（已使用）
+Trigger:	触发：
+Triple Stitch	三重缝补
+Tutorial	教程
+Two-on-Two wins	二对二胜场
+Two-on-Two:	二对二：
+Two‑on‑Two	二对二
+Ultimates	绝招
+Under Fire	炮火之下
+Unseen Blade	无形之刃
+Unstoppable	势不可挡
+Untouchable	毫发无伤
+Untouchable: Win at full health.	毫发无伤：满生命获胜。
+Update Available!	有可用更新！
+Use your {c} {0} times in one match.	在一场对战中使用你的{c}{0}次。
+Use your {c} {0} times.	使用你的{c}{0}次。
+Use your {c}.	使用你的{c}。
+Use {c} for {0} mana?	花费{0}点法力使用{c}？
+Use {c} without paying mana?	不支付法力使用{c}？
+VOID one of them	放逐其中一张
+VOID {0}	虚空 {0}
+Versus	对战
+View	查看
+View board	查看盘面
+Volume	音量
+Waiting	等待中
+Watch	观看
+Water beats Fire. Earth beats Water.	水克火。土克水。
+Water was revealed, but {c} already has {0} Energy Tokens.	有人展示了水牌，但{c}已经有{0}个能量标记。
+Water was revealed: {c} gains an Energy Token.	有人展示了水牌：{c}获得一个能量标记。
+Weather	天气
+Weather deck	天气牌堆
+Weathered	饱经风雨
+Welcome to Spellstorm	欢迎来到法术风暴
+What happened	发生了什么
+What went wrong? A sentence or two is plenty.	出了什么问题？一两句话就够了。
+Whoa! I’m teaching you Spellstorm? Sweet! The name’s {c}, and I’m your guide for this little tutorial thing. It’ll be quick, don’t worry.	哇！要我来教你法术风暴？太棒了！我叫{c}，是这个小教程的向导。很快的，别担心。
+Win a Blast with a score of {0} or more.	以{0}分或更高赢得一次冲击。
+Win a Free-for-All by collecting {0} Storm Shards.	在混战中收集{0}块风暴碎片获胜。
+Win a Free-for-All match.	赢得一场混战。
+Win a Hard Tournament: all {0} opponents, no losses.	赢得困难锦标赛：击败全部{0}名对手，一场不输。
+Win a Normal Tournament: all {0} opponents, no losses.	赢得普通锦标赛：击败全部{0}名对手，一场不输。
+Win a Two-on-Two match.	赢得一场二对二对战。
+Win a match as {c}.	使用{c}赢得一场对战。
+Win a match in which you had an unplayable hand.	在一场你曾拿到无法出牌的手牌的对战中获胜。
+Win a match on Expert.	在专家难度下赢得一场对战。
+Win a match on Hard.	在困难难度下赢得一场对战。
+Win a match that lasts {0} or more battles.	赢得一场持续{0}场战斗或以上的对战。
+Win a match with every wizard.	使用每位巫师各赢得一场对战。
+Win a match.	赢得一场对战。
+Win a {0}-on-{0} match against another wizard to earn a medal for the wizard you played:	在{0}对{1}对战中击败另一位巫师，即可为你使用的巫师赢得一枚奖牌：
+Win a {0}-player Co-op match.	赢得一场{0}人合作对战。
+Win a {0}-player Free-for-All.	赢得一场{0}人混战。
+Win after dropping to {0} health or less.	生命降到{0}或更低后获胜。
+Win all {0} wizard matchups on Hard.	在困难难度下赢下全部{0}种巫师对局。
+Win all {0} wizard matchups.	赢下全部{0}种巫师对局。
+Win an Expert Tournament: all {0} opponents, no losses.	赢得专家锦标赛：击败全部{0}名对手，一场不输。
+Win as {c} on Hard.	在困难难度下使用{c}获胜。
+Win at full health.	满生命获胜。
+Win by Storm Shards while your opponent has none.	在对手没有风暴碎片时以碎片获胜。
+Win by bringing your opponent to {0} health.	将对手的生命降至{0}而获胜。
+Win by collecting {0} Storm Shards.	收集{0}块风暴碎片获胜。
+Win in {0} battles or fewer.	在{0}场战斗以内获胜。
+Win on Hard at full health.	在困难难度下满生命获胜。
+Win rate	胜率
+Win the match.	赢得对战。
+Win this turn.	在本回合获胜。
+Win with every wizard on Hard.	在困难难度下使用每位巫师获胜。
+Win with exactly {0} health.	以恰好{0}点生命获胜。
+Win {0} Co-op matches.	赢得{0}场合作对战。
+Win {0} Free-for-All matches.	赢得{0}场混战。
+Win {0} Hard matches in a row.	在困难难度下连胜{0}场。
+Win {0} Ranked matches in a row.	在排位赛中连胜{0}场。
+Win {0} Two-on-Two matches.	赢得{0}场二对二对战。
+Win {0} matches as {c}.	使用{c}赢得{0}场对战。
+Win {0} matches by Storm Shards.	以风暴碎片赢得{0}场对战。
+Win {0} matches by knockout.	以击倒赢得{0}场对战。
+Win {0} matches in a row.	连胜{0}场对战。
+Win {0} matches on Hard.	在困难难度下赢得{0}场对战。
+Win {0} matches.	赢得{0}场对战。
+Wins	胜场
+Wins/matches. Rows are the wizard you played; columns are the opponent.	胜场/对战数。行是你使用的巫师，列是对手。
+Wipe all data	清除所有数据
+Wipe all data?	清除所有数据？
+Wipe everything	全部清除
+Wizard card	巫师卡
+Wizards	巫师
+Wizards do battle in this original magical tactical deckbuilder! Designed by Keith Burgun.	巫师们在这款原创魔法战术牌组构筑游戏中展开对决！由Keith Burgun设计。
+Yes	是
+Your Elo — {c}	你的Elo——{c}
+Your Journal	你的日志
+Your Traps	你的陷阱
+Your card	你的牌
+Your deck ({0})	你的牌库（{0}）
+Your discard	你的弃牌堆
+Your hand	你的手牌
+Your hand is empty	你的手牌为空
+Your hand — counting	你的手牌——计数
+Your hand — discard effects	你的手牌——弃置效果
+Your power overflows at Tier III. Gain {c}?	你的力量在III阶溢出。获得{c}？
+Your team wins!	你的队伍获胜！
+Your wizard	你的巫师
+after this card resolves, you may use your wizard’s {c} if you have enough mana.	此牌结算后，若你法力足够，可以使用你巫师的{c}。
+also switch tabs. The on-screen prompts switch to whichever you used last.	也可切换标签页。屏幕提示会切换为你最后使用的设备。
+arrow keys	方向键
+ask the Expert AI what it would play	询问专家AI会出什么牌
+back or menu ·	返回或菜单 ·
+back ·	返回 ·
+battle log ·	战斗记录 ·
+beat all {0} other wizards in order without losing once. Lose a match and the tournament is over. Progress is saved, so you can play one match at a time.	依次击败其他全部{0}位巫师，一场都不能输。输掉一场，锦标赛即结束。进度会保存，所以你可以一次只打一场。
+bronze	铜
+days	天
+each character has its own Elo, and so does Random. you’re matched against an endless stream of opponents near your rating, each with their own style. Win to climb; lose and you drop. Resigning or abandoning a match counts as a loss.	每个角色都有自己的Elo，“随机”也有。你会不断匹配到分数相近、风格各异的对手。赢了就上分，输了就掉分。认输或中途放弃都算作失败。
+empty	空
+every wizard for themselves. Everyone starts with {0} Storm Shards. A wizard at {0} health is eliminated, and their cards go to the VOID. The last wizard standing, or the first to {0} Storm Shards, wins.	各自为战。每人开局拥有{0}块风暴碎片。生命降到{1}的巫师被淘汰，其牌进入虚空。最后存活的巫师，或最先获得{2}块风暴碎片的巫师获胜。
+for {c} vs {c}	{c0} 对 {c1}
+gain {0} Power. Reaching {0} Power raises your Tier.	获得{0}点力量。力量达到{1}时提升你的阶级。
+gain {0} mana. Mana pays for your wizard’s {c}.	获得{0}点法力。法力用于支付你巫师的{c}。
+gold	金
+happens when this card is discarded from your hand, including at the Blast.	当此牌从你的手牌中被弃置时发动，包括在冲击时。
+look at a card ·	查看卡牌 ·
+menu ·	菜单 ·
+move ·	移动 ·
+not available in Tournaments	锦标赛中不可用
+on Expert. In Ranked, beating an opponent rated {0} / {0} / {0} or more earns bronze / silver / gold. A better medal replaces a lower one. {0}% means every wizard has beaten all {0} others on Expert.	（专家难度）。在排位赛中，击败分数达到{0} / {1} / {2}或以上的对手可获得铜 / 银 / 金牌。更好的奖牌会替换较低的奖牌。{3}%表示每位巫师都在专家难度下击败了其他全部{4}位巫师。
+on Hard,	（困难难度），
+on Normal,	（普通难度），
+right stick	右摇杆
+scroll. On a keyboard:	滚动。键盘操作：
+select or play a card ·	选择或打出卡牌 ·
+select ·	选择 ·
+silver	银
+switch tabs or replay rounds ·	切换标签页或回放轮次 ·
+switch tabs, or rounds in a replay ·	切换标签页，或回放中的轮次 ·
+take a card from the Storm Cloud at or below your Tier.	从风暴云中拿取一张不高于你阶级的牌。
+the player with the Initiative resolves their card first.	拥有先手的玩家先结算其牌。
+took {0} damage	受到{0}点伤害
+took {0} damage, +{0} Mana, +{0} Power, +{0} card in hand, Gained Initiative	受到{0}点伤害，+{1}法力，+{2}力量，手牌+{3}，获得先手
+took {0} damage, +{0} Mana, +{0} Power, Gained Initiative	受到{0}点伤害，+{1}法力，+{2}力量，获得先手
+took {0} damage, +{0} Power, Gained Initiative	受到{0}点伤害，+{1}力量，获得先手
+took {0} damage, −{0} Mana, +{0} {c}	受到{0}点伤害，−{1}法力，+{2}{c}
+took {0} damage, −{0} Mana, +{0} {c}, +{0} {c}	受到{0}点伤害，−{1}法力，+{2}{c0}，+{3}{c1}
+took {0} damage, −{0} Mana, −{0} cards in hand, −{0} {c}, +{0} {c}	受到{0}点伤害，−{1}法力，手牌−{2}，−{3}{c0}，+{4}{c1}
+vs	对
+you and an ally against two opponents, seated alternately. {c} only damage your opponents, you may heal your ally instead of yourself, and if either of you wins, you both win. Each player counters the next opponent clockwise.	你和一名盟友对抗两名对手，交替就座。{c}只会伤害对手，你可以治疗盟友而非自己，你们任意一人获胜即双方获胜。每名玩家克制顺时针方向的下一名对手。
+you and an ally take on {c} together. {c} only damage and give {c}, {c} and {c} to him, and when you heal you may heal an ally instead. If anyone on your team wins, your whole team wins, and the team plays on if someone is eliminated.	你和一名盟友共同对抗{c0}。{c1}只会对他造成伤害并给予他{c2}、{c3}和{c4}，你回复生命时可以改为治疗盟友。队伍中任何人获胜即全队获胜，有人被淘汰时队伍继续作战。
+you and {0} allies take on {c} together. {c} only damage and give {c}, {c} and {c} to him, and when you heal you may heal an ally instead. If anyone on your team wins, your whole team wins, and the team plays on if someone is eliminated.	你和{0}名盟友共同对抗{c0}。{c1}只会对他造成伤害并给予他{c2}、{c3}和{c4}，你回复生命时可以改为治疗盟友。队伍中任何人获胜即全队获胜，有人被淘汰时队伍继续作战。
+{0} cards	{0}张牌
+{0} cards, face-down. Cards in a deck stay hidden until drawn.	{0}张牌，面朝下。牌库中的牌在抽到之前保持隐藏。
+{0} cards, sorted by Tier.	{0}张牌，按阶级排序。
+{0} health	{0}点生命
+{0} wins · {0} losses	{0}胜 · {1}负
+{0}. Seize the Moment	{0}. 把握时机
+{0}/{0} gold	{0}/{1} 金
+{0}/{0} solved · solve one to unlock the next	已解 {0}/{1} · 解开一题以解锁下一题
+{c} (opponent)	{c}（对手）
+{c} ({0} of {0}): take a card from your discard or draw?	{c}（{0}/{1}）：从弃牌堆拿一张牌，还是抽一张牌？
+{c} COUNTERED you and draws a card.	{c}克制了你，并抽一张牌。
+{c} COUNTERED you and gains a Blast Token.	{c}克制了你，并获得一个冲击标记。
+{c} COUNTERED {c} and draw a card.	{c0}克制了{c1}，并抽一张牌。
+{c} COUNTERED {c} and draws a card.	{c0}克制了{c1}，并抽一张牌。
+{c} Choose a non-Wizard card from your hand to resolve twice, then VOID it.	{c} 从手牌中选择一张非巫师牌结算两次，然后放逐它。
+{c} Master	{c}大师
+{c} Place a Research Token. Researched powers activate at the start of every battle.	{c} 放置一个研究标记。已研究的能力在每场战斗开始时生效。
+{c} Power	{c}之力
+{c} Power: Use your {c}.	{c0}之力：使用你的{c1}。
+{c} Showdown	{c}对决
+{c} VOID {c} from the Storm Cloud.	{c0}从风暴云中放逐{c1}。
+{c} VOID {c}.	{c0}放逐{c1}。
+{c} VOIDs {c}.	{c0}放逐{c1}。
+{c} add {c} from the Storm Deck to your discard.	{c0}将风暴牌堆中的{c1}加入你的弃牌堆。
+{c} adds {c} from the Storm Deck to {c}’s discard.	{c0}将风暴牌堆中的{c1}加入{c2}的弃牌堆。
+{c} and opponents	{c}和对手
+{c} are eliminated! Your cards go to the VOID.	{c}被淘汰了！你的牌进入虚空。
+{c} can’t be played — nothing happens.	{c}不能打出——什么也没发生。
+{c} cast {c} twice!	{c0}施放了{c1}两次！
+{c} casts {c} twice!	{c0}施放了{c1}两次！
+{c} charge to {0} Energy.	{c}充能至{0}点能量。
+{c} charges to {0} Energy.	{c}充能至{0}点能量。
+{c} couldn't discard {0} cards.	{c}无法弃置{0}张牌。
+{c} discard {c} — its discard effect triggers.	{c0}弃置{c1}——触发其弃置效果。
+{c} discarded {0} cards ({0} Earth).	{c}弃置了{0}张牌（{1}张土牌）。
+{c} discarded {c}, {c}, {c} from the top of the deck.	{c0}从牌库顶弃置了{c1}、{c2}、{c3}。
+{c} discards a Blast Token.	{c}弃置一个冲击标记。
+{c} discards {c} from the Weather Deck.	{c0}从天气牌堆弃置{c1}。
+{c} discards {c} — its discard effect triggers.	{c0}弃置{c1}——触发其弃置效果。
+{c} download {c}!	{c0}下载了{c1}！
+{c} downloads {c}!	{c0}下载了{c1}！
+{c} drank {0} potions. Elements reset to {0}.	{c}喝了{0}瓶药水。元素重置为{1}。
+{c} drink from the Potion Deck. Each potion costs its Element; a third TOXIC ends it badly.	{c}从药水牌堆中喝药。每瓶药水消耗其元素；喝到第三瓶有毒药水就会糟糕收场。
+{c} drink “{c}” (Earth {0}).	{c0}喝下“{c1}”（土{0}）。
+{c} drink “{c}” (Earth {0}, TOXIC).	{c0}喝下“{c1}”（土{0}，有毒）。
+{c} drink “{c}” (Fire {0}).	{c0}喝下“{c1}”（火{0}）。
+{c} drink “{c}” (Fire {0}, TOXIC).	{c0}喝下“{c1}”（火{0}，有毒）。
+{c} drink “{c}” (Water {0}).	{c0}喝下“{c1}”（水{0}）。
+{c} drink “{c}” (Water {0}, TOXIC).	{c0}喝下“{c1}”（水{0}，有毒）。
+{c} drinks from the Potion Deck. Each potion costs its Element; a third TOXIC ends it badly.	{c}从药水牌堆中喝药。每瓶药水消耗其元素；喝到第三瓶有毒药水就会糟糕收场。
+{c} drinks “{c}” (Earth {0}).	{c0}喝下“{c1}”（土{0}）。
+{c} drinks “{c}” (Earth {0}, TOXIC).	{c0}喝下“{c1}”（土{0}，有毒）。
+{c} drinks “{c}” (Fire {0}).	{c0}喝下“{c1}”（火{0}）。
+{c} drinks “{c}” (Fire {0}, TOXIC).	{c0}喝下“{c1}”（火{0}，有毒）。
+{c} drinks “{c}” (Water {0}).	{c0}喝下“{c1}”（水{0}）。
+{c} drinks “{c}” (Water {0}, TOXIC).	{c0}喝下“{c1}”（水{0}，有毒）。
+{c} fire {c} into {c}’s hand: +{0} Fire Element.	{c0}把{c1}射进{c2}的手牌：+{0}火元素。
+{c} fires {c} into {c}’s hand: +{0} Fire Element.	{c0}把{c1}射进{c2}的手牌：+{0}火元素。
+{c} gain a DOOM Token ({0}/{0}).	{c}获得一个末日标记（{0}/{1}）。
+{c} gain a {c}.	{c0}获得一张{c1}。
+{c} gain an {c}.	{c0}获得一张{c1}。
+{c} gain {0} Storm Shard.	{c}获得{0}块风暴碎片。
+{c} gain {c}!	{c0}获得{c1}！
+{c} gain {c}.	{c0}获得{c1}。
+{c} gains +{0} Earth Element.	{c}获得+{0}土元素。
+{c} gains a DOOM Token ({0}/{0}).	{c}获得一个末日标记（{0}/{1}）。
+{c} gains a {c}.	{c0}获得一张{c1}。
+{c} gains an {c}.	{c0}获得一张{c1}。
+{c} gains {0} Storm Shard.	{c}获得{0}块风暴碎片。
+{c} gains {c}!	{c0}获得{c1}！
+{c} gains {c}.	{c0}获得{c1}。
+{c} get a link and a code to send your friend. Hosting needs edit or Contributor access to this page.	{c}会得到一个链接和代码，发给你的朋友即可。创建游戏需要此页面的编辑或贡献者权限。
+{c} get the Initiative.	{c}获得先手。
+{c} gets the Initiative.	{c}获得先手。
+{c} heal an ally instead.	{c}改为治疗一名盟友。
+{c} heal {0}.	{c}回复{0}点生命。
+{c} heals an ally instead.	{c}改为治疗一名盟友。
+{c} heals {0}.	{c}回复{0}点生命。
+{c} is VOIDED from the Storm Cloud.	{c}从风暴云中被放逐。
+{c} is deciding…	{c}正在决定…
+{c} is eliminated! {c}’s cards go to the VOID.	{c0}被淘汰了！{c1}的牌进入虚空。
+{c} is thinking	{c}正在思考
+{c} lose the Initiative.	{c}失去先手。
+{c} lose {0} Energy.	{c}失去{0}点能量。
+{c} lose {0} Power.	{c}失去{0}点力量。
+{c} lose {0} mana.	{c}失去{0}点法力。
+{c} loses a Blast Token.	{c}失去一个冲击标记。
+{c} loses the Initiative.	{c}失去先手。
+{c} loses {0} Blast Token.	{c}失去{0}个冲击标记。
+{c} loses {0} Blast Tokens.	{c}失去{0}个冲击标记。
+{c} loses {0} Energy.	{c}失去{0}点能量。
+{c} loses {0} Power.	{c}失去{0}点力量。
+{c} loses {0} mana.	{c}失去{0}点法力。
+{c} lost {0} mana.	{c}失去了{0}点法力。
+{c} may VOID a card from your hand	{c}可以从手牌中放逐一张牌
+{c} may draw a Fire card from your discard to your hand	{c}可以从弃牌堆中拿一张火牌到手牌
+{c} may gain a Tier I or II Earth card from the Storm Cloud.	{c}可以从风暴云获得一张I阶或II阶土牌。
+{c} may gain a Tier I or II Fire card from the Storm Cloud.	{c}可以从风暴云获得一张I阶或II阶火牌。
+{c} may gain a Tier I or II Water card from the Storm Cloud.	{c}可以从风暴云获得一张I阶或II阶水牌。
+{c} may gain a card from the Storm Cloud.	{c}可以从风暴云获得一张牌。
+{c} may gain an Earth card of your Tier or lower from the Storm Cloud.	{c}可以从风暴云获得一张不高于你阶级的土牌。
+{c} may move a {c} or {c} from your discard or hand to an opponent’s discard. Draw {0}.	{c0}可以将你弃牌堆或手牌中的一张{c1}或{c2}移到对手的弃牌堆。抽{0}张牌。
+{c} moved a {c} to your discard.	{c0}把一张{c1}移到了你的弃牌堆。
+{c} moved a {c} to {c}’s discard.	{c0}把一张{c1}移到了{c2}的弃牌堆。
+{c} moved {c} to {c}’s discard.	{c0}把{c1}移到了{c2}的弃牌堆。
+{c} must gain a card from the Storm Cloud.	{c}必须从风暴云获得一张牌。
+{c} now aims to build up Power.	{c}现在打算积累力量。
+{c} now aims to play defensively.	{c}现在打算稳守。
+{c} now aims to win by damage.	{c}现在打算以伤害取胜。
+{c} now aims to win the Blast race.	{c}现在打算赢下冲击之争。
+{c} play {c}; the CPU plays {c}. {c} has the Initiative.	{c0}使用{c1}；电脑使用{c2}。{c3}拥有先手。
+{c} play {c}; the CPU plays {c}. {c} have the Initiative.	{c0}使用{c1}；电脑使用{c2}。{c3}拥有先手。
+{c} randomly discard {c}.	{c0}随机弃置了{c1}。
+{c} randomly discards {c}.	{c0}随机弃置了{c1}。
+{c} reach Tier II!	{c}达到II阶！
+{c} reach Tier III!	{c}达到III阶！
+{c} reaches Tier II!	{c}达到II阶！
+{c} reaches Tier III!	{c}达到III阶！
+{c} researched: +{0} mana.	{c}研究了：+{0}法力。
+{c} researched: +{0} power.	{c}研究了：+{0}力量。
+{c} researched: Draw a card.	{c}研究了：抽一张牌。
+{c} researched: Gain a card.	{c}研究了：获得一张牌。
+{c} researched: {c} may draw a Fire card from your discard to your hand.	{c0}研究了：{c1}可以从弃牌堆中拿一张火牌到手牌。
+{c} reshuffle your discard pile.	{c}将你的弃牌堆洗回牌库。
+{c} reshuffles {c}’s discard pile.	{c0}将{c1}的弃牌堆洗回牌库。
+{c} resolve {c} from hand.	{c0}从手牌结算{c1}。
+{c} resolve {c}.	{c0}结算{c1}。
+{c} resolved {c} from the Storm Cloud.	{c0}从风暴云结算了{c1}。
+{c} resolves {c} from hand.	{c0}从手牌结算{c1}。
+{c} resolves {c} from the Dragon deck!	{c0}从龙牌堆结算{c1}！
+{c} resolves {c} from the Storm Cloud.	{c0}从风暴云结算{c1}。
+{c} resolves {c} from the Storm Cloud’s X slot.	{c0}结算风暴云X位的{c1}。
+{c} resolves {c}.	{c0}结算{c1}。
+{c} result — {s}	{c}结果——{s}
+{c} return {c} to hand.	{c0}将{c1}收回手牌。
+{c} returns to the hand.	{c}回到手牌。
+{c} returns {c} to hand.	{c0}将{c1}收回手牌。
+{c} reveal your hand to {c}.	{c0}向{c1}展示你的手牌。
+{c} reveal {c}!	{c0}展示了{c1}！
+{c} revealed {c}, so he reveals more: {s}.	{c0}展示了{c1}，于是他继续展示：{s}。
+{c} reveals {c}’s hand to {c}.	{c0}向{c2}展示{c1}的手牌。
+{c} set {c} face-down.	{c0}将{c1}面朝下设置。
+{c} sets a Trap face-down.	{c}面朝下设置了一张陷阱。
+{c} start with {0} mana; your opponent starts with {0} mana.	{c}开局拥有{0}点法力；你的对手开局拥有{1}点法力。
+{c} stole {0} mana from you.	{c}从你那里偷走了{0}点法力。
+{c} stole {0} mana from {c}.	{c0}从{c1}那里偷走了{0}点法力。
+{c} take the Initiative.	{c}夺得先手。
+{c} take {0} damage.	{c}受到{0}点伤害。
+{c} takes the Initiative.	{c}夺得先手。
+{c} takes {0} damage.	{c}受到{0}点伤害。
+{c} unleash {c}	{c0}释放{c1}
+{c} unleash {c}!	{c0}释放{c1}！
+{c} unleashes {c}	{c0}释放{c1}
+{c} unleashes {c}!	{c0}释放{c1}！
+{c} voided {c} from the Storm Cloud.	{c0}从风暴云中放逐了{c1}。
+{c} vs	{c} 对
+{c} win the Blast and gain {0} Storm Shards.	{c}赢得冲击，获得{0}块风暴碎片。
+{c} win the Blast! +{0}	{c}赢得冲击！+{0}
+{c} win!	{c}获胜！
+{c} wins	{c}获胜
+{c} wins the Blast and gains {0} Storm Shards.	{c}赢得冲击，获得{0}块风暴碎片。
+{c} wins the Blast! +{0}	{c}赢得冲击！+{0}
+{c} won by bringing their rival to {0} health after {0} battles.	{c}在{1}场战斗后将对手的生命降至{0}而获胜。
+{c} won by collecting {0} Storm Shards after {0} battles.	{c}在{1}场战斗后收集了{0}块风暴碎片而获胜。
+{c} {c} draws {0} card from the discard: {c}.	{c0} {c1}从弃牌堆抽了{0}张牌：{c2}。
+{c}! {c} is discarded without resolving.	{c0}！{c1}被弃置，不结算。
+{c}, Earth, Special card, has a discard effect	{c}，土，特殊牌，有弃置效果
+{c}, Earth, Tier I	{c}，土，I阶
+{c}, Earth, Tier I, has a discard effect	{c}，土，I阶，有弃置效果
+{c}, Earth, Tier II, has a discard effect	{c}，土，II阶，有弃置效果
+{c}, Earth, Tier III, has a discard effect	{c}，土，III阶，有弃置效果
+{c}, Earth, Tier IV Dragon	{c}，土，IV阶龙
+{c}, Fire, Special card, has a discard effect	{c}，火，特殊牌，有弃置效果
+{c}, Fire, Tier I	{c}，火，I阶
+{c}, Fire, Tier I, has a discard effect	{c}，火，I阶，有弃置效果
+{c}, Fire, Tier II	{c}，火，II阶
+{c}, Fire, Tier II, has a discard effect	{c}，火，II阶，有弃置效果
+{c}, Fire, Tier III	{c}，火，III阶
+{c}, Fire, Tier III, has a discard effect	{c}，火，III阶，有弃置效果
+{c}, Fire, Tier IV Dragon	{c}，火，IV阶龙
+{c}, Hardened	{c}，身经百战
+{c}, Water, Special card, has a discard effect	{c}，水，特殊牌，有弃置效果
+{c}, Water, Tier I	{c}，水，I阶
+{c}, Water, Tier I, has a discard effect	{c}，水，I阶，有弃置效果
+{c}, Water, Tier II	{c}，水，II阶
+{c}, Water, Tier II, has a discard effect	{c}，水，II阶，有弃置效果
+{c}, Water, Tier III	{c}，水，III阶
+{c}, Water, Tier III, has a discard effect	{c}，水，III阶，有弃置效果
+{c}, Water, Tier IV Dragon	{c}，水，IV阶龙
+{c}, Earth, Tier II	{c}，土，II阶
+{c}, Earth, Tier III	{c}，土，III阶
+{c}, {c} and {c}	{c0}、{c1}和{c2}
+{c}: {c} revealed Earth.	{c0}：{c1}展示了土牌。
+{c}: {c} revealed Fire.	{c0}：{c1}展示了火牌。
+{c}: {c} revealed Water.	{c0}：{c1}展示了水牌。
+{c}: …set a Trap face-down, then gain the Initiative.	{c}：……面朝下设置一张陷阱，然后获得先手。
+{c}: …set a Trap face-down.	{c}：……面朝下设置一张陷阱。
+{c}: −{0} to your Blast Score.	{c}：你的冲击分−{0}。
+{c}: −{0} to {c}’s Blast Score.	{c0}：{c1}的冲击分−{0}。
+{c}’s First Win	{c}的首胜
+{c}’s First Win: Win a match as {c}.	{c0}的首胜：使用{c1}赢得一场对战。
+{c}’s Journal	{c}的日志
+{c}’s Potions	{c}的药水
+{c}’s Traps	{c}的陷阱
+{c}’s deck	{c}的牌库
+{c}’s discard	{c}的弃牌堆
+{c}’s hand — counting	{c}的手牌——计数
+{c}’s hand — discard effects	{c}的手牌——弃置效果
+{c}’ve been eliminated. The match plays on…	{c}已被淘汰。对战继续…
+· Beginner.	· 新手。
+— Fire & Earth. Hacker who steals plays with Energy.	——火与土。用能量窃取对手出牌的黑客。
+— Fire & Earth. Pushes his luck with a volatile potion deck.	——火与土。靠一副不稳定的药水牌堆碰运气。
+— Fire & Earth. Strong early aggression, builds power steadily. Great first pick.	——火与土。前期攻势强劲，稳步积累力量。新手首选。
+— Fire & Water. Aggressive saboteur who clogs your deck with {c} and {c}.	——火与水。用{c0}和{c1}塞满你牌库的激进破坏者。
+— Fire & Water. Huge health, can’t heal, grows stronger with DOOM.	——火与水。生命极高，无法回复，随末日之力变强。
+— Fire & Water. Low health, lots of blocking and hidden traps.	——火与水。生命较低，擅长格挡和暗设陷阱。
+— Water & Earth. Researches new powers every time she levels up.	——水与土。每次升级都会研究新能力。
+— Water & Earth. Tiny health, heals fast and past his limit.	——水与土。生命很少，回复迅速且能超出上限。
+−{0} Blast Score	冲击分−{0}
+−{0} Energy	−{0} 能量
+−{0} Mana	−{0} 法力
+−{0} Power	−{0} 力量
+▶ Watch replay	▶ 观看回放
+◀ Previous	◀ 上一步
+🏆 {s}	🏆 {s}
+🔇 Muted	🔇 已静音
+🔊 Mute	🔊 静音
+🔒 Locked	🔒 未解锁
+🔥 Streak:	🔥 连续：

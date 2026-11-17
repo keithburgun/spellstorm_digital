@@ -1,0 +1,508 @@
+# From the source (tutorial, dialogs, account, online play, tips, puzzles, card prompts).
+Online opponent	在线对手
+Tied! Both gain {0}	平局！双方各获得{0}
+Third TOXIC — the Ultimate ends with an ASH, CURSE and ICE.	第三瓶有毒药水——绝招结束，获得一张灰烬、诅咒和寒冰。
+You haven’t set a Trap yet. Omar’s Ultimate, Hidden Movement, sets one.	你还没有设置陷阱。奥马尔的绝招“隐秘行动”可以设置一张。
+Omar has one of these set face-down. You won’t know which until it’s revealed.	奥马尔面朝下设置了其中一张。在它被展示之前你不会知道是哪一张。
+Omar hasn’t set a Trap yet.	奥马尔还没有设置陷阱。
+You’re playing as… me! And I’m battling my buddy, my absolute PAL, Eve Williams.	你要扮演的是……我！我的对手是我的好兄弟、铁哥们儿——伊芙·威廉姆斯。
+How to Win	如何获胜
+You can win at Spellstorm by gatherin’ up 8 Storm Shards, or by bringing your opponent to zero health. These resources are shown… here!	在法术风暴中，收集8块风暴碎片，或者把对手的生命打到零，你就赢了。这些资源都显示在……这里！
+Mana fuels a wizard’s Ultimate Ability. You’ll wanna use your Ultimate as frequently as possible!	法力是巫师绝招的燃料。你会想尽可能多地使用绝招！
+As you play, you’ll be adding more cards. Gain more Power to unlock higher tiers of cards!	随着游戏进行，你会加入更多的牌。获得更多力量，就能解锁更高阶的牌！
+The Storm Cloud	风暴云
+Oh, this? This is where you can obtain new cards for your deck. You can gain cards that are at or below your current tier.	哦，这个？这里是你为牌库获取新牌的地方。你可以获得不高于你当前阶级的牌。
+There are 3 tiers of cards… actually there’s also Tier IV cards, which are super powerful DRAGONS!	牌一共有3个阶级……其实还有IV阶牌，那就是超级强大的龙！
+Weather Cards	天气牌
+Each turn a new Weather card’ll pop out, doing some stuff. Luckily this one’s just a nice breeze, givin’ all of us some resources, but some aren’t so nice.	每回合都会冒出一张新的天气牌，带来各种效果。幸好这张只是宜人的微风，给我们大家一些资源，不过有些天气可没这么友好。
+Playing Cards	出牌
+Oh yeah! You can play cards from your hand. Each turn you play one, face-down. Then they get revealed at the same time, and do some magic stuff!	对了！你可以从手牌中出牌。每回合面朝下出一张。然后大家同时展示，施展魔法！
+There’s like an elemental rock paper scissors thing: Fire beats Earth, Earth beats Water and Water beats Fire. If you counter the opponent, you draw a card.	这有点像元素版的石头剪刀布：火克土，土克水，水克火。如果你克制了对手，就能抽一张牌。
+(Drawing cards is a big deal actually in Spellstorm, I’ll tell you why in a bit.)	（在法术风暴里，抽牌其实非常重要，等会儿告诉你为什么。）
+Hell yeah! Earth beats Water - you just countered Eve’s card. She’s gonna be pissed. Anyway, you drew a card.	太好了！土克水——你刚刚克制了伊芙的牌。她肯定气坏了。总之，你抽了一张牌。
+Right now you have the Initiative token, so your card resolves first. Initiative matters for a few things, especially Fire cards (my favorite).	现在你拥有先手标记，所以你的牌先结算。先手在一些情况下很重要，尤其是对火牌（我的最爱）。
+Eve’s Block card let her take the Initiative, so next turn, her card will resolve first.	伊芙的格挡牌让她夺得了先手，所以下回合她的牌会先结算。
+Blast Score	冲击分
+Each battle has four turns, and then you check how many cards each player has in hand. Whoever has more cards in hand gains 2 Storm Shards!	每场战斗有四个回合，然后比较每名玩家的手牌数量。手牌多的一方获得2块风暴碎片！
+Actually, it’s a little more complicated than that, because cards with discard effects (they have a white border) aren’t counted towards your total (we call this your Blast Score).	其实还要再复杂一点，因为带有弃置效果的牌（它们有白色边框）不计入你的总数（我们称之为你的冲击分）。
+Derby’s Ultimate	德比的绝招
+Each character has a different Ultimate ability. Mine is Flaming Yardstick, which deals 2 damage, and costs 6 mana. If you play it when I have an odd amount of health, 2 mana are refunded. REFUNNNDDDDD	每个角色都有不同的绝招。我的是“烈焰标尺”，造成2点伤害，消耗6点法力。如果在我生命为奇数时使用，会返还2点法力。返——还——啦！
+You can use your Ultimate whenever the Ultimate icon is on an action card, and you have the required amount of mana. Usually good to do it as much as you can!	只要出的牌上有绝招图标，并且你有足够的法力，就可以使用绝招。通常能用就尽量用！
+Okay, that’s enough Tutorial for now. You’re on your own from here. Don’t forget you can read the rules in the Menu! <3	好啦，教程就到这儿。接下来就靠你自己了。别忘了可以在菜单里查看规则！<3
+The Blast	冲击
+Gain Spell	获得法术
+Between battles you add one Storm Cloud card at or below your Tier to your deck. It goes into your hand for the next battle. If nothing suits you, you can take a special card instead.	每场战斗之间，你可以将风暴云中一张不高于你阶级的牌加入牌库。它会进入你下一场战斗的手牌。如果没有合适的，也可以改拿一张特殊牌。
+Ultimate ready	绝招就绪
+You have enough mana for Flaming Yardstick. Use it now, or say No to save your mana for a better moment.	你的法力足够使用烈焰标尺。现在使用，或者选“否”把法力留到更好的时机。
+Tier up!	阶级提升！
+Your Power overflowed and you reached Tier II. You can now gain Tier II cards from the Storm Cloud, which are stronger.	你的力量溢出，达到了II阶。现在你可以从风暴云获得更强的II阶牌了。
+Your Move	轮到你了
+Anyway, let’s play a card. Tap Power Gem, and then tap “Play face-down”.	总之，我们来出一张牌吧。点击力量宝石，然后点击“面朝下打出”。
+Okay so this card gives you +1 Power, and then it lets you gain a card from the Storm Cloud. Cards you gain typically go to your hand, but Power Gem makes you discard the new card right away.	好，这张牌给你+1力量，然后让你从风暴云获得一张牌。获得的牌通常进入手牌，但力量宝石会让你立刻弃置这张新牌。
+Some cards have a Discard Effect, which triggers when the card is discarded. That Diamond there says, Discard Effect: +1 Power. So if we buy that, we’ll immediately get another power. Let’s do that!	有些牌有弃置效果，在牌被弃置时触发。那张钻石写着：弃置效果：+1力量。所以如果我们拿它，就能立刻再获得一点力量。就这么办！
+That game code is already in use. Please try hosting again.	该游戏代码已被使用。请重新创建游戏。
+Couldn’t find that game. Check the code, and make sure your friend is still hosting.	找不到该游戏。请检查代码，并确认你的朋友仍在创建的游戏中。
+Couldn’t reach the matchmaking service. Check your internet connection and try again.	无法连接匹配服务。请检查网络连接后重试。
+Couldn’t connect (	无法连接（
+unknown error	未知错误
+). Please try again.	）。请重试。
+Couldn’t reach the host. Check the code, and make sure your friend is still hosting.	无法连接到主机。请检查代码，并确认你的朋友仍在创建的游戏中。
+Online play isn’t available in this view. Make sure you’re signed in to Claude and opening Spellstorm from its claude.ai link.	此视图中无法进行在线对战。请确认你已登录Claude，并通过claude.ai链接打开法术风暴。
+Copy invite link	复制邀请链接
+or have them enter the code	或者让对方输入代码
+Online play lobby	在线对战大厅
+Choose your wizard	选择你的巫师
+Leave lobby	离开大厅
+Enter the 6-character code.	输入6位代码。
+Your opponent disconnected. Waiting for them to come back…	对手已断开连接。正在等待对方回来…
+Online match against {c}. Online matches aren’t recorded.	与{c}的在线对战。在线对战不会被记录。
+Back to title	返回标题
+win on health	以生命取胜
+win on Storm Shards	以风暴碎片取胜
+build Power	积累力量
+stay alive	保住性命
+You’re at Tier {s} with {0} Power.	你目前是{s}阶，拥有{0}点力量。
+You’re at {0}/{0} health.	你的生命为{0}/{1}。
+Wins the reveal: {s}.	赢下展示：{s}。
+Reveal: {s}. Countering draws a card, and cards in hand are your Blast Score.	展示：{s}。克制可以抽一张牌，手牌数就是你的冲击分。
+Heals about {0} this round.	本轮约回复{0}点生命。
+You take about {0} damage this round.	本轮你约受到{0}点伤害。
+Expert Tip	专家提示
+The Expert is thinking	专家正在思考
+Expert’s play	专家的出牌
+Nearly as good	几乎一样好
+Plan: {s}.	计划：{s}。
+Opening round.	开局回合。
+There’s not much to plan around yet, so this is mostly about winning the reveal.	现在还没什么可规划的，所以主要是赢下展示。
+Expert plays out each card against {c}’s likely plays, through to the end of the battle, and scores the result with its plan in mind.	专家会针对{c}可能的出牌推演每张牌直到战斗结束，并结合其计划为结果打分。
+The Expert would	专家会
+You took {c}.	你拿了{c}。
+You gained {c}.	你获得了{c}。
+You skipped the gain.	你跳过了获得。
+You used your Ultimate!	你使用了绝招！
+You saved your mana.	你保留了法力。
+You chose Yes.	你选择了“是”。
+You chose No.	你选择了“否”。
+You chose yourself.	你选择了自己。
+You chose {s}.	你选择了{s}。
+This replay went out of sync at decision {0} (turn {0}), so it stops here. Please use Export match so Keith can look into it.	此回放在第{0}个决策（第{1}回合）处不同步，因此在此停止。请使用“导出对战”，以便Keith调查。
+it was recorded on an older version of Spellstorm ({s}), and updates since then change how it plays out.	它是在旧版法术风暴（{s}）中录制的，之后的更新改变了它的进行方式。
+it was recorded before replays saved the bots’ choices, so an update to the bots changes how it plays out.	它录制于回放开始保存电脑选择之前，因此电脑的更新改变了它的进行方式。
+First Edition	第一版
+Match file ready	对战文件已就绪
+Send to Keith	发送给Keith
+Copy to clipboard	复制到剪贴板
+Download file	下载文件
+▶ Replay	▶ 回放
+Switch player	切换玩家
+Watching a replay…	正在观看回放…
+💡 Expert Tip	💡 专家提示
+💡 Tip	💡 提示
+Hidden Movement: set a Trap.	隐秘行动：设置一张陷阱。
+Glittering Dust is out.	闪光尘埃已登场。
+Earth cards do nothing this round except heal 2.	本轮土牌除了回复2点生命外没有效果。
+You’ve been eliminated. Your team plays on…	你已被淘汰。你的队伍继续作战…
+You’ve been eliminated. The match plays on…	你已被淘汰。对战继续…
+This card’s element:	此牌的元素：
+This card has a discard effect.	此牌有弃置效果。
+Discard effect:	弃置效果：
+Tier IV Dragon	IV阶龙
+Special card	特殊牌
+In your deck	在你的牌库中
+Select {0}.	选择{0}张。
+Select {0} to {0}.	选择{0}到{1}张。
+Select up to {0}.	最多选择{0}张。
+Your discard pile	你的弃牌堆
+{c}’s discard pile	{c}的弃牌堆
+How a game goes	游戏流程
+This is the short version.	这是简要版。
+Read the full rulebook	阅读完整规则书
+Spellstorm on BoardGameGeek	法术风暴（BoardGameGeek）
+Reach 8 Storm Shards, or bring your opponent to 0 health.	获得8块风暴碎片，或将对手的生命降至0。
+Free-for-All (3–4 players)	混战（3–4名玩家）
+An optional setting: every wizard has 50% more health (rounded), and you need 12 Storm Shards to win instead of 8.	可选设置：每位巫师的生命增加50%（四舍五入），获胜需要12块风暴碎片而非8块。
+Co-op vs Robot Boy and Two-on-Two	合作对抗机器男孩与二对二
+You only deal damage, and give ICE, ASH and CURSE, to the other side. When you heal, you may heal an ally instead. You counter the next	你只会对另一方造成伤害、给予寒冰、灰烬和诅咒。回复生命时，你可以改为治疗盟友。你克制顺时针方向的下一名
+clockwise, skipping allies. If anyone on a team wins, the whole team wins, and a team keeps playing when a member is eliminated.	对手（跳过盟友）。队伍中任何人获胜即全队获胜，有队员被淘汰时队伍继续作战。
+Page {0} of {0}	第{0}/{1}页
+Spellstorm Rulebook	法术风暴规则书
+Leave online match	离开在线对战
+Sending…	正在发送…
+Your report was saved. It will be collected into the project’s problem-report file.	你的报告已保存，将被汇总到项目的问题报告文件中。
+Send your report by email	通过电子邮件发送报告
+The full report has been copied to your clipboard. Tap below to open an email to the developer, then paste it in if it’s cut short.	完整报告已复制到剪贴板。点击下方打开写给开发者的邮件；如果内容被截断，请粘贴进去。
+Open email	打开邮件
+Or email it yourself to {s}.	或者自行发送邮件至{s}。
+by collecting 8 Storm Shards	收集8块风暴碎片
+by bringing their rival to 0 health	将对手的生命降至0
+on the tiebreak	通过平局决胜
+Next up:	下一位：
+. Your progress is saved.	。你的进度已保存。
+TOURNAMENT CHAMPION!	锦标赛冠军！
+You beat all 7 opponents on {c}. Your trophy is on the Stats screen.	你在{c}难度下击败了全部7名对手。你的奖杯在统计界面中。
+TOURNAMENT OVER	锦标赛结束
+{c} ended your run. You defeated {0} of 7 opponents.	{c}终结了你的挑战。你击败了7名对手中的{0}名。
+Ranked lobby	排位大厅
+For this tutorial round, play Power Gem.	在这一轮教程中，请打出力量宝石。
+Play face-down	面朝下打出
+Your progress is synced.	你的进度已同步。
+Sign out?	退出登录？
+Your progress stays safe in your account. This device goes back to a fresh guest profile, and signing in again brings everything back.	你的进度会安全地保存在账户中。此设备将恢复为全新的访客档案，再次登录即可恢复一切。
+Sign out	退出登录
+Signing out…	正在退出登录…
+Signed out.	已退出登录。
+Progress reset	进度已重置
+Abandon tournament?	放弃锦标赛？
+Your progress ({0}/7 as {c}) will be lost.	你的进度（以{c}取得{0}/7）将会丢失。
+Keep going	继续
+Exit tournament?	退出锦标赛？
+This ends your tournament run ({0}/7 as {c}). You can start a new one any time.	这将结束你的锦标赛挑战（以{c}取得{0}/7）。你随时可以开始新的挑战。
+Exit tournament	退出锦标赛
+You’re signed in, so this also erases the progress saved in your account.	你已登录，因此这也会清除你账户中保存的进度。
+All data wiped	所有数据已清除
+Resign this match?	认输此局？
+It counts as a loss. Your saved match will be cleared.	这将算作失败。你保存的对战将被清除。
+It counts as a loss, and it ends your tournament run. Your saved match will be cleared.	这将算作失败，并结束你的锦标赛挑战。你保存的对战将被清除。
+Keep playing	继续游戏
+Invite link copied — send it to your friend.	邀请链接已复制——发给你的朋友吧。
+Copy this invite link:	复制此邀请链接：
+You left the online lobby. You can play a normal game any time.	你已离开在线大厅。你随时可以进行普通游戏。
+Choose a file or paste the match text first.	请先选择文件或粘贴对战文本。
+That file is too big to be a Spellstorm replay.	该文件太大，不可能是法术风暴回放。
+That file couldn’t be opened.	无法打开该文件。
+Match file copied — paste it into a message to Keith.	对战文件已复制——请粘贴到发给Keith的消息中。
+Downloading the match file…	正在下载对战文件…
+Sent to Keith. Thank you!	已发送给Keith。谢谢！
+Start a new tournament?	开始新的锦标赛？
+End this run	结束本次挑战
+Tournament ended. Start a new one whenever you like.	锦标赛已结束。你可以随时开始新的锦标赛。
+Back to choices	返回选择
+Single-player opponent from the rulebook: no hand, Blast Tokens instead, and an automatic Ultimate. Easy, Medium or Hard sets his starting Power.	规则书中的单人对手：没有手牌，改用冲击标记，绝招自动发动。简单、中等或困难决定他的起始力量。
+Fire & Earth. Strong early aggression, builds power steadily. Great first pick.	火与土。前期攻势强劲，稳步积累力量。新手首选。
+Fire & Water. Aggressive saboteur who clogs your deck with ICE and CURSE.	火与水。用寒冰和诅咒塞满你牌库的激进破坏者。
+Water & Earth. Researches new powers every time she levels up.	水与土。每次升级都会研究新能力。
+Fire & Water. Huge health, can’t heal, grows stronger with DOOM.	火与水。生命极高，无法回复，随末日之力变强。
+Fire & Water. Low health, lots of blocking and hidden traps.	火与水。生命较低，擅长格挡和暗设陷阱。
+Water & Earth. Tiny health, heals fast and past his limit.	水与土。生命很少，回复迅速且能超出上限。
+Fire & Earth. Pushes his luck with a volatile potion deck.	火与土。靠一副不稳定的药水牌堆碰运气。
+Fire & Earth. Hacker who steals plays with Energy.	火与土。用能量窃取对手出牌的黑客。
+Tournament in progress as	锦标赛进行中，使用
+Tournament: {0}/7 wins	锦标赛：{0}/7胜
+You’ll get a random wizard.	你将获得一位随机巫师。
+You’ll get a random wizard for this tournament.	本次锦标赛你将获得一位随机巫师。
+Your opponent will be random.	你的对手将是随机的。
+Fight {c}	挑战{c}
+Exit Tournament	退出锦标赛
+New tournament	新锦标赛
+Starting a new match replaces your saved match in progress.	开始新对战将替换你已保存的进行中对战。
+Forfeit and play a new match	认输并开始新对战
+You have a ranked match in progress. Starting a new one counts that match as a loss.	你有一场进行中的排位赛。开始新对战会将那场算作失败。
+Recent matches	最近对战
+Your abandoned ranked match counted as a loss ({s}).	你放弃的排位赛已计为失败（{s}）。
+Finding an opponent	正在寻找对手
+Searching near Elo {0}	正在搜索Elo {0}附近的对手
+Opponent found!	找到对手！
+Win by collecting Storm Shards.	收集风暴碎片获胜。
+Win within {0} battles.	在{0}场战斗内获胜。
+Win and finish with at least {0} health.	获胜并以至少{0}点生命结束。
+Long Match (+50% health, 12 Storm Shards to win)	长局（生命+50%，12块风暴碎片获胜）
+you start with the Initiative	你开局拥有先手
+your opponent starts with the Initiative	你的对手开局拥有先手
+your opponent	你的对手
+you start with {0} extra health	你开局额外拥有{0}点生命
+you start with {0} less health	你开局少{0}点生命
+your opponent starts with {0} extra health	你的对手开局额外拥有{0}点生命
+your opponent starts with {0} less health	你的对手开局少{0}点生命
+You lost the match.	你输掉了这局。
+The idea: {s}.	思路：{s}。
+{c} will play:	{c}将会打出：
+Everything in a puzzle plays out the same way every time.	谜题中的一切每次都会以相同方式进行。
+Let’s go	出发
+Solved! ✓	已解开！✓
+Puzzle {0},	谜题 {0}，
+The idea:	思路：
+That was the last puzzle. Well done!	这是最后一道谜题。干得好！
+Next puzzle	下一道谜题
+All puzzles	所有谜题
+Not quite	还差一点
+Try again	再试一次
+Couldn’t reach the sync service. Check your internet connection.	无法连接同步服务。请检查网络连接。
+Wrong email or password.	邮箱或密码错误。
+An account with that email already exists. Try signing in.	该邮箱已有账户。请尝试登录。
+Passwords need at least 6 characters.	密码至少需要6个字符。
+That email address doesn’t look right.	该邮箱地址似乎不正确。
+Please check what you entered.	请检查你输入的内容。
+Please confirm your email address first (check your inbox), then sign in.	请先确认你的邮箱地址（查看收件箱），然后登录。
+Too many emails sent. Please wait a few minutes and try again.	发送的邮件过多。请等待几分钟后重试。
+Too many attempts. Please wait a minute and try again.	尝试次数过多。请等待一分钟后重试。
+New accounts are turned off at the moment.	目前暂停注册新账户。
+Something went wrong. Please try again.	出了点问题。请重试。
+Not signed in.	未登录。
+Your sign-in expired. Please sign in again.	你的登录已过期。请重新登录。
+Couldn’t save your progress because another device kept changing it. It will retry.	由于另一台设备不断修改，无法保存你的进度。将会重试。
+Syncing…	正在同步…
+Not synced yet	尚未同步
+Synced just now	刚刚已同步
+Synced {0} min ago	{0}分钟前已同步
+This device’s progress was combined with your account.	此设备的进度已与你的账户合并。
+Sync failed. It will retry.	同步失败。将会重试。
+Steam Cloud:	Steam 云：
+Log in to Reddit to save your progress to your account. For now it's saved in this browser only.	登录Reddit即可将进度保存到你的账户。目前仅保存在此浏览器中。
+☁ Steam Cloud is on: your progress is saved to Steam automatically and follows you to any computer or Steam Deck you play on.	☁ Steam 云已开启：你的进度会自动保存到Steam，并随你同步到任何电脑或Steam Deck。
+Steam Cloud is turned off for Spellstorm in your Steam settings, so progress is saved on this computer only. Turn it on in Steam (Spellstorm › Properties › General) to back it up.	你在Steam设置中为法术风暴关闭了Steam云，因此进度仅保存在此电脑上。在Steam中开启（法术风暴 › 属性 › 通用）即可备份。
+Optional: a Spellstorm account also syncs your progress with the phone and browser versions.	可选：法术风暴账户还能将你的进度与手机版和网页版同步。
+Sign in or create a Spellstorm account	登录或创建法术风暴账户
+Signed in as	已登录为
+Sync now	立即同步
+Sign in to keep your progress in sync on all your devices.	登录即可在所有设备上同步你的进度。
+Sign in or create an account	登录或创建账户
+Account created. Check your email to confirm it, then sign in.	账户已创建。请查收邮件进行确认，然后登录。
+Couldn’t sign in. Please try again.	无法登录。请重试。
+vs Robot Boy	对机器男孩
+by Storm Shards	以风暴碎片
+by health	以生命
+by resignation	因对手认输
+You ({c})	你（{c}）
+Last {0} matches	最近{0}场对战
+Average length	平均时长
+Most played	最常使用
+Matches saved	已保存对战
+Tournament in progress: {0}/7 as {c} ({c}).	锦标赛进行中：以{c0}（{c1}）取得{0}/7。
+Your Spellstorm account	你的法术风暴账户
+Sign in on each device to keep your stats, history, Ranked ratings, achievements and settings in sync. Replays stay on the device that played them.	在每台设备上登录，即可同步你的统计、历史、排位分数、成就和设置。回放会保留在录制它的设备上。
+Sign in	登录
+Create account	创建账户
+Forgot your password?	忘记密码？
+Please enter your email address.	请输入你的邮箱地址。
+Signed in — this device’s progress was combined with your account.	已登录——此设备的进度已与你的账户合并。
+Account created — your progress now syncs.	账户已创建——你的进度现在会同步。
+Signed in — your progress now syncs.	已登录——你的进度现在会同步。
+Enter your email address above, then tap “Forgot your password?” again.	在上方输入你的邮箱地址，然后再次点击“忘记密码？”。
+If that email has an account, a password-reset link is on its way.	如果该邮箱有账户，重置密码的链接已发出。
+Choose a new password	设置新密码
+New password	新密码
+Save password	保存密码
+Password changed. You’re signed in.	密码已更改。你已登录。
+Welcome to Spellstorm!	欢迎来到法术风暴！
+Do you want to play an interactive tutorial? (You can also read the rules in the menu, or play the tutorial later via the Tutorial button.)	要玩一个互动教程吗？（你也可以在菜单中查看规则，或稍后通过“教程”按钮进行教程。）
+Play the tutorial	进行教程
+Not now	暂不
+Long Match: every wizard has 50% more health, and {0} Storm Shards win.	长局：每位巫师的生命增加50%，{0}块风暴碎片获胜。
+Match resumed at battle {0}, round {0}.	对战已从第{0}场战斗第{1}轮恢复。
+Online match: you play {c} against {c}.	在线对战：你使用{c0}对抗{c1}。
+Ranked match: you play {c} against {s} (Elo {0}), who plays {c}.	排位赛：你使用{c0}对抗{s}（Elo {0}），对方使用{c1}。
+Two-on-Two: you and {c} against {c} and {c}.	二对二：你和{c0}对抗{c1}和{c2}。
+Something went wrong	出了点问题
+Thanks for playing!	感谢游玩！
+A browser tab can’t be closed by the page itself, so close this tab whenever you like. In the desktop and phone apps, Exit will quit the game.	浏览器标签页无法由页面自行关闭，请随时手动关闭此标签页。在桌面版和手机版中，“退出”会关闭游戏。
+A friend	一位朋友
+is waiting for an opponent in Spellstorm.	正在法术风暴中等待对手。
+Couldn’t check for updates. Check your internet connection and try again.	无法检查更新。请检查网络连接后重试。
+The update didn’t work.	更新失败。
+Checking for updates…	正在检查更新…
+Version {s} is available.	版本{s}可用。
+You have {s}.	你当前是{s}。
+Downloading version {s}… {0}%	正在下载版本{s}… {0}%
+Tap Install	点击“安装”
+on Android’s screen. Spellstorm opens again with version {s}.	（在安卓界面上）。法术风暴将以版本{s}重新打开。
+Restarting with version {s}…	正在以版本{s}重启…
+You have the latest version ({s}).	你已是最新版本（{s}）。
+You have version {s}.	你当前是版本{s}。
+Sift: no cards left in the deck to look at.	筛选：牌库中没有可查看的牌。
+Sift: choose cards from the top of your deck to discard. The rest stay on top.	筛选：选择牌库顶要弃置的牌。其余的留在牌库顶。
+Diamond: discard exactly 3 cards.	钻石：恰好弃置3张牌。
+Shatter: no cards in hand to VOID.	粉碎：手中没有可放逐的牌。
+Shatter: VOID up to 2 cards from your hand. Power Up for each.	粉碎：从手牌中放逐至多2张牌。每放逐一张获得1点力量。
+Meteorite: the Storm Cloud is empty.	陨石：风暴云是空的。
+Take 1 damage, draw 1	受到1点伤害，抽1张牌
+Take 2 damage, draw 2	受到2点伤害，抽2张牌
+Bloodstone: you may take 1 or 2 damage, then draw that many cards.	血石：你可以受到1或2点伤害，然后抽相同数量的牌。
+Bloodstone: you may VOID a card from your hand or discard pile.	血石：你可以从手牌或弃牌堆中放逐一张牌。
+Lava Bat: no Fire cards in any discard pile to move.	熔岩蝙蝠：任何弃牌堆中都没有可移动的火牌。
+Lava Bat: move it to which opponent’s discard pile?	熔岩蝙蝠：将它移到哪名对手的弃牌堆？
+Ruby: no Fire cards and nothing to VOID.	红宝石：没有火牌，也没有可放逐的牌。
+Ruby: choose a card to VOID.	红宝石：选择一张牌放逐。
+{c} didn't have 2 mana to lose.	{c}没有2点法力可失去。
+The Lantern goes out.	灯笼熄灭了。
+Mana Font: no Water card to discard.	法力之泉：没有可弃置的水牌。
+Mana Font: discard a Water card. If you did, gain 3 mana.	法力之泉：弃置一张水牌。若你这样做，获得3点法力。
+Mana Font: no Water card in the Storm Cloud.	法力之泉：风暴云中没有水牌。
+Flame: no other Fire card in hand to resolve.	火焰：手中没有其他可结算的火牌。
+Crossfire: deal 3 damage to which opponent?	交叉火力：对哪名对手造成3点伤害？
+Fireball: no Initiative, no extra damage.	火球术：没有先手，没有额外伤害。
+Ice Flume: you may VOID an ICE from your hand or discard pile.	冰之滑道：你可以从手牌或弃牌堆中放逐一张寒冰。
+Lapis: you may discard up to 2 cards. Heal 1 for each Water card discarded.	青金石：你可以弃置至多2张牌。每弃置一张水牌，回复1点生命。
+Leap: no opponent revealed Fire, so no VOID.	跳跃：没有对手展示火牌，所以不能放逐。
+Ultimate: you may VOID an Earth card from your hand to gain 3 mana.	绝招：你可以从手牌中放逐一张土牌来获得3点法力。
+Wind Dragon: no cards in hand to resolve.	疾风之龙：手中没有可结算的牌。
+Wind Dragon: no card in hand to resolve.	疾风之龙：手中没有可结算的牌。
+Distributor Connection: gains Earth Essence into their discard.	经销渠道：将土之精华获得至其弃牌堆。
+Always Already: gives all players an ICE.	早已如此：给予所有玩家一张寒冰。
+Doom Bauble: give it to which opponent?	末日小球：把它给哪名对手？
+Draw 2. Discard the next Weather card.	抽2张牌。弃置下一张天气牌。
+Draw 1. If you reveal Earth this round, gain 1 power.	抽1张牌。若你本轮展示了土牌，获得1点力量。
+Draw 1. Each player may VOID an ASH, CURSE or ICE from hand or discard.	抽1张牌。每名玩家可以从手牌或弃牌堆中放逐一张灰烬、诅咒或寒冰。
+Draw 1. After cards resolve, players may use their Ultimate.	抽1张牌。牌结算后，玩家可以使用其绝招。
+Draw 2. Earth cards do nothing when resolved but Heal 2.	抽2张牌。土牌结算时没有效果，改为回复2点生命。
+Draw 2, gain 2 power.	抽2张牌，获得2点力量。
+Draw 2, gain 1 mana. All players randomly discard 2 cards.	抽2张牌，获得1点法力。所有玩家随机弃置2张牌。
+{c}: no cards in hand or discard to VOID.	{c}：手牌和弃牌堆中没有可放逐的牌。
+VOID a {c} from your hand or discard pile.	从手牌或弃牌堆中放逐一张{c}。
+The Dragon deck is empty: deal 2 damage and gain 2 Storm Shards.	龙牌堆已空：造成2点伤害并获得2块风暴碎片。
+an Earth card of your Tier or lower	一张不高于你阶级的土牌
+a Fire card of your Tier or lower	一张不高于你阶级的火牌
+a Water card of your Tier or lower	一张不高于你阶级的水牌
+a card	一张牌
+Use {c} without paying mana? ({s})	不支付法力使用{c}？（{s}）
+Use {c} for {0} mana? ({s})	花费{0}点法力使用{c}？（{s}）
+{c} have an unplayable hand — discard it, take 1 damage and draw 4.	{c}的手牌无法打出——弃置全部手牌，受到1点伤害并抽4张牌。
+{c} has an unplayable hand — discard it, take 1 damage and draw 4.	{c}的手牌无法打出——弃置全部手牌，受到1点伤害并抽4张牌。
+{c}: Got +1 health and drew +1 card from cheating.	{c}：作弊获得了+1生命并多抽了1张牌。
+Gain Spell: take one card from the Storm Cloud, or a free special card.	获得法术：从风暴云拿一张牌，或者免费拿一张特殊牌。
+Give a chosen opponent a CURSE. You may draw up to one card from your discard for each DOOM Token you have.	给予一名指定对手一张诅咒。你每有一个末日标记，可以从弃牌堆抽至多一张牌。
+Potion Gun: no non-Wizard card to give.	药水枪：没有可给出的非巫师牌。
+Potion Gun: which opponent?	药水枪：哪名对手？
+{c} is VOIDED — Robot Boy can’t keep it.	{c}被放逐——机器男孩无法保留它。
+Potion Gun: you may give a non-Wizard card from your hand to your opponent’s hand, gaining 2 of its Element.	药水枪：你可以将手牌中一张非巫师牌交给对手（加入其手牌），并获得2点该牌的元素。
+No change	无变化
+no change	无变化
+Unstable Formula: lower one of your Elements by 2 to raise another by 2. (Fire {0}, Earth {0}, Water {0})	不稳定配方：将你的一种元素降低2，以将另一种提升2。（火{0}，土{1}，水{2}）
+Unstable Formula: lower one of {c}’s Elements by 2 to raise another by 2. (Fire {0}, Earth {0}, Water {0})	不稳定配方：将{c}的一种元素降低2，以将另一种提升2。（火{0}，土{1}，水{2}）
+Beetle Buster: which player takes 3 damage?	甲虫克星：哪名玩家受到3点伤害？
+Beetle Buster: you may discard a Fire card from your hand to deal 2 damage.	甲虫克星：你可以从手牌中弃置一张火牌来造成2点伤害。
+Cancel an opponent’s revealed card — they discard it and draw	取消一名对手展示的牌——对方弃置它并抽一张牌
+Shuriken: cancel whose card?	手里剑：取消谁的牌？
+No DOOM Tokens — Sinking Strike deals no damage.	没有末日标记——沉没打击不造成伤害。
+Deep Gems: no Power to lose.	深海宝石：没有力量可失去。
+Deep Gems: lose 1 Power to resolve a Water card from the Storm Cloud, then VOID it?	深海宝石：失去1点力量来结算风暴云中的一张水牌，然后放逐它？
+Deep Gems: choose a Water card in the Storm Cloud to resolve, then VOID.	深海宝石：选择风暴云中的一张水牌结算，然后放逐。
+Star Shot: no other Fire card in hand.	星辰射击：手中没有其他火牌。
+Star Shot: you may lose 2 Energy Tokens to resolve a different Fire card from your hand.	星辰射击：你可以失去2个能量标记，以结算手牌中另一张火牌。
+Data Breach: which opponent?	数据泄露：哪名对手？
+Data Breach: {s} hand is empty.	数据泄露：{s}手牌为空。
+Data Breach: choose a card from your opponent’s hand for them to discard.	数据泄露：从对手的手牌中选择一张让其弃置。
+Data Breach: lose 1 or 2 Energy to Power Up that many times. (You have {0}.)	数据泄露：失去1或2点能量，获得相应次数的力量。（你有{0}点。）
+Lose 1	失去1
+Lose 2	失去2
+Did Her Research: gains 1 Power at every battle start, plus any powers researched in her Journal.	做足功课：每场战斗开始时获得1点力量，并发动她日志中已研究的能力。
+All six Research Tokens are already placed.	六个研究标记都已放置。
+Accursed: can never heal. Whenever he would heal, he gives 1 CURSE instead.	受诅者：永远无法回复生命。每当他要回复生命时，改为给予1张诅咒。
+DOOOOOOOM!: give which opponent a CURSE?	末——日——！：给哪名对手一张诅咒？
+DOOOOOOOM! You may draw up to {0} card from your discard (one per DOOM Token).	末——日——！你可以从弃牌堆抽至多{0}张牌（每个末日标记一张）。
+DOOOOOOOM! You may draw up to {0} cards from your discard (one per DOOM Token).	末——日——！你可以从弃牌堆抽至多{0}张牌（每个末日标记一张）。
+Has 3 hidden Traps. His Ultimate sets one face-down.	拥有3张隐藏陷阱。他的绝招会面朝下设置其中一张。
+Return a card from your discard to your hand or draw. Set a Trap face-down (not the same one twice in a row).	将弃牌堆中的一张牌收回手牌，或抽一张牌。面朝下设置一张陷阱（不能连续两次设置同一张）。
+Set a Trap face-down. It replaces your current Trap.	面朝下设置一张陷阱。它将替换你当前的陷阱。
+Double Stitch: can heal up to 10 health. Triple Stitch: healing at 10 draws a card per point instead.	双重缝补：生命最多可回复到10。三重缝补：生命为10时，每1点治疗改为抽一张牌。
+Cast a Magic Trick!: no non-Wizard card in hand to cast.	变个魔术！：手中没有可施放的非巫师牌。
+Chemist: Fire, Earth and Water Elements start at 3 (max 6) and pay for potions.	化学家：火、土、水元素开局各为3（最多6），用于支付药水消耗。
+Third TOXIC potion! The Ultimate ends — gain an ASH, a CURSE and an ICE.	第三瓶有毒药水！绝招结束——获得一张灰烬、一张诅咒和一张寒冰。
+Oren drank {0} potion. Elements reset to 3.	奥伦喝了{0}瓶药水。元素重置为3。
+Oren drank {0} potions. Elements reset to 3.	奥伦喝了{0}瓶药水。元素重置为3。
+Oren drank {0} potions and hit a third TOXIC. Elements reset to 3.	奥伦喝了{0}瓶药水，喝到了第三瓶有毒药水。元素重置为3。
+Energize: starts with 2 Energy (max 3). Dangerous Download: at round end, may spend 1 Energy and 1 mana to resolve the opponent’s revealed Tier II card.	充能：开局拥有2点能量（最多3点）。危险下载：在每轮结束时，可以花费1点能量和1点法力来结算对手展示的II阶牌。
+Void Traveler: no card in hand or the VOID to resolve.	虚空旅者：手牌和虚空中都没有可结算的牌。
+Triple Stitch: {c} draw {0} for wasted healing.	三重缝补：{c}因溢出的治疗抽{0}张牌。
+Triple Stitch: {c} draws {0} for wasted healing.	三重缝补：{c}因溢出的治疗抽{0}张牌。
+Reveal Dodge!? The first 2 damage you take this round is negated.	展示闪避！？你本轮受到的前2点伤害被抵消。
+Dodge! negates {0} damage.	闪避！抵消了{0}点伤害。
+Journal: you may draw a Fire card from your discard to your hand.	日志：你可以从弃牌堆中拿一张火牌到手牌。
+{c} take {c} from the discard into hand.	{c0}从弃牌堆中将{c1}拿到手牌。
+{c} takes {c} from the discard into hand.	{c0}从弃牌堆中将{c1}拿到手牌。
+Journal: you may VOID a card from your hand.	日志：你可以从手牌中放逐一张牌。
+Journal: you may move an ICE, ASH or CURSE from your discard to your opponent’s discard.	日志：你可以将弃牌堆中的一张寒冰、灰烬或诅咒移到对手的弃牌堆。
+Journal: move it to which opponent?	日志：移给哪名对手？
+Dangerous Download: you may spend 1 Energy and 1 mana to resolve another player’s revealed Tier II card.	危险下载：你可以花费1点能量和1点法力来结算另一名玩家展示的II阶牌。
+No effect	没有效果
+win by damage	以伤害取胜
+win the Blast race	赢下冲击之争
+build up Power	积累力量
+play defensively	稳守
+Mode Switch: one card face-up and one face-down on his card. No Traction: loses a Blast Token whenever he reveals an ICE.	模式切换：他的卡上有一张面朝上、一张面朝下的牌。打滑：每当他展示寒冰时，失去一个冲击标记。
+Resolve the face-up, then the face-down card on his card, discard both, then draw a new pair.	先结算他卡上面朝上的牌，再结算面朝下的牌，弃置两者，然后抽取新的一对。
+Robot Boy resolves {c}!	机器男孩结算{c}！
+Reader: studies more of your possible plays and weighs the worst case at the reveal.	读心者：研究你更多可能的出牌，并在展示时权衡最坏情况。
+Gambler: erratic and much more random, occasionally brilliant.	赌徒：反复无常，随机得多，偶尔神来之笔。
+Dragon Chaser: rushes Tier III and the Dragons.	逐龙者：急攻III阶和龙。
+Win within {0} turns.	在{0}回合内获胜。
+Survive this turn.	撑过本回合。
+Survive the next {0} turns.	撑过接下来的{0}回合。
+Reach Tier {s} this turn.	在本回合达到{s}阶。
+Win this battle’s Blast Score.	赢下本场战斗的冲击分。
+← → Adjust	← → 调整
+◀ ▶ Adjust	◀ ▶ 调整
+Fit page	适应页面
+Exit replay	退出回放
+no target	无目标
+# attributes
+About First Edition Balance	关于第一版平衡
+Battle	战斗
+Beat {c} on Normal, Hard or Expert	在普通、困难或专家难度下击败{c}
+Chemistry Board Elements	化学板元素
+Counter wheel	克制轮
+Counter wheel: Fire beats Earth, Earth beats Water, Water beats Fire	克制轮：火克土，土克水，水克火
+DOOM Tokens	末日标记
+Discard effect: happens when this card is discarded from your hand, including at the Blast.	弃置效果：当此牌从你的手牌中被弃置时发动，包括在冲击时。
+Draw a card.	抽一张牌。
+Earth. Earth beats Water; Fire beats Earth.	土。土克水；火克土。
+Edition	版本
+Energy Tokens	能量标记
+Fire. Fire beats Earth; Water beats Fire.	火。火克土；水克火。
+Gain a card: take a card from the Storm Cloud at or below your Tier.	获得一张牌：从风暴云中拿取一张不高于你阶级的牌。
+Has the Initiative	拥有先手
+Health {0} of {0}	生命 {0}/{1}
+Health {0} of {0} (can heal to {0})	生命 {0}/{1}（可回复到{2}）
+Initiative: the player with the Initiative resolves their card first.	先手：拥有先手的玩家先结算其牌。
+Join the Spellstorm Discord	加入法术风暴Discord
+Main menu	主菜单
+Mana +{0}: gain {0} mana. Mana pays for your wizard’s {c}.	法力 +{0}：获得{1}点法力。法力用于支付你巫师的{c}。
+Mana {0}. {c} costs {0} mana.	法力 {0}。{c}消耗{1}点法力。
+Mute sound	静音
+None left: the board effect applies	已无剩余：施加盘面效果
+Power +{0}: gain {0} Power. Reaching {0} Power raises your Tier.	力量 +{0}：获得{1}点力量。力量达到{2}时提升你的阶级。
+Replay controls	回放控制
+Replay position	回放位置
+See the top Dragon	查看顶部的龙
+Sound off — click to unmute	声音已关——点击取消静音
+Sound on — click to mute	声音已开——点击静音
+Spellstorm	法术风暴
+Spellstorm Deck	法术风暴牌堆
+Spellstorm on Discord	法术风暴Discord
+Storm Shards — first to {0} wins	风暴碎片——先获得{0}块者获胜
+This card has a discard effect. It happens when this card is discarded from your hand, including at the Blast.	此牌有弃置效果。当此牌从你的手牌中被弃置时发动，包括在冲击时。
+This card’s element: Earth. Earth beats Water; Fire beats Earth.	此牌的元素：土。土克水；火克土。
+This card’s element: Fire. Fire beats Earth; Water beats Fire.	此牌的元素：火。火克土；水克火。
+This card’s element: Water. Water beats Fire; Earth beats Water.	此牌的元素：水。水克火；土克水。
+This potion’s effect happens twice	此药水的效果发动两次
+Tier I	I阶
+Tier I card: you can gain it from the Storm Cloud at any Tier.	I阶牌：你在任何阶级都可以从风暴云获得它。
+Tier I · Power {0} — reaching {0} raises your Tier	I阶 · 力量 {0}——达到{1}时提升阶级
+Tier II	II阶
+Tier II card: you can gain it once you reach Tier II.	II阶牌：你达到II阶后即可获得。
+Tier II · Power {0} — reaching {0} raises your Tier	II阶 · 力量 {0}——达到{1}时提升阶级
+Tier III	III阶
+Tier III card: you can gain it once you reach Tier III.	III阶牌：你达到III阶后即可获得。
+Tier III · Power {0} — reaching {0} raises your Tier	III阶 · 力量 {0}——达到{1}时提升阶级
+Tier IV: a Dragon.	IV阶：龙。
+Unmute sound	取消静音
+View {c}’s wizard card	查看{c}的巫师卡
+Water. Water beats Fire; Earth beats Water.	水。水克火；土克水。
+code	代码
+{0} cards in hand	手牌{0}张
+{0} left	剩余{0}
+{c} counter {c}	{c0}克制{c1}
+{c} counter {c} if the element beats it	若元素占优，{c0}克制{c1}
+{c} counters {c}	{c0}克制{c1}
+{c} counters {c} if the element beats it	若元素占优，{c0}克制{c1}
+{c}!	{c}！
+{c}: after this card resolves, you may use your wizard’s {c} if you have enough mana.	{c0}：此牌结算后，若你法力足够，可以使用你巫师的{c1}。
+{c}: {0} health, {0} shards, {0} cards	{c}：{0}生命，{1}碎片，{2}张牌
+# list parts (round summaries are split on "; " and ", ")
+{c}: {s}	{c}：{s}
++{0} card in hand	手牌+{0}
++{0} cards in hand	手牌+{0}
+−{0} card in hand	手牌−{0}
+−{0} cards in hand	手牌−{0}
+healed {0}	回复{0}
++{0} {c}	+{0}{c}
+−{0} {c}	−{0}{c}
