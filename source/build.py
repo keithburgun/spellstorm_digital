@@ -66,7 +66,11 @@ app = re.sub(r'<link href="https://fonts.googleapis.com[^>]*>', f'<style>{fonts}
 app = app.replace('</body>', rd('native_hooks.html') + '\n</body>', 1)
 app = app.replace('</head>', '<script>window.SS_SYNC=true;</script>\n</head>', 1)   # account sync: apps, itch.io and your own site (not claude.ai)
 assert 'fonts.googleapis' not in app and 'exitApp' in app
-wr('../www/index.html', app)
+# Desktop (Steam) and phone apps: online play peer-to-peer with a game code (PeerJS), like the standalone web version
+APPDETECT = "const onlInApp=()=>!!window.Capacitor||/[?&]v=/.test(location.search);"
+assert APPDETECT in app
+appw = app.replace(APPDETECT, "const onlInApp=()=>false;", 1).replace('</head>', '<script>window.SS_P2P=true;</script><script>' + rd('vendor/peerjs.min.js') + '</script>\n</head>', 1)
+wr('../www/index.html', appw)
 
 # ---- web packages for itch.io / your own website (both: fonts embedded, nothing loaded from the internet, account sync on) ----
 import zipfile

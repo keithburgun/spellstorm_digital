@@ -121,3 +121,9 @@ Expert difficulty	专家难度
 {c}, May {0}	5月{0}日（{c}）
 Final: you {0} health	最终：你 {0}生命
 {0} shards. {s}.	{0}碎片。{s}。
+You get a code to send your friend.	你会得到一个代码，发给你的朋友。
+Your game code:	你的游戏代码：
+Copy code	复制代码
+Send your friend this code. They open Spellstorm, choose Play Online, then Join a game, and enter it.	把这个代码发给你的朋友。他们打开 Spellstorm，选择“在线对战”，再选“加入游戏”，然后输入代码。
+Code copied — send it to your friend.	代码已复制，发给你的朋友吧。
+Your game code is {s}	你的游戏代码是 {s}

@@ -186,3 +186,9 @@
 1695	Final: você {0} de vida
 1696	{0} fragmentos. {s}.
 1069	🏆 {s}
+1697	Você recebe um código para enviar ao seu amigo.
+1698	Seu código de jogo:
+1699	Copiar código
+1700	Envie este código ao seu amigo. Ele abre o Spellstorm, escolhe Jogar online, depois Entrar em um jogo, e digita o código.
+1701	Código copiado: envie ao seu amigo.
+1702	Seu código de jogo é {s}

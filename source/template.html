@@ -1209,13 +1209,15 @@ function onlEd(){return ONL.role==='guest'&&ONL.host&&ONL.host.ed?ONL.host.ed:(O
 function onlWizTiles(){const ed=onlEd();return `<div class="tiles">${ROSTER.map(w=>`<button class="tile" data-a="olwiz" data-w="${w}" aria-pressed="${pickSel.me===w}"><i class="por ci-wz_${w}"></i><span><b>${RNAME[w]}</b>${wizInfo(w,ed).hp} health</span></button>`).join('')}</div>`;}
 function onlMenu(pre){openOv(`<h2>Play a friend online</h2><p>A simple 1-vs-1 match against ${window.SS_P2P?'a friend':'someone with access to this Spellstorm page'}. Online matches aren’t recorded in your stats.</p>
   <p class="lbl">Once you’re connected, you’ll both choose your wizards in the online play lobby.</p>
-  <div class="olgrid"><div><h3>Host a game</h3><p class="lbl">You get a link and a code to send your friend.${window.SS_P2P?'':' Hosting needs edit or Contributor access to this page.'}</p><button class="btn" data-a="olhost">Host a game</button></div>
+  <div class="olgrid"><div><h3>Host a game</h3><p class="lbl">${onlWeb()?'You get a link and a code to send your friend.':'You get a code to send your friend.'}${window.SS_P2P?'':' Hosting needs edit or Contributor access to this page.'}</p><button class="btn" data-a="olhost">Host a game</button></div>
   <div><h3>Join a game</h3><p class="lbl">Enter the code your friend sent you.</p><input id="olcode" class="olin" maxlength="6" placeholder="code" value="${esc(pre||'')}" autocomplete="off"> <button class="btn" data-a="oljoin">Join</button></div></div>
   <div class="acts"><button class="btn alt" data-a="close">Close</button></div>`);$('#sheet').classList.add('wide');}
+const onlWeb=()=>/^https?:$/.test(location.protocol);   // the desktop and phone apps have no shareable link, only the code
 function onlLink(){return window.SS_P2P?`${location.href.split('#')[0]}#join=${ONL.code}`:`${ONL_URL}#join=${ONL.code}`;}
 function onlLobby(msg){if(ONL.started)return;const host=ONL.role==='host',opp=host?ONL.guest:ONL.host,both=ONL.ready&&opp&&opp.ready&&opp.wiz;
   const slot=(lab,w,ready,here)=>`<div class="olslot${ready?' rdy':''}"><i class="por ci-wz_${w||'derby'}${w&&here?'':' dim'}"></i><div><b>${lab}</b><span>${here?(w?RNAME[w]:'Choosing…'):(host?'Waiting for your friend…':'Connecting to the host…')}</span><span class="olrdy">${here?(ready?'Ready ✓':'Not ready'):''}</span></div></div>`;
-  const invite=host?`<div class="olinvite"><button class="btn" data-a="olcopy">Copy invite link</button><span class="lbl">or have them enter the code <b>${ONL.code.toUpperCase()}</b></span>
+  const invite=host&&!onlWeb()?`<div class="olinvite"><span class="lbl">Your game code: <b style="font-size:1.5em;letter-spacing:.1em">${ONL.code.toUpperCase()}</b></span> <button class="btn" data-a="olcopy">Copy code</button>
+     <p class="lbl">Send your friend this code. They open Spellstorm, choose Play Online, then Join a game, and enter it.</p></div>`:host?`<div class="olinvite"><button class="btn" data-a="olcopy">Copy invite link</button><span class="lbl">or have them enter the code <b>${ONL.code.toUpperCase()}</b></span>
      <p class="lbl">${window.SS_P2P?'Send your friend the link: opening it joins this game. (Or they can choose Join a game and enter the code.)':'Your friend needs to be signed in to Claude, with access to this page (use Share to invite them). Opening your link joins this game; otherwise they’ll see your game waiting when they open Spellstorm.'}</p></div>`:'';
   openOv(`<h2>Online play lobby</h2>${msg?`<p class="olerr">${esc(msg)}</p>`:''}${invite}
    <p class="lbl">Rules: ${onlEd()===2?'2nd Edition Rebalance':'First Edition Balance'}${host?' (set by your setup option)':' (the host’s choice)'}</p>
@@ -1253,7 +1255,7 @@ function mirror(S0){const s=JSON.parse(JSON.stringify(S0)),sw=a=>Array.isArray(a
   if(s.over)s.over={...s.over,winner:fl(s.over.winner)};return s;}
 const IRREG={have:'has',are:'is',do:'does',go:'goes'};
 function third(v){if(/^[A-Z]+$/.test(v)||/ed$/.test(v))return v;if(IRREG[v])return IRREG[v];if(/(s|sh|ch|x|z)$/.test(v))return v+'es';if(/[^aeiou]y$/.test(v))return v.slice(0,-1)+'ies';return v+'s';}
-function guestLog(m){const H=WIZ[S.pl[0].wiz].short;return m.replace(/\bYou ([^.!?]*)/g,(x,rest)=>`${H} `+rest.replace(/^(\w+)/,v=>third(v)).replace(/\band (\w+)/g,(y,v)=>'and '+third(v))).replace(/\byou\b/g,H).replace(/\bYour\b/g,H+'’s').replace(/\byour\b/g,H+'’s');}
+function guestLog(m){const H=WIZ[S.pl[0].wiz].short;const om=/^Online match: you play (.+) against (.+)\.$/.exec(m);if(om)return `Online match: you play ${om[2]} against ${om[1]}.`;return m.replace(/\bYou ([^.!?]*)/g,(x,rest)=>`${H} `+rest.replace(/^(\w+)/,v=>third(v)).replace(/\band (\w+)/g,(y,v)=>'and '+third(v))).replace(/\byou\b/g,H).replace(/\bYour\b/g,H+'’s').replace(/\byour\b/g,H+'’s');}
 function onlPush(now){if(!ONL.on||ONL.role!=='host'||!ONL.started||!S)return;ONL.dirty=true;
   if(now){clearTimeout(ONL.wTimer);ONL.wTimer=null;onlWrite();return;}if(!ONL.wTimer)ONL.wTimer=setTimeout(()=>{ONL.wTimer=null;onlWrite();},300);}
 function onlWrite(){if(!ONL.dirty||!ONL.net)return;ONL.dirty=false;const R=ONL.pendingRemote;
@@ -1797,6 +1799,7 @@ document.addEventListener('click',e=>{
   if(a==='oljoin'){onlJoin(($('#olcode')||{}).value);return;}
   if(a==='olstart'){onlStart();return;}
   if(a==='olready'){ONL.ready=!ONL.ready;if(ONL.net)ONL.net.presence({ready:ONL.ready,wiz:pickSel.me});onlLobby();onlMaybeStart();return;}
+  if(a==='olcopy'&&!onlWeb()){const c=ONL.code.toUpperCase();(navigator.clipboard?navigator.clipboard.writeText(c):Promise.reject()).then(()=>toast('Code copied — send it to your friend.'),()=>toast('Your game code is '+c));return;}
   if(a==='olcopy'){const l=onlLink();(navigator.clipboard?navigator.clipboard.writeText(l):Promise.reject()).then(()=>toast('Invite link copied — send it to your friend.'),()=>{prompt('Copy this invite link:',l);});return;}
   if(a==='oljoinlobby'){closeOv();onlJoin(b.dataset.code);return;}
   if(a==='olcancel'){const was=ONL.on;onlLeave();closeOv();if(was){showTitle();toast('You left the online lobby. You can play a normal game any time.');}return;}

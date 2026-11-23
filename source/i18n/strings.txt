@@ -1696,3 +1696,9 @@
 1694	U	{c}, May {0}
 1695	U	Final: you {0} health
 1696	U	{0} shards. {s}.
+1697	U	You get a code to send your friend.
+1698	U	Your game code:
+1699	U	Copy code
+1700	U	Send your friend this code. They open Spellstorm, choose Play Online, then Join a game, and enter it.
+1701	U	Code copied — send it to your friend.
+1702	U	Your game code is {s}

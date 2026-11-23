@@ -186,3 +186,9 @@
 1695	Ergebnis: du {0} Leben
 1696	{0} Splitter. {s}.
 1069	🏆 {s}
+1697	Du bekommst einen Code für deinen Freund.
+1698	Dein Spielcode:
+1699	Code kopieren
+1700	Schick deinem Freund diesen Code. Er öffnet Spellstorm, wählt Online spielen, dann Einem Spiel beitreten, und gibt ihn ein.
+1701	Code kopiert – schick ihn deinem Freund.
+1702	Dein Spielcode ist {s}

@@ -186,3 +186,9 @@
 1695	Résultat : vous {0} PV
 1696	{0} éclats. {s}.
 1069	🏆 {s}
+1697	Vous obtenez un code à envoyer à votre ami.
+1698	Votre code de partie :
+1699	Copier le code
+1700	Envoyez ce code à votre ami. Il ouvre Spellstorm, choisit Jouer en ligne, puis Rejoindre une partie, et le saisit.
+1701	Code copié : envoyez-le à votre ami.
+1702	Votre code de partie est {s}

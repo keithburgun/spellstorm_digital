@@ -186,3 +186,9 @@
 1695	Final: tú {0} de vida
 1696	{0} fragmentos. {s}.
 1069	🏆 {s}
+1697	Recibes un código para enviar a tu amigo.
+1698	Tu código de partida:
+1699	Copiar código
+1700	Envía este código a tu amigo. Abre Spellstorm, elige Jugar en línea, luego Unirse a una partida, e introdúcelo.
+1701	Código copiado: envíaselo a tu amigo.
+1702	Tu código de partida es {s}
