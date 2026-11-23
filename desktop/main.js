@@ -24,6 +24,7 @@ ipcMain.handle('st:info', () => ({
   on: !!STEAM,
   deck: steamTry(s => s.utils.isSteamRunningOnSteamDeck(), false),
   cloud: steamTry(s => s.cloud.isEnabledForAccount() && s.cloud.isEnabledForApp(), false),
+  lang: steamTry(s => s.apps.currentGameLanguage(), ''),   // the language chosen for this game in Steam (Properties > General)
 }));
 ipcMain.handle('st:ach', (_e, name) => steamTry(s => { if (typeof name !== 'string' || !/^[A-Z0-9_]{1,64}$/.test(name)) return false;
   if (s.achievement.isActivated(name)) return true; const ok = s.achievement.activate(name); s.stats.store(); return ok; }, false));

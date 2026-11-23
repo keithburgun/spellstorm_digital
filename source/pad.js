@@ -14,12 +14,14 @@ const nat={used:false,kb:[],hb:[],ax:[0,0,0,0]};
 const padActive={};   // which controllers had something held last frame (so the prompts follow the one you just used)
 const padKind=id=>/054c|sony|playstation|dualsense|dualshock|wireless controller/i.test(id||'')?'ps':'xbox';
 
+const rngOf=el=>el?(el.matches('input[type=range]')?el:el.matches('label')?el.querySelector('input[type=range]'):null):null;
 const shown=el=>!!el&&getComputedStyle(el).display!=='none';
+const oskOn=()=>{const k=q('#osk');return !!k&&k.classList.contains('show');};
 const ovOn=()=>q('#ov').classList.contains('show');
 const pend=()=>{try{return pending;}catch(e){return null;}};
 const MODALS=['blast','potov','rpbar'];   // overlays that take the controller while they're up (the replay controls, during a replay)
 function modal(){for(const id of MODALS){const e=q('#'+id);if(e&&e.classList.contains('show')&&cands(e).length)return e;}return null;}
-function scopeEl(){if(ovOn())return q('#sheet');{const m=modal();if(m)return m;}const t=q('#title');if(shown(t))return t;const s=q('#start');if(shown(s))return s;return document.body;}
+function scopeEl(){if(oskOn())return q('#osk');if(ovOn())return q('#sheet');{const m=modal();if(m)return m;}const t=q('#title');if(shown(t))return t;const s=q('#start');if(shown(s))return s;return document.body;}
 function scopeId(sc){if(sc.id==='sheet'){const h=sc.querySelector('h2,h3,.bigcard,.bigwiz,.bigw,.olslots');return 'sheet:'+(h?((h.textContent||'').trim()||h.className).slice(0,48):'');}return sc===document.body?'game':sc.id;}
 function ok(el,sc){
   if(el.disabled||el.closest('[hidden],[inert]'))return false;
@@ -45,6 +47,7 @@ function gameDefault(L){const r=pend()&&pend().req,f=s=>L.find(e=>e.matches(s));
   return f('#coach [data-a]:not([data-a=tutskip])')||f('#prompt [data-a]')||f('#hand .card')||L[0];}
 function defaultFor(sc,L){const f=s=>L.find(e=>e.matches(s));
   if(sc.id==='sheet')return f('[data-padfirst]')||f('[data-a=tog]')||f('.tabs .btn:not(.alt)')||f('.acts .btn:not(.alt)')||L[0];
+  if(sc.id==='osk')return f('[data-k=a]')||L[0];
   if(sc.id==='rpbar')return f('[data-v=next]:not([disabled])')||f('[data-v=auto]')||L[0];
   if(MODALS.includes(sc.id))return f('.btn:not(.alt)')||L[0];
   if(sc.id==='start')return f('[data-a=launch]')||L[0];
@@ -85,7 +88,7 @@ function move(dx,dy){{const zw=ovOn()&&q('#sheet .manwrap.zoom');if(zw){zw.scrol
   if(dy&&q('#sheet .manual')&&ovOn()){const sh=q('#sheet');const before=sh.scrollTop;sh.scrollBy({top:dy*Math.round(sh.clientHeight*.45),behavior:'smooth'});if(dy<0?before>2:before+sh.clientHeight<sh.scrollHeight-2)return;}   // up/down scroll the page; at the ends they move on to the buttons
   const sc=scopeEl(),L=cands(sc);if(!L.length)return;
   if(!cur||!L.includes(cur)){setCur(restore(scopeId(sc),sc,L));return;}
-  if(dx&&cur.matches('input[type=range]')){const st=+cur.step||1,v=Math.max(+cur.min||0,Math.min(+cur.max||100,+cur.value+dx*st));if(v!==+cur.value){cur.value=v;cur.dispatchEvent(new Event('input',{bubbles:true}));cur.dispatchEvent(new Event('change',{bubbles:true}));}return;}
+  {const rg=rngOf(cur);if(dx&&rg){const st=+rg.step||1,v=Math.max(+rg.min||0,Math.min(+rg.max||100,+rg.value+dx*st));if(v!==+rg.value){rg.value=v;rg.dispatchEvent(new Event('input',{bubbles:true}));rg.dispatchEvent(new Event('change',{bubbles:true}));try{SFX.play('nav');}catch(e){}}return;}}
   const a=cur.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=1e12;
   for(const e of L){if(e===cur||e.contains(cur)||cur.contains(e))continue;
     const r=e.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
@@ -103,10 +106,15 @@ function activate(el){if(!el)return;const a=el.dataset.a;
   if(a==='hand'){const c=canPlay(el);if(c){const lock=tutLock();if(lock&&c.id!==lock){toast('For this tutorial round, play Power Gem.');return;}SFX.play('card');answer(c);return;}}
   if(a==='cloud'&&canGain(el)){answer(+el.dataset.i);return;}
   const inp=el.matches('label')?el.querySelector('input,select,textarea'):el;
-  if(inp&&inp.matches('input[type=text],input[type=email],input[type=password],input[type=number],input:not([type]),textarea,select')){inp.focus();try{inp.select&&inp.select();}catch(e){}if(window.SSNative&&SSNative.keyboard)try{SSNative.keyboard();}catch(e){}return;}
+  if(inp&&inp.matches('select')){inp.focus();return;}
+  if(inp&&inp.matches('input[type=text],input[type=email],input[type=password],input[type=number],input:not([type]),textarea')){inp.focus();try{inp.select&&inp.select();}catch(e){}
+    if(window.SSNative&&SSNative.keyboard){try{SSNative.keyboard();}catch(e){}return;}   // Android: the phone's own keyboard
+    let deck=false;try{deck=!!(STEAMON&&STEAMON.deck);}catch(e){}if(deck)return;   // Steam Deck: Steam's keyboard opens when the box gets focus
+    if(glyph!=='kb')osk(inp);return;}
   if(inp&&inp.matches('input[type=range]'))return;
   el.click();}
 function back(){
+  if(oskOn()){oskClose(true);return;}
   if(ovOn()){if(typeof inLobby==='function'&&inLobby())return;const sh=q('#sheet');
     for(const a of ['libback','openpick','rpclose']){const b=[...sh.querySelectorAll(`[data-a="${a}"]`)].find(e=>ok(e,sh));if(b){b.click();return;}}
     {const b=[...sh.querySelectorAll('.acts .btn.alt')].filter(e=>ok(e,sh)).find(e=>/^(back|cancel)\b/i.test(e.textContent.trim()));if(b){b.click();return;}}
@@ -153,6 +161,30 @@ const g=src==='kb'?'kb':(nat.used?natGlyph:padGlyph);if(g!==glyph){glyph=g;hintS
     case 'START':startBtn();break;case 'SEL':selBtn();break;}
   setTimeout(()=>{upkeep();hint();},0);}
 
+
+/* ---------- on-screen keyboard: typing with only a controller (Windows/Linux desktop, browsers) ---------- */
+let oskInp=null,oskShift=false;
+const OSKROWS=['1234567890','qwertyuiop','asdfghjkl@','zxcvbnm.-_'];
+function oskDraw(){const k=q('#osk');if(!k||!oskInp)return;const v=oskInp.value,pw=oskInp.type==='password';
+  const tx=t=>{try{return typeof I18N!=='undefined'&&I18N.t?I18N.t(t):t;}catch(e){return t;}};
+  k.querySelector('.oskval').textContent=(pw?'•'.repeat(v.length):v)||' ';
+  k.querySelectorAll('[data-k]').forEach(b=>{const c=b.dataset.k;if(c.length===1)b.textContent=oskShift?c.toUpperCase():c;});
+  k.querySelector('[data-kx=shift]').setAttribute('aria-pressed',String(oskShift));}
+function osk(inp){let k=q('#osk');
+  if(!k){k=document.createElement('div');k.id='osk';k.setAttribute('role','dialog');k.setAttribute('aria-label','Keyboard');
+    k.innerHTML='<div class="oskbox"><div class="oskval"></div>'+OSKROWS.map(r=>'<div class="oskrow">'+[...r].map(c=>`<button class="oskk" data-k="${c}">${c}</button>`).join('')+'</div>').join('')+
+      '<div class="oskrow"><button class="oskk wide" data-kx="shift" aria-pressed="false">⇧ Shift</button><button class="oskk wide2" data-kx="space">Space</button><button class="oskk wide" data-kx="bs">⌫ Delete</button><button class="oskk wide ok" data-kx="done">Done</button></div></div>';
+    k.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!oskInp)return;e.stopPropagation();const x=b.dataset.kx;
+      if(x==='done'){oskClose(true);return;}if(x==='shift'){oskShift=!oskShift;oskDraw();return;}
+      let v=oskInp.value;if(x==='bs')v=v.slice(0,-1);else{const c=x==='space'?' ':(oskShift?b.dataset.k.toUpperCase():b.dataset.k);const mx=+oskInp.getAttribute('maxlength')||1e6;if(v.length<mx)v+=c;}
+      oskInp.value=v;oskInp.dispatchEvent(new Event('input',{bubbles:true}));oskDraw();});
+    document.body.appendChild(k);}
+  oskInp=inp;oskShift=false;k.classList.add('show');oskDraw();
+  const L=cands(k);setCur(L.find(e=>e.dataset.k==='a')||L[0]);hint();}
+function oskClose(keep){const k=q('#osk');if(!k)return;k.classList.remove('show');const i=oskInp;oskInp=null;
+  if(i){i.dispatchEvent(new Event('change',{bubbles:true}));const sc=scopeEl(),L=cands(sc),t=L.find(e=>e===i||e.contains(i));if(t)setCur(t);}hint();}
+window.SSOSK={open:osk,close:oskClose};
+
 /* ---------- on-screen button prompts ---------- */
 const GL={xbox:{A:'A',B:'B',X:'X',Y:'Y',LB:'LB',RB:'RB',SEL:'⧉',START:'☰'},ps:{A:'✕',B:'○',X:'□',Y:'△',LB:'L1',RB:'R1',SEL:'⧉',START:'☰'},
   kb:{A:'Enter',B:'Esc',X:'T',Y:'Space',LB:'Q',RB:'E',SEL:'L',START:'Enter'}};
@@ -160,10 +192,11 @@ function hint(){const el=q('#padhint');if(!el)return;if(!on){el.classList.remove
   const sc=scopeEl(),game=sc===document.body,items=[];let aL='Select';
   if(cur){if(cur.matches('#hand .card'))aL=canPlay(cur)?'Play':'Look';
     else if(cur.matches('#cloud .card'))aL=canGain(cur)?((pend().req.verb)||'Gain'):'Look';
+    else if(rngOf(cur))aL='';
     else if(cur.matches('label'))aL=cur.querySelector('input[type=checkbox],input[type=radio]')?'Toggle':'Type';
     else if(cur.matches('input[type=range]'))aL='';
     else if(cur.matches('input,textarea'))aL='Type';}
-  if(cur&&cur.matches('input[type=range]'))items.push(['',glyph==='kb'?'← → Adjust':'◀ ▶ Adjust']);
+  if(rngOf(cur))items.push(['',glyph==='kb'?'← → Adjust':'◀ ▶ Adjust']);
   if(aL)items.push(['A',aL]);
   if(cur&&aL!=='Look'&&(cur.matches('#hand .card,#cloud .card')||(cur.closest('.tc')&&cur.closest('.tc').querySelector('.zoom'))))items.push(['Y','Look']);
   if(glyph!=='kb'&&ovOn()&&q('#sheet [data-a=ikey]'))items.push(['Y',q('#sheet [data-a=ikey]').textContent.trim()]);

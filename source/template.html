@@ -731,6 +731,14 @@ body.pad .tbtn.padf:not(.primary):not(.updtbtn){border-color:#fff;background:rgb
 body.pad label.padf{border-radius:6px;outline-offset:1px;box-shadow:0 0 0 4px #2fc8ff,0 0 14px 4px rgba(47,200,255,.6)!important}
 #padhint{position:fixed;right:10px;bottom:8px;z-index:90;display:none;gap:14px;align-items:center;padding:5px 14px;border-radius:999px;background:rgba(18,11,32,.82);color:#fff;font-size:13px;font-weight:700;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
 #padhint.show{display:flex}
+#osk{position:fixed;inset:0;z-index:200;display:none;align-items:flex-end;justify-content:center;background:rgba(8,4,16,.55)}#osk.show{display:flex}
+#osk .oskbox{margin-bottom:24px;padding:14px;border-radius:16px;background:#221a36;box-shadow:0 10px 40px rgba(0,0,0,.6);max-width:96vw}
+#osk .oskval{min-height:1.6em;margin:0 4px 10px;padding:8px 12px;border-radius:10px;background:#0f0a1c;color:#fff;font-size:22px;font-weight:700;letter-spacing:.06em;word-break:break-all}
+#osk .oskrow{display:flex;gap:6px;justify-content:center;margin:6px 0}
+#osk .oskk{min-width:46px;height:46px;border-radius:10px;border:0;background:#3a3150;color:#fff;font:700 18px/1 inherit;cursor:pointer}
+#osk .oskk.wide{min-width:110px;font-size:15px}#osk .oskk.wide2{min-width:200px;font-size:15px}#osk .oskk.ok{background:#8f6fe0}#osk .oskk[aria-pressed=true]{background:#d9a514;color:#1a1200}
+#osk .oskk.padf,#osk .oskk:hover{outline:3px solid #ffd54a;outline-offset:2px}
+@media (max-width:640px){#osk .oskk{min-width:28px;height:40px;font-size:15px}#osk .oskk.wide{min-width:70px}#osk .oskk.wide2{min-width:110px}}
 #padhint.idle{opacity:.38;transition:opacity .6s}
 body.pad #start{padding-bottom:64px}
 @media (max-height:520px){#padhint{font-size:11px;gap:9px;padding:3px 10px;bottom:4px;right:6px}#padhint .pg{min-width:16px;height:16px;font-size:9px}}
@@ -1753,7 +1761,7 @@ document.addEventListener('click',e=>{
   if(a==='titlemute'){OPT.muted=!OPT.muted;saveOpt();tmuteDraw();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}return;}
   if(a==='mutetog'){OPT.muted=!OPT.muted;saveOpt();if(!OPT.muted){SFX.init();setTimeout(()=>SFX.play('shard'),30);}if(b.dataset.from==='menu')menu();else optionsSheet();return;}
   if(a==='langsheet'){langSheet(false);return;}
-  if(a==='setlang'){const v=b.dataset.v;const was=OPT.lang;OPT.lang=v;saveOpt();if(v!==I18N.lang){location.reload();return;}closeOv();if(!was){/* first run, kept English */}return;}
+  if(a==='setlang'){const v=b.dataset.v;const was=OPT.lang;OPT.lang=v;OPT.langAuto=false;saveOpt();if(v!==I18N.lang){location.reload();return;}closeOv();if(!was){/* first run, kept English */}return;}
   if(a==='opt'){OPT[b.dataset.k]=(b.dataset.k==='speed'||b.dataset.k==='vol')?+b.dataset.v:b.dataset.v;if(b.dataset.k==='vol'){SFX.init();setTimeout(()=>SFX.play('shard'),30);}saveOpt();applyOpt();optionsSheet();return;}
   if(a==='optphone'){$('#app').classList.toggle('phone');document.body.classList.toggle('phoneview',$('#app').classList.contains('phone'));settle();optionsSheet();return;}
   if(a==='reset1'){optionsSheet(true);return;}
@@ -2184,7 +2192,10 @@ function steamRP(){if(!STEAMON)return;try{const nm=w=>(WIZ[w]&&WIZ[w].short)||w;
   else{const me=nm(S.pl[0].wiz),foes=S.pl.slice(1).map(P=>nm(P.wiz));
     kv=S.online?{steam_display:'#Online',wizard:me,opponent:foes[0]}:S.pl.length>2?{steam_display:'#Group',wizard:me,players:String(S.pl.length)}:{steam_display:'#Match',wizard:me,opponent:foes[0],battle:String(S.battle||1)};}
   SSSteam.presence(kv).catch(()=>{});}catch(e){}}
+const STEAMLANG={english:'en',schinese:'zh',spanish:'es',latam:'es',french:'fr',german:'de',brazilian:'pt',portuguese:'pt',japanese:'ja'};
 async function steamStart(){if(!window.SSSteam)return;let i;try{i=await SSSteam.info();}catch(e){return;}if(!i||!i.on)return;STEAMON=i;
+  {const L=STEAMLANG[i.lang];   // follow Steam's language for this game, unless the player picked one in the game
+   if(L&&(!OPT.lang||OPT.langAuto)){const cur=OPT.lang;OPT.lang=L;OPT.langAuto=true;saveOpt();if(L!==I18N.lang){location.reload();return;}if(!cur&&$('#ov').classList.contains('show')&&$('#sheet [data-a=setlang]'))closeOv();}}
   if(i.cloud){try{await SYNC.steamPass();}catch(e){}}
   const P=loadProf();for(const id in P.ach||{})steamAch(id);   // earned before Steam, or on another computer
   steamRP();setInterval(steamRP,15000);
@@ -2531,7 +2542,7 @@ applyOpt();showTitle();
 /* First run: choose a language (existing players keep English without being asked). */
 function langSheet(first){const nav=(navigator.language||'').toLowerCase(),sug=first?(Object.keys(I18N.LANGS).find(k=>k!=='en'&&nav.startsWith(k))||'en'):I18N.lang;
   openOv(`<h2 data-noi18n>🌐 Language</h2><div class="acts langpick" data-noi18n>${Object.entries(I18N.LANGS).map(([k,n])=>`<button class="btn ${k===sug?'':'alt'}" data-a="setlang" data-v="${k}" lang="${I18N.BCP[k]||k}">${n}</button>`).join('')}</div>${first?'<p class="lbl" data-noi18n>You can change this later in Options.</p>':''}`);}
-if(!OPT.lang){if(OPT.tutAsked){OPT.lang='en';saveOpt();}else setTimeout(()=>langSheet(true),300);}
+if(!OPT.lang){if(OPT.tutAsked){OPT.lang='en';OPT.langAuto=true;saveOpt();}else setTimeout(()=>langSheet(true),300);}
 </script>
 <script>
 /*PAD*/
